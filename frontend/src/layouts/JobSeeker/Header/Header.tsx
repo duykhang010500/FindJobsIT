@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   AppBar,
@@ -15,13 +16,34 @@ import FlagEN from '../../../assets/images/flag_en.svg';
 type Props = {};
 
 const Header = (props: Props) => {
+  const [isScrollBottom, setIsScrollBottom] = useState(false);
+
+  const isTop = 100;
+
+  useEffect(() => {
+    window.onscroll = () => {
+      if (window.pageYOffset > isTop) {
+        setIsScrollBottom(true);
+      } else {
+        setIsScrollBottom(false);
+      }
+    };
+    return () => {
+      window.onscroll = null;
+    };
+  }, [isTop]);
+
   return (
     <AppBar
       sx={{
-        // boxShadow: 'none',
-        backgroundColor: '#fff',
-        color: 'black',
-        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+        backgroundColor: 'transparent',
+        boxShadow: 'none',
+        zIndex: 999,
+        ...(isScrollBottom && {
+          backgroundColor: '#fff !important',
+          color: 'black',
+          boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px !important',
+        }),
       }}
     >
       <Toolbar

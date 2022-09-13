@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import {
   Box,
-  Typography,
   Grid,
   TextField,
   Button,
@@ -30,14 +29,17 @@ const SearchBar: FC<Props> = () => {
       sx={{
         display: 'flex',
         padding: 5,
-        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+        backgroundColor: 'white',
         borderRadius: '8px',
+        position: 'absolute',
+        marginTop: 30,
+        width: '70vw',
       }}
       flexDirection='column'
     >
-      <Typography variant='body2' gutterBottom sx={{ marginBottom: 3 }}>
+      {/* <Typography variant='body2' gutterBottom sx={{ marginBottom: 3 }}>
         Find your job suitable with you!
-      </Typography>
+      </Typography> */}
       <Grid container spacing={2} justifyContent='space-between'>
         <Grid item xs={12} md={4}>
           <TextField

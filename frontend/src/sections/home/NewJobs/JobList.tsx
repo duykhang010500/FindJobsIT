@@ -6,7 +6,6 @@ import { jobsData } from '../../../mock/jobsData';
 type Props = {};
 
 const JobListWrapper = styled(Box)({
-  //   padding: 10,
   marginBottom: 20,
 });
 const JobList = (props: Props) => {

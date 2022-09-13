@@ -30,7 +30,12 @@ const JobCardWrapper = styled(Card)({
   display: 'flex',
   flexDirection: 'column',
   padding: '20px',
-  boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+  boxShadow:
+    'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px',
+  border: '2px solid transparent',
+  '&:hover': {
+    border: '2px solid #FF4842',
+  },
 });
 
 const BadgeSkill = styled(Box)({
