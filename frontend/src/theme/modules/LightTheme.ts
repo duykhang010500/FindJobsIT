@@ -8,11 +8,12 @@ const LightTheme = createTheme({
           fontWeight: 500,
           position: 'relative',
           textDecoration: 'none',
+          WebkitTapHighlightColor: 'transparent',
           color: 'black',
           '&:after': {
             content: '""',
             position: 'absolute',
-            bottom: 0,
+            bottom: -8,
             left: '50%',
             transform: 'translateX(-50%)',
             width: 0,
@@ -23,7 +24,7 @@ const LightTheme = createTheme({
           '&:hover': {
             color: 'rgb(0, 171, 85)',
             '&:after': {
-              width: '70%',
+              width: '50%',
             },
           },
         },

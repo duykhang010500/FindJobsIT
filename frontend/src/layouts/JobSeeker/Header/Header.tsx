@@ -9,6 +9,7 @@ import {
   IconButton,
 } from '@mui/material';
 import HeaderMenu from './HeaderMenu';
+import FlagEN from '../../../assets/images/flag_en.svg';
 
 type Props = {};
 
@@ -16,9 +17,10 @@ const Header = (props: Props) => {
   return (
     <AppBar
       sx={{
-        boxShadow: 'none',
+        // boxShadow: 'none',
         backgroundColor: 'transparent',
         color: 'black',
+        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
       }}
     >
       <Toolbar
@@ -40,11 +42,7 @@ const Header = (props: Props) => {
           <HeaderMenu />
           <Stack direction='row' spacing={2}>
             <IconButton>
-              <img
-                src='https://cdn-icons-png.flaticon.com/128/555/555515.png'
-                alt=''
-                style={{ width: 30, height: 25 }}
-              />
+              <img src={FlagEN} alt='flag' />
             </IconButton>
             <Button component={Link} to='/sign-up' variant='outlined'>
               Sign Up
