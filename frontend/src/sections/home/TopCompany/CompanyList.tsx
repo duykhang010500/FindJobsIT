@@ -1,11 +1,9 @@
 import React from 'react';
-
-import { companyData } from '../../../mock/companyData';
-
 import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Box, styled } from '@mui/material';
 
+import { companyData } from '../../../mock/companyData';
 import CompanyCard from './CompanyCard';
 
 type Props = {};
@@ -26,7 +24,7 @@ const CompanyList: React.FC = (props: Props) => {
         modules={[Autoplay]}
         slidesPerView='auto'
         loop={true}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={{ delay: 3000, disableOnInteraction: true }}
       >
         {companyData.map((company) => {
           return (

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Typography, Box, styled } from '@mui/material';
+
 import CompanyList from './CompanyList';
 
 type Props = {};
 
 const TopCompanyWrapper = styled(Box)({
-  marginTop: '20px',
+  marginTop: '40px',
   textAlign: 'center',
 });
 

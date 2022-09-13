@@ -1,5 +1,4 @@
 import { FC } from 'react';
-
 import {
   Box,
   Typography,
@@ -11,7 +10,6 @@ import {
 } from '@mui/material';
 
 import { Search, LocationOnOutlined } from '@mui/icons-material';
-
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
 
 type Props = {};

@@ -8,6 +8,7 @@ import {
   Typography,
   IconButton,
 } from '@mui/material';
+
 import HeaderMenu from './HeaderMenu';
 import FlagEN from '../../../assets/images/flag_en.svg';
 
@@ -18,9 +19,9 @@ const Header = (props: Props) => {
     <AppBar
       sx={{
         // boxShadow: 'none',
-        backgroundColor: 'transparent',
+        backgroundColor: '#fff',
         color: 'black',
-        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
+        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
       }}
     >
       <Toolbar

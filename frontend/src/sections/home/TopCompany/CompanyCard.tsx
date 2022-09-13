@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -35,7 +34,7 @@ const CompanyCard: React.FC<Props> = ({ img, title, job }) => {
           <Typography variant='body2' fontWeight={700} noWrap>
             {title}
           </Typography>
-          <Typography variant='caption'>{job} job</Typography>
+          <Typography variant='caption'>{job} Job</Typography>
         </CardContent>
       </CompanyCardWrapper>
     </Link>
