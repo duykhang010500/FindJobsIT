@@ -1,14 +1,12 @@
-import { Box, styled, Typography, Stack } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Box, styled, Typography, Stack, Link } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import React from 'react';
 import JobList from './JobList';
 
 type Props = {};
 
 const NewJobsWrapper = styled(Box)({
-  marginTop: '40px',
-  padding: '25px',
-  boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+  marginTop: '50px',
 });
 
 const NewJobs: React.FC<Props> = () => {
@@ -21,15 +19,18 @@ const NewJobs: React.FC<Props> = () => {
           color='rgb(255,153,0)'
           align='center'
           sx={{
-            marginBottom: 3,
             textTransform: 'uppercase',
-            display: 'inline-block',
+            WebkitBackgroundClip: 'text !important',
+            WebkitTextFillColor: 'transparent !important',
+            background: 'linear-gradient(to right, #009FFF  , #ec2F4B)',
           }}
           component={'span'}
         >
           New Jobs
         </Typography>
-        <Link to='/'>See all</Link>
+        <Link component={RouterLink} to='/'>
+          See all
+        </Link>
       </Stack>
       <JobList />
     </NewJobsWrapper>

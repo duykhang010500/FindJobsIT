@@ -1,32 +1,51 @@
 import { createTheme } from '@mui/material';
 
 const LightTheme = createTheme({
+  typography: {
+    fontFamily: 'Public Sans, sans-serif',
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#FA541C',
+    },
+  },
+  shape: {
+    borderRadius: 8,
+  },
   components: {
     MuiLink: {
+      defaultProps: {
+        color: 'black',
+        underline: 'hover',
+      },
+    },
+    MuiButton: {
       styleOverrides: {
         root: {
-          fontWeight: 500,
-          position: 'relative',
-          textDecoration: 'none',
-          WebkitTapHighlightColor: 'transparent',
-          color: 'black',
-          '&:after': {
-            content: '""',
-            position: 'absolute',
-            bottom: -8,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: 0,
-            transition: 'width 0.5s ease',
-            height: '2px',
-            backgroundColor: 'rgb(0, 171, 85)',
-          },
           '&:hover': {
-            color: 'rgb(0, 171, 85)',
-            '&:after': {
-              width: '50%',
-            },
+            boxShadow: 'none',
           },
+        },
+        containedPrimary: {
+          boxShadow: 'none',
+        },
+      },
+    },
+    MuiPopover: {
+      styleOverrides: {
+        paper: {
+          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+          borderRadius: 8,
         },
       },
     },

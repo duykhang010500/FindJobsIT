@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
   Button,
@@ -7,15 +7,15 @@ import {
   Toolbar,
   Stack,
   Typography,
-  IconButton,
+  Link,
 } from '@mui/material';
 
 import HeaderMenu from './HeaderMenu';
-import FlagEN from '../../../assets/images/flag_en.svg';
+import HeaderLangues from './HeaderLangues';
 
 type Props = {};
 
-const Header = (props: Props) => {
+const Header: FC<Props> = () => {
   const [isScrollBottom, setIsScrollBottom] = useState(false);
 
   const isTop = 100;
@@ -36,20 +36,24 @@ const Header = (props: Props) => {
   return (
     <AppBar
       sx={{
-        backgroundColor: 'transparent',
-        boxShadow: 'none',
         zIndex: 999,
+        boxShadow: 'none',
+        backgroundColor: 'transparent',
         ...(isScrollBottom && {
-          backgroundColor: '#fff !important',
+          backgroundColor: 'rgba(255,255,255, 0.8) !important',
           color: 'black',
-          boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px !important',
+          backdropFilter: 'blur(6px)',
         }),
       }}
     >
       <Toolbar
         disableGutters
         sx={{
-          height: 56,
+          height: 90,
+          transition: 'all ease 0.3s',
+          ...(isScrollBottom && {
+            height: 60,
+          }),
         }}
       >
         <Container
@@ -59,19 +63,19 @@ const Header = (props: Props) => {
             justifyContent: 'space-between',
           }}
         >
-          <Typography color='black' variant='h5'>
-            Jobs IT
-          </Typography>
+          <Link href='/'>
+            <Typography color='black' variant='h5'>
+              This is Logo
+            </Typography>
+          </Link>
           <HeaderMenu />
           <Stack direction='row' spacing={2}>
-            <IconButton>
-              <img src={FlagEN} alt='flag' />
-            </IconButton>
-            <Button component={Link} to='/sign-up' variant='outlined'>
+            <HeaderLangues />
+            <Button component={RouterLink} to='/sign-up' variant='outlined'>
               Sign Up
             </Button>
-            <Button component={Link} to='/login' variant='contained'>
-              Login
+            <Button component={RouterLink} to='/login' variant='contained'>
+              Log In
             </Button>
           </Stack>
         </Container>

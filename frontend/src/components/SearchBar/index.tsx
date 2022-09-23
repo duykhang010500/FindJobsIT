@@ -6,7 +6,10 @@ import {
   Button,
   InputAdornment,
   Autocomplete,
+  useTheme,
 } from '@mui/material';
+
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { Search, LocationOnOutlined } from '@mui/icons-material';
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined';
@@ -14,6 +17,9 @@ import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlin
 type Props = {};
 
 const SearchBar: FC<Props> = () => {
+  const theme = useTheme();
+  const smOnly = useMediaQuery(theme.breakpoints.down('sm'));
+
   const DataDemo = [
     { label: 'The Shawshank Redemption', year: 1994 },
     { label: 'The Godfather', year: 1972 },
@@ -32,19 +38,17 @@ const SearchBar: FC<Props> = () => {
         backgroundColor: 'white',
         borderRadius: '8px',
         position: 'absolute',
-        marginTop: 30,
-        width: '70vw',
+        marginTop: 25,
+        width: '80vw',
       }}
       flexDirection='column'
     >
-      {/* <Typography variant='body2' gutterBottom sx={{ marginBottom: 3 }}>
-        Find your job suitable with you!
-      </Typography> */}
       <Grid container spacing={2} justifyContent='space-between'>
         <Grid item xs={12} md={4}>
           <TextField
             fullWidth
-            label='Job Title'
+            label='Job title'
+            size={smOnly ? 'small' : 'medium'}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -64,6 +68,7 @@ const SearchBar: FC<Props> = () => {
               <TextField
                 {...params}
                 label='City'
+                size={smOnly ? 'small' : 'medium'}
                 InputProps={{
                   ...params.InputProps,
                   startAdornment: (
@@ -86,6 +91,7 @@ const SearchBar: FC<Props> = () => {
               <TextField
                 {...params}
                 label='Job'
+                size={smOnly ? 'small' : 'medium'}
                 InputProps={{
                   ...params.InputProps,
                   startAdornment: (

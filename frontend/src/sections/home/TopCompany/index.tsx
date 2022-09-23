@@ -1,30 +1,47 @@
 import React from 'react';
-import { Typography, Box, styled, Stack } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { Typography, Box, styled, Stack, Link, Container } from '@mui/material';
 
 import CompanyList from './CompanyList';
 
 type Props = {};
 
 const TopCompanyWrapper = styled(Box)({
-  marginTop: '40px',
-  padding: '25px',
+  marginTop: '50px',
   textAlign: 'center',
-  boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+  backgroundColor: 'rgba(145, 158, 171, 0.12)',
+  paddingTop: '30px',
 });
 
 const TopCompany: React.FC = (props: Props) => {
   return (
     <TopCompanyWrapper>
-      <Stack direction='row' justifyContent='space-between'>
-        <Typography
-          sx={{ marginBottom: 3, textTransform: 'uppercase' }}
-          variant='h4'
-          fontWeight={700}
-          color='rgb(255,153,0)'
+      <Container>
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='center'
+          sx={{ marginTop: 3, marginBottom: 3 }}
         >
-          Top company
-        </Typography>
-      </Stack>
+          <Typography
+            variant='h4'
+            fontWeight={700}
+            color='rgb(255,153,0)'
+            sx={{
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              WebkitBackgroundClip: 'text !important',
+              WebkitTextFillColor: 'transparent !important',
+              background: 'linear-gradient(to right, #009FFF  , #ec2F4B)',
+            }}
+          >
+            Top company
+          </Typography>
+          <Link component={RouterLink} to={`/`}>
+            See all
+          </Link>
+        </Stack>
+      </Container>
       <CompanyList />
     </TopCompanyWrapper>
   );
