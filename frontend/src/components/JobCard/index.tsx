@@ -10,6 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 
+// eslint-disable-next-line  no-unused-vars
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 
@@ -88,6 +89,7 @@ const JobCard = ({ job }: Iprops) => {
           src={job.companyLogo}
           alt='company-logo'
         />
+
         {/* <IconWrapper>
           <RiHeart3Line
             style={{ color: '#434343', fontSize: '1.2rem', cursor: 'pointer' }}

@@ -8,6 +8,7 @@ import {
   styled,
   Divider,
   Stack,
+  Link,
 } from '@mui/material';
 
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -32,37 +33,78 @@ const Footer: React.FC<Props> = () => {
             <Typography variant='body1' gutterBottom fontWeight={700}>
               About Us
             </Typography>
-            <Typography variant='subtitle2' gutterBottom>
-              Home
-            </Typography>
-            <Typography variant='subtitle2' gutterBottom>
-              Contact Us
-            </Typography>
-            <Typography variant='subtitle2' gutterBottom>
-              All Jobs
-            </Typography>
+            <Stack direction='column' spacing={0.6}>
+              <Typography
+                variant='subtitle2'
+                gutterBottom
+                component={Link}
+                href='/'
+              >
+                Home
+              </Typography>
+              <Typography
+                variant='subtitle2'
+                gutterBottom
+                component={Link}
+                href='/'
+              >
+                Contact Us
+              </Typography>
+              <Typography
+                variant='subtitle2'
+                gutterBottom
+                component={Link}
+                href='/'
+              >
+                All Jobs
+              </Typography>
+            </Stack>
           </Grid>
           <Grid item xs={6} md={3}>
             <Typography variant='body1' gutterBottom fontWeight={700}>
               Term and condition
             </Typography>
-            <Typography variant='subtitle2' gutterBottom>
-              Operating Regulation
-            </Typography>
-            <Typography variant='subtitle2' gutterBottom>
-              Complaint Handling
-            </Typography>
+            <Stack direction='column' spacing={0.6}>
+              <Typography
+                variant='subtitle2'
+                gutterBottom
+                component={Link}
+                href='/'
+              >
+                Operating Regulation
+              </Typography>
+              <Typography
+                variant='subtitle2'
+                gutterBottom
+                component={Link}
+                href='/'
+              >
+                Complaint Handling
+              </Typography>
+            </Stack>
           </Grid>
           <Grid item xs={6} md={3}>
             <Typography variant='body1' gutterBottom fontWeight={700}>
               For Employers
             </Typography>
-            <Typography variant='subtitle2' gutterBottom>
-              Post a job
-            </Typography>
-            <Typography variant='subtitle2' gutterBottom>
-              Interview
-            </Typography>
+            <Stack direction='column' spacing={0.6}>
+              <Typography
+                variant='subtitle2'
+                gutterBottom
+                component={Link}
+                href='/'
+              >
+                Post a job
+              </Typography>
+              <Typography
+                variant='subtitle2'
+                gutterBottom
+                component={Link}
+                href='/'
+              >
+                Interview
+              </Typography>
+            </Stack>
           </Grid>
           <Grid item xs={6} md={3}>
             <Typography variant='body1' gutterBottom fontWeight={700}>

@@ -35,11 +35,12 @@ const SearchBar: FC<Props> = () => {
       sx={{
         display: 'flex',
         padding: 5,
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
         borderRadius: '8px',
         position: 'absolute',
         marginTop: 25,
         width: '80vw',
+        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
       }}
       flexDirection='column'
     >

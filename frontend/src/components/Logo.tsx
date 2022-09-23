@@ -1,12 +1,23 @@
 import { Box, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 
-type Props = {};
+type Props = {
+  isMobile?: boolean;
+};
 
-const Logo = (props: Props) => {
+const Logo: FC<Props> = ({ isMobile }) => {
   return (
-    <Box>
-      <Typography variant='body1'>TechCareer</Typography>
+    <Box
+      sx={{
+        ...(isMobile && {
+          padding: 3,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }),
+      }}
+    >
+      <Typography variant='body1'>Logo</Typography>
     </Box>
   );
 };

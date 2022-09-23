@@ -49,6 +49,15 @@ const LightTheme = createTheme({
         },
       },
     },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          color: 'inherit',
+          minWidth: 'auto',
+          marginRight: 10,
+        },
+      },
+    },
   },
 });
 

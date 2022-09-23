@@ -6,12 +6,16 @@ import {
   Container,
   Toolbar,
   Stack,
-  Typography,
   Link,
+  useTheme,
 } from '@mui/material';
+
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import HeaderMenu from './HeaderMenu';
 import HeaderLangues from './HeaderLangues';
+import HeaderMenuMobile from './HeaderMenuMobile';
+import Logo from '../../../components/Logo';
 
 type Props = {};
 
@@ -19,6 +23,8 @@ const Header: FC<Props> = () => {
   const [isScrollBottom, setIsScrollBottom] = useState(false);
 
   const isTop = 100;
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
   useEffect(() => {
     window.onscroll = () => {
@@ -64,20 +70,24 @@ const Header: FC<Props> = () => {
           }}
         >
           <Link href='/'>
-            <Typography color='black' variant='h5'>
-              This is Logo
-            </Typography>
+            <Logo />
           </Link>
-          <HeaderMenu />
-          <Stack direction='row' spacing={2}>
-            <HeaderLangues />
-            <Button component={RouterLink} to='/sign-up' variant='outlined'>
-              Sign Up
-            </Button>
-            <Button component={RouterLink} to='/login' variant='contained'>
-              Log In
-            </Button>
-          </Stack>
+          {isDesktop ? (
+            <>
+              <HeaderMenu />
+              <Stack direction='row' spacing={2}>
+                <HeaderLangues />
+                <Button component={RouterLink} to='/sign-up' variant='outlined'>
+                  Sign Up
+                </Button>
+                <Button component={RouterLink} to='/login' variant='contained'>
+                  Log In
+                </Button>
+              </Stack>
+            </>
+          ) : (
+            <HeaderMenuMobile />
+          )}
         </Container>
       </Toolbar>
     </AppBar>

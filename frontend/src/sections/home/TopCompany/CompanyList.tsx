@@ -9,7 +9,6 @@ import CompanyCard from '../../../components/CompanyCard';
 type Props = {};
 
 const CompanyListWrapper = styled(Box)(({ theme }) => ({
-  // padding: '0px 200px',
   paddingTop: '20px',
   paddingBottom: '30px',
 }));
@@ -27,7 +26,7 @@ const CompanyList: React.FC = (props: Props) => {
               slidesPerView: 4,
             },
             900: {
-              slidesPerView: 5,
+              slidesPerView: 6,
             },
           }}
           spaceBetween={20}
