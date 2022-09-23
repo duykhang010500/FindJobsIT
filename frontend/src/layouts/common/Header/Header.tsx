@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
@@ -25,6 +26,7 @@ const Header: FC<Props> = () => {
   const isTop = 100;
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { pathname } = useLocation();
 
   useEffect(() => {
     window.onscroll = () => {
@@ -55,7 +57,13 @@ const Header: FC<Props> = () => {
       <Toolbar
         disableGutters
         sx={{
-          height: 90,
+          ...(pathname === '/'
+            ? {
+                height: 86,
+              }
+            : {
+                height: 70,
+              }),
           transition: 'all ease 0.3s',
           ...(isScrollBottom && {
             height: 60,
