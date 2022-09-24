@@ -52,8 +52,10 @@ const HeaderLangues: FC<Props> = () => {
                 }}
               >
                 <img src={lang.flag} alt='flag' />
-                &nbsp;
-                <Typography variant='subtitle2'>{lang.name}</Typography>
+
+                <Typography marginLeft={1} variant='body2'>
+                  {lang.name}
+                </Typography>
               </MenuItem>
             );
           })}

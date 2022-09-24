@@ -9,7 +9,7 @@ type Props = {};
 const TopCompanyWrapper = styled(Box)({
   marginTop: '50px',
   textAlign: 'center',
-  backgroundColor: 'rgba(145, 158, 171, 0.12)',
+  backgroundColor: '#eaf3fa',
   paddingTop: '30px',
 });
 
@@ -24,7 +24,7 @@ const TopCompany: React.FC = (props: Props) => {
           sx={{ marginTop: 3, marginBottom: 3 }}
         >
           <Typography
-            variant='h4'
+            variant='h3'
             fontWeight={700}
             color='rgb(255,153,0)'
             sx={{
@@ -37,7 +37,7 @@ const TopCompany: React.FC = (props: Props) => {
           >
             Top company
           </Typography>
-          <Link component={RouterLink} to={`/`}>
+          <Link variant='h5' component={RouterLink} to={`/`}>
             See all
           </Link>
         </Stack>

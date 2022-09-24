@@ -3,6 +3,65 @@ import { createTheme } from '@mui/material';
 const LightTheme = createTheme({
   typography: {
     fontFamily: 'Public Sans, sans-serif',
+    h6: {
+      fontWeight: 500,
+      color: '#212B36',
+      fontSize: '0.75rem',
+    },
+    h5: {
+      fontSize: '0.875rem',
+      color: '#212B36',
+      fontWeight: 500,
+    },
+    h4: {
+      fontSize: '1rem',
+      color: '#212B36',
+      fontWeight: 600,
+    },
+    h3: {
+      fontSize: '1.25rem',
+      color: '#212B36',
+      fontWeight: 600,
+    },
+    h2: {
+      fontSize: '1.5rem',
+      color: '#212B36',
+      fontWeight: 700,
+    },
+    h1: {
+      fontSize: '2.125rem',
+      color: '#212B36',
+      fontWeight: 700,
+    },
+    subtitle1: {
+      fontSize: '0.875rem',
+      fontWeight: 500,
+      color: '#212B36',
+    },
+    subtitle2: {
+      fontSize: '0.75rem',
+      fontWeight: 400,
+      color: '#212B36',
+    },
+    caption: {
+      fontSize: '0.75rem',
+      color: '#212B36',
+      fontWeight: 400,
+    },
+    body1: {
+      fontSize: '0.875rem',
+      fontWeight: 400,
+      lineHeight: '1.334em',
+    },
+    body2: {
+      letterSpacing: '0em',
+      fontWeight: 400,
+      lineHeight: '1.5em',
+      color: '#212B36',
+    },
+    button: {
+      textTransform: 'capitalize',
+    },
   },
   breakpoints: {
     values: {
@@ -27,6 +86,11 @@ const LightTheme = createTheme({
       defaultProps: {
         color: 'black',
         underline: 'hover',
+      },
+      styleOverrides: {
+        root: {
+          WebkitTapHighlightColor: 'transparent',
+        },
       },
     },
     MuiButton: {

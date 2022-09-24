@@ -48,11 +48,11 @@ const JobDescriptionHeader = (props: Props) => {
         </Grid>
         <Grid item xs={12} sm={9} md={6}>
           <Stack spacing={1}>
-            <Typography variant='h5' fontWeight={600} color='primary' noWrap>
+            <Typography variant='h2' fontWeight={600} color='primary' noWrap>
               Front-end developer
             </Typography>
             <Link component={RouterLink} to={`/`}>
-              <Typography variant='h6'>FPT Software</Typography>
+              <Typography variant='h4'>FPT Software</Typography>
             </Link>
             <Typography variant='body2' color='rgb(99, 115, 129)'>
               <UpdateIcon sx={{ verticalAlign: 'middle' }} /> Expiration date:

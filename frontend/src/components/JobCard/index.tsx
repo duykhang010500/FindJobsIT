@@ -107,7 +107,7 @@ const JobCard = ({ job }: Iprops) => {
       </Stack>
       <Stack>
         <Link component={RouterLink} to={`/job/slug`}>
-          <Typography variant='h6' gutterBottom fontWeight={500}>
+          <Typography variant='h3' gutterBottom fontWeight={500}>
             {job.title}
           </Typography>
         </Link>

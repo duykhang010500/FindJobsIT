@@ -6,10 +6,11 @@ import {
   Container,
   Box,
   styled,
-  Divider,
   Stack,
   Link,
 } from '@mui/material';
+
+import BgFooter from '../../assets/images/footer-bg.png';
 
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -19,9 +20,11 @@ type Props = {};
 
 const FooterWrapper = styled(Box)({
   marginTop: '40px',
-  boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-  padding: '30px 0px 20px 0px',
-  borderRadius: '20px 20px 0 0',
+  padding: '30px 0px 30px 0px',
+  backgroundImage: `url(${BgFooter})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
 });
 
 const Footer: React.FC<Props> = () => {
@@ -30,12 +33,12 @@ const Footer: React.FC<Props> = () => {
       <Container>
         <Grid container spacing={3} justifyContent='space-between'>
           <Grid item xs={6} md={3} justifyContent='space-around'>
-            <Typography variant='body1' gutterBottom fontWeight={700}>
+            <Typography variant='h4' gutterBottom fontWeight={700}>
               About Us
             </Typography>
             <Stack direction='column' spacing={0.6}>
               <Typography
-                variant='subtitle2'
+                variant='body2'
                 gutterBottom
                 component={Link}
                 href='/'
@@ -43,7 +46,7 @@ const Footer: React.FC<Props> = () => {
                 Home
               </Typography>
               <Typography
-                variant='subtitle2'
+                variant='body2'
                 gutterBottom
                 component={Link}
                 href='/'
@@ -51,7 +54,7 @@ const Footer: React.FC<Props> = () => {
                 Contact Us
               </Typography>
               <Typography
-                variant='subtitle2'
+                variant='body2'
                 gutterBottom
                 component={Link}
                 href='/'
@@ -61,12 +64,12 @@ const Footer: React.FC<Props> = () => {
             </Stack>
           </Grid>
           <Grid item xs={6} md={3}>
-            <Typography variant='body1' gutterBottom fontWeight={700}>
+            <Typography variant='h4' gutterBottom fontWeight={700}>
               Term and condition
             </Typography>
             <Stack direction='column' spacing={0.6}>
               <Typography
-                variant='subtitle2'
+                variant='body2'
                 gutterBottom
                 component={Link}
                 href='/'
@@ -74,7 +77,7 @@ const Footer: React.FC<Props> = () => {
                 Operating Regulation
               </Typography>
               <Typography
-                variant='subtitle2'
+                variant='body2'
                 gutterBottom
                 component={Link}
                 href='/'
@@ -84,12 +87,12 @@ const Footer: React.FC<Props> = () => {
             </Stack>
           </Grid>
           <Grid item xs={6} md={3}>
-            <Typography variant='body1' gutterBottom fontWeight={700}>
+            <Typography variant='h4' gutterBottom fontWeight={700}>
               For Employers
             </Typography>
             <Stack direction='column' spacing={0.6}>
               <Typography
-                variant='subtitle2'
+                variant='body2'
                 gutterBottom
                 component={Link}
                 href='/'
@@ -97,7 +100,7 @@ const Footer: React.FC<Props> = () => {
                 Post a job
               </Typography>
               <Typography
-                variant='subtitle2'
+                variant='body2'
                 gutterBottom
                 component={Link}
                 href='/'
@@ -107,7 +110,7 @@ const Footer: React.FC<Props> = () => {
             </Stack>
           </Grid>
           <Grid item xs={6} md={3}>
-            <Typography variant='body1' gutterBottom fontWeight={700}>
+            <Typography variant='h4' gutterBottom fontWeight={700}>
               Social
             </Typography>
             <Stack direction={'row'} spacing={2}>
@@ -117,11 +120,11 @@ const Footer: React.FC<Props> = () => {
             </Stack>
           </Grid>
         </Grid>
+
+        <Typography variant='h4' textAlign='center' fontWeight={700}>
+          &copy; {new Date().getFullYear()} HCMUTE
+        </Typography>
       </Container>
-      <Divider sx={{ margin: '20px 0px' }} />
-      <Typography variant='body1' textAlign='center' fontWeight={700}>
-        &copy; {new Date().getFullYear()} HCMUTE
-      </Typography>
     </FooterWrapper>
   );
 };

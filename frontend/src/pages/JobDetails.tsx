@@ -15,7 +15,7 @@ import TabPanel from '@mui/lab/TabPanel';
 
 import JobDescriptionHeader from '../sections/JobDescription/JobDescriptionHeader';
 import JobInformation from '../sections/JobDescription/JobInformation';
-import CompanyInfo from '../sections/JobDescription/CompanyInfo';
+import CompanyInfo from '../sections/JobDescription/CompanyInformation';
 import OtherJob from '../sections/JobDescription/OtherJobs';
 
 type Props = {};

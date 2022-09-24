@@ -14,7 +14,7 @@ import {
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import HeaderMenu from './HeaderMenu';
-import HeaderLangues from './HeaderLangues';
+import HeaderLangues from './HeaderLanguages';
 import HeaderMenuMobile from './HeaderMenuMobile';
 import Logo from '../../../components/Logo';
 

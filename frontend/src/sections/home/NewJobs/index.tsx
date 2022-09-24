@@ -14,7 +14,7 @@ const NewJobs: React.FC<Props> = () => {
     <NewJobsWrapper>
       <Stack justifyContent='space-between' direction='row'>
         <Typography
-          variant='h4'
+          variant='h3'
           fontWeight={700}
           color='rgb(255,153,0)'
           align='center'
@@ -28,7 +28,7 @@ const NewJobs: React.FC<Props> = () => {
         >
           New Jobs
         </Typography>
-        <Link component={RouterLink} to='/'>
+        <Link variant='h5' component={RouterLink} to='/'>
           See all
         </Link>
       </Stack>
