@@ -17,4 +17,8 @@ class Company extends Authenticatable
         'logo', 'name', 'address', 'website', 'email', 'phone', 'fax', 'tax', 'industry_id', 'location', 'contact_name'
         , 'video', 'images', 'content', 'banners', 'company_size', 'hirings', 'followed', 'viewed', 'group_rating', 'keywords'
     ];
+
+    public function user(){
+        return $this->belongsTo(Employer::class);
+    }
 }

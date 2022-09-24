@@ -16,4 +16,9 @@ class Employer extends Authenticatable
     protected $fillable = [
         'comp_id', 'fullname', 'lastname', 'firstname', 'phone', 'email', 'password', 'status', 'last_login', 'avatar'
     ];
+
+    public function company()
+    {
+        return $this->hasOne(Company::class,'id','comp_id');
+    }
 }
