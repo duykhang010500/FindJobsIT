@@ -17,6 +17,7 @@ import JobDescriptionHeader from '../sections/JobDescription/JobDescriptionHeade
 import JobInformation from '../sections/JobDescription/JobInformation';
 import CompanyInfo from '../sections/JobDescription/CompanyInformation';
 import OtherJob from '../sections/JobDescription/OtherJobs';
+import JobLocationMap from '../sections/JobDescription/JobLocationMap';
 
 type Props = {};
 
@@ -40,7 +41,7 @@ const JobDescription: FC<Props> = () => {
           <Typography>Front-end developer</Typography>
         </Breadcrumbs>
         <JobDescriptionHeader />
-        <Grid container spacing={3} sx={{ mt: 4 }}>
+        <Grid container spacing={4} sx={{ mt: 3 }}>
           <Grid item xs={12} sm={12} md={8}>
             <Card>
               <TabContext value={tabActive}>
@@ -48,7 +49,12 @@ const JobDescription: FC<Props> = () => {
                   variant='scrollable'
                   scrollButtons={false}
                   onChange={handleChangeTab}
-                  sx={{ mb: 5 }}
+                  sx={{
+                    mb: 5,
+                    '&.MuiTabs-root': {
+                      background: '#f4f6f8',
+                    },
+                  }}
                 >
                   <Tab label='Job Description' value='1' />
                   <Tab label='Company Information' value='2' />
@@ -67,9 +73,7 @@ const JobDescription: FC<Props> = () => {
             </Card>
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
-            <Card>
-              <p>Lorem ipsum dolor sit amet.</p>
-            </Card>
+            <JobLocationMap />
           </Grid>
         </Grid>
       </Container>

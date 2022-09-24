@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Grid,
   styled,
@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Link,
 } from '@mui/material';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
@@ -31,18 +32,18 @@ const CompanyOverview = (props: Props) => {
   return (
     <Grid container spacing={2} alignItems='center'>
       <Grid item xs={12} sm={4}>
-        <Link to={`/`}>
+        <RouterLink to={`/`}>
           <Img
             src='https://hr1tech.com/htdocs/images/owners/hr1tech/logo/202208/297980425-582564363521951-8038544366924303576-n.jpg'
             alt='logo'
           />
-        </Link>
+        </RouterLink>
       </Grid>
       <Grid item xs={12} sm={8}>
         <Stack spacing={2}>
-          <Typography variant='h3' color='primary'>
-            FPT Software
-          </Typography>
+          <Link to={`/`} component={RouterLink}>
+            <Typography variant='h3'>FPT Software</Typography>
+          </Link>
           <List disablePadding sx={{ maxWidth: '300px' }}>
             <ListItem
               disableGutters
