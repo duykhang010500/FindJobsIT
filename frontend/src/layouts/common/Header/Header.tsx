@@ -23,7 +23,7 @@ type Props = {};
 const Header: FC<Props> = () => {
   const [isScrollBottom, setIsScrollBottom] = useState(false);
 
-  const isTop = 100;
+  const isTop = 50;
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const { pathname } = useLocation();
@@ -46,6 +46,9 @@ const Header: FC<Props> = () => {
       sx={{
         zIndex: 999,
         boxShadow: 'none',
+        ...(pathname !== '/' && {
+          borderBottom: '1px solid #f0f0f0',
+        }),
         backgroundColor: 'transparent',
         ...(isScrollBottom && {
           backgroundColor: 'rgba(255,255,255, 0.8) !important',
@@ -80,6 +83,7 @@ const Header: FC<Props> = () => {
           <Link href='/'>
             <Logo />
           </Link>
+
           {isDesktop ? (
             <>
               <HeaderMenu />

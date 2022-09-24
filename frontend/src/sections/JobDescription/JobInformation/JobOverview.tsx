@@ -19,18 +19,18 @@ const JobOverview = (props: Props) => {
     <Card
       sx={{
         padding: 3,
-        boxShadow:
-          'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px',
+        border: `1px solid #f0f0f0`,
+        '&:hover': {
+          borderColor: '#ffd6e7',
+          backgroundColor: '#fff0f6',
+        },
+        boxShadow: 'none',
       }}
     >
       <List sx={{ maxWidth: '300px' }} disablePadding>
         <ListItem
-          disablePadding
-          secondaryAction={
-            <Typography variant='body2' fontWeight={700}>
-              1000$
-            </Typography>
-          }
+          disableGutters
+          secondaryAction={<Typography variant='body2'>1000$</Typography>}
         >
           <ListItemIcon>
             <PaidOutlinedIcon />
@@ -38,12 +38,8 @@ const JobOverview = (props: Props) => {
           <ListItemText primary={`Salary:`} />
         </ListItem>
         <ListItem
-          disablePadding
-          secondaryAction={
-            <Typography fontWeight={700} variant='body2'>
-              Ho Chi Minh
-            </Typography>
-          }
+          disableGutters
+          secondaryAction={<Typography variant='body2'>Ho Chi Minh</Typography>}
         >
           <ListItemIcon>
             <FmdGoodOutlinedIcon />
@@ -51,12 +47,8 @@ const JobOverview = (props: Props) => {
           <ListItemText primary={`Location:`} />
         </ListItem>
         <ListItem
-          disablePadding
-          secondaryAction={
-            <Typography fontWeight={700} variant='body2'>
-              Leader
-            </Typography>
-          }
+          disableGutters
+          secondaryAction={<Typography variant='body2'>Leader</Typography>}
         >
           <ListItemIcon>
             <BadgeOutlinedIcon />
@@ -64,12 +56,8 @@ const JobOverview = (props: Props) => {
           <ListItemText primary={`Location:`} />
         </ListItem>
         <ListItem
-          disablePadding
-          secondaryAction={
-            <Typography variant='body2' fontWeight={700}>
-              Permanent
-            </Typography>
-          }
+          disableGutters
+          secondaryAction={<Typography variant='body2'>Permanent</Typography>}
         >
           <ListItemIcon>
             <SchoolOutlinedIcon />

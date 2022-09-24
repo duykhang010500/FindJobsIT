@@ -9,7 +9,7 @@ const CompanyInfo = (props: Props) => {
   return (
     <Fragment>
       <CompanyOverview />
-      <Divider sx={{ mt: 5, mb: 5 }} />
+      <Divider sx={{ mt: 5, mb: 5, borderColor: '#ffd6e7' }} />
       <CompanyDescription />
     </Fragment>
   );

@@ -65,7 +65,7 @@ const JobDescriptionHeader = (props: Props) => {
             sx={{
               padding: {
                 xs: '0px 30px',
-                // sm: '0px 100px',
+
                 md: '0px',
                 lg: '0px 50px',
               },

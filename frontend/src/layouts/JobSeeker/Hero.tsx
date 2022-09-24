@@ -20,7 +20,21 @@ const Hero = (props: Props) => {
         justifyContent: 'center',
       }}
     >
-      <SearchBar />
+      <Box
+        sx={{
+          display: 'flex',
+          padding: 5,
+          backgroundColor: '#fff',
+          borderRadius: '8px',
+          position: 'absolute',
+          marginTop: 25,
+          width: '80vw',
+          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+        }}
+        flexDirection='column'
+      >
+        <SearchBar />
+      </Box>
     </Box>
   );
 };

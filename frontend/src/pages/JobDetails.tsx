@@ -18,6 +18,7 @@ import JobInformation from '../sections/JobDescription/JobInformation';
 import CompanyInfo from '../sections/JobDescription/CompanyInformation';
 import OtherJob from '../sections/JobDescription/OtherJobs';
 import JobLocationMap from '../sections/JobDescription/JobLocationMap';
+import SearchBar from '../components/SearchBar';
 
 type Props = {};
 
@@ -31,7 +32,12 @@ const JobDescription: FC<Props> = () => {
   return (
     <Fragment>
       <Container sx={{ mt: 15 }}>
-        <Breadcrumbs sx={{ mb: 5 }} separator='›' aria-label='breadcrumb'>
+        <SearchBar />
+        <Breadcrumbs
+          sx={{ mb: 5, mt: 5, '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
           <Link component={RouterLink} to={`/`} color='primary'>
             Home
           </Link>

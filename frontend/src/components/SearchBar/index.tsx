@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import {
-  Box,
   Grid,
   TextField,
   Button,
@@ -31,93 +30,79 @@ const SearchBar: FC<Props> = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        padding: 5,
-        backgroundColor: '#fff',
-        borderRadius: '8px',
-        position: 'absolute',
-        marginTop: 25,
-        width: '80vw',
-        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
-      }}
-      flexDirection='column'
-    >
-      <Grid container spacing={2} justifyContent='space-between'>
-        <Grid item xs={12} md={4}>
-          <TextField
-            fullWidth
-            label='Job title'
-            size={smOnly ? 'small' : 'medium'}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <Autocomplete
-            id='combo-box-city'
-            disablePortal
-            popupIcon={false}
-            options={DataDemo}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label='City'
-                size={smOnly ? 'small' : 'medium'}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <LocationOnOutlined />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <Autocomplete
-            id='combo-box-job'
-            disablePortal
-            popupIcon={false}
-            options={DataDemo}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label='Job'
-                size={smOnly ? 'small' : 'medium'}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <BusinessCenterOutlinedIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item xs={12} md={2}>
-          <Button
-            sx={{ height: '100%' }}
-            fullWidth
-            size='large'
-            variant='contained'
-            startIcon={<Search />}
-          >
-            Search
-          </Button>
-        </Grid>
+    <Grid container spacing={2} justifyContent='space-between'>
+      <Grid item xs={12} md={4}>
+        <TextField
+          fullWidth
+          label='Job title'
+          size={smOnly ? 'small' : 'medium'}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
       </Grid>
-    </Box>
+      <Grid item xs={12} md={3}>
+        <Autocomplete
+          id='combo-box-city'
+          disablePortal
+          popupIcon={false}
+          options={DataDemo}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label='City'
+              size={smOnly ? 'small' : 'medium'}
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <LocationOnOutlined />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <Autocomplete
+          id='combo-box-job'
+          disablePortal
+          popupIcon={false}
+          options={DataDemo}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label='Job'
+              size={smOnly ? 'small' : 'medium'}
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <BusinessCenterOutlinedIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
+      </Grid>
+      <Grid item xs={12} md={2}>
+        <Button
+          sx={{ height: '100%' }}
+          fullWidth
+          size='large'
+          variant='contained'
+          startIcon={<Search />}
+        >
+          Search
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

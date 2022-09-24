@@ -1,21 +1,21 @@
-import { Box, styled } from '@mui/material';
+import { Grid } from '@mui/material';
 
-import React from 'react';
-
+import JobCard from '../../components/JobCard';
+import { jobsData } from '../../mock/jobsData';
 type Props = {};
 
-const JobCardWrapper = styled(Box)({});
-
-const JobCardImg = styled('img')({
-  display: 'block',
-});
-
-const JobCard = () => {
-  return <JobCardWrapper></JobCardWrapper>;
-};
-
 const OtherJobs = (props: Props) => {
-  return <div>OtherJobs</div>;
+  return (
+    <Grid container spacing={2}>
+      {jobsData.map((job, index) => {
+        return (
+          <Grid item xs={12} sm={6}>
+            <JobCard key={index} job={job} isSmall={true} />
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
 };
 
 export default OtherJobs;

@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material';
 
 const LightTheme = createTheme({
   typography: {
-    fontFamily: 'Public Sans, sans-serif',
+    fontFamily: 'Roboto, sans-serif',
     h6: {
       fontWeight: 500,
       color: '#212B36',
@@ -76,6 +76,9 @@ const LightTheme = createTheme({
     mode: 'light',
     primary: {
       main: '#FA541C',
+    },
+    success: {
+      main: '#54D62C',
     },
   },
   shape: {

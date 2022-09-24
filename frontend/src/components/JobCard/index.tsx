@@ -13,6 +13,8 @@ import {
 // eslint-disable-next-line  no-unused-vars
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import UpdateIcon from '@mui/icons-material/Update';
 
 interface IJob {
   title: string;
@@ -26,6 +28,7 @@ interface IJob {
 
 interface Iprops {
   job: IJob;
+  isSmall?: boolean;
 }
 
 const randomBadgeColor = [
@@ -79,77 +82,122 @@ const IconWrapper = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
 }));
 
-const JobCard = ({ job }: Iprops) => {
-  const theme = useTheme();
-  return (
-    <JobCardWrapper>
-      <Stack direction='row' justifyContent='space-between' alignItems='center'>
-        <img
-          style={{ width: '60px', height: '60px' }}
-          src={job.companyLogo}
-          alt='company-logo'
-        />
+const SmallJobCard = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: '10px',
+  borderRadius: '8px',
+  border: `1px solid #f2f4f5`,
+  '&:hover': {
+    border: `1px solid #ffd6e7`,
+    backgroundColor: '#fff0f6',
+  },
+}));
 
-        {/* <IconWrapper>
+const SmallJobCardImg = styled('img')({
+  display: 'block',
+  width: '80px',
+  height: '80px',
+  borderRadius: '50%',
+});
+
+const JobCard = ({ job, isSmall = false }: Iprops) => {
+  const theme = useTheme();
+
+  if (isSmall) {
+    return (
+      <SmallJobCard>
+        <SmallJobCardImg src={`${job.companyLogo}`} />
+        <Stack spacing={1.5} ml={3} sx={{ width: '100%' }}>
+          <Link component={RouterLink} to={'/'}>
+            <Typography variant='h3'>{job.title}</Typography>
+          </Link>
+          <Typography variant='h5' color='#096dd9'>
+            {job.companyName}
+          </Typography>
+          <Typography variant='body2'>
+            <PaidOutlinedIcon
+              fontSize='small'
+              sx={{ verticalAlign: 'middle', marginRight: 1 }}
+            />
+            {job.salary}
+          </Typography>
+          <Typography variant='body2' align='right' color='error'>
+            <UpdateIcon
+              fontSize='small'
+              sx={{ verticalAlign: 'middle', marginRight: 1 }}
+            />
+            21 days to apply
+          </Typography>
+        </Stack>
+      </SmallJobCard>
+    );
+  } else {
+    return (
+      <JobCardWrapper>
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='center'
+        >
+          <img
+            style={{ width: '60px', height: '60px' }}
+            src={job.companyLogo}
+            alt='company-logo'
+          />
+
+          {/* <IconWrapper>
           <RiHeart3Line
             style={{ color: '#434343', fontSize: '1.2rem', cursor: 'pointer' }}
           />
         </IconWrapper> */}
-        <IconWrapper>
-          <RiHeart3Fill
-            style={{
-              color: `${theme.palette.primary.main}`,
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-            }}
-          />
-        </IconWrapper>
-      </Stack>
-      <Stack>
-        <Link component={RouterLink} to={`/job/slug`}>
-          <Typography variant='h3' gutterBottom fontWeight={500}>
-            {job.title}
+          <IconWrapper>
+            <RiHeart3Fill
+              style={{
+                color: `${theme.palette.primary.main}`,
+                fontSize: '1.2rem',
+                cursor: 'pointer',
+              }}
+            />
+          </IconWrapper>
+        </Stack>
+        <Stack>
+          <Link component={RouterLink} to={`/job/slug`} target='_blank'>
+            <Typography variant='h3' fontWeight={500}>
+              {job.title}
+            </Typography>
+          </Link>
+          <Typography variant='h4' fontWeight={500} color='#1890ff' mt={1}>
+            {job.companyName}
           </Typography>
-        </Link>
-        <Typography
-          variant='body2'
-          gutterBottom
-          fontWeight={500}
-          color='rgb(34, 184, 207);'
-        >
-          {job.companyName}
-        </Typography>
-        <Stack direction='row' sx={{ color: 'rgb(99, 115, 129);' }}>
-          <HiOutlineLocationMarker />
-          <Typography fontWeight={500} variant='body2' marginLeft={1}>
+
+          <Typography fontWeight={500} mt={1} variant='body2'>
+            <HiOutlineLocationMarker style={{ marginRight: 1 }} />
             {job.location}
           </Typography>
+
+          <Typography variant='caption' mt={1} color='#8c8c8c'>
+            Posted date: {job.postDate}
+          </Typography>
+          <Divider sx={{ margin: '15px 0px' }} />
+          <Stack direction='row' spacing={2}>
+            {job.skill.map((skill) => {
+              return (
+                <BadgeSkill
+                  key={skill}
+                  sx={{
+                    ...randomBadgeColor[Math.floor(Math.random() * 5)],
+                  }}
+                >
+                  {skill}
+                </BadgeSkill>
+              );
+            })}
+          </Stack>
         </Stack>
-        <Typography
-          variant='body2'
-          sx={{ marginTop: 1 }}
-          color='rgb(145, 158, 171)'
-        >
-          Posted date: {job.postDate}
-        </Typography>
-        <Divider sx={{ margin: '15px 0px' }} />
-        <Stack direction='row' spacing={2}>
-          {job.skill.map((skill) => {
-            return (
-              <BadgeSkill
-                key={skill}
-                sx={{
-                  ...randomBadgeColor[Math.floor(Math.random() * 5)],
-                }}
-              >
-                {skill}
-              </BadgeSkill>
-            );
-          })}
-        </Stack>
-      </Stack>
-    </JobCardWrapper>
-  );
+      </JobCardWrapper>
+    );
+  }
 };
 
 export default JobCard;
