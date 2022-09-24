@@ -11,8 +11,8 @@ const Home: React.FC = (props: Props) => {
   return (
     <>
       <Hero />
+      <TopCompany />
       <Container>
-        <TopCompany />
         <NewJobs />
       </Container>
     </>

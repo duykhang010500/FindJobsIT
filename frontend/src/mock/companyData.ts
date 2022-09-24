@@ -5,7 +5,7 @@ export const companyData = [
     job: 3,
   },
   {
-    title: 'Boost Ecommerce',
+    title: 'Boost Ecommerce 1',
     img: 'https://hr1tech.com/htdocs/images/owners/hr1tech/banners/2022/08/602524aef138133c4a2596b4-boostcommercelogo.png',
     job: 3,
   },
@@ -30,17 +30,17 @@ export const companyData = [
     job: 8,
   },
   {
-    title: 'Techcombank',
+    title: 'Techcombank 2',
     img: 'https://hr1tech.com/htdocs/images/owners/hr1tech/banners/2022/06/211317tachcom.png',
     job: 1,
   },
   {
-    title: 'Boost Ecommerce',
+    title: 'Boost Ecommerce 2',
     img: 'https://hr1tech.com/htdocs/images/owners/hr1tech/banners/2022/08/602524aef138133c4a2596b4-boostcommercelogo.png',
     job: 5,
   },
   {
-    title: 'TopRate',
+    title: 'TopRate 2',
     img: 'https://hr1tech.com/htdocs/images/owners/hr1tech/banners/2022/08/logo-toprate-200x200.png',
     job: 3,
   },
