@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
-use App\Models\Company;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use Validator;
-class CompanyController extends Controller
+class ServiceController extends Controller
 {
     //
     public function index()
     {
         //
-        $companies = Company::orderBy('id','desc')->get();
+        $services = Service::orderBy('id','desc')->get();
         return response()->json([
-            'data' => $companies,
+            'services' => $services,
         ]);
     }
 
@@ -24,20 +24,24 @@ class CompanyController extends Controller
     {
         //
         $fields = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,250|unique:companies',
-            'company_size' => 'required',
-            'industry_id' => 'required',
-            'website' => 'required',
+            'name' => 'required|string|between:2,250|unique:services',
+            'note' => 'required',
+            'service_type' => 'required',
+            'days' => 'required',
+            'priority' => 'required',
+            'price' => 'required',
+            'discount' => 'required',
+            'status' => 'required',
         ]);
 
         if ($fields->fails()) {
             return response()->json($fields->errors(), 422);
         }
 
-        $company = Company::create(array_merge($fields->validated()));
+        $service = Service::create(array_merge($fields->validated()));
 
         return response()->json([
-            'company' => $company,
+            'service' => $service,
         ]);
 
     }
