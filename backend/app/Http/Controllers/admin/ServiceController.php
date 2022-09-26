@@ -20,11 +20,13 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
         //
+        $model = Service::where('id',$id)->first();
+
         $fields = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,250|unique:services',
+            'name' => 'required|string|between:2,250',
             'note' => 'required',
             'service_type' => 'required',
             'days' => 'required',
@@ -38,12 +40,25 @@ class ServiceController extends Controller
             return response()->json($fields->errors(), 422);
         }
 
-        $service = Service::create(array_merge($fields->validated()));
+        ($model != null) ? $model->update(array_merge($fields->validated())) : $model = Service::create(array_merge($fields->validated()));
 
         return response()->json([
-            'service' => $service,
+            'service' => $model,
         ]);
 
     }
+
+    public function delete(Request $request,$id)
+    {
+        //
+        $model = Service::where('id',$id)->delete();
+
+        ($model != null) ? $message = 'Service deleted successfully' : $message = 'service not exist';
+        return response()->json([
+            'message' => $message
+        ]);
+
+    }
+
 
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\employer\OrderController;
 
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
+use App\Http\Controllers\admin\UsersiteController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,6 +29,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
 
+Route::post('/admin/register', [UsersiteController::class, 'register']);
+Route::post('/admin/login', [UsersiteController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
@@ -43,11 +46,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'admin'],function ()
     {
+        Route::post('/logout', [UsersiteController::class, 'logout']);
+
         Route::get('/companies', [CompanyController::class, 'index']);
         Route::post('/company', [CompanyController::class, 'store']);
 
         Route::get('/services', [ServiceController::class, 'index']);
-        Route::post('/service', [ServiceController::class, 'store']);
+        Route::post('/service/{id}', [ServiceController::class, 'store']);
+        Route::delete('/service/{id}', [ServiceController::class, 'delete']);
     });
 
 });
