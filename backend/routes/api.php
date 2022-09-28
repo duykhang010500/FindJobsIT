@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\jobseeker\JobController;
+
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
 use App\Http\Controllers\employer\OrderController;
@@ -25,6 +27,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/jobs', [JobController::class, 'index']);
+
 
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
@@ -40,6 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/logout', [EmployerController::class, 'logout']);
 
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
+        Route::post('/hr/job', [HrController::class, 'job']);
 
         Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
     });

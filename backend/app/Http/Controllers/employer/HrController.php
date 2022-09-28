@@ -46,10 +46,18 @@ class HrController extends Controller
 
         $job = Job::create(array_merge(
             $validator->validated(),
-            ['comp_id' => auth()->user()->company->id
+            ['comp_id' => auth()->user()->company->id,
 
             ]
         ));
+        if(!empty($request->industries)){
+            $data = explode(',', $request->industries);
+            foreach ($data as $key => $value) {
+                $data = (int)$value;
+                $job->industries()->attach($data);
+                $job->save();
+            }
+        }
         return response()->json([
             'job' => $job,
         ]);
