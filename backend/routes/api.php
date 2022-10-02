@@ -12,6 +12,7 @@ use App\Http\Controllers\employer\OrderController;
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\UsersiteController;
+use App\Http\Controllers\admin\JobaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -59,6 +60,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/services', [ServiceController::class, 'index']);
         Route::post('/service/{id}', [ServiceController::class, 'store']);
         Route::delete('/service/{id}', [ServiceController::class, 'delete']);
+
+        Route::get('/job/locations', [JobaController::class, 'locations']);
+        Route::post('job/location/{id}', [JobaController::class, 'location']);
+        Route::delete('job/location/{id}', [JobaController::class, 'delete_location']);
+
+        Route::get('/job/industries', [JobaController::class, 'industries']);
+        Route::post('job/industry/{id}', [JobaController::class, 'industry']);
+        Route::delete('job/industry/{id}', [JobaController::class, 'delete_industry']);
     });
 
 });
