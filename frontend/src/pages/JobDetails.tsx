@@ -1,5 +1,6 @@
 import { FC, Fragment, SyntheticEvent, useState } from 'react';
 import {
+  Box,
   Card,
   Tab,
   Container,
@@ -32,7 +33,16 @@ const JobDescription: FC<Props> = () => {
   return (
     <Fragment>
       <Container sx={{ mt: 15 }}>
-        <SearchBar />
+        <Box
+          sx={{
+            padding: '40px 20px',
+            boxShadow:
+              'rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px',
+            borderRadius: '8px',
+          }}
+        >
+          <SearchBar />
+        </Box>
         <Breadcrumbs
           sx={{ mb: 5, mt: 5, '&.MuiTypography-root': { fontWeight: 600 } }}
           separator='›'
@@ -59,6 +69,7 @@ const JobDescription: FC<Props> = () => {
                     mb: 5,
                     '&.MuiTabs-root': {
                       background: '#f4f6f8',
+                      marginBottom: 2,
                     },
                   }}
                 >

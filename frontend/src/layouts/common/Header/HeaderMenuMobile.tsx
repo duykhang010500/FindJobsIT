@@ -78,6 +78,15 @@ const HeaderMenuMobile: FC<Props> = () => {
           >
             Log In
           </Button>
+          <Button
+            component={RouterLink}
+            to='/employer'
+            variant='contained'
+            color='success'
+            size='large'
+          >
+            For employer
+          </Button>
         </Stack>
       </Fragment>
     );

@@ -1,9 +1,17 @@
-import { Box, Typography } from '@mui/material';
-import React, { FC } from 'react';
+import { FC } from 'react';
+import { Box, styled } from '@mui/material';
+
+import LogoImg from '../assets/images/Logo.png';
 
 type Props = {
   isMobile?: boolean;
 };
+
+const LogoStyle = styled('img')({
+  display: 'block',
+  width: '100%',
+  height: '100%',
+});
 
 const Logo: FC<Props> = ({ isMobile }) => {
   return (
@@ -17,7 +25,7 @@ const Logo: FC<Props> = ({ isMobile }) => {
         }),
       }}
     >
-      <Typography variant='body1'>Logo</Typography>
+      <LogoStyle src={`${LogoImg}`} sx={{ width: 80, height: 45 }} />
     </Box>
   );
 };

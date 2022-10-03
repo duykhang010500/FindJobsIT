@@ -78,7 +78,7 @@ const LightTheme = createTheme({
       main: '#FA541C',
     },
     success: {
-      main: '#54D62C',
+      main: '#00AB55',
     },
   },
   shape: {
@@ -103,7 +103,7 @@ const LightTheme = createTheme({
             boxShadow: 'none',
           },
         },
-        containedPrimary: {
+        contained: {
           boxShadow: 'none',
         },
       },

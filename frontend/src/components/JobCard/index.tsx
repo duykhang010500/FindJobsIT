@@ -82,7 +82,7 @@ const IconWrapper = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
 }));
 
-const SmallJobCard = styled(Box)(({ theme }) => ({
+const SmallJobCardWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: '10px',
@@ -106,7 +106,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
 
   if (isSmall) {
     return (
-      <SmallJobCard>
+      <SmallJobCardWrapper>
         <SmallJobCardImg src={`${job.companyLogo}`} />
         <Stack spacing={1.5} ml={3} sx={{ width: '100%' }}>
           <Link component={RouterLink} to={'/'}>
@@ -130,7 +130,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
             21 days to apply
           </Typography>
         </Stack>
-      </SmallJobCard>
+      </SmallJobCardWrapper>
     );
   } else {
     return (

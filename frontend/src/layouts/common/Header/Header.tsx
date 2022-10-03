@@ -89,11 +89,23 @@ const Header: FC<Props> = () => {
               <HeaderMenu />
               <Stack direction='row' spacing={2}>
                 <HeaderLangues />
-                <Button component={RouterLink} to='/sign-up' variant='outlined'>
+                <Button component={RouterLink} to='/login' variant='text'>
+                  Log In
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to='/sign-up'
+                  variant='contained'
+                >
                   Sign Up
                 </Button>
-                <Button component={RouterLink} to='/login' variant='contained'>
-                  Log In
+                <Button
+                  component={RouterLink}
+                  to='/employer'
+                  variant='contained'
+                  color='success'
+                >
+                  For employer
                 </Button>
               </Stack>
             </>

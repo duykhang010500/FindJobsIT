@@ -10,7 +10,7 @@ type Props = {};
 
 const JobInformation = (props: Props) => {
   return (
-    <Stack spacing={7}>
+    <Stack spacing={3}>
       <JobOverview />
       <JobBenefit />
       <JobDescription />
