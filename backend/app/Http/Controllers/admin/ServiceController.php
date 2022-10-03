@@ -26,7 +26,7 @@ class ServiceController extends Controller
         $model = Service::where('id',$id)->first();
 
         $fields = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,250',
+            'name' => 'required|string|between:2,250|unique:services',
             'note' => 'required',
             'service_type' => 'required',
             'days' => 'required',

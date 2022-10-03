@@ -9,16 +9,20 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Company extends Authenticatable
+class Order_detail extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'logo', 'name', 'address', 'website', 'email', 'phone', 'fax', 'tax', 'industry_id', 'location', 'contact_name'
-        , 'video', 'images', 'content', 'banners', 'company_size', 'hirings', 'followed', 'viewed', 'group_rating', 'keywords'
+        'order_id', 'service_id','name','price',
+        'qty','order_code','discount','active','expire','days'
     ];
 
-    public function employer(){
-        return $this->belongsTo(Employer::class);
+    public function order(){
+        return $this->belongsTo(Order::class,'id','order_id');
     }
+    public function service(){
+        return $this->belongsTo(Service::class,'id','service_id');
+    }
+
 }

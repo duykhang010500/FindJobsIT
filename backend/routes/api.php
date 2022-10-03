@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
         Route::post('/hr/job', [HrController::class, 'job']);
 
+        Route::get('/services', [OrderController::class, 'index']);
         Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
     });
 
