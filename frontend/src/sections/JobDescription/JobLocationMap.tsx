@@ -12,6 +12,7 @@ const CardStyle = styled(Card)({
 });
 
 const JobLocationMap = (props: Props) => {
+  // eslint-disable-next-line
   const [viewPort, setViewPort] = useState({
     latitude: 21.0244246,
     longitude: 105.7938072,

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Card } from '@mui/material';
 
 import Footer from '../common/Footer';
 import Header from '../common/Header/Header';
@@ -18,7 +18,9 @@ const EmployerLayout = (props: Props) => {
             <Sidebar />
           </Grid>
           <Grid item md={8}>
-            <Outlet />
+            <Card sx={{ p: 3 }}>
+              <Outlet />
+            </Card>
           </Grid>
         </Grid>
       </Container>

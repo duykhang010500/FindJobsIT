@@ -8,7 +8,7 @@ type Props = {};
 
 const Sidebar = (props: Props) => {
   return (
-    <Card sx={{ p: 3, position: 'sticky', top: 80 }}>
+    <Card sx={{ p: 3, position: 'sticky', top: '86px' }}>
       <SidebarCompanyAvatar />
       <Divider sx={{ my: 2 }} />
       <SidebarContent />
