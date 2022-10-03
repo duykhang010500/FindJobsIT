@@ -1,19 +1,19 @@
 import React from 'react';
 
 import { Stack, Typography } from '@mui/material';
-import Image from '../../../../components/Image';
+import Image from '../../../components/Image';
 
-import Candidate from '../../../../assets/images/Candidate.png';
-import FindCandidate from '../../../../assets/images/FindCandidate.png';
-import JobImg from '../../../../assets/images/JobImg.png';
-import Promotion from '../../../../assets/images/Promotion.png';
-import Setting from '../../../../assets/images/Setting.png';
+import Candidate from '../../../assets/images/Candidate.png';
+import FindCandidate from '../../../assets/images/FindCandidate.png';
+import JobImg from '../../../assets/images/JobImg.png';
+import Promotion from '../../../assets/images/Promotion.png';
+import Setting from '../../../assets/images/Setting.png';
 
 type Props = {};
 
 const Banner = (props: Props) => {
   return (
-    <Stack spacing={8}>
+    <Stack spacing={6}>
       <Stack direction='row' spacing={2}>
         <Image
           src={JobImg}

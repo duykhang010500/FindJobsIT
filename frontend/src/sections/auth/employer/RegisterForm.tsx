@@ -76,6 +76,7 @@ const RegisterForm = () => {
         />
         <LoadingButton
           variant='contained'
+          size='large'
           loading={isLoading}
         >{`Register`}</LoadingButton>
       </Stack>

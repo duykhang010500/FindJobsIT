@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Grid } from '@mui/material';
 
-import RegisterForm from '../../../sections/auth/employer/register/RegisterForm';
-import Banner from '../../../sections/auth/employer/register/Banner';
+import RegisterForm from '../../../sections/auth/employer/RegisterForm';
+import Banner from '../../../sections/auth/employer/Banner';
 
 type Props = {};
 
