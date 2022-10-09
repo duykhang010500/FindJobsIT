@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\jobseeker\JobController;
+use App\Http\Controllers\jobseeker\MemberController;
 
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\UsersiteController;
 use App\Http\Controllers\admin\JobaController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,12 +26,11 @@ use App\Http\Controllers\admin\JobaController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+// public
 Route::get('/jobs', [JobController::class, 'index']);
 
+Route::post('/register', [MemberController::class, 'register']);
+Route::post('/login', [MemberController::class, 'login']);
 
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
@@ -37,19 +38,8 @@ Route::post('/employer/login', [EmployerController::class, 'login']);
 Route::post('/admin/register', [UsersiteController::class, 'register']);
 Route::post('/admin/login', [UsersiteController::class, 'login']);
 
-Route::middleware(['auth:sanctum'])->group(function () {
-
-
-    Route::group(['prefix' => 'employer'],function ()
-    {
-        Route::post('/logout', [EmployerController::class, 'logout']);
-
-        Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
-        Route::post('/hr/job', [HrController::class, 'job']);
-
-        Route::get('/services', [OrderController::class, 'index']);
-        Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
-    });
+// admin
+Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
 
     Route::group(['prefix' => 'admin'],function ()
     {
@@ -71,4 +61,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('job/industry/{id}', [JobaController::class, 'delete_industry']);
     });
 
+});
+
+// employer
+Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
+
+    Route::group(['prefix' => 'employer'],function ()
+    {
+        Route::post('/logout', [EmployerController::class, 'logout']);
+
+        Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
+        Route::post('/hr/job', [HrController::class, 'job']);
+        Route::get('/hr/candidates', [HrController::class, 'candidates']);
+
+        Route::get('/services', [OrderController::class, 'index']);
+        Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
+    });
+
+});
+
+// user
+Route::middleware(['auth:sanctum','ability:member'])->group(function () {
+    Route::post('/logout', [MemberController::class, 'logout']);
+    Route::post('/apply/{id}', [JobController::class, 'apply']);
 });

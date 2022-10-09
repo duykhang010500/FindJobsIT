@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Member extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'fullname',
         'email',
         'password',
+        'followed', 'gender', 'ctid', 'source', 'have_resume', 'status',
+        'last_login', 'ratings', 'marital', 'source_id', 'expected_position', 'is_labor', 'is_blacklist',
+        'phone','address', 'lastname', 'firstname', 'birthday', 'nationality', 'identity', 'images',
     ];
 
     /**
@@ -33,12 +36,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function candidate(){
+        return $this->hasMany(Candidate::class);
+    }
+
 }

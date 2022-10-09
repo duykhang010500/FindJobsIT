@@ -54,7 +54,7 @@ class OrderController extends Controller
                     $order_details->price =  $service->price;
                     $order_details->qty =  $cart['qty'];
                 }
-                
+
                 $order_details->save();
             }
             $order->total = 1;

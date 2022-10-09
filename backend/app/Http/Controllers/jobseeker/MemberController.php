@@ -1,43 +1,44 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
-use App\Models\Usersite;
+use App\Models\Member;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
-class UsersiteController extends Controller
+class MemberController extends Controller
 {
     //
 
     public function register(Request $request)
     {
         //
-        $fields_employer = Validator::make($request->all(), [
+        $fields_member = Validator::make($request->all(), [
             'fullname' => 'required|string|between:2,100',
-            'email' => 'required|string|unique:users_site,email',
+            'email' => 'required|string|unique:members,email',
             'password' => 'required|string|confirmed|min:6',
         ]);
 
 
-        if ($fields_employer->fails()) {
-            return response()->json($fields_employer->errors(), 422);
+        if ($fields_member->fails()) {
+            return response()->json($fields_member->errors(), 422);
         }
-        $employer = Usersite::create(array_merge(
-            $fields_employer->validated(),
+        $member = Member::create(array_merge(
+            $fields_member->validated(),
             ['password' => bcrypt($request->password),
              'status' => 1,
             ]
         ));
 
 
-        if($employer){
-            $employer->save();
+        if($member){
+            $member->save();
             return response()->json([
-                'admin' => $employer,
-                'role' => 'admin'
+                'message' => ' Register member successfully',
+                'role' => 'member',
+                'member' => $member
             ]);
         }
         return response()->json([
@@ -58,16 +59,17 @@ class UsersiteController extends Controller
                 return response()->json($validator->errors(), 422);
             }
 
-            $admin = Usersite::where('email', $request->email)->first();
+            $member = Member::where('email', $request->email)->first();
 
 
-            $tokenResult = $admin->createToken($request['email'], ['admin'])->plainTextToken;
+            $tokenResult = $member->createToken($request['email'], ['member'])->plainTextToken;
 
             return response()->json([
+                'message' => ' Login member successfully',
                 'status_code' => 200,
                 'access_token' => $tokenResult,
                 'token_type' => 'Bearer',
-                'role' => 'admin',
+                'role' => 'member',
             ]);
     }
 

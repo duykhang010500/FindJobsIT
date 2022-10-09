@@ -17,4 +17,5 @@ class Service extends Authenticatable
         'priority', 'days', 'service_type', 'status', 'price', 'name', 'note', 'discount'
     ];
 
+
 }

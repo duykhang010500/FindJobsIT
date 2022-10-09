@@ -83,7 +83,7 @@ class EmployerController extends Controller
             $Employer = Employer::where('email', $request->email)->first();
 
 
-            $tokenResult = $Employer->createToken('authToken')->plainTextToken;
+            $tokenResult = $Employer->createToken($request['email'], ['emp'])->plainTextToken;
 
             return response()->json([
                 'status_code' => 200,

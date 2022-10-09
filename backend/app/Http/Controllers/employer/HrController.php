@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employer;
 use App\Models\Company;
 use App\Models\Job;
+use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -61,6 +62,19 @@ class HrController extends Controller
         return response()->json([
             'job' => $job,
         ]);
+    }
+
+    public function candidates(Request $request){
+        $model = new Candidate;
+
+        $item = $model->where([
+            ['comp_id', '=', auth()->user()->company->id],
+            // ['job_id', '=', $job -> id],
+        ])->get();
+        return response()->json([
+            'candidate' => $item
+        ]);
+
     }
 
     public function login(Request $request)
