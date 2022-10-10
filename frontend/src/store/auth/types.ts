@@ -1,4 +1,7 @@
 import {
+  LOGIN_EMPLOYER,
+  LOGIN_EMPLOYER_FAILURE,
+  LOGIN_EMPLOYER_SUCCESS,
   REGISTER_EMPLOYER,
   REGISTER_EMPLOYER_FAILURE,
   REGISTER_EMPLOYER_SUCCESS,
@@ -6,8 +9,9 @@ import {
 
 export interface IAuthState {
   isLoading: boolean;
-  currentUser?: string;
   error?: null;
+  accessToken: string | null;
+  currentUser?: null;
 }
 export interface IUserLogin {
   email: string;
@@ -36,7 +40,24 @@ export type RegisterEmployerFailure = {
   payload: any;
 };
 
+export type LoginEmployer = {
+  type: typeof LOGIN_EMPLOYER;
+};
+
+export type LoginEmployerSuccess = {
+  type: typeof LOGIN_EMPLOYER_SUCCESS;
+  payload: any;
+};
+
+export type LoginEmployerFailure = {
+  type: typeof LOGIN_EMPLOYER_FAILURE;
+  payload: any;
+};
+
 export type AuthActions =
   | RegisterEmployer
   | RegisterEmployerSuccess
-  | RegisterEmployerFailure;
+  | RegisterEmployerFailure
+  | LoginEmployer
+  | LoginEmployerSuccess
+  | LoginEmployerFailure;

@@ -6,6 +6,8 @@ import {
   TextField,
   Autocomplete,
   Alert,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
@@ -17,6 +19,10 @@ import * as yup from 'yup';
 
 import { registerEmployer } from '../../../store/auth/action';
 import { AppState } from '../../../store/reducer';
+
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useState } from 'react';
 
 const industriesData = [
   { title: 'Software', id: 12 },
@@ -38,6 +44,10 @@ const RegisterForm = () => {
   // eslint-disable-next-line
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+
   const { isLoading, error } = useSelector((state: AppState) => state.auth);
 
   const registerSchema = yup.object({
@@ -152,9 +162,25 @@ const RegisterForm = () => {
               <TextField
                 {...field}
                 label={`Password`}
+                type={showPassword ? 'text' : 'password'}
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <RemoveRedEyeIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             )}
           />
@@ -165,9 +191,27 @@ const RegisterForm = () => {
               <TextField
                 {...field}
                 label={`Confirm password`}
+                type={showConfirmPassword ? 'text' : 'password'}
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      >
+                        {showConfirmPassword ? (
+                          <RemoveRedEyeIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             )}
           />
