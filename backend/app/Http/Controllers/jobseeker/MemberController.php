@@ -61,6 +61,10 @@ class MemberController extends Controller
 
             $member = Member::where('email', $request->email)->first();
 
+            if (!Hash::check($request->password, $member->password, []))
+                return response()->json([
+                    'message' => 'error login',
+                ]);
 
             $tokenResult = $member->createToken($request['email'], ['member'])->plainTextToken;
 

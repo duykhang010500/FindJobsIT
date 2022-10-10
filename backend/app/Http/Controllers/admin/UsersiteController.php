@@ -60,6 +60,10 @@ class UsersiteController extends Controller
 
             $admin = Usersite::where('email', $request->email)->first();
 
+            if (!Hash::check($request->password, $admin->password, []))
+                return response()->json([
+                    'message' => 'error login',
+                ]);
 
             $tokenResult = $admin->createToken($request['email'], ['admin'])->plainTextToken;
 

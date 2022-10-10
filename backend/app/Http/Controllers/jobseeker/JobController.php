@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
+use App\Models\Location;
+use App\Models\Industry;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +20,42 @@ class JobController extends Controller
         $jobs = Job::orderBy('id','desc')->get();
         return response()->json([
             'jobs' => $jobs
+        ]);
+    }
+
+    public function industries()
+    {
+        //
+        $industries = Industry::orderBy('id','desc')->get();
+        return response()->json([
+            'industries' => $industries
+        ]);
+    }
+
+    public function byindustry($id)
+    {
+        //
+        $industry = Industry::find($id);
+        return response()->json([
+            'industries' => $industry->jobs
+        ]);
+    }
+
+    public function locations()
+    {
+        //
+        $locations = Location::orderBy('id','desc')->get();
+        return response()->json([
+            'locations' => $locations
+        ]);
+    }
+
+    public function bylocation($id)
+    {
+        //
+        $Location = Location::find($id);
+        return response()->json([
+            'Location' => $Location->jobs
         ]);
     }
 
@@ -50,7 +88,7 @@ class JobController extends Controller
         $job = Job::findOrFail($id);
 
         $candidate = new Candidate;
-       
+
         $candidate -> member_id = $member -> id;
         $candidate -> job_id = $job -> id;
         $candidate -> comp_id = $job -> comp_id;

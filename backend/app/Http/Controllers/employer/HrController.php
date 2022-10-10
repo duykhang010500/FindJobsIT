@@ -54,8 +54,17 @@ class HrController extends Controller
         if(!empty($request->industries)){
             $data = explode(',', $request->industries);
             foreach ($data as $key => $value) {
-                $data = (int)$value;
-                $job->industries()->attach($data);
+                $value = (int)$value;
+                $job->industries()->attach($value);
+                $job->save();
+            }
+        }
+
+        if(!empty($request->locations)){
+            $data = explode(',', $request->locations);
+            foreach ($data as $key => $value) {
+                $value = (int)$value;
+                $job->locations()->attach($value);
                 $job->save();
             }
         }
@@ -92,6 +101,10 @@ class HrController extends Controller
             }
 
             $Employer = Employer::where('email', $request->email)->first();
+
+            if (!Hash::check($request->password, $Employer->password, [])) {
+                throw new \Exception('Error in Login');
+            }
 
 
             $tokenResult = $Employer->createToken('authToken')->plainTextToken;

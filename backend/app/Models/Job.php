@@ -27,4 +27,8 @@ class Job extends Authenticatable
     public function industries(){
         return $this->belongsToMany(Industry::class);
     }
+
+    public function locations(){
+        return $this->belongsToMany(Location::class);
+    }
 }

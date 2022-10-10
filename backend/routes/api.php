@@ -28,6 +28,10 @@ use App\Http\Controllers\admin\JobaController;
 
 // public
 Route::get('/jobs', [JobController::class, 'index']);
+Route::get('industries', [JobController::class, 'industries']);
+Route::get('industry/{id}', [JobController::class, 'byindustry']);
+Route::get('locations', [JobController::class, 'locations']);
+Route::get('location/{id}', [JobController::class, 'bylocation']);
 
 Route::post('/register', [MemberController::class, 'register']);
 Route::post('/login', [MemberController::class, 'login']);
