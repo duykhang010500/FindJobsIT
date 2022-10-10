@@ -122,7 +122,7 @@ const Footer: React.FC<Props> = () => {
         </Grid>
 
         <Typography variant='h4' textAlign='center' fontWeight={700}>
-          &copy; {new Date().getFullYear()} HCMUTE
+          &copy; {new Date().getFullYear()} HK2Tech
         </Typography>
       </Container>
     </FooterWrapper>

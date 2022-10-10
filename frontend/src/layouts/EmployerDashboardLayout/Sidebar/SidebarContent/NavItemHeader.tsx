@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import {
   Collapse,
   ListItemButton,
@@ -10,8 +9,6 @@ import {
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-
-// type Props = {};
 
 const NavItemHeader = ({ title, icon, path, children }: any) => {
   const { pathname } = useLocation();
@@ -36,7 +33,10 @@ const NavItemHeader = ({ title, icon, path, children }: any) => {
           {children.map((item: any) => {
             return (
               <ListItemButton
-                selected={path === pathname}
+                key={item.title}
+                component={Link}
+                to={`${item.path}`}
+                selected={item.path === pathname}
                 sx={{
                   pl: 5,
                   '&.MuiListItemButton-root': {

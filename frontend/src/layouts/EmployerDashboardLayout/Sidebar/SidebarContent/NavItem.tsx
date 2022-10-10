@@ -1,5 +1,7 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+
 import NavItemHeader from './NavItemHeader';
 
 interface NavItemProps {
@@ -11,6 +13,7 @@ interface NavItemProps {
 
 const NavItem = ({ title, icon, path, children }: NavItemProps) => {
   const { pathname } = useLocation();
+
   if (children) {
     return (
       <NavItemHeader
@@ -24,7 +27,10 @@ const NavItem = ({ title, icon, path, children }: NavItemProps) => {
 
   return (
     <ListItemButton
+      key={title}
       selected={path === pathname}
+      component={Link}
+      to={`${path}`}
       sx={{
         '&.MuiListItemButton-root': {
           color: 'rgb(99, 115, 129)',

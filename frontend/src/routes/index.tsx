@@ -1,12 +1,20 @@
 import { useRoutes } from 'react-router-dom';
-import EmployerLayout from '../layouts/Employer';
-import JobSeekerLayout from '../layouts/JobSeeker';
-import PageNotFound from '../pages/404';
+
+//employer routes
+import EmployerDashboardLayout from '../layouts/EmployerDashboardLayout';
+import EmployerMainLayout from '../layouts/EmployerMainLayout';
 import Login from '../pages/auth/employer/Login';
 import Register from '../pages/auth/employer/Register';
+import EmployerHomePage from '../pages/employer/EmployerHomePage';
+import Statistics from '../sections/employer-dashboard/Statistics';
+import EmployerCreateJob from '../pages/employer/jobs/EmployerCreateJob';
+
+//job seeker routes
+import JobSeekerLayout from '../layouts/JobSeeker';
+import PageNotFound from '../pages/404';
 import Home from '../pages/Home';
 import JobDescription from '../pages/JobDetails';
-import Statistics from '../sections/employer-dashboard/Statistics';
+import JobsOpen from '../sections/employer-dashboard/jobs/JobsOpen';
 
 type Props = {};
 
@@ -26,8 +34,17 @@ const Router = (props: Props) => {
     },
     {
       path: 'employer',
-      element: <EmployerLayout />,
-      children: [{ path: 'dashboard', element: <Statistics /> }],
+      element: <EmployerMainLayout />,
+      children: [{ element: <EmployerHomePage />, index: true }],
+    },
+    {
+      path: 'employer/hr',
+      element: <EmployerDashboardLayout />,
+      children: [
+        { path: 'dashboard', element: <Statistics /> },
+        { path: 'jobs/active', element: <JobsOpen /> },
+        { path: 'job/create', element: <EmployerCreateJob /> },
+      ],
     },
     {
       path: '*',

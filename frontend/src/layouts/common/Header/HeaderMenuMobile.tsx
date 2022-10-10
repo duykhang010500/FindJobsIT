@@ -1,5 +1,5 @@
-import React, { FC, Fragment, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { FC, Fragment, useState } from 'react';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
   Drawer,
   IconButton,
@@ -12,12 +12,17 @@ import {
   Stack,
 } from '@mui/material';
 
+import { employerMenu, jobSeekerMenu } from '../../../configs/menuConfig';
+
+import Logo from '../../../components/Logo';
+
 import { RiMenu3Line } from 'react-icons/ri';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import PeopleIcon from '@mui/icons-material/People';
 import ArticleIcon from '@mui/icons-material/Article';
-import Logo from '../../../components/Logo';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+
 type Props = {};
 
 const MENU = [
@@ -34,6 +39,7 @@ const ListItemStyle = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const HeaderMenuMobile: FC<Props> = () => {
+  const { pathname } = useLocation();
   const [open, setOpen] = useState<boolean>(false);
 
   const ListMenu = () => {
@@ -64,7 +70,11 @@ const HeaderMenuMobile: FC<Props> = () => {
         >
           <Button
             component={RouterLink}
-            to='/sign-up'
+            to={
+              pathname.includes('/employer')
+                ? `/employer/register`
+                : '/register'
+            }
             variant='outlined'
             size='large'
           >
@@ -73,19 +83,28 @@ const HeaderMenuMobile: FC<Props> = () => {
           <Button
             component={RouterLink}
             size='large'
-            to='/login'
+            to={pathname.includes('/employer') ? `/employer/login` : '/login'}
             variant='contained'
           >
             Log In
           </Button>
           <Button
-            component={RouterLink}
-            to='/employer'
             variant='contained'
+            component={RouterLink}
             color='success'
+            to={pathname.includes('/employer') ? `/` : '/employer'}
             size='large'
+            startIcon={
+              pathname.includes('/employer') ? (
+                <BusinessCenterIcon />
+              ) : (
+                <PeopleAltIcon />
+              )
+            }
           >
-            For employer
+            {pathname.includes('/employer')
+              ? `For Job Seekers`
+              : 'For Employer'}
           </Button>
         </Stack>
       </Fragment>

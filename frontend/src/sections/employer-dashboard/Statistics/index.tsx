@@ -31,7 +31,7 @@ const Statistics = (props: Props) => {
       <Grid item xs={12} sm={12} md={6}>
         <CardStyle>
           <Box>
-            <Typography variant='h1' gutterBottom>
+            <Typography variant='h1' gutterBottom sx={{ color: '#40a9ff' }}>
               99
             </Typography>
             <Typography variant='h5' color='#8c8c8c'>
@@ -56,7 +56,7 @@ const Statistics = (props: Props) => {
       <Grid item xs={12} sm={12} md={6}>
         <CardStyle>
           <Box>
-            <Typography variant='h1' gutterBottom>
+            <Typography variant='h1' gutterBottom sx={{ color: '#ffc53d' }}>
               99
             </Typography>
             <Typography variant='h5' color='#8c8c8c'>

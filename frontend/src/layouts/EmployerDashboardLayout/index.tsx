@@ -8,7 +8,7 @@ import Sidebar from './Sidebar';
 
 type Props = {};
 
-const EmployerLayout = (props: Props) => {
+const EmployerDashboardLayout = (props: Props) => {
   return (
     <Fragment>
       <Header />
@@ -29,4 +29,4 @@ const EmployerLayout = (props: Props) => {
   );
 };
 
-export default EmployerLayout;
+export default EmployerDashboardLayout;

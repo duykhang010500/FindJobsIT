@@ -1,15 +1,8 @@
 import { FC } from 'react';
 import { styled } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { employerMenu, jobSeekerMenu } from '../../../configs/menuConfig';
 type Props = {};
-
-const MENU = [
-  { title: 'Jobs', to: '/jobs' },
-  { title: 'Top Company', to: '/top-company' },
-  { title: 'Blog', to: '/blog' },
-  { title: 'About Us', to: '/about' },
-];
 
 const StyledList = styled('ul')({
   margin: 0,
@@ -47,19 +40,33 @@ const StyledLink = styled('li')(({ theme }) => ({
 }));
 
 const HeaderMenu: FC<Props> = () => {
+  const { pathname } = useLocation();
+
+  const renderEmployerMenu = employerMenu.map((item) => (
+    <RouterLink
+      key={item.title}
+      to={`${item.to}`}
+      style={{ textDecoration: 'none' }}
+    >
+      <StyledLink>{item.title}</StyledLink>
+    </RouterLink>
+  ));
+
+  const renderJobSeekerMenu = jobSeekerMenu.map((item) => (
+    <RouterLink
+      key={item.title}
+      to={`${item.to}`}
+      style={{ textDecoration: 'none' }}
+    >
+      <StyledLink>{item.title}</StyledLink>
+    </RouterLink>
+  ));
+
   return (
     <StyledList>
-      {MENU.map((item) => {
-        return (
-          <RouterLink
-            key={item.title}
-            to={`/${item.to}`}
-            style={{ textDecoration: 'none' }}
-          >
-            <StyledLink>{item.title}</StyledLink>
-          </RouterLink>
-        );
-      })}
+      {pathname.includes('/employer')
+        ? renderEmployerMenu
+        : renderJobSeekerMenu}
     </StyledList>
   );
 };

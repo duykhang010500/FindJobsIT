@@ -13,10 +13,14 @@ import {
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import Logo from '../../../components/Logo';
+
 import HeaderMenu from './HeaderMenu';
 import HeaderLangues from './HeaderLanguages';
 import HeaderMenuMobile from './HeaderMenuMobile';
-import Logo from '../../../components/Logo';
+
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 type Props = {};
 
@@ -89,23 +93,44 @@ const Header: FC<Props> = () => {
               <HeaderMenu />
               <Stack direction='row' spacing={2}>
                 <HeaderLangues />
-                <Button component={RouterLink} to='/login' variant='text'>
+                <Button
+                  variant='text'
+                  component={RouterLink}
+                  to={
+                    pathname.includes('/employer')
+                      ? `/employer/login`
+                      : '/login'
+                  }
+                >
                   Log In
                 </Button>
                 <Button
-                  component={RouterLink}
-                  to='/sign-up'
                   variant='contained'
+                  component={RouterLink}
+                  to={
+                    pathname.includes('/employer')
+                      ? `/employer/register`
+                      : '/register'
+                  }
                 >
                   Sign Up
                 </Button>
                 <Button
-                  component={RouterLink}
-                  to='/employer'
                   variant='contained'
+                  component={RouterLink}
                   color='success'
+                  to={pathname.includes('/employer') ? `/` : '/employer'}
+                  startIcon={
+                    pathname.includes('/employer') ? (
+                      <BusinessCenterIcon />
+                    ) : (
+                      <PeopleAltIcon />
+                    )
+                  }
                 >
-                  For employer
+                  {pathname.includes('/employer')
+                    ? `For Job Seekers`
+                    : 'For Employer'}
                 </Button>
               </Stack>
             </>
