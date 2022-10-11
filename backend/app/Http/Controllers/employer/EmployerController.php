@@ -104,4 +104,9 @@ class EmployerController extends Controller
         ];
     }
 
+    public function info(Request $request) {
+        return [
+            'info' => auth()->user()
+        ];
+    }
 }

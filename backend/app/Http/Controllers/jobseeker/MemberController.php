@@ -77,6 +77,12 @@ class MemberController extends Controller
             ]);
     }
 
+    public function info(Request $request) {
+        return [
+            'info' => auth()->user()
+        ];
+    }
+
     public function logout(Request $request) {
         auth()->user()->tokens()->delete();
         return [

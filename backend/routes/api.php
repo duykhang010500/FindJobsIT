@@ -73,9 +73,10 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
     Route::group(['prefix' => 'employer'],function ()
     {
         Route::post('/logout', [EmployerController::class, 'logout']);
+        Route::get('/info', [EmployerController::class, 'info']);
 
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
-        Route::post('/hr/job', [HrController::class, 'job']);
+        Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::get('/hr/candidates', [HrController::class, 'candidates']);
 
         Route::get('/services', [OrderController::class, 'index']);
@@ -87,5 +88,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 // user
 Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::post('/logout', [MemberController::class, 'logout']);
+    Route::get('/info', [MemberController::class, 'info']);
+
     Route::post('/apply/{id}', [JobController::class, 'apply']);
 });

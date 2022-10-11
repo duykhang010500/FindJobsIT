@@ -27,7 +27,7 @@ class HrController extends Controller
 
         // dd(auth()->user()->company->id);
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
+            'title' => 'required|unique:jobs',
             'job_type' => 'required',
             'level_id' => 'required',
             'industries' => 'required',
@@ -38,7 +38,7 @@ class HrController extends Controller
             'company_name' => 'required',
             'contact_name' => 'required',
             'contact_emails' => 'required',
-            'status' => 'required',
+            // 'status' => 1,
         ]);
 
         if ($validator->fails()) {
@@ -51,6 +51,7 @@ class HrController extends Controller
 
             ]
         ));
+        // dd(1);
         if(!empty($request->industries)){
             $data = explode(',', $request->industries);
             foreach ($data as $key => $value) {
