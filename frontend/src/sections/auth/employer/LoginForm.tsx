@@ -58,7 +58,6 @@ const LoginForm = (props: Props) => {
   });
 
   const onSubmit = (formData: FormValues) => {
-    console.log('Form Values: ', formData);
     dispatch(loginEmployer(formData, navigate));
   };
 

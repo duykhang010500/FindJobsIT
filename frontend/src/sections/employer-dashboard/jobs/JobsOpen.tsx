@@ -1,6 +1,7 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import {
+  Box,
   Button,
   Checkbox,
   TableContainer,
@@ -25,8 +26,14 @@ const JobTableHead = () => {
 
 const JobsOpen = (props: Props) => {
   return (
-    <>
-      <Button variant='contained' startIcon={<AddIcon />} sx={{ mb: 2 }}>
+    <Box>
+      <Button
+        component={Link}
+        to={`/employer/hr/job/create`}
+        variant='contained'
+        startIcon={<AddIcon />}
+        sx={{ mb: 2 }}
+      >
         Post a job
       </Button>
       <TableContainer>
@@ -56,7 +63,7 @@ const JobsOpen = (props: Props) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Box>
   );
 };
 

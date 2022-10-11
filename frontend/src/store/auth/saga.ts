@@ -30,6 +30,7 @@ function* employerLogin({ payload: { formData, navigate } }: any): any {
     toast.success('Login successfully!');
     localStorage.setItem('accessToken', response.data.access_token);
     yield put(loginEmployerSuccess(response.data.access_token));
+    navigate('/employer/hr/dashboard');
 
     console.log('Response: ', response);
   } catch (err) {

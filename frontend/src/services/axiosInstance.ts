@@ -6,7 +6,9 @@ const axiosInstance = axios.create({
   baseURL: `${URL}`,
 });
 
-axiosInstance.defaults.headers.common['Authorization'] = 'bearer';
+axiosInstance.defaults.headers.common[
+  'Authorization'
+] = `Bearer ${localStorage.getItem('accessToken')}`;
 
 axiosInstance.interceptors.response.use(
   (res) => res,

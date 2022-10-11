@@ -17,7 +17,7 @@ export default function App(props: IAppProps) {
   }, [location.pathname]);
   return (
     <ThemProvider>
-      <ToastContainer autoClose={2000} position='top-center' />
+      <ToastContainer autoClose={1000} position='top-center' />
       <CssBaseline />
       <Router />
     </ThemProvider>
