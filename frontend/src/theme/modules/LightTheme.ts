@@ -21,7 +21,7 @@ const LightTheme = createTheme({
     h3: {
       fontSize: '1.25rem',
       color: '#212B36',
-      fontWeight: 600,
+      fontWeight: 500,
     },
     h2: {
       fontSize: '1.5rem',

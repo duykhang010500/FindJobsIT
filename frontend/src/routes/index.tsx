@@ -16,10 +16,16 @@ import Home from '../pages/Home';
 import JobDescription from '../pages/JobDetails';
 import JobsOpen from '../sections/employer-dashboard/jobs/JobsOpen';
 
+//admin
+import AdminLayout from '../layouts/AdminLayout';
+import DashboardAdmin from '../pages/admin/dashboard';
+import AdminLogin from '../pages/auth/admin/AdminLogin';
+
 type Props = {};
 
 const Router = (props: Props) => {
   return useRoutes([
+    { element: <AdminLogin />, path: 'admin/login' },
     {
       path: '/',
       element: <JobSeekerLayout />,
@@ -44,6 +50,22 @@ const Router = (props: Props) => {
         { path: 'dashboard', element: <Statistics /> },
         { path: 'jobs/active', element: <JobsOpen /> },
         { path: 'job/create', element: <EmployerCreateJob /> },
+      ],
+    },
+    {
+      path: 'admin',
+      element: <AdminLayout />,
+      children: [
+        { path: 'dashboard', element: <DashboardAdmin /> },
+        { path: 'companies' },
+        { path: 'companies/jobs' },
+        { path: 'candidates/list' },
+        { path: 'services/orders' },
+        { path: 'services/list' },
+        { path: 'setting/location' },
+        { path: 'setting/industries' },
+        { path: 'settings/degree' },
+        { path: 'settings/level' },
       ],
     },
     {

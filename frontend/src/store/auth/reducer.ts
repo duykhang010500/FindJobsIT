@@ -1,4 +1,5 @@
 import {
+  LOGIN_ADMIN,
   LOGIN_EMPLOYER,
   LOGIN_EMPLOYER_FAILURE,
   LOGIN_EMPLOYER_SUCCESS,
@@ -50,7 +51,11 @@ const authReducer = (state = initialState, action: AuthActions) => {
         isLoading: false,
         error: action.payload,
       };
-
+    case LOGIN_ADMIN:
+      return {
+        ...state,
+        isLoading: true,
+      };
     default:
       return state;
   }

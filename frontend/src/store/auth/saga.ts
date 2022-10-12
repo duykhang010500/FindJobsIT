@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { LOGIN_EMPLOYER, REGISTER_EMPLOYER } from './actionTypes';
+import { LOGIN_ADMIN, LOGIN_EMPLOYER, REGISTER_EMPLOYER } from './actionTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import employerServices from '../../services/employer';
 import {
@@ -8,11 +8,11 @@ import {
   registerEmployerFailure,
   registerEmployerSuccess,
 } from './action';
+import { IUserLogin } from './types';
 
 function* employerRegister({ payload: { formData, navigate } }: any): any {
   try {
     const res = yield call(employerServices.register, formData);
-    console.log(res);
     if (res.status === 200) {
       yield put(registerEmployerSuccess());
       toast.success('Register successfully!');
@@ -38,9 +38,17 @@ function* employerLogin({ payload: { formData, navigate } }: any): any {
   }
 }
 
+function* adminLogin({ payload: { formData, navigate } }: any): any {
+  try {
+  } catch (err) {
+    throw err;
+  }
+}
+
 function* authSaga() {
   yield takeEvery(REGISTER_EMPLOYER, employerRegister);
   yield takeEvery(LOGIN_EMPLOYER, employerLogin);
+  yield takeEvery(LOGIN_ADMIN, adminLogin);
 }
 
 export default authSaga;

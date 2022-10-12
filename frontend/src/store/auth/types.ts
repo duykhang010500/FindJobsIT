@@ -1,4 +1,7 @@
 import {
+  LOGIN_ADMIN,
+  LOGIN_ADMIN_FAILURE,
+  LOGIN_ADMIN_SUCCESS,
   LOGIN_EMPLOYER,
   LOGIN_EMPLOYER_FAILURE,
   LOGIN_EMPLOYER_SUCCESS,
@@ -27,6 +30,7 @@ export interface IEmployerRegister extends IUserLogin {
   company_size: number;
 }
 
+//employer
 export type RegisterEmployer = {
   type: typeof REGISTER_EMPLOYER;
 };
@@ -54,10 +58,28 @@ export type LoginEmployerFailure = {
   payload: any;
 };
 
+//admin
+export type LoginAdmin = {
+  type: typeof LOGIN_ADMIN;
+};
+
+export type LoginAminSuccess = {
+  type: typeof LOGIN_ADMIN_SUCCESS;
+  payload: any;
+};
+
+export type LoginAdminFailure = {
+  type: typeof LOGIN_ADMIN_FAILURE;
+  payload: any;
+};
+
 export type AuthActions =
   | RegisterEmployer
   | RegisterEmployerSuccess
   | RegisterEmployerFailure
   | LoginEmployer
   | LoginEmployerSuccess
-  | LoginEmployerFailure;
+  | LoginEmployerFailure
+  | LoginAdmin
+  | LoginAminSuccess
+  | LoginAdminFailure;
