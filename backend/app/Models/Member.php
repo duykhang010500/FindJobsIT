@@ -40,4 +40,8 @@ class Member extends Authenticatable
         return $this->hasMany(Candidate::class);
     }
 
+    public function resume(){
+        return $this->belongsToMany(Resume::class);
+    }
+
 }
