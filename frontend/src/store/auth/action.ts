@@ -7,6 +7,9 @@ import {
   LOGIN_EMPLOYER_FAILURE,
   LOGIN_ADMIN,
   LOGIN_ADMIN_SUCCESS,
+  GET_INFO_EMPLOYER,
+  GET_INFO_EMPLOYER_SUCCESS,
+  LOGOUT_EMPLOYER,
 } from './actionTypes';
 import { IUserLogin } from './types';
 
@@ -40,9 +43,22 @@ export const loginEmployerSuccess = (token: string) => ({
   payload: token,
 });
 
+export const getInfoEmployer = () => ({
+  type: GET_INFO_EMPLOYER,
+});
+
+export const getInfoEmployerSuccess = (info: any) => ({
+  type: GET_INFO_EMPLOYER_SUCCESS,
+  payload: info,
+});
+
 export const loginEmployerFailure = (error: any) => ({
   type: LOGIN_EMPLOYER_FAILURE,
   payload: error,
+});
+
+export const logoutEmployer = () => ({
+  type: LOGOUT_EMPLOYER,
 });
 
 export const loginAdmin = (formData: IUserLogin, navigate: any) => ({

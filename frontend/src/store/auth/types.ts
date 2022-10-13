@@ -1,10 +1,13 @@
 import {
+  GET_INFO_EMPLOYER,
+  GET_INFO_EMPLOYER_SUCCESS,
   LOGIN_ADMIN,
   LOGIN_ADMIN_FAILURE,
   LOGIN_ADMIN_SUCCESS,
   LOGIN_EMPLOYER,
   LOGIN_EMPLOYER_FAILURE,
   LOGIN_EMPLOYER_SUCCESS,
+  LOGOUT_EMPLOYER,
   REGISTER_EMPLOYER,
   REGISTER_EMPLOYER_FAILURE,
   REGISTER_EMPLOYER_SUCCESS,
@@ -53,9 +56,18 @@ export type LoginEmployerSuccess = {
   payload: any;
 };
 
+export type GetEmployerInfoSuccess = {
+  type: typeof GET_INFO_EMPLOYER_SUCCESS;
+  payload: any;
+};
+
 export type LoginEmployerFailure = {
   type: typeof LOGIN_EMPLOYER_FAILURE;
   payload: any;
+};
+
+export type LogoutEmployer = {
+  type: typeof LOGOUT_EMPLOYER;
 };
 
 //admin
@@ -80,6 +92,8 @@ export type AuthActions =
   | LoginEmployer
   | LoginEmployerSuccess
   | LoginEmployerFailure
+  | GetEmployerInfoSuccess
   | LoginAdmin
   | LoginAminSuccess
-  | LoginAdminFailure;
+  | LoginAdminFailure
+  | LogoutEmployer;

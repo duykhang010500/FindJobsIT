@@ -22,13 +22,13 @@ import JobFilter from '../../../sections/employer-dashboard/jobs/JobFilter';
 
 type Props = {};
 
-const JobToolbarTable = () => {
-  return <></>;
-};
+// const JobToolbarTable = () => {
+//   return <></>;
+// };
 
-const JobTableHead = () => {
-  return <></>;
-};
+// const JobTableHead = () => {
+//   return <></>;
+// };
 
 const EmployerJobsOpen = (props: Props) => {
   const [showFilter, setShowFilter] = useState<boolean>(false);

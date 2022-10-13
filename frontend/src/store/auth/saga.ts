@@ -1,8 +1,15 @@
 import { toast } from 'react-toastify';
-import { LOGIN_ADMIN, LOGIN_EMPLOYER, REGISTER_EMPLOYER } from './actionTypes';
+import {
+  GET_INFO_EMPLOYER,
+  LOGIN_ADMIN,
+  LOGIN_EMPLOYER,
+  REGISTER_EMPLOYER,
+} from './actionTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import employerServices from '../../services/employer';
 import {
+  getInfoEmployer,
+  getInfoEmployerSuccess,
   loginAdminSuccess,
   loginEmployerFailure,
   loginEmployerSuccess,
@@ -31,11 +38,22 @@ function* employerLogin({ payload: { formData, navigate } }: any): any {
     toast.success('Login successfully!');
     localStorage.setItem('accessToken', response.data.access_token);
     yield put(loginEmployerSuccess(response.data.access_token));
-    navigate('/employer/hr/dashboard');
 
-    console.log('Response: ', response);
+    yield put(getInfoEmployer());
+
+    navigate('/employer/hr/dashboard');
   } catch (err) {
     yield put(loginEmployerFailure(err));
+  }
+}
+
+function* getCurrentEmployer(): any {
+  try {
+    const response = yield call(employerServices.getMyInfo);
+    console.log('current employer: ', response);
+    yield put(getInfoEmployerSuccess(response.data));
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -59,6 +77,7 @@ function* authSaga() {
   yield takeEvery(REGISTER_EMPLOYER, employerRegister);
   yield takeEvery(LOGIN_EMPLOYER, employerLogin);
   yield takeEvery(LOGIN_ADMIN, adminLogin);
+  yield takeEvery(GET_INFO_EMPLOYER, getCurrentEmployer);
 }
 
 export default authSaga;

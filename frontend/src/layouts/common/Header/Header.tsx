@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Button,
@@ -9,28 +9,39 @@ import {
   Stack,
   Link,
   useTheme,
+  Avatar,
+  IconButton,
+  Popover,
+  MenuItem,
 } from '@mui/material';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Logo from '../../../components/Logo';
-
 import HeaderMenu from './HeaderMenu';
 import HeaderLangues from './HeaderLanguages';
 import HeaderMenuMobile from './HeaderMenuMobile';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+
+import { AppState } from '../../../store/reducer';
+import { logoutEmployer } from '../../../store/auth/action';
 
 type Props = {};
 
 const Header: FC<Props> = () => {
+  const { currentUser } = useSelector((state: AppState) => state.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [isScrollBottom, setIsScrollBottom] = useState(false);
 
   const isTop = 50;
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
-  const { pathname } = useLocation();
 
   useEffect(() => {
     window.onscroll = () => {
@@ -44,6 +55,15 @@ const Header: FC<Props> = () => {
       window.onscroll = null;
     };
   }, [isTop]);
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutEmployer());
+      navigate('/employer/login', { replace: true });
+    } catch (err) {
+      throw err;
+    }
+  };
 
   return (
     <AppBar
@@ -91,30 +111,57 @@ const Header: FC<Props> = () => {
           {isDesktop ? (
             <>
               <HeaderMenu />
-              <Stack direction='row' spacing={2}>
+              <Stack direction='row' spacing={2} alignItems='center'>
                 <HeaderLangues />
-                <Button
-                  variant='text'
-                  component={RouterLink}
-                  to={
-                    pathname.includes('/employer')
-                      ? `/employer/login`
-                      : '/login'
-                  }
-                >
-                  Log In
-                </Button>
-                <Button
-                  variant='contained'
-                  component={RouterLink}
-                  to={
-                    pathname.includes('/employer')
-                      ? `/employer/register`
-                      : '/register'
-                  }
-                >
-                  Sign Up
-                </Button>
+                {currentUser ? (
+                  <>
+                    <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+                      <Avatar sx={{ width: 30, height: 30 }} />
+                    </IconButton>
+                    <Popover
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={() => setAnchorEl(null)}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      sx={{ mt: 2 }}
+                    >
+                      <MenuItem
+                        onClick={handleLogout}
+                        sx={{ color: '#ff4d4f' }}
+                      >
+                        <LogoutIcon sx={{ mr: 3 }} /> Logout
+                      </MenuItem>
+                    </Popover>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant='text'
+                      component={RouterLink}
+                      to={
+                        pathname.includes('/employer')
+                          ? `/employer/login`
+                          : '/login'
+                      }
+                    >
+                      Log In
+                    </Button>
+                    <Button
+                      variant='contained'
+                      component={RouterLink}
+                      to={
+                        pathname.includes('/employer')
+                          ? `/employer/register`
+                          : '/register'
+                      }
+                    >
+                      Sign Up
+                    </Button>
+                  </>
+                )}
                 <Button
                   variant='contained'
                   component={RouterLink}

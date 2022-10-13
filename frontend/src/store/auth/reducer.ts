@@ -1,9 +1,11 @@
 import {
+  GET_INFO_EMPLOYER_SUCCESS,
   LOGIN_ADMIN,
   LOGIN_ADMIN_SUCCESS,
   LOGIN_EMPLOYER,
   LOGIN_EMPLOYER_FAILURE,
   LOGIN_EMPLOYER_SUCCESS,
+  LOGOUT_EMPLOYER,
   REGISTER_EMPLOYER,
   REGISTER_EMPLOYER_FAILURE,
   REGISTER_EMPLOYER_SUCCESS,
@@ -46,11 +48,24 @@ const authReducer = (state = initialState, action: AuthActions) => {
         isLoading: false,
         accessToken: action.payload,
       };
+    case GET_INFO_EMPLOYER_SUCCESS: {
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    }
     case LOGIN_EMPLOYER_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
+      };
+    case LOGOUT_EMPLOYER:
+      localStorage.removeItem('accessToken');
+      return {
+        ...state,
+        currentUser: null,
+        accessToken: null,
       };
     case LOGIN_ADMIN:
       return {
