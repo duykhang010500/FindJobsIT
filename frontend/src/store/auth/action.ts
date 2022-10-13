@@ -6,6 +6,7 @@ import {
   LOGIN_EMPLOYER_SUCCESS,
   LOGIN_EMPLOYER_FAILURE,
   LOGIN_ADMIN,
+  LOGIN_ADMIN_SUCCESS,
 } from './actionTypes';
 import { IUserLogin } from './types';
 
@@ -47,4 +48,8 @@ export const loginEmployerFailure = (error: any) => ({
 export const loginAdmin = (formData: IUserLogin, navigate: any) => ({
   type: LOGIN_ADMIN,
   payload: { formData, navigate },
+});
+
+export const loginAdminSuccess = () => ({
+  type: LOGIN_ADMIN_SUCCESS,
 });

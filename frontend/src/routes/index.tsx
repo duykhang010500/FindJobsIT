@@ -14,12 +14,12 @@ import JobSeekerLayout from '../layouts/JobSeeker';
 import PageNotFound from '../pages/404';
 import Home from '../pages/Home';
 import JobDescription from '../pages/JobDetails';
-import JobsOpen from '../sections/employer-dashboard/jobs/JobsOpen';
 
 //admin
 import AdminLayout from '../layouts/AdminLayout';
 import DashboardAdmin from '../pages/admin/dashboard';
 import AdminLogin from '../pages/auth/admin/AdminLogin';
+import EmployerJobsOpen from '../pages/employer/jobs/EmployerJobsOpen';
 
 type Props = {};
 
@@ -48,7 +48,7 @@ const Router = (props: Props) => {
       element: <EmployerDashboardLayout />,
       children: [
         { path: 'dashboard', element: <Statistics /> },
-        { path: 'jobs/active', element: <JobsOpen /> },
+        { path: 'jobs/active', element: <EmployerJobsOpen /> },
         { path: 'job/create', element: <EmployerCreateJob /> },
       ],
     },

@@ -3,12 +3,13 @@ import { LOGIN_ADMIN, LOGIN_EMPLOYER, REGISTER_EMPLOYER } from './actionTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import employerServices from '../../services/employer';
 import {
+  loginAdminSuccess,
   loginEmployerFailure,
   loginEmployerSuccess,
   registerEmployerFailure,
   registerEmployerSuccess,
 } from './action';
-import { IUserLogin } from './types';
+import adminServices from '../../services/admin';
 
 function* employerRegister({ payload: { formData, navigate } }: any): any {
   try {
@@ -40,8 +41,17 @@ function* employerLogin({ payload: { formData, navigate } }: any): any {
 
 function* adminLogin({ payload: { formData, navigate } }: any): any {
   try {
+    const response = yield call(adminServices.login, formData);
+    console.log(response);
+    yield put(loginAdminSuccess());
+    if (response.status === 200) {
+      navigate('/admin/dashboard');
+    }
   } catch (err) {
-    throw err;
+    if (err) {
+      console.log('Error!');
+    }
+    // console.log('Admin login err: ', err);
   }
 }
 

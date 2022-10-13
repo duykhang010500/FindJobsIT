@@ -1,10 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { TextField, Typography, Stack, Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { loginAdmin } from '../../../store/auth/action';
+import { AppState } from '../../../store/reducer';
 
 type Props = {};
 
@@ -23,6 +26,8 @@ const schema = yup.object({
 
 const LoginForm = (props: Props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state: AppState) => state.auth);
 
   const { control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
@@ -34,6 +39,7 @@ const LoginForm = (props: Props) => {
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     console.log(formData);
+    dispatch(loginAdmin(formData, navigate));
   };
 
   return (
@@ -76,7 +82,7 @@ const LoginForm = (props: Props) => {
           />
           <LoadingButton
             type='submit'
-            loading={false}
+            loading={isLoading}
             variant='contained'
             size='large'
           >
