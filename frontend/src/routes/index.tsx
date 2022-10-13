@@ -21,6 +21,7 @@ import DashboardAdmin from '../pages/admin/dashboard';
 import AdminLogin from '../pages/auth/admin/AdminLogin';
 import EmployerJobsOpen from '../pages/employer/jobs/EmployerJobsOpen';
 import EmployerCandidatesList from '../pages/employer/candidates/EmployerCandidatesList';
+import EmployerServices from '../pages/employer/services/EmployerServices';
 
 type Props = {};
 
@@ -52,6 +53,7 @@ const Router = (props: Props) => {
         { path: 'jobs/active', element: <EmployerJobsOpen /> },
         { path: 'job/create', element: <EmployerCreateJob /> },
         { path: 'candidates', element: <EmployerCandidatesList /> },
+        { path: 'order/active', element: <EmployerServices /> },
       ],
     },
     {

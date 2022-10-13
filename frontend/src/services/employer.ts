@@ -17,6 +17,9 @@ const employerServices = {
   getCandidates: () => {
     return axiosInstance.get('/employer/hr/candidates');
   },
+  getListServices: () => {
+    return axiosInstance.get('/employer/services');
+  },
 };
 
 export default employerServices;

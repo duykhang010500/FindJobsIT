@@ -1,36 +1,30 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  TableContainer,
+  Box,
   Table,
-  TableHead,
+  Stack,
+  Avatar,
+  TableRow,
   TableBody,
   TableCell,
-  TableRow,
-  Avatar,
-  Box,
+  TableHead,
   Typography,
-  styled,
-  Stack,
   IconButton,
+  TableContainer,
 } from '@mui/material';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SaveAsRoundedIcon from '@mui/icons-material/SaveAsRounded';
 import { getListCandidatesForEmployer } from '../../../store/candidates/action';
 import { AppState } from '../../../store/reducer';
+import StatusBadge from '../../../components/StatusBadge';
 
 type Props = {};
 
-const StatusStyled = styled('div')({
-  width: '15px',
-  height: '15px',
-  borderRadius: '50%',
-  backgroundColor: '#52c41a',
-});
-
 const EmployerCandidatesList = (props: Props) => {
   const dispatch = useDispatch();
+  // eslint-disable-next-line
   const { isLoading, list } = useSelector(
     (state: AppState) => state.candidates
   );
@@ -66,13 +60,7 @@ const EmployerCandidatesList = (props: Props) => {
             <TableCell align='center'>13/10/2022</TableCell>
             <TableCell>
               <IconButton>
-                <StatusStyled
-                  sx={{
-                    ...(Boolean(false) && {
-                      backgroundColor: '#ff4d4f',
-                    }),
-                  }}
-                />
+                <StatusBadge />
               </IconButton>
             </TableCell>
             <TableCell>
