@@ -87,42 +87,5 @@ class HrController extends Controller
 
     }
 
-    public function login(Request $request)
-    {
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
-                'password' => 'required|string|min:6',
-            ]);
-
-
-            $credentials = request(['email', 'password']);
-
-            if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);
-            }
-
-            $Employer = Employer::where('email', $request->email)->first();
-
-            if (!Hash::check($request->password, $Employer->password, [])) {
-                throw new \Exception('Error in Login');
-            }
-
-
-            $tokenResult = $Employer->createToken('authToken')->plainTextToken;
-
-            return response()->json([
-                'status_code' => 200,
-                'access_token' => $tokenResult,
-                'token_type' => 'Bearer',
-                'role' => 'emp',
-            ]);
-    }
-
-    public function logout(Request $request) {
-        auth()->user()->tokens()->delete();
-        return [
-            'message' => 'Logged out'
-        ];
-    }
 
 }

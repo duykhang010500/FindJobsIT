@@ -9,19 +9,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Location extends Authenticatable
+class Degree extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'locations';
-
     protected $fillable = [
-        'name'
+        'priority', 'name', 'active', 'status'
     ];
-
-    public function jobs(){
-        return $this->belongsToMany(Job::class);
-    }
 
     public function member(){
         return $this->belongsTo(Member::class);

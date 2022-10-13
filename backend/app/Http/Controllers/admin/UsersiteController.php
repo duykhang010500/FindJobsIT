@@ -15,38 +15,43 @@ class UsersiteController extends Controller
     public function register(Request $request)
     {
         //
-        $fields_employer = Validator::make($request->all(), [
-            'fullname' => 'required|string|between:2,100',
-            'email' => 'required|string|unique:users_site,email',
-            'password' => 'required|string|confirmed|min:6',
-        ]);
-
-
-        if ($fields_employer->fails()) {
-            return response()->json($fields_employer->errors(), 422);
-        }
-        $employer = Usersite::create(array_merge(
-            $fields_employer->validated(),
-            ['password' => bcrypt($request->password),
-             'status' => 1,
-            ]
-        ));
-
-
-        if($employer){
-            $employer->save();
-            return response()->json([
-                'admin' => $employer,
-                'role' => 'admin'
+        try{
+            $fields_employer = Validator::make($request->all(), [
+                'fullname' => 'required|string|between:2,100',
+                'email' => 'required|string|unique:users_site,email',
+                'password' => 'required|string|confirmed|min:6',
             ]);
+
+
+            if ($fields_employer->fails()) {
+                return response()->json($fields_employer->errors(), 422);
+            }
+            $employer = Usersite::create(array_merge(
+                $fields_employer->validated(),
+                ['password' => bcrypt($request->password),
+                'status' => 1,
+                ]
+            ));
+
+
+            if($employer){
+                $employer->save();
+                return response()->json([
+                    'admin' => $employer,
+                    'role' => 'admin'
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
-        return response()->json([
-            'message' => 'ĐI'
-        ]);
     }
 
     public function login(Request $request)
     {
+        try{
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'password' => 'required|string|min:6',
@@ -60,10 +65,11 @@ class UsersiteController extends Controller
 
             $admin = Usersite::where('email', $request->email)->first();
 
-            if (!Hash::check($request->password, $admin->password, []))
+            if (!$admin || !Hash::check($request->password, $admin->password, []))
                 return response()->json([
-                    'message' => 'error login',
-                ]);
+                    'status' => false,
+                    'message' => 'Email & Password does not match with our record.',
+                ], 401);
 
             $tokenResult = $admin->createToken($request['email'], ['admin'])->plainTextToken;
 
@@ -73,6 +79,12 @@ class UsersiteController extends Controller
                 'token_type' => 'Bearer',
                 'role' => 'admin',
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function logout(Request $request) {

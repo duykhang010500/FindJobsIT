@@ -15,45 +15,48 @@ class MemberController extends Controller
     public function register(Request $request)
     {
         //
-        $fields_member = Validator::make($request->all(), [
-            'fullname' => 'required|string|between:2,100',
-            'email' => 'required|string|unique:members,email',
-            'password' => 'required|string|confirmed|min:6',
-        ]);
-
-
-        if ($fields_member->fails()) {
-            return response()->json($fields_member->errors(), 422);
-        }
-        $member = Member::create(array_merge(
-            $fields_member->validated(),
-            ['password' => bcrypt($request->password),
-             'status' => 1,
-            ]
-        ));
-
-
-        if($member){
-            $member->save();
-            return response()->json([
-                'message' => ' Register member successfully',
-                'role' => 'member',
-                'member' => $member
+        try {
+            $fields_member = Validator::make($request->all(), [
+                'fullname' => 'required|string|between:2,100',
+                'email' => 'required|string|unique:members,email',
+                'password' => 'required|string|confirmed|min:6',
             ]);
+
+
+            if ($fields_member->fails()) {
+                return response()->json($fields_member->errors(), 422);
+            }
+            $member = Member::create(array_merge(
+                $fields_member->validated(),
+                ['password' => bcrypt($request->password),
+                'status' => 1,
+                ]
+            ));
+
+
+            if($member){
+                $member->save();
+                return response()->json([
+                    'message' => ' Register member successfully',
+                    'role' => 'member',
+                    'member' => $member
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
-        return response()->json([
-            'message' => 'ĐI'
-        ]);
     }
 
     public function login(Request $request)
     {
+        try {
             $validator = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'password' => 'required|string|min:6',
             ]);
-
-            $credentials = request(['email', 'password']);
 
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
@@ -61,25 +64,39 @@ class MemberController extends Controller
 
             $member = Member::where('email', $request->email)->first();
 
-            if (!Hash::check($request->password, $member->password, []))
-                return response()->json([
-                    'message' => 'error login',
-                ]);
 
-            $tokenResult = $member->createToken($request['email'], ['member'])->plainTextToken;
+            if (!$member || !Hash::check($request->password, $member->password, []))
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Email & Password does not match with our record.',
+                ], 401);
 
             return response()->json([
-                'message' => ' Login member successfully',
-                'status_code' => 200,
-                'access_token' => $tokenResult,
-                'token_type' => 'Bearer',
-                'role' => 'member',
-            ]);
+                'status' => true,
+                'message' => 'Member Logged In Successfully',
+                'token' => $member->createToken($request['email'], ['member'])->plainTextToken,
+                'role' => 'member'
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+
     }
 
     public function info(Request $request) {
+        $temp1 = auth()->user()->toArray();
+        $temp2= array(
+            "info_company" => auth()->user()->location->name,
+            "info_level" => auth()->user()->level->name,
+            "info_level" => auth()->user()->degree->name,
+            "role" => "member");
+        $result = array_merge($temp1, $temp2);
         return [
-            'info' => auth()->user()
+            'info' => $result
         ];
     }
 

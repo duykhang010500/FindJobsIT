@@ -21,7 +21,7 @@ class Member extends Authenticatable
         'fullname',
         'email',
         'password',
-        'followed', 'gender', 'ctid', 'source', 'have_resume', 'status',
+        'followed', 'gender', 'ctid', 'degree_id', 'level_id', 'source', 'have_resume', 'status',
         'last_login', 'ratings', 'marital', 'source_id', 'expected_position', 'is_labor', 'is_blacklist',
         'phone','address', 'lastname', 'firstname', 'birthday', 'nationality', 'identity', 'images',
     ];
@@ -41,7 +41,22 @@ class Member extends Authenticatable
     }
 
     public function resume(){
-        return $this->belongsToMany(Resume::class);
+        return $this->belongsTo(Resume::class);
+    }
+
+    public function location()
+    {
+        return $this->hasOne(Location::class,'id','ctid');
+    }
+
+    public function degree()
+    {
+        return $this->hasOne(Degree::class,'id','degree_id');
+    }
+
+    public function level()
+    {
+        return $this->hasOne(Level::class,'id','level_id');
     }
 
 }
