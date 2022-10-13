@@ -14,6 +14,9 @@ const employerServices = {
   createJob: (formData: any) => {
     return axiosInstance.post('/employer/hr/job', formData);
   },
+  getCandidates: () => {
+    return axiosInstance.get('/employer/hr/candidates');
+  },
 };
 
 export default employerServices;
