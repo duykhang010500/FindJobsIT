@@ -7,6 +7,7 @@ export interface IServicesState {
   isLoading: boolean;
   list: any;
   service: any;
+  checkout: any;
 }
 
 export type GetListServicesEmployer = {

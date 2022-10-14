@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 
-// eslint-disable-next-line  no-unused-vars
+// eslint-disable-next-line
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';

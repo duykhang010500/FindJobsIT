@@ -45,11 +45,7 @@ const LoginForm = (props: Props) => {
     password: string;
   };
 
-  const {
-    control,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<FormValues>({
+  const { control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       email: '',
       password: '',
@@ -66,9 +62,7 @@ const LoginForm = (props: Props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <Typography variant='h2' gutterBottom>{`Welcome back!`}</Typography>
-          {error && (
-            <Alert severity='error'>{error[Object.keys(error)[0]]}</Alert>
-          )}
+          {error && <Alert severity='error'>{error}</Alert>}
           <Controller
             name='email'
             control={control}

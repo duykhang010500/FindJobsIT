@@ -5,8 +5,8 @@ const jobSeekerMenu = [
 ];
 
 const employerMenu = [
-  { title: 'Home', to: '/' },
-  { title: 'Services', to: '/services' },
+  { title: 'Home', to: '/employer' },
+  { title: 'Services', to: '/employer/services' },
 ];
 
 export { jobSeekerMenu, employerMenu };

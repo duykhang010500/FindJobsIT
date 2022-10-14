@@ -8,6 +8,9 @@ const initialState: IServicesState = {
   isLoading: false,
   list: [],
   service: null,
+  checkout: {
+    cart: [],
+  },
 };
 
 const servicesReducer = (state = initialState, action: ServicesActions) => {

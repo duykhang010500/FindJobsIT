@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, styled, Grid, Pagination, Stack } from '@mui/material';
 
-import JobCard from '../../../components/JobCard';
-import { jobsData } from '../../../mock/jobsData';
+import JobCard from '../../../../components/JobCard';
+import { jobsData } from '../../../../mock/jobsData';
 type Props = {};
 
 const JobListWrapper = styled(Box)({

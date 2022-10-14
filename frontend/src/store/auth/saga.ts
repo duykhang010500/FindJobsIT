@@ -35,22 +35,22 @@ function* employerRegister({ payload: { formData, navigate } }: any): any {
 function* employerLogin({ payload: { formData, navigate } }: any): any {
   try {
     const response = yield call(employerServices.login, formData);
-    toast.success('Login successfully!');
     localStorage.setItem('accessToken', response.data.access_token);
+    // toast.success('Login successfully!');
+
     yield put(loginEmployerSuccess(response.data.access_token));
 
     yield put(getInfoEmployer());
 
-    navigate('/employer/hr/dashboard');
-  } catch (err) {
-    yield put(loginEmployerFailure(err));
+    navigate('/employer');
+  } catch (err: any) {
+    yield put(loginEmployerFailure(err.message));
   }
 }
 
 function* getCurrentEmployer(): any {
   try {
     const response = yield call(employerServices.getMyInfo);
-    console.log('current employer: ', response);
     yield put(getInfoEmployerSuccess(response.data));
   } catch (err) {
     throw err;
@@ -69,7 +69,6 @@ function* adminLogin({ payload: { formData, navigate } }: any): any {
     if (err) {
       console.log('Error!');
     }
-    // console.log('Admin login err: ', err);
   }
 }
 

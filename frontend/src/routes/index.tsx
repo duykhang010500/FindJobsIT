@@ -3,6 +3,7 @@ import { useRoutes } from 'react-router-dom';
 //employer routes
 import EmployerDashboardLayout from '../layouts/EmployerDashboardLayout';
 import EmployerMainLayout from '../layouts/EmployerMainLayout';
+import JobSeekerLayout from '../layouts/JobSeeker';
 import Login from '../pages/auth/employer/Login';
 import Register from '../pages/auth/employer/Register';
 import EmployerHomePage from '../pages/employer/EmployerHomePage';
@@ -10,7 +11,7 @@ import Statistics from '../sections/employer-dashboard/Statistics';
 import EmployerCreateJob from '../pages/employer/jobs/EmployerCreateJob';
 
 //job seeker routes
-import JobSeekerLayout from '../layouts/JobSeeker';
+import Services from '../pages/Services';
 import PageNotFound from '../pages/404';
 import Home from '../pages/Home';
 import JobDescription from '../pages/JobDetails';
@@ -43,7 +44,10 @@ const Router = (props: Props) => {
     {
       path: 'employer',
       element: <EmployerMainLayout />,
-      children: [{ element: <EmployerHomePage />, index: true }],
+      children: [
+        { element: <EmployerHomePage />, index: true },
+        { path: 'services', element: <Services /> },
+      ],
     },
     {
       path: 'employer/hr',

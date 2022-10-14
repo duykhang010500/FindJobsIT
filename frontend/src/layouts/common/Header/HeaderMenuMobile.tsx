@@ -12,8 +12,6 @@ import {
   Stack,
 } from '@mui/material';
 
-import { employerMenu, jobSeekerMenu } from '../../../configs/menuConfig';
-
 import Logo from '../../../components/Logo';
 
 import { RiMenu3Line } from 'react-icons/ri';

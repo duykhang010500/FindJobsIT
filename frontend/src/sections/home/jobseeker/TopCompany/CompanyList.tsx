@@ -3,8 +3,8 @@ import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Box, styled, Container } from '@mui/material';
 
-import { companyData } from '../../../mock/companyData';
-import CompanyCard from '../../../components/CompanyCard';
+import { companyData } from '../../../../mock/companyData';
+import CompanyCard from '../../../../components/CompanyCard';
 
 type Props = {};
 

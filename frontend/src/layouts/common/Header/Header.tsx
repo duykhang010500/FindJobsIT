@@ -13,6 +13,8 @@ import {
   IconButton,
   Popover,
   MenuItem,
+  Divider,
+  Typography,
 } from '@mui/material';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -24,6 +26,7 @@ import HeaderMenuMobile from './HeaderMenuMobile';
 import LogoutIcon from '@mui/icons-material/Logout';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 
 import { AppState } from '../../../store/reducer';
 import { logoutEmployer } from '../../../store/auth/action';
@@ -104,7 +107,10 @@ const Header: FC<Props> = () => {
             justifyContent: 'space-between',
           }}
         >
-          <Link href='/'>
+          <Link
+            component={RouterLink}
+            to={pathname.includes('/employer') ? '/employer' : '/'}
+          >
             <Logo />
           </Link>
 
@@ -128,6 +134,32 @@ const Header: FC<Props> = () => {
                       }}
                       sx={{ mt: 2 }}
                     >
+                      <MenuItem sx={{ color: '#637381', cursor: 'unset' }}>
+                        <Stack>
+                          <Typography variant='h4' gutterBottom>
+                            {currentUser.info.fullname}
+                          </Typography>
+                          <Typography variant='caption'>
+                            {currentUser.info.email}
+                          </Typography>
+                        </Stack>
+                      </MenuItem>
+                      <Divider />
+                      <MenuItem
+                        sx={{ color: '#637381' }}
+                        onClick={() => navigate('/employer/hr/dashboard')}
+                      >
+                        <ContentPasteSearchIcon sx={{ mr: 3 }} />
+                        {`Find candidates`}
+                      </MenuItem>
+                      <MenuItem
+                        sx={{ color: '#637381' }}
+                        // onClick={() => navigate('/employer/hr/dashboard')}
+                      >
+                        <BusinessCenterIcon sx={{ mr: 3 }} />
+                        {`Management`}
+                      </MenuItem>
+                      <Divider />
                       <MenuItem
                         onClick={handleLogout}
                         sx={{ color: '#ff4d4f' }}

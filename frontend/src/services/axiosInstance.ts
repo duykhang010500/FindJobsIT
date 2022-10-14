@@ -6,9 +6,18 @@ const axiosInstance = axios.create({
   baseURL: `${URL}`,
 });
 
-axiosInstance.defaults.headers.common[
-  'Authorization'
-] = `Bearer ${localStorage.getItem('accessToken')}`;
+const getToken = () => {
+  const token = localStorage.getItem('accessToken');
+  if (!token) {
+    return null;
+  }
+  return token;
+};
+
+axiosInstance.interceptors.request.use((config: any) => {
+  config.headers['Authorization'] = `Bearer ${getToken()}`;
+  return config;
+});
 
 axiosInstance.interceptors.response.use(
   (res) => res,
