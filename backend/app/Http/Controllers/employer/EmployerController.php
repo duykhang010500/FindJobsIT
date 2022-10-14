@@ -87,10 +87,16 @@ class EmployerController extends Controller
 
             $Employer = Employer::where('email', $request->email)->first();
 
-            if (!$Employer || !Hash::check($request->password, $Employer->password, []))
+            if(!$Employer)
                 return response()->json([
                     'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
+                    'message' => 'Email does not match with our record.',
+                ], 401);
+
+            if (!Hash::check($request->password, $Employer->password, []))
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Password does not match with our record.',
                 ], 401);
 
             $tokenResult = $Employer->createToken($request['email'], ['emp'])->plainTextToken;

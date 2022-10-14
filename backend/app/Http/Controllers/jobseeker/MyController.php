@@ -4,6 +4,7 @@ namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\Company;
+use App\Models\Resume;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,8 +15,11 @@ class MyController extends Controller
 
     public function resume(Request $request)
     {
+        // $data = $request->json()->all();
+        // dd($data);
         $fields_member = Validator::make($request->all(), [
             'fullname' => 'required|string|between:2,100',
+            'email' => 'string',
             'phone' => 'required',
             'birthday' => 'required',
             'gender' => 'required',
@@ -37,7 +41,7 @@ class MyController extends Controller
             'salary_unit'  => 'required',
             'current_degree_id'  => 'required',
             'working_type'  => 'required',
-            'languages'  => 'required',
+            // 'languages'  => 'required',
             'summary'  => 'required',
             'rexp_title'  => 'required',
             'rexp_company'  => 'required',
@@ -55,23 +59,23 @@ class MyController extends Controller
         ]);
 
         if ($fields_member->fails()) {
-            return response()->json($fields_employer->errors(), 422);
+            return response()->json($fields_member->errors(), 422);
         }
         if ($fields_resume->fails()) {
-            return response()->json($fields_company->errors(), 422);
+            return response()->json($fields_resume->errors(), 422);
         }
 
         $member = Member::create(array_merge(
-            $fields_employer->validated()
+            $fields_member->validated()
         ));
 
         // $resume = $member->resume();
-        $resume = Resume::($data_comp = array_merge(
+        $resume = Resume::create(array_merge(
             $fields_resume->validated()
         ));
-
+        dd($resume);
         if($member && $resume){
-            $resume->member_id = $member->id;
+            $member->resume_id = $resume->id;
             $resume->save();
             return response()->json([
                 'member' => $member,

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\jobseeker\JobController;
 use App\Http\Controllers\jobseeker\MemberController;
+use App\Http\Controllers\jobseeker\MyController;
 
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
@@ -89,6 +90,8 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::post('/logout', [MemberController::class, 'logout']);
     Route::get('/info', [MemberController::class, 'info']);
+
+    Route::post('my/resume', [MyController::class, 'resume']);
 
     Route::post('/apply/{id}', [JobController::class, 'apply']);
 });

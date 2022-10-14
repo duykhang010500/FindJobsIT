@@ -21,11 +21,12 @@ class Member extends Authenticatable
         'fullname',
         'email',
         'password',
-        'followed', 'gender', 'ctid', 'degree_id', 'level_id', 'source', 'have_resume', 'status',
+        'followed', 'gender', 'ctid', 'degree_id', 'level_id', 'source', 'have_resume', 'status','resume_id',
         'last_login', 'ratings', 'marital', 'source_id', 'expected_position', 'is_labor', 'is_blacklist',
         'phone','address', 'lastname', 'firstname', 'birthday', 'nationality', 'identity', 'images',
     ];
 
+    protected $birthday = ['date'];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -40,8 +41,9 @@ class Member extends Authenticatable
         return $this->hasMany(Candidate::class);
     }
 
-    public function resume(){
-        return $this->belongsTo(Resume::class);
+    public function resume()
+    {
+        return $this->hasOne(Resume::class,'id','resume_id');
     }
 
     public function location()

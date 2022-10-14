@@ -65,10 +65,15 @@ class UsersiteController extends Controller
 
             $admin = Usersite::where('email', $request->email)->first();
 
-            if (!$admin || !Hash::check($request->password, $admin->password, []))
+            if(!$admin)
                 return response()->json([
                     'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
+                    'message' => 'Email does not match with our record.',
+                ], 401);
+            if (!Hash::check($request->password, $admin->password, []))
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Password does not match with our record.',
                 ], 401);
 
             $tokenResult = $admin->createToken($request['email'], ['admin'])->plainTextToken;

@@ -64,11 +64,15 @@ class MemberController extends Controller
 
             $member = Member::where('email', $request->email)->first();
 
-
-            if (!$member || !Hash::check($request->password, $member->password, []))
+            if(!$member)
                 return response()->json([
                     'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
+                    'message' => 'Email does not match with our record.',
+                ], 401);
+            if (!Hash::check($request->password, $member->password, []))
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Password does not match with our record.',
                 ], 401);
 
             return response()->json([
