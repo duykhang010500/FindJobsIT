@@ -14,7 +14,7 @@ class Resume extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'file_certifies','resume_title', 'industries','locations','summary', 'salary_unit', 'experiences', 'educations',
+        'resume_file','resume_title', 'industries','locations','summary', 'salary_unit', 'experiences', 'educations',
          'skills', 'references', 'file_link','resume_title','edu_description','edu_current_end','edu_date_end',
          'edu_date_start','edu_certify','edu_school','rexp_current_end','rexp_description','rexp_date_end',
          'rexp_date_start','rexp_company','rexp_title',
