@@ -29,6 +29,10 @@ use App\Http\Controllers\admin\JobaController;
 
 // public
 Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/job-relevant/{id}', [JobController::class, 'job_relevant_comp']);
+
+Route::get('/companies', [JobController::class, 'companies']);
+
 Route::get('industries', [JobController::class, 'industries']);
 Route::get('industry/{id}', [JobController::class, 'byindustry']);
 Route::get('locations', [JobController::class, 'locations']);

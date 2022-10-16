@@ -21,4 +21,8 @@ class Company extends Authenticatable
     public function employer(){
         return $this->belongsTo(Employer::class);
     }
+
+    public function jobs(){
+        return $this->hasMany(Job::class);
+    }
 }

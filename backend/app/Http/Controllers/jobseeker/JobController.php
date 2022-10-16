@@ -4,6 +4,7 @@ namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
 use App\Models\Location;
+use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
@@ -23,6 +24,25 @@ class JobController extends Controller
         ]);
     }
 
+    public function job_relevant_comp($id)
+    {
+        //
+        try{
+            $job = Job::findOrFail($id);
+            $jobs = Job::with('company')->where('comp_id', $job->comp_id)
+                        ->whereNotIn('id', [$job->id])
+                        ->inRandomOrder()->take(10)->get();
+            return response()->json([
+                'jobs' => $jobs
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
     public function industries()
     {
         //
@@ -35,9 +55,9 @@ class JobController extends Controller
     public function byindustry($id)
     {
         //
-        $industry = Industry::find($id);
+        $industries = Industry::find($id)->jobs;
         return response()->json([
-            'industries' => $industry->jobs
+            'industries' => $industries
         ]);
     }
 
@@ -108,6 +128,15 @@ class JobController extends Controller
                 'message' => ' Aplly successfully',
                 'candidate' => $candidate,
             ]);
+    }
+
+    public function companies()
+    {
+        //
+        $companies = Company::orderBy('id','desc')->get();
+        return response()->json([
+            'companies' => $companies
+        ]);
     }
 
 }
