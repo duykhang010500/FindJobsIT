@@ -53,12 +53,25 @@ class JobController extends Controller
                 $result = $result->where('title', 'like', '%'.$params['keywords'].'%');
             }
             if (!empty($params['locations'])) {
+
                 $locs = is_array($params['locations']) ? $params['locations'] : explode(',', $params['locations']);
-                // dd($locs);
-                $result = $result->where('locations', 'like', '%'.$params['locations'].'%');
+                $ids = array_map(function ($value) {
+                    return (int) $value;
+                }, $locs);
+
+                $result = $result->whereHas('locations', function($query) use ($ids) {
+                    $query->whereIn('location_id', $ids); // But this does
+                });
             }
             if (!empty($params['industries'])) {
-                $result = $result->where('industries', 'like', '%'.$params['industries'].'%');
+                $locs = is_array($params['industries']) ? $params['industries'] : explode(',', $params['industries']);
+                $ids = array_map(function ($value) {
+                    return (int) $value;
+                }, $locs);
+                // dd($ids);
+                $result = $result->whereHas('industries', function($query) use ($ids) {
+                    $query->whereIn('industry_id', $ids); // But this does
+                });
             }
             if (!empty($params['job_type'])) {
                 $result = $result->where('job_type', 'like', '%'.$params['job_type'].'%');
