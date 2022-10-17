@@ -15,13 +15,63 @@ use Validator;
 class JobController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         //
-        $jobs = Job::orderBy('id','desc')->get();
-        return response()->json([
-            'jobs' => $jobs
-        ]);
+        try {
+            $params = [
+                'id' => NULL,
+                'uid' => null,
+                'comp_id' => null,
+                'keywords' => $request->get('keywords'),
+                'locations' => $request->get('locations'),
+                'industries' => $request->get('industries'),
+                'tags' => NULL,
+                'job_type' => $request->get('industries'),
+                'level_id' => NULL,
+                'salary' => NULL,
+                'salary_from' => NULL,
+                'salary_to' => NULL,
+                'active' => NULL,
+                'expire' => NULL,
+                'exclude' => NULL,
+                'status' => NULL,
+                'sort' => NULL,
+                'boost_ids' => NULL,
+                'type_date' => NULL,
+                'from_date' => NULL,
+                'to_date' => NULL,
+                'days' => NULL,
+                'is_hot' => NULL,
+                'unskill_job' => NULL,
+                'is_urgent' => NULL,
+            ];
+
+            $result = Job::query();
+
+            if (!empty($params['keywords'])) {
+                $result = $result->where('title', 'like', '%'.$params['keywords'].'%');
+            }
+            if (!empty($params['locations'])) {
+                $locs = is_array($params['locations']) ? $params['locations'] : explode(',', $params['locations']);
+                // dd($locs);
+                $result = $result->where('locations', 'like', '%'.$params['locations'].'%');
+            }
+            if (!empty($params['industries'])) {
+                $result = $result->where('industries', 'like', '%'.$params['industries'].'%');
+            }
+            if (!empty($params['job_type'])) {
+                $result = $result->where('job_type', 'like', '%'.$params['job_type'].'%');
+            }
+
+            $result = $result->get();
+            return response()->json([
+                'result' => $result,
+            ], 500);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return NULL;
+        }
     }
 
     public function job_relevant_comp($id)
