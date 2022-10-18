@@ -27,11 +27,11 @@ class JobController extends Controller
                 'locations' => $request->get('locations'),
                 'industries' => $request->get('industries'),
                 'tags' => NULL,
-                'job_type' => $request->get('industries'),
-                'level_id' => NULL,
-                'salary' => NULL,
-                'salary_from' => NULL,
-                'salary_to' => NULL,
+                'job_type' => $request->get('job_type'),
+                'level_id' => $request->get('level_id'),
+                'salary' => $request->get('salary'),
+                'salary_from' => $request->get('salary_from'),
+                'salary_to' => $request->get('salary_to'),
                 'active' => NULL,
                 'expire' => NULL,
                 'exclude' => NULL,
@@ -74,9 +74,23 @@ class JobController extends Controller
                 });
             }
             if (!empty($params['job_type'])) {
-                $result = $result->where('job_type', 'like', '%'.$params['job_type'].'%');
+                $result = $result->where('job_type', $params['job_type']);
             }
-
+            if (!empty($params['salary'])) {
+                $result = $result->where('salary', $params['salary']);
+            }
+            if (!empty($params['level_id'])) {
+                $result = $result->where('level_id', $params['level_id']);
+            }
+            if (!empty($params['salary_from']) && !empty($params['salary_to'])) {
+                $minFilter = $params['salary_from'];
+                $maxFilter = $params['salary_to'];
+                $result->where(function($query) use ($minFilter,$maxFilter) {
+                    $query->where('salary_to', '>' , $minFilter);
+                    $query->where('salary_from', '<',  $maxFilter);
+                });
+            }
+            // dd($params);
             $result = $result->get();
             return response()->json([
                 'result' => $result,
