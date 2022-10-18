@@ -4,6 +4,7 @@ namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
 use App\Models\Location;
+use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
@@ -14,13 +15,95 @@ use Validator;
 class JobController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         //
-        $jobs = Job::orderBy('id','desc')->get();
-        return response()->json([
-            'jobs' => $jobs
-        ]);
+        try {
+            $params = [
+                'id' => NULL,
+                'uid' => null,
+                'comp_id' => null,
+                'keywords' => $request->get('keywords'),
+                'locations' => $request->get('locations'),
+                'industries' => $request->get('industries'),
+                'tags' => NULL,
+                'job_type' => $request->get('industries'),
+                'level_id' => NULL,
+                'salary' => NULL,
+                'salary_from' => NULL,
+                'salary_to' => NULL,
+                'active' => NULL,
+                'expire' => NULL,
+                'exclude' => NULL,
+                'status' => NULL,
+                'sort' => NULL,
+                'boost_ids' => NULL,
+                'type_date' => NULL,
+                'from_date' => NULL,
+                'to_date' => NULL,
+                'days' => NULL,
+                'is_hot' => NULL,
+                'unskill_job' => NULL,
+                'is_urgent' => NULL,
+            ];
+
+            $result = Job::query();
+
+            if (!empty($params['keywords'])) {
+                $result = $result->where('title', 'like', '%'.$params['keywords'].'%');
+            }
+            if (!empty($params['locations'])) {
+
+                $locs = is_array($params['locations']) ? $params['locations'] : explode(',', $params['locations']);
+                $ids = array_map(function ($value) {
+                    return (int) $value;
+                }, $locs);
+
+                $result = $result->whereHas('locations', function($query) use ($ids) {
+                    $query->whereIn('location_id', $ids); // But this does
+                });
+            }
+            if (!empty($params['industries'])) {
+                $locs = is_array($params['industries']) ? $params['industries'] : explode(',', $params['industries']);
+                $ids = array_map(function ($value) {
+                    return (int) $value;
+                }, $locs);
+                // dd($ids);
+                $result = $result->whereHas('industries', function($query) use ($ids) {
+                    $query->whereIn('industry_id', $ids); // But this does
+                });
+            }
+            if (!empty($params['job_type'])) {
+                $result = $result->where('job_type', 'like', '%'.$params['job_type'].'%');
+            }
+
+            $result = $result->get();
+            return response()->json([
+                'result' => $result,
+            ], 500);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return NULL;
+        }
+    }
+
+    public function job_relevant_comp($id)
+    {
+        //
+        try{
+            $job = Job::findOrFail($id);
+            $jobs = Job::with('company')->where('comp_id', $job->comp_id)
+                        ->whereNotIn('id', [$job->id])
+                        ->inRandomOrder()->take(10)->get();
+            return response()->json([
+                'jobs' => $jobs
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function industries()
@@ -35,9 +118,9 @@ class JobController extends Controller
     public function byindustry($id)
     {
         //
-        $industry = Industry::find($id);
+        $industries = Industry::find($id)->jobs;
         return response()->json([
-            'industries' => $industry->jobs
+            'industries' => $industries
         ]);
     }
 
@@ -108,6 +191,15 @@ class JobController extends Controller
                 'message' => ' Aplly successfully',
                 'candidate' => $candidate,
             ]);
+    }
+
+    public function companies()
+    {
+        //
+        $companies = Company::orderBy('id','desc')->get();
+        return response()->json([
+            'companies' => $companies
+        ]);
     }
 
 }
