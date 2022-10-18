@@ -32,6 +32,7 @@ Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/job-relevant/{id}', [JobController::class, 'job_relevant_comp']);
 
 Route::get('/companies', [JobController::class, 'companies']);
+Route::post('/quickupload', [MemberController::class, 'quickupload']);
 
 Route::get('industries', [JobController::class, 'industries']);
 Route::get('industry/{id}', [JobController::class, 'byindustry']);

@@ -111,4 +111,65 @@ class MemberController extends Controller
         ];
     }
 
+    public function quickupload(Request $request)
+    {
+        try{
+            $fields_member = Validator::make($request->all(), [
+                'fullname' => 'required|string|between:2,100',
+                'email' => 'string',
+                'phone' => 'required',
+                'birthday' => 'required',
+                'gender' => 'required',
+                'marital' => 'required',
+                'nationality' => 'required',
+                'ctid' => 'required',
+                'address' => 'required',
+                ]);
+
+            $fields_resume = Validator::make($request->all(), [
+                'resume_file'  => 'required',
+                'resume_title' => 'required',
+                'industries'  => 'required',
+                'locations'  => 'required',
+                'level_id'  => 'required',
+                'current_level_id'  => 'required',
+                'yearofexperience' => 'required',
+                'salary_unit'  => 'required',
+                'working_type'  => 'required',
+            ]);
+
+            if ($fields_member->fails()) {
+                return response()->json($fields_member->errors(), 422);
+            }
+
+            if ($fields_resume->fails()) {
+                return response()->json($fields_resume->errors(), 422);
+            }
+
+            $member = Member::findOrFail(auth()->user()->id);
+            $member->update($fields_member->validated());
+            $resume = auth()->user()->resume;
+
+            if($resume != NULL){
+                $resume->update($fields_resume->validated());
+            }else{
+                $resume = Resume::create(array_merge($fields_resume->validated()));
+                $member->resume_id = $resume->id;
+                $member->save();
+            }
+
+            if($member && $resume){
+                return response()->json([
+                    'member' => $member,
+                    'resume' => $resume,
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
 }
