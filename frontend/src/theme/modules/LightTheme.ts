@@ -140,6 +140,37 @@ const LightTheme = createTheme({
         },
       },
     },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: 'rgb(244, 246, 248)',
+          },
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: 'none',
+        },
+        head: {
+          color: 'rgb(99, 115, 129)',
+        },
+      },
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgb(244, 246, 248)',
+          color: 'rgb(99,115,129)',
+          borderRadius: 8,
+          '& .MuiTableHead-root': {
+            borderRadius: '10px !important',
+          },
+        },
+      },
+    },
   },
 });
 

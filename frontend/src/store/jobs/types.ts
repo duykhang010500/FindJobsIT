@@ -1,4 +1,3 @@
-import { boolean } from 'yup';
 import { CREATE_JOB } from './actionTypes';
 
 export interface IJobsState {

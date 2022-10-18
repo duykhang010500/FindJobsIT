@@ -1,10 +1,13 @@
 import {
+  CREATE_SERVICE,
   GET_LIST_SERVICES_EMPLOYER,
+  GET_LIST_SERVICES_EMPLOYER_FAILURE,
   GET_LIST_SERVICES_EMPLOYER_SUCCESS,
 } from './actionTypes';
 
-export interface IServicesState {
+export interface ServicesState {
   isLoading: boolean;
+  error: any;
   list: any;
   service: any;
   checkout: any;
@@ -19,6 +22,17 @@ export type GetListServicesEmployerSuccess = {
   payload: any;
 };
 
+export type GetListServicesEmployerFailure = {
+  type: typeof GET_LIST_SERVICES_EMPLOYER_FAILURE;
+  payload: any;
+};
+
+export type CreateService = {
+  type: typeof CREATE_SERVICE;
+};
+
 export type ServicesActions =
   | GetListServicesEmployer
-  | GetListServicesEmployerSuccess;
+  | GetListServicesEmployerSuccess
+  | GetListServicesEmployerFailure
+  | CreateService;

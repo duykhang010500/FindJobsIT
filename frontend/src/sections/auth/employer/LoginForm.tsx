@@ -70,7 +70,6 @@ const LoginForm = (props: Props) => {
               <TextField
                 {...field}
                 label={`Email`}
-                name='email'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{

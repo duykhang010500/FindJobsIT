@@ -1,11 +1,13 @@
+import { ServicesState, ServicesActions } from './types';
 import {
   GET_LIST_SERVICES_EMPLOYER,
   GET_LIST_SERVICES_EMPLOYER_SUCCESS,
+  GET_LIST_SERVICES_EMPLOYER_FAILURE,
 } from './actionTypes';
-import { IServicesState, ServicesActions } from './types';
 
-const initialState: IServicesState = {
+const initialState: ServicesState = {
   isLoading: false,
+  error: null,
   list: [],
   service: null,
   checkout: {
@@ -25,6 +27,11 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
         ...state,
         isLoading: false,
         list: action.payload,
+      };
+    case GET_LIST_SERVICES_EMPLOYER_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

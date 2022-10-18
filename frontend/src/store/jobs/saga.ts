@@ -1,6 +1,7 @@
 import { call, takeEvery } from 'redux-saga/effects';
-import employerServices from '../../services/employer';
+
 import { CREATE_JOB } from './actionTypes';
+import employerServices from '../../services/employer';
 
 function* createJob({ payload: { formData } }: any) {
   try {

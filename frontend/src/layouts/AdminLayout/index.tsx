@@ -11,7 +11,7 @@ const AdminLayout = (props: Props) => {
     <Box sx={{ display: 'flex' }}>
       <Header />
       <Sidebar />
-      <Box sx={{ mt: 7, p: 7 }}>
+      <Box sx={{ mt: 5, p: 7, width: 'calc(100% - 300px)' }}>
         <Outlet />
       </Box>
     </Box>

@@ -53,11 +53,11 @@ const sidebarData = [
     children: [
       {
         title: `Location`,
-        path: '/admin/setting/location',
+        path: '/admin/settings/location',
       },
       {
         title: `Industries`,
-        path: `/admin/setting/industries`,
+        path: `/admin/settings/industries`,
       },
       {
         title: `Degrees`,
@@ -75,7 +75,7 @@ const Sidebar = (props: Props) => {
   return (
     <Box
       sx={{
-        width: 300,
+        width: '300px',
         padding: '20px',
         display: 'flex',
         alignItems: 'center',

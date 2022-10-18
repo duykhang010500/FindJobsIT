@@ -1,4 +1,5 @@
 import {
+  GET_CURRENT_JOBSEEKER_SUCCESS,
   GET_INFO_EMPLOYER,
   GET_INFO_EMPLOYER_SUCCESS,
   LOGIN_ADMIN,
@@ -7,10 +8,16 @@ import {
   LOGIN_EMPLOYER,
   LOGIN_EMPLOYER_FAILURE,
   LOGIN_EMPLOYER_SUCCESS,
+  LOGIN_JOBSEEKER,
+  LOGIN_JOBSEEKER_FAILURE,
+  LOGIN_JOBSEEKER_SUCCESS,
   LOGOUT_EMPLOYER,
   REGISTER_EMPLOYER,
   REGISTER_EMPLOYER_FAILURE,
   REGISTER_EMPLOYER_SUCCESS,
+  REGISTER_JOBSEEKER,
+  REGISTER_JOBSEEKER_FAILURE,
+  REGISTER_JOBSEEKER_SUCCESS,
 } from './actionTypes';
 
 export interface IAuthState {
@@ -32,6 +39,39 @@ export interface IEmployerRegister extends IUserLogin {
   location: string;
   company_size: number;
 }
+
+//job seeker
+export type RegisterJobSeeker = {
+  type: typeof REGISTER_JOBSEEKER;
+};
+
+export type RegisterJobSeekerSuccess = {
+  type: typeof REGISTER_JOBSEEKER_SUCCESS;
+  payload: any;
+};
+
+export type RegisterJobSeekerFailure = {
+  type: typeof REGISTER_JOBSEEKER_FAILURE;
+  payload: any;
+};
+
+export type JobSeekerLogin = {
+  type: typeof LOGIN_JOBSEEKER;
+};
+
+export type JobSeekerLoginSuccess = {
+  type: typeof LOGIN_JOBSEEKER_SUCCESS;
+};
+
+export type JobSeekerLoginFailure = {
+  type: typeof LOGIN_JOBSEEKER_FAILURE;
+  payload: any;
+};
+
+export type GetCurrentJobSeekerSuccess = {
+  type: typeof GET_CURRENT_JOBSEEKER_SUCCESS;
+  payload: any;
+};
 
 //employer
 export type RegisterEmployer = {
@@ -86,6 +126,13 @@ export type LoginAdminFailure = {
 };
 
 export type AuthActions =
+  | RegisterJobSeeker
+  | RegisterJobSeekerSuccess
+  | RegisterJobSeekerFailure
+  | JobSeekerLogin
+  | JobSeekerLoginSuccess
+  | JobSeekerLoginFailure
+  | GetCurrentJobSeekerSuccess
   | RegisterEmployer
   | RegisterEmployerSuccess
   | RegisterEmployerFailure

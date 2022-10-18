@@ -14,7 +14,7 @@ const NewJobs: React.FC<Props> = () => {
     <NewJobsWrapper>
       <Stack justifyContent='space-between' direction='row'>
         <Typography
-          variant='h3'
+          variant='h2'
           fontWeight={700}
           color='rgb(255,153,0)'
           align='center'

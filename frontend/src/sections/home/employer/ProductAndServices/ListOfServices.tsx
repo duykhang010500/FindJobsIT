@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { Box, Card, Grid, Typography, Link } from '@mui/material';
 
 import Image from '../../../../components/Image';
@@ -47,7 +47,7 @@ const ListOfServices = (props: Props) => {
           );
         })}
       </Grid>
-      <Link href='/employer/services'>
+      <Link component={RouterLink} to='/employer/services'>
         <Typography variant='h5' align='center' sx={{ mt: 3 }}>
           View more
         </Typography>

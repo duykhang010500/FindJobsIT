@@ -2,6 +2,7 @@ import { IUserLogin } from '../store/auth/types';
 import axiosInstance from './axiosInstance';
 
 const employerServices = {
+  //auth
   register: (formData: any) => {
     return axiosInstance.post('/employer/register', formData);
   },
@@ -11,12 +12,18 @@ const employerServices = {
   getMyInfo: () => {
     return axiosInstance.get('/employer/info');
   },
+
+  //jobs
   createJob: (formData: any) => {
     return axiosInstance.post('/employer/hr/job', formData);
   },
+
+  //candidates
   getCandidates: () => {
     return axiosInstance.get('/employer/hr/candidates');
   },
+
+  //services
   getListServices: () => {
     return axiosInstance.get('/employer/services');
   },

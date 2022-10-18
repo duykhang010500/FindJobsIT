@@ -24,7 +24,7 @@ const TopCompany: React.FC = (props: Props) => {
           sx={{ marginTop: 3, marginBottom: 3 }}
         >
           <Typography
-            variant='h3'
+            variant='h2'
             fontWeight={700}
             color='rgb(255,153,0)'
             sx={{

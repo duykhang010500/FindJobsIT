@@ -1,8 +1,10 @@
 import { all, fork } from 'redux-saga/effects';
+
 import authSaga from './auth/saga';
-import candidatesSaga from './candidates/saga';
 import jobsSaga from './jobs/saga';
 import servicesSaga from './services/saga';
+import companiesSaga from './companies/saga';
+import candidatesSaga from './candidates/saga';
 
 function* rootSaga() {
   yield all([
@@ -10,6 +12,7 @@ function* rootSaga() {
     fork(jobsSaga),
     fork(candidatesSaga),
     fork(servicesSaga),
+    fork(companiesSaga),
   ]);
 }
 

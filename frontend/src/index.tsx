@@ -1,13 +1,15 @@
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+
 import 'swiper/css';
 import 'aos/dist/aos.css';
 import 'react-quill/dist/quill.snow.css';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
 
+import App from './App';
 import store from './store';
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -38,7 +38,6 @@ const LoginForm = (props: Props) => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
-    console.log(formData);
     dispatch(loginAdmin(formData, navigate));
   };
 
@@ -74,6 +73,7 @@ const LoginForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
+                type='password'
                 label={`Password`}
                 error={!!error}
                 helperText={error?.message}

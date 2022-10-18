@@ -5,7 +5,6 @@ import ThemProvider from './theme';
 import { useDispatch } from 'react-redux';
 import { CssBaseline } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { getInfoEmployer } from './store/auth/action';
 export interface IAppProps {}
