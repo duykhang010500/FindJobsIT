@@ -87,5 +87,51 @@ class HrController extends Controller
 
     }
 
+    public function company(Request $request){
+        $model = Company::findOrFail(auth()->user()->company->id);
+        $fields_company = Validator::make($request->all(), [
+            'name' => 'required|string|unique:companies',
+            'company_size' => 'required',
+            'industry_id' => 'required',
+            ]);
+        if ($fields_company->fails()) {
+            return response()->json($fields_company->errors(), 422);
+        }
+        $model->update(array_merge($fields_company->validated(),
+        ['address' => $request->address,'tax' => $request->tax,
+         'address' => $request->address,'tax' => $request->tax,
+         'phone' => $request->phone,'company_size' => $request->tax,
+         'fax' => $request->fax,'website' => $request->tax,
+         'email' => $request->email,'location_id' => $request->location_id,
+         'content' => $request->content,'logo' => $request->logo,
+         'banners' => $request->banners,'keywords' => $request->keywords,
+        ]
+    ));
+        return response()->json([
+            'company' => $model,
+            'message' => 'Update company successfully'
+        ]);
+
+    }
+
+    public function profile(Request $request){
+        $model = Employer::findOrFail(auth()->user()->id);
+        $fields = Validator::make($request->all(), [
+            'fullname' => 'required|string',
+            'password' => 'confirmed',
+            'avatar'    => 'string',
+
+            ]);
+        if ($fields->fails()) {
+            return response()->json($fields->errors(), 422);
+        }
+        $model->update(array_merge($fields->validated(),['password' => bcrypt($request->password)]));
+        return response()->json([
+            'profile' => $model,
+            'message' => 'Update profile successfully'
+        ]);
+
+    }
+
 
 }

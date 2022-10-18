@@ -91,7 +91,7 @@ class JobController extends Controller
                 });
             }
             // dd($params);
-            $result = $result->get();
+            $result = $result->orderBy('id','desc')->get();
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             // Create a new Laravel collection from the array data
@@ -110,6 +110,22 @@ class JobController extends Controller
         } catch (\Exception $e) {
             echo $e->getMessage();
             return NULL;
+        }
+    }
+
+    public function detail($id)
+    {
+        //
+        try{
+            $job = Job::with('locations','industries')->where('id',$id)->first();
+            return response()->json([
+                'job' => $job
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 

@@ -15,7 +15,7 @@ use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\UsersiteController;
 use App\Http\Controllers\admin\JobaController;
-
+use App\Http\Controllers\admin\MemberaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +29,7 @@ use App\Http\Controllers\admin\JobaController;
 
 // public
 Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/job/{id}', [JobController::class, 'detail']);
 Route::get('/job-relevant/{id}', [JobController::class, 'job_relevant_comp']);
 
 Route::get('/companies', [JobController::class, 'companies']);
@@ -44,6 +45,7 @@ Route::post('/login', [MemberController::class, 'login']);
 
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
+Route::get('/employer/services', [OrderController::class, 'index']);
 
 Route::post('/admin/register', [UsersiteController::class, 'register']);
 Route::post('/admin/login', [UsersiteController::class, 'login']);
@@ -54,6 +56,9 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
     Route::group(['prefix' => 'admin'],function ()
     {
         Route::post('/logout', [UsersiteController::class, 'logout']);
+        Route::get('/info', [UsersiteController::class, 'info']);
+
+        Route::get('/members', [MemberaController::class, 'index']);
 
         Route::get('/companies', [CompanyController::class, 'index']);
         Route::post('/company', [CompanyController::class, 'store']);
@@ -85,7 +90,10 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::get('/hr/candidates', [HrController::class, 'candidates']);
 
-        Route::get('/services', [OrderController::class, 'index']);
+        // setting account
+        Route::post('/hr/company', [HrController::class, 'company']);
+        Route::post('/hr/profile', [HrController::class, 'profile']);
+
         Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
     });
 

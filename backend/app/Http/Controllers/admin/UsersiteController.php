@@ -99,4 +99,13 @@ class UsersiteController extends Controller
         ];
     }
 
+    public function info(Request $request) {
+        $temp1 = auth()->user();
+        // $temp2= array("info_company" => auth()->user()->company,"role" => "emp");
+        // $result = array_merge($temp1, $temp2);
+        return [
+            'info' => $temp1
+        ];
+    }
+
 }

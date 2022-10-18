@@ -24,17 +24,15 @@ class JobaController extends Controller
     }
 
     public function location(Request $request, $id) {
-        $location = Location::where('id',$id)->first();
-
         $fields = Validator::make($request->all(), [
-            'name' => 'required|unique:cities',
+            'name' => 'required|string|between:2,100|unique:cities',
         ]);
 
         if ($fields->fails()) {
             return response()->json($fields->errors(), 422);
         }
-
-        ($location != null) ? $location->update(array_merge($fields->validated())) : $location = Location::create(array_merge($fields->validated()));
+        $location = Location::where('id',$id)->first();
+        ($location != null) ? $location->update(($fields->validated())) : $location = Location::create(($fields->validated()));
 
 
         return response()->json([
@@ -64,10 +62,8 @@ class JobaController extends Controller
     }
 
     public function industry(Request $request, $id) {
-        $model = Industry::where('id',$id)->first();
-
         $fields = Validator::make($request->all(), [
-            'name' => ['required', \Illuminate\Validation\Rule::unique('industries')->ignore($model->id)],
+            "name" =>'required|string|unique:industries',
             'priority' => 'required',
             'status' => 'required',
         ]);
@@ -75,8 +71,8 @@ class JobaController extends Controller
         if ($fields->fails()) {
             return response()->json($fields->errors(), 422);
         }
-
-        ($model != null) ? $model->update(array_merge($fields->validated())) : $model = Location::create(array_merge($fields->validated()));
+        $model = Industry::where('id',$id)->first();
+        ($model != null) ? $model->update(($fields->validated())) : $model = Industry::create(($fields->validated()));
 
 
         return response()->json([

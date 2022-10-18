@@ -14,7 +14,7 @@ class CompanyController extends Controller
     public function index()
     {
         //
-        $companies = Company::orderBy('id','desc')->get();
+        $companies = Company::with('employer')->orderBy('id','desc')->get();
         return response()->json([
             'data' => $companies,
         ]);
