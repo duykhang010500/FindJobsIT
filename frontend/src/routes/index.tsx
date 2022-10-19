@@ -1,4 +1,3 @@
-import { lazy, Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 
 //employer routes
@@ -34,6 +33,7 @@ import LevelPage from '../pages/admin/settings/LevelPage';
 import JobSeekerLogin from '../pages/auth/jobseeker/JobSeekerLogin';
 import JobSeekerRegister from '../pages/auth/jobseeker/JobSeekerRegister';
 import CreateService from '../pages/admin/services/CreateService';
+import AdminCandidatesPage from '../pages/admin/candidates/AdminCandidatesPage';
 
 type Props = {};
 
@@ -81,7 +81,7 @@ const Router = (props: Props) => {
         { path: 'dashboard', element: <DashboardAdmin /> },
         { path: 'companies', element: <CompanyList /> },
         { path: 'companies/jobs' },
-        { path: 'candidates/list' },
+        { path: 'candidates/list', element: <AdminCandidatesPage /> },
         { path: 'services/orders', element: <OrdersPage /> },
         { path: 'services/list', element: <ServicesPage /> },
         { path: 'services/new', element: <CreateService /> },

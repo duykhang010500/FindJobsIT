@@ -1,7 +1,14 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
+import adminServices from '../../services/admin';
 import employerServices from '../../services/employer';
-import { getListCandidatesForEmployerSuccess } from './action';
-import { GET_LIST_CANDIDATES_FOR_EMPLOYER } from './actionTypes';
+import {
+  adminGetCandidatesListSuccess,
+  getListCandidatesForEmployerSuccess,
+} from './action';
+import {
+  ADMIN_GET_CANDIDATES_LIST,
+  GET_LIST_CANDIDATES_FOR_EMPLOYER,
+} from './actionTypes';
 
 function* getListCandidatesForEmployerSaga(): any {
   try {
@@ -13,11 +20,23 @@ function* getListCandidatesForEmployerSaga(): any {
   }
 }
 
+function* adminGetCandidatesListSaga(): any {
+  try {
+    const res = yield call(adminServices.getCandidatesList);
+    console.log('Res: ', res);
+    const candidatesList = res.data.data;
+    yield put(adminGetCandidatesListSuccess(candidatesList));
+  } catch (err) {
+    console.log('Err: ', err);
+  }
+}
+
 function* candidatesSaga() {
   yield takeEvery(
     GET_LIST_CANDIDATES_FOR_EMPLOYER,
     getListCandidatesForEmployerSaga
   );
+  yield takeEvery(ADMIN_GET_CANDIDATES_LIST, adminGetCandidatesListSaga);
 }
 
 export default candidatesSaga;

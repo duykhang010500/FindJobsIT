@@ -10,6 +10,10 @@ const adminServices = {
   getCompaniesList: () => {
     return axiosInstance.get('/admin/companies');
   },
+  //candidates
+  getCandidatesList: () => {
+    return axiosInstance.get('/admin/members');
+  },
   //services
   createService: (formData: any) => {
     return axiosInstance.post('/admin/service/0', formData);
