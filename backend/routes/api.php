@@ -65,6 +65,7 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
 
         Route::get('/services', [ServiceController::class, 'index']);
         Route::post('/service/{id}', [ServiceController::class, 'store']);
+        Route::patch('/service/{id}', [ServiceController::class, 'store']);
         Route::delete('/service/{id}', [ServiceController::class, 'delete']);
 
         Route::get('/job/locations', [JobaController::class, 'locations']);
@@ -87,7 +88,10 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::get('/info', [EmployerController::class, 'info']);
 
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
+
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
+        Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
+
         Route::get('/hr/candidates', [HrController::class, 'candidates']);
 
         // setting account

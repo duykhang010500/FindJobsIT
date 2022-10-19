@@ -27,7 +27,7 @@ class HrController extends Controller
 
         // dd(auth()->user()->company->id);
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:jobs',
+            'title' => 'required|unique:jobs,title',
             'job_type' => 'required',
             'level_id' => 'required',
             'industries' => 'required',
@@ -47,8 +47,7 @@ class HrController extends Controller
 
         $job = Job::create(array_merge(
             $validator->validated(),
-            ['comp_id' => auth()->user()->company->id,
-
+            ['comp_id' => auth()->user()->company->id,'status' => $request->status,
             ]
         ));
         // dd(1);
@@ -69,6 +68,56 @@ class HrController extends Controller
                 $job->save();
             }
         }
+        return response()->json([
+            'job' => $job,
+        ]);
+    }
+
+    public function updateJob(Request $request,$id)
+    {
+        $job = Job::where('id',$id)->first();
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:jobs,title,'.$id,
+            'job_type' => 'required',
+            'level_id' => 'required',
+            'industries' => 'required',
+            'degree_id' => 'required',
+            'locations' => 'required',
+            'job_description' => 'required',
+            'job_requirement' => 'required',
+            'company_name' => 'required',
+            'contact_name' => 'required',
+            'contact_emails' => 'required',
+            // 'status' => 1,
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if(!empty($request->industries)){
+            $job->industries()->detach();
+            $data = explode(',', $request->industries);
+            foreach ($data as $key => $value) {
+                $value = (int)$value;
+                $job->industries()->attach($value);
+                $job->save();
+            }
+        }
+
+        if(!empty($request->locations)){
+            $job->locations()->detach();
+            $data = explode(',', $request->locations);
+            foreach ($data as $key => $value) {
+                $value = (int)$value;
+                $job->locations()->attach($value);
+                $job->save();
+            }
+        }
+        $job->update(array_merge($validator->validated(),
+        ['comp_id' => auth()->user()->company->id,'status' => $request->status,
+        ]));
+
         return response()->json([
             'job' => $job,
         ]);
