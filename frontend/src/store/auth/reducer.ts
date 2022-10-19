@@ -1,5 +1,6 @@
 import {
   GET_CURRENT_JOBSEEKER_SUCCESS,
+  GET_INFO_ADMIN_SUCCESS,
   GET_INFO_EMPLOYER_SUCCESS,
   LOGIN_ADMIN,
   LOGIN_ADMIN_SUCCESS,
@@ -9,6 +10,7 @@ import {
   LOGIN_JOBSEEKER,
   LOGIN_JOBSEEKER_FAILURE,
   LOGIN_JOBSEEKER_SUCCESS,
+  LOGOUT,
   LOGOUT_EMPLOYER,
   REGISTER_EMPLOYER,
   REGISTER_EMPLOYER_FAILURE,
@@ -123,6 +125,19 @@ const authReducer = (state = initialState, action: AuthActions) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case GET_INFO_ADMIN_SUCCESS:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case LOGOUT:
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('role');
+      return {
+        ...state,
+        currentUser: null,
+        accessToken: null,
       };
     default:
       return state;

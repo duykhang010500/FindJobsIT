@@ -6,7 +6,6 @@ import { adminGetCOmpaniesListSuccess } from './action';
 export function* adminGetCompaniesListSaga(): any {
   try {
     const res = yield call(adminServices.getCompaniesList);
-    console.log('Companies list: ', res);
     yield put(adminGetCOmpaniesListSuccess(res.data.data));
   } catch (err) {}
 }

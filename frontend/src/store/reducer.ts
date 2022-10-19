@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import JobsReducer from './jobs/reducer';
 import authReducer from './auth/reducer';
 import servicesReducer from './services/reducer';
+import locationReducer from './location/reducer';
 import companiesReducer from './companies/reducer';
 import candidatesReducer from './candidates/reducer';
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   services: servicesReducer,
   companies: companiesReducer,
   candidates: candidatesReducer,
+  location: locationReducer,
 });
 
 export type AppDispatch = typeof store.dispatch;

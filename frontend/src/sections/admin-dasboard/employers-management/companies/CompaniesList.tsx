@@ -39,8 +39,8 @@ const CompaniesList = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((item: any) => (
-              <TableRow>
+            {list.map((item: any, index: number) => (
+              <TableRow key={index}>
                 <TableCell sx={{ maxWidth: '50px' }}>
                   {dayjs(item.created_at).format('DD/MM/YYYY')}
                 </TableCell>

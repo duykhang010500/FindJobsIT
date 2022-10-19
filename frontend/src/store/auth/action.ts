@@ -21,6 +21,10 @@ import {
   GET_CURRENT_JOBSEEKER,
   GET_CURRENT_JOBSEEKER_SUCCESS,
   GET_CURRENT_JOBSEEKER_FAILURE,
+  GET_INFO_ADMIN,
+  GET_INFO_ADMIN_SUCCESS,
+  GET_INFO_ADMIN_FAILURE,
+  LOGOUT,
 } from './actionTypes';
 import { IUserLogin } from './types';
 
@@ -141,4 +145,19 @@ export const loginAdminSuccess = () => ({
   type: LOGIN_ADMIN_SUCCESS,
 });
 
-export const getInfoAdmin = () => ({});
+export const getInfoAdmin = () => ({
+  type: GET_INFO_ADMIN,
+});
+
+export const getInfoAdminSuccess = (info: any) => ({
+  type: GET_INFO_ADMIN_SUCCESS,
+  payload: info,
+});
+
+export const getInfoAdminFailure = () => ({
+  type: GET_INFO_ADMIN_FAILURE,
+});
+
+export const logout = () => ({
+  type: LOGOUT,
+});

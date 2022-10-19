@@ -6,11 +6,17 @@ import { useDispatch } from 'react-redux';
 import { CssBaseline } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { getInfoEmployer } from './store/auth/action';
+
+import {
+  getCurrentJobSeeker,
+  getInfoAdmin,
+  getInfoEmployer,
+} from './store/auth/action';
 export interface IAppProps {}
 
 export default function App(props: IAppProps) {
   const location = useLocation();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +26,12 @@ export default function App(props: IAppProps) {
   useEffect(() => {
     if (localStorage.getItem('role') === '2') {
       dispatch(getInfoEmployer());
+    }
+    if (localStorage.getItem('role') === '1') {
+      dispatch(getCurrentJobSeeker());
+    }
+    if (localStorage.getItem('role') === '0') {
+      dispatch(getInfoAdmin());
     }
   }, [dispatch]);
 

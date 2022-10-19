@@ -1,5 +1,8 @@
 import {
   GET_CURRENT_JOBSEEKER_SUCCESS,
+  GET_INFO_ADMIN,
+  GET_INFO_ADMIN_FAILURE,
+  GET_INFO_ADMIN_SUCCESS,
   GET_INFO_EMPLOYER,
   GET_INFO_EMPLOYER_SUCCESS,
   LOGIN_ADMIN,
@@ -11,6 +14,7 @@ import {
   LOGIN_JOBSEEKER,
   LOGIN_JOBSEEKER_FAILURE,
   LOGIN_JOBSEEKER_SUCCESS,
+  LOGOUT,
   LOGOUT_EMPLOYER,
   REGISTER_EMPLOYER,
   REGISTER_EMPLOYER_FAILURE,
@@ -125,6 +129,23 @@ export type LoginAdminFailure = {
   payload: any;
 };
 
+export type GetInfoAdmin = {
+  type: typeof GET_INFO_ADMIN;
+};
+
+export type GetInfoAdminSuccess = {
+  type: typeof GET_INFO_ADMIN_SUCCESS;
+  payload: any;
+};
+
+export type GetInfoAdminFailure = {
+  type: typeof GET_INFO_ADMIN_FAILURE;
+};
+
+export type Logout = {
+  type: typeof LOGOUT;
+};
+
 export type AuthActions =
   | RegisterJobSeeker
   | RegisterJobSeekerSuccess
@@ -143,4 +164,8 @@ export type AuthActions =
   | LoginAdmin
   | LoginAminSuccess
   | LoginAdminFailure
-  | LogoutEmployer;
+  | LogoutEmployer
+  | GetInfoAdmin
+  | GetInfoAdminSuccess
+  | GetInfoAdminFailure
+  | Logout;

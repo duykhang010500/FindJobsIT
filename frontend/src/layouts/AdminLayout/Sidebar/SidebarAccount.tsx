@@ -1,5 +1,8 @@
 import React from 'react';
+
+import { useSelector } from 'react-redux';
 import { Box, Stack, Typography, styled, Avatar } from '@mui/material';
+import { AppState } from '../../../store/reducer';
 
 type Props = {};
 
@@ -14,12 +17,13 @@ const Wrapper = styled(Box)({
 });
 
 const SidebarAccount = (props: Props) => {
+  const { currentUser } = useSelector((state: AppState) => state.auth);
   return (
     <Wrapper>
-      <Avatar />
+      <Avatar src={currentUser?.avatar} />
       <Stack spacing={0.2} sx={{ ml: 2 }}>
         <Typography variant='body1' sx={{ fontWeight: 500 }}>
-          Full Name
+          {currentUser?.fullname}
         </Typography>
         <Typography variant='caption'>Admin</Typography>
       </Stack>

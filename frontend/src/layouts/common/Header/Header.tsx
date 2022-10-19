@@ -137,10 +137,10 @@ const Header: FC<Props> = () => {
                       <MenuItem sx={{ color: '#637381', cursor: 'unset' }}>
                         <Stack>
                           <Typography variant='h4' gutterBottom>
-                            {currentUser.info.fullname}
+                            {currentUser?.info?.fullname}
                           </Typography>
                           <Typography variant='caption'>
-                            {currentUser.info.email}
+                            {currentUser?.info?.email}
                           </Typography>
                         </Stack>
                       </MenuItem>

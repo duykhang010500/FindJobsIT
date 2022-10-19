@@ -8,6 +8,7 @@ import {
   GET_INFO_EMPLOYER,
   REGISTER_EMPLOYER,
   REGISTER_JOBSEEKER,
+  GET_INFO_ADMIN,
 } from './actionTypes';
 
 import {
@@ -21,6 +22,8 @@ import {
   registerEmployerFailure,
   jobSeekerRegisterSuccess,
   jobSeekerRegisterFailure,
+  getInfoAdminSuccess,
+  getInfoAdmin,
 } from './action';
 
 import adminServices from '../../services/admin';
@@ -102,6 +105,7 @@ function* adminLogin({ payload: { formData, navigate } }: any): any {
     localStorage.setItem('accessToken', response.data.access_token);
     localStorage.setItem('role', '0');
     yield put(loginAdminSuccess());
+    yield put(getInfoAdmin());
     if (response.status === 200) {
       navigate('/admin/dashboard');
     }
@@ -112,6 +116,15 @@ function* adminLogin({ payload: { formData, navigate } }: any): any {
   }
 }
 
+function* getInfoAdminSaga(): any {
+  try {
+    const res = yield call(adminServices.getCurrentInfo);
+    yield put(getInfoAdminSuccess(res.data.info));
+  } catch (err) {
+    console.log('Err: ', err);
+  }
+}
+
 function* authSaga() {
   yield takeEvery(REGISTER_JOBSEEKER, jobSeekerRegisterSaga);
   yield takeEvery(LOGIN_JOBSEEKER, jobSeekerLoginSaga);
@@ -119,6 +132,7 @@ function* authSaga() {
   yield takeEvery(LOGIN_EMPLOYER, employerLogin);
   yield takeEvery(LOGIN_ADMIN, adminLogin);
   yield takeEvery(GET_INFO_EMPLOYER, getCurrentEmployer);
+  yield takeEvery(GET_INFO_ADMIN, getInfoAdminSaga);
 }
 
 export default authSaga;

@@ -1,10 +1,14 @@
 import { IUserLogin } from '../store/auth/types';
+import { ILocation } from '../store/location/types';
 import axiosInstance from './axiosInstance';
 
 const adminServices = {
   // auth
   login: (formData: IUserLogin) => {
     return axiosInstance.post('/admin/login', formData);
+  },
+  getCurrentInfo: () => {
+    return axiosInstance.get('/admin/info');
   },
   //companies
   getCompaniesList: () => {
@@ -34,10 +38,10 @@ const adminServices = {
   getLocationList: () => {
     return axiosInstance.get('/admin/job/locations');
   },
-  updateLocation: (id: string) => {
-    return axiosInstance.post(`/admin/job/location/${id}`);
+  updateLocation: (formData: ILocation, id: number) => {
+    return axiosInstance.post(`/admin/job/location/${id}`, formData);
   },
-  deleteLocation: (id: string) => {
+  deleteLocation: (id: number) => {
     return axiosInstance.delete(`/admin/job/location/${id}`);
   },
   //industries
