@@ -26,10 +26,10 @@ const sidebarData = [
         title: `Companies`,
         path: '/admin/companies',
       },
-      {
-        title: `Jobs`,
-        path: '/admin/companies/jobs',
-      },
+      // {
+      //   title: `Jobs`,
+      //   path: '/admin/companies/jobs',
+      // },
     ],
   },
   {
@@ -43,7 +43,7 @@ const sidebarData = [
     icon: <DescriptionIcon />,
     path: '/admin/services',
     children: [
-      { title: `Orders`, path: '/admin/services/orders' },
+      // { title: `Orders`, path: '/admin/services/orders' },
       { title: `List services`, path: '/admin/services/list' },
     ],
   },
@@ -59,14 +59,14 @@ const sidebarData = [
         title: `Industries`,
         path: `/admin/settings/industries`,
       },
-      {
-        title: `Degrees`,
-        path: `/admin/settings/degree`,
-      },
-      {
-        title: `Level`,
-        path: `/admin/settings/level`,
-      },
+      // {
+      //   title: `Degrees`,
+      //   path: `/admin/settings/degree`,
+      // },
+      // {
+      //   title: `Level`,
+      //   path: `/admin/settings/level`,
+      // },
     ],
   },
 ];

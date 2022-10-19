@@ -7,14 +7,16 @@ import servicesReducer from './services/reducer';
 import locationReducer from './location/reducer';
 import companiesReducer from './companies/reducer';
 import candidatesReducer from './candidates/reducer';
+import industriesReducer from './industries/reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   jobs: JobsReducer,
   services: servicesReducer,
+  location: locationReducer,
   companies: companiesReducer,
   candidates: candidatesReducer,
-  location: locationReducer,
+  industries: industriesReducer,
 });
 
 export type AppDispatch = typeof store.dispatch;

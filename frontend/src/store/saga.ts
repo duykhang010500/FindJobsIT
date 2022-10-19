@@ -6,15 +6,17 @@ import locationSaga from './location/saga';
 import servicesSaga from './services/saga';
 import companiesSaga from './companies/saga';
 import candidatesSaga from './candidates/saga';
+import industriesSaga from './industries/saga';
 
 function* rootSaga() {
   yield all([
     fork(authSaga),
     fork(jobsSaga),
-    fork(candidatesSaga),
+    fork(locationSaga),
     fork(servicesSaga),
     fork(companiesSaga),
-    fork(locationSaga),
+    fork(industriesSaga),
+    fork(candidatesSaga),
   ]);
 }
 

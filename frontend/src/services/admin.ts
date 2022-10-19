@@ -1,4 +1,5 @@
 import { IUserLogin } from '../store/auth/types';
+import { IIndustry } from '../store/industries/types';
 import { ILocation } from '../store/location/types';
 import axiosInstance from './axiosInstance';
 
@@ -51,10 +52,10 @@ const adminServices = {
   getIndustriesList: () => {
     return axiosInstance.get('/admin/job/industries');
   },
-  updateIndustry: (id: string) => {
-    return axiosInstance.post(`/admin/job/industry/${id}`);
+  updateIndustry: (id: number, formData: IIndustry) => {
+    return axiosInstance.post(`/admin/job/industry/${id}`, formData);
   },
-  deleteIndustry: (id: string) => {
+  deleteIndustry: (id: number) => {
     return axiosInstance.delete(`/admin/job/industry/${id}`);
   },
 };
