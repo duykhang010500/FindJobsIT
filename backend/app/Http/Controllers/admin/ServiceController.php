@@ -25,16 +25,29 @@ class ServiceController extends Controller
         //
         $model = Service::where('id',$id)->first();
 
-        $fields = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,250|unique:services',
-            'note' => 'required',
-            'service_type' => 'required',
-            'days' => 'required',
-            'priority' => 'required',
-            'price' => 'required',
-            'discount' => 'required',
-            'status' => 'required',
-        ]);
+        if ($request->isMethod('post')) {
+            $fields = Validator::make($request->all(), [
+                'name' => 'required|string|between:2,250|unique:services',
+                'note' => 'required',
+                'service_type' => 'required',
+                'days' => 'required',
+                'priority' => 'required',
+                'price' => 'required',
+                'discount' => 'required',
+                'status' => 'required',
+            ]);
+        }else{
+            $fields = Validator::make($request->all(), [
+                'name' => 'required|string|between:2,250|unique:services,name,'.$id,
+                'note' => 'required',
+                'service_type' => 'required',
+                'days' => 'required',
+                'priority' => 'required',
+                'price' => 'required',
+                'discount' => 'required',
+                'status' => 'required',
+            ]);
+        }
 
         if ($fields->fails()) {
             return response()->json($fields->errors(), 422);
