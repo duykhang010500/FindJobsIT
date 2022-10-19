@@ -95,17 +95,19 @@ function* getCurrentEmployer(): any {
   }
 }
 
+//admin
 function* adminLogin({ payload: { formData, navigate } }: any): any {
   try {
     const response = yield call(adminServices.login, formData);
     localStorage.setItem('accessToken', response.data.access_token);
+    localStorage.setItem('role', '0');
     yield put(loginAdminSuccess());
     if (response.status === 200) {
       navigate('/admin/dashboard');
     }
   } catch (err) {
     if (err) {
-      console.log('Error!');
+      console.log('Error: ', err);
     }
   }
 }

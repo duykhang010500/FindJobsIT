@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 
 //employer routes
@@ -32,6 +33,7 @@ import DegreesPage from '../pages/admin/settings/DegreesPage';
 import LevelPage from '../pages/admin/settings/LevelPage';
 import JobSeekerLogin from '../pages/auth/jobseeker/JobSeekerLogin';
 import JobSeekerRegister from '../pages/auth/jobseeker/JobSeekerRegister';
+import CreateService from '../pages/admin/services/CreateService';
 
 type Props = {};
 
@@ -82,6 +84,8 @@ const Router = (props: Props) => {
         { path: 'candidates/list' },
         { path: 'services/orders', element: <OrdersPage /> },
         { path: 'services/list', element: <ServicesPage /> },
+        { path: 'services/new', element: <CreateService /> },
+        { path: 'services/:id/edit', element: <CreateService /> },
         { path: 'settings/location', element: <LocationPage /> },
         { path: 'settings/industries', element: <IndustriesPage /> },
         { path: 'settings/degree', element: <DegreesPage /> },

@@ -17,8 +17,8 @@ const adminServices = {
   getServicesList: () => {
     return axiosInstance.get('/admin/services');
   },
-  updateService: (id: string) => {
-    return axiosInstance.post(`/admin/service/${id}`);
+  updateService: (id: any, formData: any) => {
+    return axiosInstance.post(`/admin/service/${id}`, formData);
   },
   deleteService: (id: string) => {
     return axiosInstance.delete(`/admin/service/${id}`);

@@ -18,7 +18,7 @@ export default function App(props: IAppProps) {
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
+    if (localStorage.getItem('role') === '2') {
       dispatch(getInfoEmployer());
     }
   }, [dispatch]);

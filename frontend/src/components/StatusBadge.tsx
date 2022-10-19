@@ -9,6 +9,7 @@ const StatusStyled = styled('div')({
   height: '15px',
   borderRadius: '50%',
   backgroundColor: '#52c41a',
+  margin: 'auto',
 });
 const StatusBadge = ({ sx }: Props) => {
   return <StatusStyled sx={sx} />;
