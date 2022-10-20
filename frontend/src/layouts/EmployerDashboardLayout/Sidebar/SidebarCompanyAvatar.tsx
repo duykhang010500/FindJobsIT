@@ -39,7 +39,7 @@ const SidebarCompanyAvatar = (props: Props) => {
           <Image
             src={`${currentUser?.info?.info_company?.logo}`}
             alt={`logo`}
-            sx={{}}
+            sx={{ borderRadius: '50%' }}
           />
         ) : (
           <BusinessIcon sx={{ color: 'rgb(99, 115, 129)' }} />

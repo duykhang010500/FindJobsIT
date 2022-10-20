@@ -15,6 +15,9 @@ const employerServices = {
   updateProfile: (formData: any) => {
     return axiosInstance.post('/employer/hr/profile', formData);
   },
+  updateCompany: (formData: any) => {
+    return axiosInstance.post('/employer/hr/company', formData);
+  },
 
   //jobs
   createJob: (formData: any) => {
