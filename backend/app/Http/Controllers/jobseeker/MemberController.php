@@ -145,7 +145,7 @@ class MemberController extends Controller
             if ($fields_resume->fails()) {
                 return response()->json($fields_resume->errors(), 422);
             }
-
+            dd($request->email);
             $member = Member::findOrFail(auth()->user()->id);
             $member->update($fields_member->validated());
             $resume = auth()->user()->resume;
