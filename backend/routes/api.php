@@ -96,6 +96,9 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 
         // setting account
         Route::post('/hr/company', [HrController::class, 'company']);
+        Route::get('/hr/company', [HrController::class, 'getCompany']);
+
+        Route::get('/hr/profile', [HrController::class, 'getProfile']);
         Route::post('/hr/profile', [HrController::class, 'profile']);
 
         Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
@@ -109,6 +112,7 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::get('/info', [MemberController::class, 'info']);
 
     Route::post('my/resume', [MyController::class, 'resume']);
+    Route::get('my/resume', [MyController::class, 'getResume']);
 
     Route::post('/apply/{id}', [JobController::class, 'apply']);
 });

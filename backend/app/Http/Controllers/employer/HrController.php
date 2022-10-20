@@ -136,10 +136,19 @@ class HrController extends Controller
 
     }
 
+    public function getCompany(Request $request){
+        $id = auth()->user()->company->id;
+        $company = Company::where('id',$id)->first();
+        return response()->json([
+            'company' => $company
+        ]);
+    }
     public function company(Request $request){
-        $model = Company::findOrFail(auth()->user()->company->id);
+        $id = auth()->user()->company->id;
+        $model = Company::findOrFail($id);
+
         $fields_company = Validator::make($request->all(), [
-            'name' => 'required|string|unique:companies',
+            'name' => 'required|string|unique:companies,name,'.$id,
             'company_size' => 'required',
             'industry_id' => 'required',
             ]);
@@ -148,9 +157,9 @@ class HrController extends Controller
         }
         $model->update(array_merge($fields_company->validated(),
         ['address' => $request->address,'tax' => $request->tax,
-         'address' => $request->address,'tax' => $request->tax,
-         'phone' => $request->phone,'company_size' => $request->tax,
-         'fax' => $request->fax,'website' => $request->tax,
+         'address' => $request->address,
+         'phone' => $request->phone,'company_size' => $request->company_size,
+         'fax' => $request->fax,'website' => $request->website,
          'email' => $request->email,'location_id' => $request->location_id,
          'content' => $request->content,'logo' => $request->logo,
          'banners' => $request->banners,'keywords' => $request->keywords,
@@ -163,8 +172,14 @@ class HrController extends Controller
 
     }
 
+    public function getProfile(Request $request){
+        return response()->json([
+            'profile' => Employer::with('company')->where('id',auth()->user()->id)->get()
+        ]);
+    }
+
     public function profile(Request $request){
-        $model = Employer::findOrFail(auth()->user()->id);
+        $model = Employer::with('company')->where('id',auth()->user()->id)->get();
         $fields = Validator::make($request->all(), [
             'fullname' => 'required|string',
             'password' => 'confirmed',

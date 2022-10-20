@@ -68,7 +68,7 @@ class JobController extends Controller
                 $ids = array_map(function ($value) {
                     return (int) $value;
                 }, $locs);
-                // dd($ids);
+
                 $result = $result->whereHas('industries', function($query) use ($ids) {
                     $query->whereIn('industry_id', $ids); // But this does
                 });
@@ -91,7 +91,7 @@ class JobController extends Controller
                 });
             }
             // dd($params);
-            $result = $result->orderBy('id','desc')->get();
+            $result = $result->with('company','industries','locations')->orderBy('id','desc')->get();
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             // Create a new Laravel collection from the array data
@@ -117,7 +117,7 @@ class JobController extends Controller
     {
         //
         try{
-            $job = Job::with('locations','industries')->where('id',$id)->first();
+            $job = Job::with('company','industries','locations')->where('id',$id)->first();
             return response()->json([
                 'job' => $job
             ]);
@@ -129,16 +129,27 @@ class JobController extends Controller
         }
     }
 
-    public function job_relevant_comp($id)
+    public function job_relevant_comp(Request $request,$id)
     {
         //
         try{
             $job = Job::findOrFail($id);
-            $jobs = Job::with('company')->where('comp_id', $job->comp_id)
+            $jobs = Job::with('company','industries','locations')->where('comp_id', $job->comp_id)
                         ->whereNotIn('id', [$job->id])
                         ->inRandomOrder()->take(10)->get();
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            // Create a new Laravel collection from the array data
+            $itemCollection = collect($jobs);
+            // Define how many items we want to be visible in each page
+            $perPage = 10;
+            // Slice the collection to get the items to display in current page
+            $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->values();
+            // Create our paginator and pass it to the view
+            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+            // set url path for generted links
+            $paginatedItems->setPath($request->url());
             return response()->json([
-                'jobs' => $jobs
+                'result' => $paginatedItems
             ]);
         } catch (\Throwable $th) {
             return response()->json([

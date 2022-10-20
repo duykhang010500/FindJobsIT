@@ -23,7 +23,7 @@ class Location extends Authenticatable
         return $this->belongsToMany(Job::class);
     }
 
-    public function member(){
-        return $this->belongsTo(Member::class);
+    public function resumes(){
+        return $this->belongsToMany(Resume::class);
     }
 }

@@ -29,4 +29,12 @@ class Resume extends Authenticatable
         return $this->belongsTo(Member::class);
     }
 
+    public function industries(){
+        return $this->belongsToMany(Industry::class);
+    }
+
+    public function locations(){
+        return $this->belongsToMany(Location::class);
+    }
+
 }

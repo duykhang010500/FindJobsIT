@@ -23,4 +23,8 @@ class Industry extends Authenticatable
         return $this->belongsToMany(Job::class);
     }
 
+    public function resumes(){
+        return $this->belongsToMany(Resume::class);
+    }
+
 }

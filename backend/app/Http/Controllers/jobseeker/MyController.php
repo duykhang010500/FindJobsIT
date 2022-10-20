@@ -12,6 +12,17 @@ use Validator;
 class MyController extends Controller
 {
     //
+    public function getResume(Request $request)
+    {
+        $id = auth()->user()->resume->id;
+        
+        $resume = Resume::with('locations','industries')->where('id',$id)->first();
+        $resume->member;
+        // dd($resume);
+        return response()->json([
+            'resume' => $resume,
+        ]);
+    }
 
     public function resume(Request $request)
     {
@@ -24,7 +35,7 @@ class MyController extends Controller
                 'gender' => 'required',
                 'marital' => 'required',
                 'nationality' => 'required',
-                'ctid' => 'required',
+                'city' => 'required',
                 'address' => 'required',
                 ]);
 
@@ -33,12 +44,12 @@ class MyController extends Controller
                 'resume_title' => 'required',
                 // 'current_company'  => 'required',
                 'yearofexperience' => 'required',
-                'current_level_id'  => 'required',
-                'level_id'  => 'required',
+                'current_level'  => 'required',
+                'level'  => 'required',
                 'industries'  => 'required',
                 'locations'  => 'required',
                 'salary_unit'  => 'required',
-                'current_degree_id'  => 'required',
+                'current_degree'  => 'required',
                 'working_type'  => 'required',
                 // 'languages'  => 'required',
                 'summary'  => 'required',
@@ -70,8 +81,43 @@ class MyController extends Controller
             $resume = auth()->user()->resume;
 
             if($resume != NULL){
+
+                if(!empty($request->industries)){
+                    $resume->industries()->detach();
+                    $data = explode(',', $request->industries);
+                    foreach ($data as $key => $value) {
+                        $value = (int)$value;
+                        $resume->industries()->attach($value);
+                        $resume->save();
+                    }
+                }
+                if(!empty($request->locations)){
+                    $resume->locations()->detach();
+                    $data = explode(',', $request->locations);
+                    foreach ($data as $key => $value) {
+                        $value = (int)$value;
+                        $resume->locations()->attach($value);
+                        $resume->save();
+                    }
+                }
                 $resume->update($fields_resume->validated());
             }else{
+                if(!empty($request->industries)){
+                    $data = explode(',', $request->industries);
+                    foreach ($data as $key => $value) {
+                        $value = (int)$value;
+                        $resume->industries()->attach($value);
+                        $resume->save();
+                    }
+                }
+                if(!empty($request->locations)){
+                    $data = explode(',', $request->locations);
+                    foreach ($data as $key => $value) {
+                        $value = (int)$value;
+                        $resume->locations()->attach($value);
+                        $resume->save();
+                    }
+                }
                 $resume = Resume::create(array_merge($fields_resume->validated()));
                 $member->resume_id = $resume->id;
                 $member->save();

@@ -92,15 +92,10 @@ class MemberController extends Controller
     }
 
     public function info(Request $request) {
-        $temp1 = auth()->user()->toArray();
-        $temp2= array(
-            "info_company" => auth()->user()->location->name,
-            "info_level" => auth()->user()->level->name,
-            "info_level" => auth()->user()->degree->name,
-            "role" => "member");
-        $result = array_merge($temp1, $temp2);
+        $id = auth()->user()->id;
+        $info = Member::with('resume')->where('id',$id)->get();
         return [
-            'info' => $result
+            'info' => $info
         ];
     }
 
@@ -122,7 +117,7 @@ class MemberController extends Controller
                 'gender' => 'required',
                 'marital' => 'required',
                 'nationality' => 'required',
-                'ctid' => 'required',
+                'city' => 'required',
                 'address' => 'required',
                 ]);
 
