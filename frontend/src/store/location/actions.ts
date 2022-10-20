@@ -8,6 +8,8 @@ import {
   ADMIN_GET_LOCATION,
   ADMIN_GET_LOCATION_FAILURE,
   ADMIN_GET_LOCATION_SUCCESS,
+  GET_LOCATIONS,
+  GET_LOCATIONS_SUCCESS,
 } from './actionTypes';
 
 import {
@@ -39,6 +41,19 @@ export const selectLocation = (id: number): SelectLocation => {
   return {
     type: SELECT_LOCATION,
     payload: id,
+  };
+};
+
+export const getLocations = () => {
+  return {
+    type: GET_LOCATIONS,
+  };
+};
+
+export const getLocationsSuccess = (locations: any) => {
+  return {
+    type: GET_LOCATIONS_SUCCESS,
+    payload: locations,
   };
 };
 

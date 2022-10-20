@@ -3,6 +3,7 @@ import {
   CLOSE_MODAL,
   SELECT_INDUSTRY,
   ADMIN_GET_INDUSTRIES_LIST_SUCCESS,
+  GET_INDUSTRIES_SUCCESS,
 } from './actionTypes';
 
 import { IIndustriesState, IndustriesActionTypes } from './types';
@@ -35,6 +36,11 @@ const industriesReducer = (
         ...state,
         isOpenModal: true,
         selectedIndustryId: action.payload,
+      };
+    case GET_INDUSTRIES_SUCCESS:
+      return {
+        ...state,
+        industries: action.payload,
       };
     case ADMIN_GET_INDUSTRIES_LIST_SUCCESS:
       return {

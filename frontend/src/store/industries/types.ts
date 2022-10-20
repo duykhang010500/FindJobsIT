@@ -9,6 +9,8 @@ import {
   DELETE_INDUSTRY,
   DELETE_INDUSTRY_FAILURE,
   DELETE_INDUSTRY_SUCCESS,
+  GET_INDUSTRIES,
+  GET_INDUSTRIES_SUCCESS,
   OPEN_MODAL,
   SELECT_INDUSTRY,
   UPDATE_INDUSTRY,
@@ -44,6 +46,15 @@ export type CloseModal = {
 export type SelectIndustry = {
   type: typeof SELECT_INDUSTRY;
   payload: number;
+};
+
+export type GetIndustries = {
+  type: typeof GET_INDUSTRIES;
+};
+
+export type GetIndustriesSuccess = {
+  type: typeof GET_INDUSTRIES_SUCCESS;
+  payload: any;
 };
 
 export type AdminGetIndustriesList = {
@@ -100,6 +111,8 @@ export type IndustriesActionTypes =
   | OpenModal
   | CloseModal
   | SelectIndustry
+  | GetIndustries
+  | GetIndustriesSuccess
   | AdminGetIndustriesList
   | AdminGetIndustriesListSuccess
   | AdminGetIndustriesListFailure

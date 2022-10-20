@@ -1,13 +1,16 @@
+import { TrySharp } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
 import { takeEvery, call, put } from 'redux-saga/effects';
 
 import adminServices from '../../services/admin';
+import guestServices from '../../services/guest';
 
 import {
   closeModal,
   adminGetLocation,
   adminGetLocationSuccess,
+  getLocationsSuccess,
 } from './actions';
 
 import {
@@ -15,7 +18,17 @@ import {
   UPDATE_LOCATION,
   ADMIN_GET_LOCATION,
   DELETE_LOCATION,
+  GET_LOCATIONS,
 } from './actionTypes';
+
+function* getLocations(): any {
+  try {
+    const res = yield call(guestServices.getLocations);
+    yield put(getLocationsSuccess(res.data.locations));
+  } catch (err) {
+    throw err;
+  }
+}
 
 function* adminGetLocationSaga(): any {
   try {
@@ -54,6 +67,7 @@ function* deleteLocationSaga({ payload: id }: any): any {
 }
 
 function* locationSaga() {
+  yield takeEvery(GET_LOCATIONS, getLocations);
   yield takeEvery(ADMIN_GET_LOCATION, adminGetLocationSaga);
   yield takeEvery(CREATE_LOCATION, createLocationSaga);
   yield takeEvery(UPDATE_LOCATION, updateLocationSaga);

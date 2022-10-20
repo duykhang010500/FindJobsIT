@@ -9,6 +9,8 @@ import {
   DELETE_INDUSTRY,
   ADMIN_GET_INDUSTRIES_LIST,
   ADMIN_GET_INDUSTRIES_LIST_SUCCESS,
+  GET_INDUSTRIES,
+  GET_INDUSTRIES_SUCCESS,
 } from './actionTypes';
 
 export const openModal = () => {
@@ -27,6 +29,19 @@ export const selectIndustry = (id: number) => {
   return {
     type: SELECT_INDUSTRY,
     payload: id,
+  };
+};
+
+export const getIndustries = () => {
+  return {
+    type: GET_INDUSTRIES,
+  };
+};
+
+export const getIndustriesSuccess = (industries: IIndustry[]) => {
+  return {
+    type: GET_INDUSTRIES_SUCCESS,
+    payload: industries,
   };
 };
 

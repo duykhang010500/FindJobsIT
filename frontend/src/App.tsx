@@ -12,6 +12,8 @@ import {
   getInfoAdmin,
   getInfoEmployer,
 } from './store/auth/action';
+import { getLocations } from './store/location/actions';
+import { getIndustries } from './store/industries/actions';
 export interface IAppProps {}
 
 export default function App(props: IAppProps) {
@@ -24,6 +26,8 @@ export default function App(props: IAppProps) {
   }, []);
 
   useEffect(() => {
+    dispatch(getLocations());
+    dispatch(getIndustries());
     if (localStorage.getItem('role') === '2') {
       dispatch(getInfoEmployer());
     }

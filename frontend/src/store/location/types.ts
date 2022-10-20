@@ -14,11 +14,14 @@ import {
   DELETE_LOCATION,
   DELETE_LOCATION_FAILURE,
   DELETE_LOCATION_SUCCESS,
+  GET_LOCATIONS,
+  GET_LOCATIONS_SUCCESS,
 } from './actionTypes';
 
 export interface ILocationState {
   isLoading: boolean;
   list: any[];
+  locations: any;
   isOpenModal: boolean;
   selectedLocationId: number | null;
 }
@@ -42,6 +45,15 @@ export type CloseModal = {
 export type SelectLocation = {
   type: typeof SELECT_LOCATION;
   payload: number;
+};
+
+export type GetLocation = {
+  type: typeof GET_LOCATIONS;
+};
+
+export type GetLocationSuccess = {
+  type: typeof GET_LOCATIONS_SUCCESS;
+  payload: any;
 };
 
 export type AdminGetLocation = {
@@ -103,6 +115,9 @@ export type LocationActions =
   | OpenModal
   | CloseModal
   | SelectLocation
+  | GetLocation
+  | GetLocationSuccess
+  | AdminGetLocationFailure
   | AdminGetLocation
   | AdminGetLocationSuccess
   | AdminGetLocationFailure
