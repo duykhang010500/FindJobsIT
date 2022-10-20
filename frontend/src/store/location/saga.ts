@@ -1,4 +1,3 @@
-import { TrySharp } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 
 import { takeEvery, call, put } from 'redux-saga/effects';

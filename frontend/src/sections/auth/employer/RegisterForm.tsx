@@ -1,54 +1,56 @@
+import { useState } from 'react';
+
 import {
-  Stack,
-  Typography,
   Box,
   Card,
-  TextField,
-  Autocomplete,
   Alert,
-  InputAdornment,
+  Stack,
+  MenuItem,
+  TextField,
   IconButton,
+  Typography,
+  InputAdornment,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
+import * as yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
-import { registerEmployer } from '../../../store/auth/action';
 import { AppState } from '../../../store/reducer';
+import { registerEmployer } from '../../../store/auth/action';
 
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import { IIndustry } from '../../../store/industries/types';
 
-const industriesData = [
-  { title: 'Software', id: 12 },
-  { title: 'Hardware', id: 11 },
+const companySize = [
+  '0 - 9',
+  '10 - 49',
+  '50 - 99',
+  '100 - 499',
+  '500 - 999',
+  'Over 1000',
 ];
-
-const locationsData = [
-  { title: 'Hồ Chí Minh', id: 1 },
-  { title: 'Hà Nội', id: 2 },
-];
-
-const companySize = ['50', '500', '100'];
-
-const getIndustryIdByName = (name: string) => {
-  return industriesData.find((industry) => industry.title === name)?.id;
-};
 
 const RegisterForm = () => {
-  // eslint-disable-next-line
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
 
   const { isLoading, error } = useSelector((state: AppState) => state.auth);
+
+  const { industries } = useSelector((state: AppState) => state.industries);
+
+  const { locations } = useSelector((state: AppState) => state.location);
 
   const registerSchema = yup.object({
     firstName: yup.string().required('Fisrt name required'),
@@ -63,9 +65,7 @@ const RegisterForm = () => {
       .required('Password is required'),
     password_confirmation: yup
       .string()
-      .min(6, 'Confirm password must have at least 6 character')
-      .oneOf([yup.ref('password')], 'Confirm password do not match')
-      .required('Confirm Password is required'),
+      .oneOf([yup.ref('password'), null], 'Confirm password does not match'),
     name: yup.string().required('Company name is required'),
     industry_id: yup.string().required('Industry is required'),
     location: yup.string().required('Location is required'),
@@ -89,12 +89,9 @@ const RegisterForm = () => {
 
   const onSubmit = (data: any) => {
     let fullname = data.firstName + ' ' + data.lastName;
-    let company_size = +data.company_size;
-    let industry_id = getIndustryIdByName(data.industry_id);
     delete data.firstName;
     delete data.lastName;
-    let newForm = { ...data, fullname, company_size, industry_id };
-
+    let newForm = { ...data, fullname };
     dispatch(registerEmployer(newForm, navigate));
   };
 
@@ -238,22 +235,22 @@ const RegisterForm = () => {
             name='industry_id'
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <Autocomplete
+              <TextField
                 {...field}
-                disablePortal
-                id='combo-box-industry'
-                options={industriesData.map((industry) => industry.title)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label='Industry'
-                    size='small'
-                    error={!!error}
-                    helperText={error?.message}
-                  />
-                )}
-                onChange={(_, data) => field.onChange(data)}
-              />
+                select
+                size='small'
+                label='Industry'
+                error={!!error}
+                helperText={error?.message}
+              >
+                {industries.map((industry: IIndustry) => {
+                  return (
+                    <MenuItem key={industry.id} value={industry.id}>
+                      {industry.name}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
             )}
           />
 
@@ -261,22 +258,22 @@ const RegisterForm = () => {
             name='location'
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <Autocomplete
+              <TextField
                 {...field}
-                disablePortal
-                id='combo-box-location'
-                onChange={(e, value) => field.onChange(value)}
-                options={locationsData.map((location) => location.title)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label='Location'
-                    size='small'
-                    error={!!error}
-                    helperText={error?.message}
-                  />
-                )}
-              />
+                select
+                size='small'
+                label='Location'
+                error={!!error}
+                helperText={error?.message}
+              >
+                {locations.map((location: any) => {
+                  return (
+                    <MenuItem key={location.id} value={location.name}>
+                      {location.name}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
             )}
           />
 
@@ -284,22 +281,22 @@ const RegisterForm = () => {
             name='company_size'
             control={control}
             render={({ field, fieldState: { error } }) => (
-              <Autocomplete
+              <TextField
                 {...field}
-                disablePortal
-                onChange={(e, value) => field.onChange(value)}
-                id='combo-box-demo'
-                options={companySize}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label='Company size'
-                    size='small'
-                    error={!!error}
-                    helperText={error?.message}
-                  />
-                )}
-              />
+                select
+                size='small'
+                label='Company size'
+                error={!!error}
+                helperText={error?.message}
+              >
+                {companySize.map((item: any) => {
+                  return (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
             )}
           />
 
