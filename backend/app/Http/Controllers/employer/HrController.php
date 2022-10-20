@@ -22,6 +22,13 @@ class HrController extends Controller
         ]);
     }
 
+    public function getJob(Request $request)
+    {
+        $jobs = Job::with('industries','locations','company')->where('comp_id',auth()->user()->company->id)->get();
+        return response()->json([
+            'job' => $jobs,
+        ]);
+    }
     public function job(Request $request)
     {
 
@@ -179,7 +186,7 @@ class HrController extends Controller
     }
 
     public function profile(Request $request){
-        $model = Employer::with('company')->where('id',auth()->user()->id)->get();
+        $model = Employer::find(auth()->user()->id);
         $fields = Validator::make($request->all(), [
             'fullname' => 'required|string',
             'password' => 'confirmed',

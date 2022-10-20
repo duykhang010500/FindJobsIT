@@ -89,6 +89,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
 
+        Route::get('/hr/job', [HrController::class, 'getJob']);
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
 
