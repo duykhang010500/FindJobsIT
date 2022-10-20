@@ -9,6 +9,7 @@ import {
   REGISTER_EMPLOYER,
   REGISTER_JOBSEEKER,
   GET_INFO_ADMIN,
+  UPDATE_INFO_EMPLOYER,
 } from './actionTypes';
 
 import {
@@ -24,6 +25,7 @@ import {
   jobSeekerRegisterFailure,
   getInfoAdminSuccess,
   getInfoAdmin,
+  updateInfoEmployerSuccess,
 } from './action';
 
 import adminServices from '../../services/admin';
@@ -98,6 +100,15 @@ function* getCurrentEmployer(): any {
   }
 }
 
+function* updateInfoEmployerSaga({ payload: formData }: any): any {
+  try {
+    yield call(employerServices.updateProfile, formData);
+    yield put(getInfoEmployer());
+    yield put(updateInfoEmployerSuccess());
+    toast.success('Update info successfully!');
+  } catch (err) {}
+}
+
 //admin
 function* adminLogin({ payload: { formData, navigate } }: any): any {
   try {
@@ -130,8 +141,9 @@ function* authSaga() {
   yield takeEvery(LOGIN_JOBSEEKER, jobSeekerLoginSaga);
   yield takeEvery(REGISTER_EMPLOYER, employerRegister);
   yield takeEvery(LOGIN_EMPLOYER, employerLogin);
-  yield takeEvery(LOGIN_ADMIN, adminLogin);
   yield takeEvery(GET_INFO_EMPLOYER, getCurrentEmployer);
+  yield takeEvery(UPDATE_INFO_EMPLOYER, updateInfoEmployerSaga);
+  yield takeEvery(LOGIN_ADMIN, adminLogin);
   yield takeEvery(GET_INFO_ADMIN, getInfoAdminSaga);
 }
 

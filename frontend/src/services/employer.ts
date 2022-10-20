@@ -12,6 +12,9 @@ const employerServices = {
   getMyInfo: () => {
     return axiosInstance.get('/employer/info');
   },
+  updateProfile: (formData: any) => {
+    return axiosInstance.post('/employer/hr/profile', formData);
+  },
 
   //jobs
   createJob: (formData: any) => {

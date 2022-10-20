@@ -37,7 +37,7 @@ const ListOfServices = (props: Props) => {
       <Grid container spacing={3}>
         {servicesData.map((item) => {
           return (
-            <Grid item md={3} flex={1}>
+            <Grid key={item.title} item md={3} flex={1}>
               <ServicesCard
                 title={item.title}
                 img={item.img}

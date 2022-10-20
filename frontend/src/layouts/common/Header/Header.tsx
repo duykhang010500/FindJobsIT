@@ -122,7 +122,13 @@ const Header: FC<Props> = () => {
                 {currentUser ? (
                   <>
                     <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-                      <Avatar sx={{ width: 30, height: 30 }} />
+                      <Avatar
+                        sx={{
+                          width: 30,
+                          height: 30,
+                        }}
+                        src={currentUser.info.avatar}
+                      />
                     </IconButton>
                     <Popover
                       anchorEl={anchorEl}

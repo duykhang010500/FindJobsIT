@@ -34,6 +34,8 @@ import JobSeekerLogin from '../pages/auth/jobseeker/JobSeekerLogin';
 import JobSeekerRegister from '../pages/auth/jobseeker/JobSeekerRegister';
 import CreateService from '../pages/admin/services/CreateService';
 import AdminCandidatesPage from '../pages/admin/candidates/AdminCandidatesPage';
+import MyProfile from '../pages/employer/settings/MyProfile';
+import CompanyProfile from '../pages/employer/settings/CompanyProfile';
 
 type Props = {};
 
@@ -72,6 +74,8 @@ const Router = (props: Props) => {
         { path: 'job/create', element: <EmployerCreateJob /> },
         { path: 'candidates', element: <EmployerCandidatesList /> },
         { path: 'order/active', element: <EmployerServices /> },
+        { path: 'my', element: <MyProfile /> },
+        { path: 'company', element: <CompanyProfile /> },
       ],
     },
     {

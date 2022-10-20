@@ -32,11 +32,11 @@ const LocationList = (props: Props) => {
   const { list } = useSelector((state: AppState) => state.location);
 
   const handleEdit = (id: number | any) => {
-    // dispatch(selete(id));
+    dispatch(selectLocation(id));
   };
 
   const handleDelete = (id: number | any) => {
-    // dispatch(deleteLocation(id));
+    dispatch(deleteLocation(id));
   };
 
   return (

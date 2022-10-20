@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Container, Grid, Card } from '@mui/material';
 
+import Sidebar from './Sidebar';
 import Footer from '../common/Footer';
 import Header from '../common/Header/Header';
-import Sidebar from './Sidebar';
 
 type Props = {};
 

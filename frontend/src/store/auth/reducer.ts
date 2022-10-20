@@ -18,6 +18,8 @@ import {
   REGISTER_JOBSEEKER,
   REGISTER_JOBSEEKER_FAILURE,
   REGISTER_JOBSEEKER_SUCCESS,
+  UPDATE_INFO_EMPLOYER,
+  UPDATE_INFO_EMPLOYER_SUCCESS,
 } from './actionTypes';
 import { AuthActions, IAuthState } from './types';
 
@@ -96,17 +98,27 @@ const authReducer = (state = initialState, action: AuthActions) => {
         isLoading: false,
         accessToken: action.payload,
       };
+    case LOGIN_EMPLOYER_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
     case GET_INFO_EMPLOYER_SUCCESS: {
       return {
         ...state,
         currentUser: action.payload,
       };
     }
-    case LOGIN_EMPLOYER_FAILURE:
+    case UPDATE_INFO_EMPLOYER:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case UPDATE_INFO_EMPLOYER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
       };
     case LOGOUT_EMPLOYER:
       localStorage.removeItem('accessToken');
@@ -116,6 +128,7 @@ const authReducer = (state = initialState, action: AuthActions) => {
         currentUser: null,
         accessToken: null,
       };
+
     case LOGIN_ADMIN:
       return {
         ...state,

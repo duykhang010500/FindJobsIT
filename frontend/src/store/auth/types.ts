@@ -22,6 +22,9 @@ import {
   REGISTER_JOBSEEKER,
   REGISTER_JOBSEEKER_FAILURE,
   REGISTER_JOBSEEKER_SUCCESS,
+  UPDATE_INFO_EMPLOYER,
+  UPDATE_INFO_EMPLOYER_FAILURE,
+  UPDATE_INFO_EMPLOYER_SUCCESS,
 } from './actionTypes';
 
 export interface IAuthState {
@@ -114,6 +117,19 @@ export type LogoutEmployer = {
   type: typeof LOGOUT_EMPLOYER;
 };
 
+export type UpdateInfoEmployer = {
+  type: typeof UPDATE_INFO_EMPLOYER;
+  payload: any;
+};
+export type UpdateInfoEmployerSuccess = {
+  type: typeof UPDATE_INFO_EMPLOYER_SUCCESS;
+};
+
+export type UpdateInfoEmployerFailure = {
+  type: typeof UPDATE_INFO_EMPLOYER_FAILURE;
+  payload: any;
+};
+
 //admin
 export type LoginAdmin = {
   type: typeof LOGIN_ADMIN;
@@ -161,6 +177,9 @@ export type AuthActions =
   | LoginEmployerSuccess
   | LoginEmployerFailure
   | GetEmployerInfoSuccess
+  | UpdateInfoEmployer
+  | UpdateInfoEmployerSuccess
+  | UpdateInfoEmployerFailure
   | LoginAdmin
   | LoginAminSuccess
   | LoginAdminFailure

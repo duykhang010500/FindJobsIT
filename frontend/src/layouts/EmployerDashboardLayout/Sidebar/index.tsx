@@ -1,13 +1,13 @@
-import React from 'react';
-
 import { Card, Divider } from '@mui/material';
 import SidebarCompanyAvatar from './SidebarCompanyAvatar';
 import SidebarContent from '../../common/SidebarContent/SidebarContent';
 
+import SettingsIcon from '@mui/icons-material/Settings';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+
 type Props = {};
 
 const sidebarData = [
@@ -21,13 +21,13 @@ const sidebarData = [
     icon: <BusinessCenterIcon />,
     children: [
       {
-        title: `Jobs open`,
+        title: `Jobs`,
         path: '/employer/hr/jobs/active',
       },
-      {
-        title: `Jobs closed`,
-        path: '/employer/hr/jobs/inactive',
-      },
+      // {
+      //   title: `Jobs closed`,
+      //   path: '/employer/hr/jobs/inactive',
+      // },
     ],
   },
   {
@@ -43,9 +43,23 @@ const sidebarData = [
         title: `Active services`,
         path: '/employer/hr/order/active',
       },
+      // {
+      //   title: `Expire services`,
+      //   path: '/employer/hr/order/expire',
+      // },
+    ],
+  },
+  {
+    title: 'Settings',
+    icon: <SettingsIcon />,
+    children: [
       {
-        title: `Expire services`,
-        path: '/employer/hr/order/expire',
+        title: 'My profile',
+        path: '/employer/hr/my',
+      },
+      {
+        title: 'My Company',
+        path: '/employer/hr/company',
       },
     ],
   },
