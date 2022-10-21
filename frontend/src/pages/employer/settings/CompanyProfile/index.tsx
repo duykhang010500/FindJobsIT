@@ -13,6 +13,9 @@ import { AppState } from '../../../../store/reducer';
 import { employerUpdateCompany } from '../../../../store/companies/action';
 
 import UploadAvatar from '../../../../components/UploadAvatar';
+import { companySize } from '../../../../utils/defaultValues';
+import { IIndustry } from '../../../../store/industries/types';
+import { Menu } from '@mui/icons-material';
 
 type Props = {};
 
@@ -40,6 +43,10 @@ const CompanyProfile = (props: Props) => {
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
 
+  const { locations } = useSelector((state: AppState) => state.location);
+
+  const { industries } = useSelector((state: AppState) => state.industries);
+
   const info_company = currentUser?.info?.info_company;
 
   const defaultValues = useMemo(() => {
@@ -54,7 +61,7 @@ const CompanyProfile = (props: Props) => {
       website: info_company?.website || '',
       email: info_company?.email || '',
       location: info_company?.location || '',
-      industry_id: info_company?.industry_id || 0,
+      industry_id: info_company?.industry_id || '',
       content: info_company?.content || '',
     };
   }, [info_company]);
@@ -128,11 +135,13 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field }) => (
                 <TextField select label='Company size' fullWidth {...field}>
-                  <MenuItem value='Less than 50'>Less than 50</MenuItem>
-                  <MenuItem value='50 - 100'>50 - 199</MenuItem>
-                  <MenuItem value='100 - 499 '>100 - 499 </MenuItem>
-                  <MenuItem value='500 - 1000'>500 - 1000</MenuItem>
-                  <MenuItem value='Over 1000'>Over 1000</MenuItem>
+                  {companySize.map((item: any) => {
+                    return (
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
+                    );
+                  })}
                 </TextField>
               )}
             />
@@ -166,8 +175,13 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field }) => (
                 <TextField select label='Location' fullWidth {...field}>
-                  <MenuItem value={`Beens Tre`}>Bến Tre</MenuItem>
-                  <MenuItem value={`Gia lai`}>Gia Lai</MenuItem>
+                  {locations.map((location: any) => {
+                    return (
+                      <MenuItem key={location.id} value={location.name.trim()}>
+                        {location.name}
+                      </MenuItem>
+                    );
+                  })}
                 </TextField>
               )}
             />
@@ -175,7 +189,15 @@ const CompanyProfile = (props: Props) => {
               name='industry_id'
               control={control}
               render={({ field }) => (
-                <TextField label='Industry' fullWidth {...field} />
+                <TextField select label='Industry' fullWidth {...field}>
+                  {industries.map((industry: IIndustry) => {
+                    return (
+                      <MenuItem key={industry.id} value={industry.id}>
+                        {industry.name}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
               )}
             />
           </Stack>

@@ -26,15 +26,7 @@ import { registerEmployer } from '../../../store/auth/action';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { IIndustry } from '../../../store/industries/types';
-
-const companySize = [
-  '0 - 9',
-  '10 - 49',
-  '50 - 99',
-  '100 - 499',
-  '500 - 999',
-  'Over 1000',
-];
+import { companySize } from '../../../utils/defaultValues';
 
 const RegisterForm = () => {
   const navigate = useNavigate();

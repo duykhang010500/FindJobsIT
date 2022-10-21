@@ -1,84 +1,56 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import {
   Box,
   Stack,
-  TextField,
-  Button,
+  Alert,
   MenuItem,
-  Autocomplete,
+  TextField,
   Typography,
+  Autocomplete,
   FormHelperText,
 } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
-
 import Editor from '../../../components/Editor';
 
+import * as yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
 import SaveIcon from '@mui/icons-material/Save';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store/reducer';
 import { createJob } from '../../../store/jobs/actions';
+
+import { degreeTypes, jobLevel, jobTypes } from '../../../utils/defaultValues';
+import { LoadingButton } from '@mui/lab';
 
 type Props = {};
 
-const industriesData = [
-  { label: 'Software', id: 1 },
-  { label: 'Hardware', id: 2 },
-];
-
-const educationData = [
-  { label: 'Bachelor Degree', id: 1 },
-  { label: 'PHD', id: 2 },
-];
-
-const locationData = [
-  { label: 'Hồ Chí Minh', id: 1 },
-  { label: 'Hà Nội', id: 2 },
-];
-
-interface IDegree {
-  label: string;
-  id: number;
-}
-
-const getDegreeIdByName = (arr: IDegree[]) => {
-  let newArr: number[] = [];
-  arr.forEach((item) => {
-    newArr.push(item.id);
+const convertArrayObjToString = (arr: any[]) => {
+  let str = '';
+  arr.forEach((item: any, index) => {
+    if (index === 0) {
+      str += `${item.id}`;
+    } else {
+      str += `,${item.id}`;
+    }
   });
-  return newArr;
-};
-
-interface IIndustry {
-  label: string;
-  id: number;
-}
-
-const getIndustriesIdByName = (arr: IIndustry[]) => {
-  let newArr: number[] = [];
-  arr.forEach((item) => {
-    newArr.push(item.id);
-  });
-  return newArr;
-};
-
-interface ILocation {
-  label: string;
-  id: number;
-}
-
-const getLocationsIdByName = (arr: ILocation[]) => {
-  let newArr: number[] = [];
-  arr.forEach((item) => {
-    newArr.push(item.id);
-  });
-  return newArr;
+  return str;
 };
 
 const JobNewForm = (props: Props) => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const { locations } = useSelector((state: AppState) => state.location);
+
+  const { industries } = useSelector((state: AppState) => state.industries);
+
+  const { isLoading, error } = useSelector((state: AppState) => state.jobs);
 
   //validate
   const newJobSchema = yup.object({
@@ -87,7 +59,7 @@ const JobNewForm = (props: Props) => {
     level_id: yup.string().required('Level is required'),
     industries: yup.array().min(1, 'Please choose at least 1 industry'),
     degree_id: yup.array().min(1, 'Please choose at least 1 degree'),
-    location: yup.array().min(1, 'please choose at least 1 location'),
+    locations: yup.array().min(1, 'please choose at least 1 location'),
     job_description: yup.string().required('Job description is required'),
     job_requirement: yup.string().required('Job requirement is required'),
     // age_from: yup.number().min(0).required('Age from is required'),
@@ -103,8 +75,8 @@ const JobNewForm = (props: Props) => {
       job_type: '',
       level_id: '',
       industries: [],
-      degree_id: [],
-      location: [],
+      degree_id: '',
+      locations: [],
       job_description: '',
       job_requirement: '',
       // age_from: undefined,
@@ -114,23 +86,24 @@ const JobNewForm = (props: Props) => {
       contact_emails: '',
       status: 1,
     },
-    resolver: yupResolver(newJobSchema),
+    // resolver: yupResolver(newJobSchema),
   });
 
   const onSubmit = (data: any) => {
-    const newForm = {
+    const newFormValues = {
       ...data,
-      degree_id: getDegreeIdByName(data.degree_id),
-      industries: getIndustriesIdByName(data.industries),
-      locations: getLocationsIdByName(data.location),
+      industries: convertArrayObjToString(data.industries),
+      locations: convertArrayObjToString(data.locations),
     };
-    dispatch(createJob(newForm));
+
+    dispatch(createJob(newFormValues, navigate));
   };
 
   return (
     <Box sx={{ mt: 6 }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
+          {error && <Alert severity='error'>{Object.values(error)}</Alert>}
           <Controller
             control={control}
             name='title'
@@ -156,8 +129,13 @@ const JobNewForm = (props: Props) => {
                 error={!!error}
                 helperText={error?.message}
               >
-                <MenuItem value={1}>Fulltime</MenuItem>
-                <MenuItem value={2}>Part time</MenuItem>
+                {jobTypes.map((item: any) => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.label}
+                    </MenuItem>
+                  );
+                })}
               </TextField>
             )}
           />
@@ -173,8 +151,13 @@ const JobNewForm = (props: Props) => {
                 error={!!error}
                 helperText={error?.message}
               >
-                <MenuItem value={1}>Intern</MenuItem>
-                <MenuItem value={2}> Manager</MenuItem>
+                {jobLevel.map((item: any) => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.label}
+                    </MenuItem>
+                  );
+                })}
               </TextField>
             )}
           />
@@ -186,8 +169,8 @@ const JobNewForm = (props: Props) => {
                 {...field}
                 id='industry'
                 multiple
-                options={industriesData}
-                getOptionLabel={(industry) => industry.label}
+                options={industries}
+                getOptionLabel={(industry: any) => industry.name}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -209,39 +192,35 @@ const JobNewForm = (props: Props) => {
             control={control}
             name='degree_id'
             render={({ field, fieldState: { error } }) => (
-              <Autocomplete
+              <TextField
                 {...field}
-                id='education'
-                multiple
-                options={educationData}
-                getOptionLabel={(edu) => edu.label}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    size='small'
-                    label='Education'
-                    error={!!error}
-                    helperText={error?.message}
-                  />
-                )}
-                onChange={(_, data) => {
-                  field.onChange(data);
-                  return data;
-                }}
-              />
+                select
+                label='Education'
+                size='small'
+                error={!!error}
+                helperText={error?.message}
+              >
+                {degreeTypes.map((degree) => {
+                  return (
+                    <MenuItem key={degree.id} value={degree.id}>
+                      {degree.label}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
             )}
           />
 
           <Controller
             control={control}
-            name='location'
+            name='locations'
             render={({ field, fieldState: { error } }) => (
               <Autocomplete
                 {...field}
                 id='location'
                 multiple
-                options={locationData}
-                getOptionLabel={(location) => location.label}
+                options={locations}
+                getOptionLabel={(location: any) => location.name.trim()}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -320,7 +299,11 @@ const JobNewForm = (props: Props) => {
             />
           </div>
           <div>
-            <Typography variant='h5' gutterBottom>
+            <Typography
+              variant='h5'
+              gutterBottom
+              sx={{ color: 'rgb(99, 115, 129)' }}
+            >
               Job requirement
             </Typography>
             <Controller
@@ -355,8 +338,8 @@ const JobNewForm = (props: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Company name'
                 error={!!error}
+                label='Company name'
                 helperText={error?.message}
               />
             )}
@@ -368,8 +351,8 @@ const JobNewForm = (props: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Contact name'
                 error={!!error}
+                label='Contact name'
                 helperText={error?.message}
               />
             )}
@@ -381,25 +364,26 @@ const JobNewForm = (props: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Contact email'
                 error={!!error}
+                label='Contact email'
                 helperText={error?.message}
               />
             )}
           />
 
           <Stack direction='row' spacing={2}>
-            <Button
+            <LoadingButton
               type='submit'
-              variant='contained'
               size='large'
+              variant='contained'
+              loading={isLoading}
               startIcon={<SaveIcon />}
             >
               Save
-            </Button>
-            <Button variant='outlined' size='large'>
+            </LoadingButton>
+            <LoadingButton size='large' variant='outlined' loading={isLoading}>
               Save Draft
-            </Button>
+            </LoadingButton>
           </Stack>
         </Stack>
       </form>

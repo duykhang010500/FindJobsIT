@@ -21,7 +21,7 @@ const employerServices = {
 
   //jobs
   createJob: (formData: any) => {
-    return axiosInstance.post('/employer/hr/job', formData);
+    return axiosInstance.post('/employer/hr/job/0', formData);
   },
 
   //candidates
