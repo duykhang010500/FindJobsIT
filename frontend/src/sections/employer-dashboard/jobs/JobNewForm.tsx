@@ -58,7 +58,7 @@ const JobNewForm = (props: Props) => {
     job_type: yup.string().required('Job type is required'),
     level_id: yup.string().required('Level is required'),
     industries: yup.array().min(1, 'Please choose at least 1 industry'),
-    degree_id: yup.array().min(1, 'Please choose at least 1 degree'),
+    degree_id: yup.string().min(1, 'Please choose at least 1 degree'),
     locations: yup.array().min(1, 'please choose at least 1 location'),
     job_description: yup.string().required('Job description is required'),
     job_requirement: yup.string().required('Job requirement is required'),
@@ -86,7 +86,7 @@ const JobNewForm = (props: Props) => {
       contact_emails: '',
       status: 1,
     },
-    // resolver: yupResolver(newJobSchema),
+    resolver: yupResolver(newJobSchema),
   });
 
   const onSubmit = (data: any) => {
@@ -95,6 +95,8 @@ const JobNewForm = (props: Props) => {
       industries: convertArrayObjToString(data.industries),
       locations: convertArrayObjToString(data.locations),
     };
+
+    console.log(newFormValues);
 
     dispatch(createJob(newFormValues, navigate));
   };

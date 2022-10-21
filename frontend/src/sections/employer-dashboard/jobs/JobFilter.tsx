@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Stack } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 type Props = {};
@@ -7,10 +7,8 @@ type Props = {};
 const JobFilter = (props: Props) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', my: 3 }}>
-      <div>
-        <TextField label='Job title' sx={{ mb: 2 }} />
-      </div>
-      <div>
+      <Stack direction='row' spacing={2}>
+        <TextField label='Job title' fullWidth />
         <Button
           variant='contained'
           startIcon={<SearchIcon />}
@@ -18,7 +16,7 @@ const JobFilter = (props: Props) => {
         >
           Search
         </Button>
-      </div>
+      </Stack>
     </Box>
   );
 };

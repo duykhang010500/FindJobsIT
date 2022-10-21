@@ -2,6 +2,8 @@ import {
   CREATE_JOB,
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
+  EMPLOYER_GET_JOBS,
+  EMPLOYER_GET_JOBS_SUCCESS,
 } from './actionTypes';
 
 export const createJob = (formData: any, navigate: any) => ({
@@ -16,4 +18,13 @@ export const createJobSuccess = () => ({
 export const createJobFailure = (err: any) => ({
   type: CREATE_JOB_FAILURE,
   payload: err,
+});
+
+export const employerGetJobs = () => ({
+  type: EMPLOYER_GET_JOBS,
+});
+
+export const employerGetJobsSuccess = (jobs: any) => ({
+  type: EMPLOYER_GET_JOBS_SUCCESS,
+  payload: jobs,
 });

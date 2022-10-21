@@ -24,6 +24,10 @@ const employerServices = {
     return axiosInstance.post('/employer/hr/job/0', formData);
   },
 
+  getJobs: () => {
+    return axiosInstance.get('/employer/hr/job');
+  },
+
   //candidates
   getCandidates: () => {
     return axiosInstance.get('/employer/hr/candidates');
