@@ -7,6 +7,12 @@ const guestServices = {
   getIndustries: () => {
     return axiosInstance.get('/industries');
   },
+  getJobs: () => {
+    return axiosInstance.get('/jobs');
+  },
+  getJob: (id: any) => {
+    return axiosInstance.get('/job/' + id);
+  },
 };
 
 export default guestServices;

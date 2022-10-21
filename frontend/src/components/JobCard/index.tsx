@@ -162,7 +162,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
           </IconWrapper>
         </Stack>
         <Stack>
-          <Link component={RouterLink} to={`/job/slug`} target='_blank'>
+          <Link component={RouterLink} to={`/job/47`}>
             <Typography variant='h3' fontWeight={500}>
               {job.title}
             </Typography>

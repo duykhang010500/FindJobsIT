@@ -1,19 +1,12 @@
 import { Typography } from '@mui/material';
-import React from 'react';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store/reducer';
 
 type Props = {};
 
 const CompanyDescription = (props: Props) => {
-  return (
-    <Typography variant='body2'>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut alias illum,
-      tempore dolor numquam perspiciatis fugiat incidunt ea debitis deserunt
-      esse, sunt ullam commodi reiciendis odio, libero nesciunt cumque dolores
-      voluptates eligendi molestiae aspernatur. Corrupti, autem consequatur quam
-      ducimus distinctio dolorem blanditiis ex pariatur ut vitae, magni, sint
-      voluptatem unde.
-    </Typography>
-  );
+  const { job } = useSelector((state: AppState) => state.jobs);
+  return <Typography variant='body2'>{job?.company?.content}</Typography>;
 };
 
 export default CompanyDescription;

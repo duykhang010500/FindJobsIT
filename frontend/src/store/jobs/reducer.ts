@@ -3,6 +3,9 @@ import {
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
   EMPLOYER_GET_JOBS_SUCCESS,
+  GET_JOB,
+  GET_JOBS_SUCCESS,
+  GET_JOB_SUCCESS,
 } from './actionTypes';
 import { IJobsState, JobsAction } from './types';
 
@@ -32,6 +35,23 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
         ...state,
         isLoading: false,
         error: action.payload,
+      };
+    case GET_JOBS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        jobs: action.payload,
+      };
+    case GET_JOB:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        job: action.payload,
       };
     case EMPLOYER_GET_JOBS_SUCCESS:
       return {

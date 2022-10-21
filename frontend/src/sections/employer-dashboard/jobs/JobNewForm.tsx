@@ -56,9 +56,9 @@ const JobNewForm = (props: Props) => {
   const newJobSchema = yup.object({
     title: yup.string().required('Title is required'),
     job_type: yup.string().required('Job type is required'),
-    level_id: yup.string().required('Level is required'),
+    level: yup.string().required('Level is required'),
     industries: yup.array().min(1, 'Please choose at least 1 industry'),
-    degree_id: yup.string().min(1, 'Please choose at least 1 degree'),
+    degree: yup.string().min(1, 'Please choose at least 1 degree'),
     locations: yup.array().min(1, 'please choose at least 1 location'),
     job_description: yup.string().required('Job description is required'),
     job_requirement: yup.string().required('Job requirement is required'),
@@ -73,9 +73,9 @@ const JobNewForm = (props: Props) => {
     defaultValues: {
       title: '',
       job_type: '',
-      level_id: '',
+      level: '',
       industries: [],
-      degree_id: '',
+      degree: '',
       locations: [],
       job_description: '',
       job_requirement: '',
@@ -143,7 +143,7 @@ const JobNewForm = (props: Props) => {
           />
           <Controller
             control={control}
-            name='level_id'
+            name='level'
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
@@ -155,7 +155,7 @@ const JobNewForm = (props: Props) => {
               >
                 {jobLevel.map((item: any) => {
                   return (
-                    <MenuItem key={item.id} value={item.id}>
+                    <MenuItem key={item.id} value={item.label}>
                       {item.label}
                     </MenuItem>
                   );
@@ -192,7 +192,7 @@ const JobNewForm = (props: Props) => {
 
           <Controller
             control={control}
-            name='degree_id'
+            name='degree'
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
@@ -204,7 +204,7 @@ const JobNewForm = (props: Props) => {
               >
                 {degreeTypes.map((degree) => {
                   return (
-                    <MenuItem key={degree.id} value={degree.id}>
+                    <MenuItem key={degree.id} value={degree.label}>
                       {degree.label}
                     </MenuItem>
                   );

@@ -1,19 +1,24 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+
 import {
+  Link,
   Grid,
-  styled,
-  Typography,
-  Stack,
   List,
+  Stack,
+  styled,
   ListItem,
+  Typography,
   ListItemIcon,
   ListItemText,
-  Link,
 } from '@mui/material';
-import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
-import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+
+import { AppState } from '../../../store/reducer';
+
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
+
 type Props = {};
 
 const Img = styled('img')({
@@ -29,27 +34,25 @@ const Img = styled('img')({
 });
 
 const CompanyOverview = (props: Props) => {
+  const { job } = useSelector((state: AppState) => state.jobs);
   return (
     <Grid container spacing={2} alignItems='center'>
       <Grid item xs={12} sm={4}>
         <RouterLink to={`/`}>
-          <Img
-            src='https://hr1tech.com/htdocs/images/owners/hr1tech/logo/202208/297980425-582564363521951-8038544366924303576-n.jpg'
-            alt='logo'
-          />
+          <Img src={`${job?.company?.logo}`} alt='logo' />
         </RouterLink>
       </Grid>
       <Grid item xs={12} sm={8}>
         <Stack spacing={2}>
           <Link to={`/`} component={RouterLink}>
-            <Typography variant='h3'>FPT Software</Typography>
+            <Typography variant='h3'>{job?.company?.name}</Typography>
           </Link>
           <List disablePadding sx={{ maxWidth: '300px' }}>
             <ListItem
               disableGutters
               secondaryAction={
                 <Typography sx={{ verticalAlign: 'middle' }} variant='body2'>
-                  500
+                  {job?.company?.company_size}
                 </Typography>
               }
             >
@@ -62,7 +65,7 @@ const CompanyOverview = (props: Props) => {
               disableGutters
               secondaryAction={
                 <Typography sx={{ verticalAlign: 'middle' }} variant='body2'>
-                  www.ute.edu.vn
+                  {job?.company?.website}
                 </Typography>
               }
             >
@@ -75,7 +78,7 @@ const CompanyOverview = (props: Props) => {
               disableGutters
               secondaryAction={
                 <Typography sx={{ verticalAlign: 'middle' }} variant='body2'>
-                  District 9, Thu Duc City
+                  {job?.company?.location}
                 </Typography>
               }
             >

@@ -1,7 +1,10 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import React from 'react';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store/reducer';
 
 const JobDescription = () => {
+  const { job } = useSelector((state: AppState) => state.jobs);
+
   return (
     <Card
       sx={{
@@ -17,13 +20,10 @@ const JobDescription = () => {
         <Typography variant='h3' gutterBottom>
           Description
         </Typography>
-        <Typography variant='body2'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor
-          voluptas quod perferendis perspiciatis asperiores distinctio similique
-          rerum pariatur. Non rerum iste consequuntur explicabo, est incidunt
-          voluptas aliquid autem animi, quaerat eveniet nulla laboriosam, qui
-          veritatis. Officia velit vitae pariatur, incidunt laudantium ipsam
-          ipsum, architecto animi explicabo, in fugit esse sed.
+        <Typography variant='body2' component={'div'}>
+          <div
+            dangerouslySetInnerHTML={{ __html: `${job?.job_description}` }}
+          />
         </Typography>
       </CardContent>
     </Card>

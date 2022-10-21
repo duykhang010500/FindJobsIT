@@ -1,30 +1,49 @@
-import { FC, Fragment, SyntheticEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink, useParams } from 'react-router-dom';
+import { FC, Fragment, useState, useEffect, SyntheticEvent } from 'react';
+
 import {
   Box,
-  Card,
   Tab,
-  Container,
+  Card,
   Grid,
-  Breadcrumbs,
   Link,
+  Container,
   Typography,
+  Breadcrumbs,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import TabContext from '@mui/lab/TabContext';
 
-import JobDescriptionHeader from '../sections/JobDescription/JobDescriptionHeader';
-import JobInformation from '../sections/JobDescription/JobInformation';
-import CompanyInfo from '../sections/JobDescription/CompanyInformation';
-import OtherJob from '../sections/JobDescription/OtherJobs';
-import JobLocationMap from '../sections/JobDescription/JobLocationMap';
 import SearchBar from '../components/SearchBar';
+import OtherJob from '../sections/JobDescription/OtherJobs';
+import JobInformation from '../sections/JobDescription/JobInformation';
+import JobLocationMap from '../sections/JobDescription/JobLocationMap';
+import CompanyInfo from '../sections/JobDescription/CompanyInformation';
+import JobDescriptionHeader from '../sections/JobDescription/JobDescriptionHeader';
+
+import { getJob } from '../store/jobs/actions';
+import { AppState } from '../store/reducer';
 
 type Props = {};
 
 const JobDescription: FC<Props> = () => {
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
+
   const [tabActive, setTabActive] = useState('1');
+
+  const { isLoading } = useSelector((state: AppState) => state.jobs);
+
+  useEffect(() => {
+    dispatch(getJob(id));
+  }, [dispatch]);
+
+  if (isLoading) {
+    return null;
+  }
 
   const handleChangeTab = (e: SyntheticEvent, newValue: string) => {
     setTabActive(newValue);

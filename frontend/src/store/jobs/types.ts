@@ -4,6 +4,10 @@ import {
   CREATE_JOB_SUCCESS,
   EMPLOYER_GET_JOBS,
   EMPLOYER_GET_JOBS_SUCCESS,
+  GET_JOB,
+  GET_JOBS,
+  GET_JOBS_SUCCESS,
+  GET_JOB_SUCCESS,
 } from './actionTypes';
 
 export interface IJobsState {
@@ -26,6 +30,24 @@ export type CreateJobFailure = {
   payload: any;
 };
 
+export type GetJobs = {
+  type: typeof GET_JOBS;
+};
+
+export type GetJobsSuccess = {
+  type: typeof GET_JOBS_SUCCESS;
+  payload: any;
+};
+
+export type GetJob = {
+  type: typeof GET_JOB;
+};
+
+export type GetJobSuccess = {
+  type: typeof GET_JOB_SUCCESS;
+  payload: any;
+};
+
 export type EmployerGetJos = {
   type: typeof EMPLOYER_GET_JOBS;
 };
@@ -39,5 +61,9 @@ export type JobsAction =
   | CreateJob
   | CreateJobSuccess
   | CreateJobFailure
+  | GetJobs
+  | GetJobsSuccess
+  | GetJob
+  | GetJobSuccess
   | EmployerGetJos
   | EmployerGetJobsSucess;

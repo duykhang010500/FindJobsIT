@@ -2,14 +2,21 @@ import { toast } from 'react-toastify';
 
 import { put, call, takeEvery } from 'redux-saga/effects';
 
-import { CREATE_JOB, EMPLOYER_GET_JOBS } from './actionTypes';
+import {
+  GET_JOB,
+  GET_JOBS,
+  CREATE_JOB,
+  EMPLOYER_GET_JOBS,
+} from './actionTypes';
 import {
   createJobFailure,
   createJobSuccess,
   employerGetJobsSuccess,
+  getJobSuccess,
 } from './actions';
 
 import employerServices from '../../services/employer';
+import guestServices from '../../services/guest';
 
 function* createJob({ payload: { formData, navigate } }: any) {
   try {
@@ -19,6 +26,21 @@ function* createJob({ payload: { formData, navigate } }: any) {
     navigate('/employer/hr/jobs/active');
   } catch (err) {
     yield put(createJobFailure(err));
+  }
+}
+
+function* getJobs(): any {
+  try {
+    const res = yield call(guestServices.getJobs);
+  } catch (err) {}
+}
+
+function* getJob({ payload: id }: any): any {
+  try {
+    const res = yield call(guestServices.getJob, id);
+    yield put(getJobSuccess(res.data.job));
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -33,6 +55,8 @@ function* employerGetJobs(): any {
 
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
+  yield takeEvery(GET_JOBS, getJobs);
+  yield takeEvery(GET_JOB, getJob);
   yield takeEvery(EMPLOYER_GET_JOBS, employerGetJobs);
 }
 

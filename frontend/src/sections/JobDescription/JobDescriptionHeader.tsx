@@ -1,18 +1,21 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+
 import {
-  styled,
   Grid,
-  Stack,
-  Typography,
-  Button,
   Card,
   Link,
+  Stack,
+  Button,
+  styled,
+  Typography,
 } from '@mui/material';
 
+import UpdateIcon from '@mui/icons-material/Update';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
-import UpdateIcon from '@mui/icons-material/Update';
+import { AppState } from '../../store/reducer';
 
 type Props = {};
 
@@ -32,6 +35,8 @@ const Img = styled('img')({
 });
 
 const JobDescriptionHeader = (props: Props) => {
+  const { job } = useSelector((state: AppState) => state.jobs);
+
   return (
     <RootStyle>
       <Grid
@@ -42,21 +47,28 @@ const JobDescriptionHeader = (props: Props) => {
       >
         <Grid item xs={12} sm={3} md={3}>
           <Img
-            src='https://cdn.topcv.vn/80/company_logos/fpt-software-6073b38a10cb4.jpg'
+            src={`${job?.company?.logo}`}
             alt='logo'
+            sx={{
+              width: '120px',
+              height: '120px',
+              padding: '10px',
+              borderRadius: '8px',
+              border: '1px solid #d9d9d9',
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={9} md={6}>
           <Stack spacing={1}>
             <Typography variant='h2' fontWeight={600} color='primary' noWrap>
-              Front-end developer
+              {job?.title}
             </Typography>
             <Link component={RouterLink} to={`/`}>
-              <Typography variant='h4'>FPT Software</Typography>
+              <Typography variant='h4'>{job?.company.name}</Typography>
             </Link>
             <Typography variant='body2' color='rgb(99, 115, 129)'>
               <UpdateIcon sx={{ verticalAlign: 'middle' }} /> Expiration date:
-              1/1/2000
+              None
             </Typography>
           </Stack>
         </Grid>

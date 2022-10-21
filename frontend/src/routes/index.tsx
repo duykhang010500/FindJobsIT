@@ -49,7 +49,7 @@ const Router = (props: Props) => {
         { path: 'register', element: <JobSeekerRegister /> },
         { path: '/login', element: <JobSeekerLogin /> },
         { element: <Home />, index: true },
-        { path: 'job/:slug', element: <JobDescription /> },
+        { path: 'job/:id', element: <JobDescription /> },
         { path: '/job/:id' },
         { path: 'company/:id' },
         { path: 'jobseeker/dashboard' },

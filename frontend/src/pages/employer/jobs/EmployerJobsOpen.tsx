@@ -94,13 +94,13 @@ const EmployerJobsOpen = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs.map((job: any) => {
+            {jobs.reverse().map((job: any) => {
               return (
                 <TableRow key={job.id}>
                   <TableCell padding='checkbox'>
                     <Checkbox />
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ width: '40%' }}>
                     <Stack spacing={1}>
                       <Typography variant='h4' sx={{ color: '#40a9ff' }}>
                         {job.title}
