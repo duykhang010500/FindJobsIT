@@ -16,7 +16,7 @@ class Job extends Authenticatable
     protected $fillable = [
         'title',  'job_description','code', 'title','job_requirement','job_description',
          'notes', 'salary', 'keywords', 'contact_name', 'image', 'address', 'company_name',
-         'job_type','level_id','degree_id', 'exp', 'exp_from', 'exp_to', 'gender', 'salary_from', 'salary_to',
+         'job_type','level','degree', 'exp', 'exp_from', 'exp_to', 'gender', 'salary_from', 'salary_to',
          'candidate_amount', 'age_from', 'age_to', 'applied', 'comp_id', 'unskill_job', 'hide_salary',
          'industries', 'locations', 'job_benefits','end_date','status'
     ];

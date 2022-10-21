@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
+use App\Models\Resume;
 use App\Models\Location;
 use App\Models\Company;
 use App\Models\Industry;
@@ -220,30 +221,73 @@ class JobController extends Controller
     public function apply(Request $request,$id)
     {
         //
-        $member = auth('sanctum')->user();
-        $job = Job::findOrFail($id);
+        try{
+            $member = auth('sanctum')->user();
+            $job = Job::findOrFail($id);
 
-        $candidate = new Candidate;
+            // check member apply
+            $c_mid = Candidate::where([
+                ['member_id', '=', $member -> id],
+                ['job_id', '=', $job -> id],
+            ])->first();
 
-        $candidate -> member_id = $member -> id;
-        $candidate -> job_id = $job -> id;
-        $candidate -> comp_id = $job -> comp_id;
-        $candidate -> resume_file = $request -> post('resume_file');
-        // dd($candidate -> resume_file);
+            if (!empty($c_mid))
+                return response()->json([
+                    'message' => 'Job applied',
+                ]);
 
-        $c_mid = Candidate::where([
-            ['member_id', '=', $member -> id],
-            ['job_id', '=', $job -> id],
-        ])->get();
-        if ($c_mid)
+            if($member->id){
+                $candidate = new Candidate;
+                $candidate -> member_id = $member -> id;
+                $candidate -> job_id = $job -> id;
+                $candidate -> comp_id = $job -> comp_id;
+                $candidate -> resume_file = $request -> post('resume_file');
+                $candidate -> save();
+            }
+            if(!$member->resume){
+                $resume = new Resume;
+                $resume -> resume_status = 1; //active resume
+                if (!empty($job->level))
+                    $resume->level = $job->level;
+                if (!empty($job->degree))
+                    $resume->degree = $job->degree;
+                if (!empty($job->resume_title))
+                    $resume->resume_title = $job->resume_title;
+
+                $resume->resume_file = $request -> post('resume_file');
+
+                $resume -> save();
+
+                $member -> resume_id = $resume -> id;
+                $member -> save();
+
+                if(!empty($job->industries)){
+                    $data = explode(',', $job->industries);
+                    foreach ($data as $key => $value) {
+                        $value = (int)$value;
+                        $resume->industries()->attach($value);
+                        $resume->save();
+                    }
+                }
+                if(!empty($job->locations)){
+                    $data = explode(',', $job->locations);
+                    foreach ($data as $key => $value) {
+                        $value = (int)$value;
+                        $resume->locations()->attach($value);
+                        $resume->save();
+                    }
+                }
+            }
             return response()->json([
-                'message' => 'applied_this_job',
-            ]);
-        $candidate -> save();
-            return response()->json([
-                'message' => ' Aplly successfully',
+                'message' => 'Apply successfully',
                 'candidate' => $candidate,
             ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function companies()

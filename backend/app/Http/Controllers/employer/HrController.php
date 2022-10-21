@@ -36,9 +36,9 @@ class HrController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:jobs,title',
             'job_type' => 'required',
-            'level_id' => 'required',
+            'level' => 'required',
             'industries' => 'required',
-            'degree_id' => 'required',
+            'degree' => 'required',
             'locations' => 'required',
             'job_description' => 'required',
             'job_requirement' => 'required',
@@ -86,9 +86,9 @@ class HrController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|unique:jobs,title,'.$id,
             'job_type' => 'required',
-            'level_id' => 'required',
+            'level' => 'required',
             'industries' => 'required',
-            'degree_id' => 'required',
+            'degree' => 'required',
             'locations' => 'required',
             'job_description' => 'required',
             'job_requirement' => 'required',
@@ -123,6 +123,7 @@ class HrController extends Controller
         }
         $job->update(array_merge($validator->validated(),
         ['comp_id' => auth()->user()->company->id,'status' => $request->status,
+
         ]));
 
         return response()->json([
