@@ -138,9 +138,8 @@ class HrController extends Controller
     }
 
     public function candidates(Request $request){
-        $model = new Candidate;
 
-        $item = $model->where([
+        $item = Candidate::with('job','member')->where([
             ['comp_id', '=', auth()->user()->company->id],
             // ['job_id', '=', $job -> id],
         ])->get();
