@@ -55,6 +55,12 @@ class HrController extends Controller
         $job = Job::create(array_merge(
             $validator->validated(),
             ['comp_id' => auth()->user()->company->id,'status' => $request->status,
+            'exp' => $request->exp,
+            'exp_from' => $request->exp_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
+            'salary_from' => $request->salary_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
+            'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'gender' => $request->gender,
+            'age_from' => $request->age_from,'age_to' => $request->age_to,'unskill_job' => $request->unskill_job,
+            'job_benefits' => $request->job_benefits,'end_date' => $request->end_date,'contact_emails' => $request->contact_emails,
             ]
         ));
         // dd(1);
