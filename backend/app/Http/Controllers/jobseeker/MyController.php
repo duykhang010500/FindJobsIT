@@ -81,7 +81,6 @@ class MyController extends Controller
             $resume = auth()->user()->resume;
 
             if($resume != NULL){
-
                 if(!empty($request->industries)){
                     $resume->industries()->detach();
                     $data = explode(',', $request->industries);
@@ -102,6 +101,10 @@ class MyController extends Controller
                 }
                 $resume->update($fields_resume->validated());
             }else{
+                $resume = Resume::create(array_merge($fields_resume->validated()));
+                $member->resume_id = $resume->id;
+                $member->save();
+
                 if(!empty($request->industries)){
                     $data = explode(',', $request->industries);
                     foreach ($data as $key => $value) {
@@ -118,9 +121,6 @@ class MyController extends Controller
                         $resume->save();
                     }
                 }
-                $resume = Resume::create(array_merge($fields_resume->validated()));
-                $member->resume_id = $resume->id;
-                $member->save();
             }
 
             if($member && $resume){

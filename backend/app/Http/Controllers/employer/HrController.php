@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employer;
 use App\Models\Company;
 use App\Models\Job;
+use App\Models\Member;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -145,6 +146,30 @@ class HrController extends Controller
         ])->get();
         return response()->json([
             'candidate' => $item
+        ]);
+
+    }
+
+    public function candidate(Request $request,$id){
+
+        $candidate = Candidate::find($id);
+        return response()->json([
+            'candidate' => Member::with('resume')->where('id',$candidate->member_id)->first()
+        ]);
+
+    }
+
+    public function candidateStatus(Request $request,$id){
+        $candidate = Candidate::where('id', $id)->firstOrFail();
+        // $candidate->update(['status', $request->status]);
+        $request->validate([
+            'status' => 'required',
+        ]);
+      
+        $candidate->update($request->all());
+        return response()->json([
+            'candidate' => $candidate,
+            'message' => 'update candidate status'
         ]);
 
     }
