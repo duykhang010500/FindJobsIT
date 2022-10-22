@@ -5,14 +5,17 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
-import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
+
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+
 type Props = {};
 
 const JobBenefit = (props: Props) => {
-  const { job } = useSelector((state: AppState) => state.jobs);
+  // const { job } = useSelector((state: AppState) => state.jobs);
   return (
     <Card
       sx={{

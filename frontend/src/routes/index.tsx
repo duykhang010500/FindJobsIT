@@ -36,6 +36,11 @@ import CreateService from '../pages/admin/services/CreateService';
 import AdminCandidatesPage from '../pages/admin/candidates/AdminCandidatesPage';
 import MyProfile from '../pages/employer/settings/MyProfile';
 import CompanyProfile from '../pages/employer/settings/CompanyProfile';
+import JobSeekerDashboardLayout from '../layouts/JobSeekerDashboard';
+import JobSeekerDashboardPage from '../pages/jobseeker/JobSeekerDashboard';
+import JobSeekerProfile from '../pages/jobseeker/JobSeekerProfile';
+import JobSeekerJobs from '../pages/jobseeker/JobSeekerJobs';
+import JobSeekerSettings from '../pages/jobseeker/JobSeekerSettings';
 
 type Props = {};
 
@@ -46,15 +51,24 @@ const Router = (props: Props) => {
       path: '/',
       element: <JobSeekerLayout />,
       children: [
-        { path: 'register', element: <JobSeekerRegister /> },
-        { path: '/login', element: <JobSeekerLogin /> },
         { element: <Home />, index: true },
+        { path: 'register', element: <JobSeekerRegister /> },
+        { path: 'login', element: <JobSeekerLogin /> },
         { path: 'job/:id', element: <JobDescription /> },
-        { path: '/job/:id' },
         { path: 'company/:id' },
-        { path: 'jobseeker/dashboard' },
+        {
+          path: 'my',
+          element: <JobSeekerDashboardLayout />,
+          children: [
+            { path: 'jobs', element: <JobSeekerJobs /> },
+            { path: 'profile', element: <JobSeekerProfile /> },
+            { path: 'settings', element: <JobSeekerSettings /> },
+            { path: 'dashboard', element: <JobSeekerDashboardPage /> },
+          ],
+        },
       ],
     },
+
     {
       path: 'employer',
       element: <EmployerMainLayout />,

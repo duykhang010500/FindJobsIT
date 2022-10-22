@@ -9,8 +9,8 @@ const OtherJobs = (props: Props) => {
     <Grid container spacing={2}>
       {jobsData.map((job, index) => {
         return (
-          <Grid item xs={12} sm={6}>
-            <JobCard key={index} job={job} isSmall={true} />
+          <Grid item xs={12} sm={6} key={index}>
+            <JobCard job={job} isSmall={true} />
           </Grid>
         );
       })}

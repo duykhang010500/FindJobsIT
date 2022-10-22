@@ -13,6 +13,9 @@ const guestServices = {
   getJob: (id: any) => {
     return axiosInstance.get('/job/' + id);
   },
+  getRelevantJobs: (id: any) => {
+    return axiosInstance.get('/job-relevant/' + id);
+  },
 };
 
 export default guestServices;

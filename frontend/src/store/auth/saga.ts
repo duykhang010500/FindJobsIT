@@ -10,6 +10,7 @@ import {
   REGISTER_JOBSEEKER,
   GET_INFO_ADMIN,
   UPDATE_INFO_EMPLOYER,
+  GET_CURRENT_JOBSEEKER,
 } from './actionTypes';
 
 import {
@@ -26,6 +27,8 @@ import {
   getInfoAdminSuccess,
   getInfoAdmin,
   updateInfoEmployerSuccess,
+  getCurrentJobSeeker,
+  getCurrentJobSeekerSuccess,
 } from './action';
 
 import adminServices from '../../services/admin';
@@ -56,10 +59,20 @@ function* jobSeekerLoginSaga({ payload: { formData, navigate } }: any): any {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('role', '1');
       navigate('/');
+      yield put(getCurrentJobSeeker());
     }
   } catch (err) {
     console.log(err);
     yield put(jobSeekerRegisterFailure(err));
+  }
+}
+
+function* getCurrentJobSeekerSaga(): any {
+  try {
+    const res = yield call(jobSeekerServices.getCurrentJobSeeker);
+    yield put(getCurrentJobSeekerSuccess(res.data.info[0]));
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -139,12 +152,13 @@ function* getInfoAdminSaga(): any {
 function* authSaga() {
   yield takeEvery(REGISTER_JOBSEEKER, jobSeekerRegisterSaga);
   yield takeEvery(LOGIN_JOBSEEKER, jobSeekerLoginSaga);
+  yield takeEvery(GET_CURRENT_JOBSEEKER, getCurrentJobSeekerSaga);
   yield takeEvery(REGISTER_EMPLOYER, employerRegister);
   yield takeEvery(LOGIN_EMPLOYER, employerLogin);
   yield takeEvery(GET_INFO_EMPLOYER, getCurrentEmployer);
-  yield takeEvery(UPDATE_INFO_EMPLOYER, updateInfoEmployerSaga);
   yield takeEvery(LOGIN_ADMIN, adminLogin);
   yield takeEvery(GET_INFO_ADMIN, getInfoAdminSaga);
+  yield takeEvery(UPDATE_INFO_EMPLOYER, updateInfoEmployerSaga);
 }
 
 export default authSaga;

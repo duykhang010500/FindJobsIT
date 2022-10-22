@@ -71,6 +71,7 @@ const authReducer = (state = initialState, action: AuthActions) => {
         ...state,
         currentUser: action.payload,
       };
+
     case REGISTER_EMPLOYER:
       return {
         ...state,
