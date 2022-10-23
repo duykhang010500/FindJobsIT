@@ -1,4 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
+import dayjs from 'dayjs';
 import {
   styled,
   Card,
@@ -16,18 +17,8 @@ import { HiOutlineLocationMarker } from 'react-icons/hi';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import UpdateIcon from '@mui/icons-material/Update';
 
-interface IJob {
-  title: string;
-  companyName: string;
-  companyLogo: string;
-  salary: string;
-  location: string;
-  skill: string[];
-  postDate: string;
-}
-
 interface Iprops {
-  job: IJob;
+  job: any;
   isSmall?: boolean;
 }
 
@@ -142,7 +133,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
         >
           <img
             style={{ width: '60px', height: '60px' }}
-            src={job.companyLogo}
+            src={job.company.logo}
             alt='company-logo'
           />
 
@@ -162,25 +153,25 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
           </IconWrapper>
         </Stack>
         <Stack>
-          <Link component={RouterLink} to={`/job/47`}>
+          <Link component={RouterLink} to={`/job/${job.id}`}>
             <Typography variant='h3' fontWeight={500}>
               {job.title}
             </Typography>
           </Link>
           <Typography variant='h4' fontWeight={500} color='#1890ff' mt={1}>
-            {job.companyName}
+            {job.company_name}
           </Typography>
 
           <Typography fontWeight={500} mt={1} variant='body2'>
             <HiOutlineLocationMarker style={{ marginRight: 1 }} />
-            {job.location}
+            {job.locations[0].name}
           </Typography>
 
           <Typography variant='caption' mt={1} color='#8c8c8c'>
-            Posted date: {job.postDate}
+            Posted date: {dayjs(job.created_at).format('DD/MM/YYYY')}
           </Typography>
           <Divider sx={{ margin: '15px 0px' }} />
-          <Stack direction='row' spacing={2}>
+          {/* <Stack direction='row' spacing={2}>
             {job.skill.map((skill) => {
               return (
                 <BadgeSkill
@@ -193,7 +184,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
                 </BadgeSkill>
               );
             })}
-          </Stack>
+          </Stack> */}
         </Stack>
       </JobCardWrapper>
     );

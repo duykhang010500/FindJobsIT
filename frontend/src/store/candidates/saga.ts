@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { call, takeEvery, put } from 'redux-saga/effects';
 import adminServices from '../../services/admin';
 import employerServices from '../../services/employer';
@@ -8,12 +9,12 @@ import {
 import {
   ADMIN_GET_CANDIDATES_LIST,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
+  UPDATE_STATUS,
 } from './actionTypes';
 
 function* getListCandidatesForEmployerSaga(): any {
   try {
     const response = yield call(employerServices.getCandidates);
-    console.log('Get list candidate: ', response);
     yield put(getListCandidatesForEmployerSuccess(response.data.candidate));
   } catch (err) {
     throw err;
@@ -31,12 +32,19 @@ function* adminGetCandidatesListSaga(): any {
   }
 }
 
+function* updateStatus({ payload: { id, formData } }: any): any {
+  yield call(employerServices.updateStatus, id, formData);
+  yield put(getListCandidatesForEmployerSaga());
+  toast.success('Update status successfully!');
+}
+
 function* candidatesSaga() {
   yield takeEvery(
     GET_LIST_CANDIDATES_FOR_EMPLOYER,
     getListCandidatesForEmployerSaga
   );
   yield takeEvery(ADMIN_GET_CANDIDATES_LIST, adminGetCandidatesListSaga);
+  yield takeEvery(UPDATE_STATUS, updateStatus);
 }
 
 export default candidatesSaga;

@@ -13,12 +13,14 @@ import {
   createJobFailure,
   createJobSuccess,
   employerGetJobsSuccess,
+  getJobsSuccess,
   getJobSuccess,
 } from './actions';
 
 import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
 import jobSeekerServices from '../../services/jobSeeker';
+import { PublicTwoTone } from '@mui/icons-material';
 
 function* createJob({ payload: { formData, navigate } }: any) {
   try {
@@ -34,6 +36,8 @@ function* createJob({ payload: { formData, navigate } }: any) {
 function* getJobs(): any {
   try {
     const res = yield call(guestServices.getJobs);
+    console.log(res);
+    yield put(getJobsSuccess(res.data.result.data));
   } catch (err) {}
 }
 

@@ -4,6 +4,7 @@ import {
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
+  UPDATE_STATUS,
 } from './actionTypes';
 
 export const getListCandidatesForEmployer = () => ({
@@ -31,5 +32,15 @@ export const adminGetCandidatesListSuccess = (list: any) => {
 export const adminGetCandidatesListFailure = () => {
   return {
     type: ADMIN_GET_CANDIDATES_LIST_FAILURE,
+  };
+};
+
+export const updateStatus = (id: any, formData: any) => {
+  return {
+    type: UPDATE_STATUS,
+    payload: {
+      id,
+      formData,
+    },
   };
 };

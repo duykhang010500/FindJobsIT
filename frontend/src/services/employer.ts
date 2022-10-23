@@ -33,6 +33,9 @@ const employerServices = {
     return axiosInstance.get('/employer/hr/candidates');
   },
 
+  updateStatus: (id: any, formData: any) => {
+    return axiosInstance.post('/employer/hr/candidate/status/' + id, formData);
+  },
   //services
   getListServices: () => {
     return axiosInstance.get('/employer/services');
