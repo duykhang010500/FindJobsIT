@@ -1,6 +1,7 @@
 import store from '.';
 import { combineReducers } from 'redux';
 
+import cvReducer from './cv/reducer';
 import JobsReducer from './jobs/reducer';
 import authReducer from './auth/reducer';
 import servicesReducer from './services/reducer';
@@ -10,6 +11,7 @@ import candidatesReducer from './candidates/reducer';
 import industriesReducer from './industries/reducer';
 
 const rootReducer = combineReducers({
+  cv: cvReducer,
   auth: authReducer,
   jobs: JobsReducer,
   services: servicesReducer,

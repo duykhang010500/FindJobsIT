@@ -1,4 +1,7 @@
 import {
+  APPLY_JOB,
+  APPLY_JOB_FAILURE,
+  APPLY_JOB_SUCCESS,
   CREATE_JOB,
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
@@ -55,3 +58,17 @@ export const employerGetJobsSuccess = (jobs: any) => ({
   type: EMPLOYER_GET_JOBS_SUCCESS,
   payload: jobs,
 });
+
+export const applyJob = (id: any, formData: any) => ({
+  type: APPLY_JOB,
+  payload: {
+    id,
+    formData,
+  },
+});
+
+export const applyJobSuccess = () => {
+  return {
+    type: APPLY_JOB_SUCCESS,
+  };
+};

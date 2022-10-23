@@ -1,4 +1,6 @@
 import {
+  APPLY_JOB,
+  APPLY_JOB_SUCCESS,
   CREATE_JOB,
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
@@ -57,6 +59,16 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
       return {
         ...state,
         jobs: action.payload,
+      };
+    case APPLY_JOB:
+      return {
+        ...state,
+        // isLoading: true,
+      };
+    case APPLY_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { CssBaseline } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import {
   getCurrentJobSeeker,
@@ -48,9 +50,11 @@ export default function App(props: IAppProps) {
 
   return (
     <ThemProvider>
-      <ToastContainer autoClose={1000} position='top-center' />
-      <CssBaseline />
-      <Router />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <ToastContainer autoClose={1000} position='top-center' />
+        <CssBaseline />
+        <Router />
+      </LocalizationProvider>
     </ThemProvider>
   );
 }

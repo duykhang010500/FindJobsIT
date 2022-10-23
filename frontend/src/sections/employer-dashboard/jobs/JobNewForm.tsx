@@ -1,4 +1,6 @@
-import React from 'react';
+import dayjs from 'dayjs';
+
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +13,14 @@ import {
   Typography,
   Autocomplete,
   FormHelperText,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
 } from '@mui/material';
+
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import Editor from '../../../components/Editor';
 
@@ -62,14 +71,24 @@ const JobNewForm = (props: Props) => {
     locations: yup.array().min(1, 'please choose at least 1 location'),
     job_description: yup.string().required('Job description is required'),
     job_requirement: yup.string().required('Job requirement is required'),
-    // age_from: yup.number().min(0).required('Age from is required'),
-    // age_to: yup.number().required('Age to is required'),
+    exp: yup.string(),
+    exp_from: yup.string(),
+    exp_to: yup.string(),
+    salary: yup.string(),
+    salary_from: yup.string(),
+    salary_to: yup.string(),
+    gender: yup.number(),
+    age_from: yup.number().required('Age from is required'),
+    age_to: yup.number().required('Age to is required'),
+    unskill_job: yup.string().required('Skill is require'),
+    job_benefits: yup.string().required('Benefits is require'),
+    // end_date: yup.string(),
     company_name: yup.string().required('Company name is required'),
     contact_name: yup.string().required('Contact name is required'),
     contact_emails: yup.string().required('Contact email is required'),
   });
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, getValues, setValue } = useForm({
     defaultValues: {
       title: '',
       job_type: '',
@@ -77,26 +96,40 @@ const JobNewForm = (props: Props) => {
       industries: [],
       degree: '',
       locations: [],
+      exp: 'Not require',
+      exp_from: '',
+      exp_to: '',
+      salary: 'Negotiate',
+      salary_from: '',
+      salary_to: '',
+      gender: 1,
+      age_from: '',
+      age_to: '',
+      unskill_job: '',
+      job_benefits: '',
+      end_date: '',
       job_description: '',
       job_requirement: '',
-      // age_from: undefined,
-      // age_to: undefined,
       company_name: '',
       contact_name: '',
       contact_emails: '',
       status: 1,
     },
-    resolver: yupResolver(newJobSchema),
+    // resolver: yupResolver(newJobSchema),
   });
+
+  const [showSalary, setShowSalary] = useState<any>('Negotiate');
+  const [showExperience, setShowExperience] = useState<any>('Not require');
 
   const onSubmit = (data: any) => {
     const newFormValues = {
       ...data,
       industries: convertArrayObjToString(data.industries),
       locations: convertArrayObjToString(data.locations),
+      end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
     };
 
-    console.log(newFormValues);
+    console.log('Form Values: ', newFormValues);
 
     dispatch(createJob(newFormValues, navigate));
   };
@@ -239,43 +272,214 @@ const JobNewForm = (props: Props) => {
               />
             )}
           />
-          {/* <div>
+          <Controller
+            control={control}
+            name='exp'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                select
+                size='small'
+                label='Experience'
+                error={!!error}
+                helperText={error?.message}
+                onChange={(e) => {
+                  setShowExperience(e.target.value);
+                  setValue('exp', e.target.value);
+                }}
+              >
+                <MenuItem value='Not require'>Not require</MenuItem>
+                <MenuItem value='Year'>Year</MenuItem>
+              </TextField>
+            )}
+          />
+          <Controller
+            control={control}
+            name='exp_from'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                label='From'
+                error={!!error}
+                helperText={error?.message}
+                disabled={showExperience === 'Not require'}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='exp_to'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                label='To'
+                error={!!error}
+                helperText={error?.message}
+                disabled={showExperience === 'Not require'}
+              />
+            )}
+          />
+
+          <Controller
+            name='gender'
+            control={control}
+            render={({ field }) => {
+              return (
+                <FormControl fullWidth>
+                  <FormLabel>Gender</FormLabel>
+                  <RadioGroup {...field} row>
+                    <FormControlLabel
+                      value='1'
+                      control={<Radio />}
+                      label='Male'
+                    />
+                    <FormControlLabel
+                      value='2'
+                      control={<Radio />}
+                      label='Female'
+                    />
+                  </RadioGroup>
+                </FormControl>
+              );
+            }}
+          />
+
+          <Controller
+            control={control}
+            name='salary'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                select
+                label='Salary'
+                error={!!error}
+                helperText={error?.message}
+                onChange={(e) => {
+                  setShowSalary(e.target.value);
+                  setValue('salary', e.target.value);
+                }}
+              >
+                <MenuItem value='Negotiate'>Negotiate</MenuItem>
+                <MenuItem value='VND'>VND</MenuItem>
+              </TextField>
+            )}
+          />
+          <Controller
+            control={control}
+            name='salary_from'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                label='From'
+                type='number'
+                error={!!error}
+                helperText={error?.message}
+                disabled={showSalary === 'Negotiate'}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='salary_to'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                label='To'
+                type='number'
+                error={!!error}
+                helperText={error?.message}
+                disabled={showSalary === 'Negotiate'}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name='age_from'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                label='Age from'
+                type='number'
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='age_to'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                label='Age to'
+                type='number'
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='unskill_job'
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                size='small'
+                label='Skill'
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
+          />
+          <Controller
+            name='end_date'
+            control={control}
+            render={({ field, fieldState: { error } }) => {
+              return (
+                <DesktopDatePicker
+                  {...field}
+                  label='End date'
+                  inputFormat='DD/MM/YYYY'
+                  renderInput={(props) => (
+                    <TextField {...props} fullWidth error={!!error} />
+                  )}
+                />
+              );
+            }}
+          />
+          <div>
             <Typography
               variant='h5'
               gutterBottom
               sx={{ color: 'rgb(99, 115, 129)' }}
             >
-              Age
+              Job Benefits
             </Typography>
-            <Stack direction='row' spacing={3}>
-              <Controller
-                control={control}
-                name='age_from'
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    size='small'
-                    label='From'
-                    error={!!error}
-                    helperText={error?.message}
-                  />
-                )}
-              />
-              <Controller
-                control={control}
-                name='age_to'
-                render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    {...field}
-                    size='small'
-                    label='To'
-                    error={!!error}
-                    helperText={error?.message}
-                  />
-                )}
-              />
-            </Stack>
-          </div> */}
+            <Controller
+              name='job_benefits'
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Editor
+                  id='job_benefits'
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={!!error}
+                  helperText={
+                    <FormHelperText error>{error?.message}</FormHelperText>
+                  }
+                />
+              )}
+            />
+          </div>
+
           <div>
             <Typography
               variant='h5'

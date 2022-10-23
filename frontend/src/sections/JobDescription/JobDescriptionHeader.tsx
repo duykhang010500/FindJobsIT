@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import { AppState } from '../../store/reducer';
+import ApplyForm from './ApplyForm';
 
 type Props = {};
 
@@ -36,6 +37,16 @@ const Img = styled('img')({
 
 const JobDescriptionHeader = (props: Props) => {
   const { job } = useSelector((state: AppState) => state.jobs);
+
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <RootStyle>
@@ -89,6 +100,7 @@ const JobDescriptionHeader = (props: Props) => {
               size='large'
               variant='contained'
               startIcon={<IntegrationInstructionsIcon />}
+              onClick={handleOpen}
             >
               Apply now
             </Button>
@@ -102,6 +114,7 @@ const JobDescriptionHeader = (props: Props) => {
           </Stack>
         </Grid>
       </Grid>
+      <ApplyForm job={job} open={open} close={handleClose} />
     </RootStyle>
   );
 };

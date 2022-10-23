@@ -52,7 +52,7 @@ const JobDescription: FC<Props> = () => {
   return (
     <Fragment>
       <Container sx={{ mt: 15 }}>
-        <Box
+        {/* <Box
           sx={{
             padding: '40px 20px',
             boxShadow:
@@ -61,16 +61,16 @@ const JobDescription: FC<Props> = () => {
           }}
         >
           <SearchBar />
-        </Box>
+        </Box> */}
         <Breadcrumbs
           sx={{ mb: 5, mt: 5, '&.MuiTypography-root': { fontWeight: 600 } }}
           separator='›'
           aria-label='breadcrumb'
         >
-          <Link component={RouterLink} to={`/`} color='primary'>
+          <Link component={RouterLink} to={`/`}>
             Home
           </Link>
-          <Link component={RouterLink} to={`/`} color='primary'>
+          <Link component={RouterLink} to={`/`}>
             Job
           </Link>
           <Typography>Front-end developer</Typography>

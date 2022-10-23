@@ -20,6 +20,15 @@ const jobSeekerServices = {
   getLocationList: () => {
     return axiosInstance.get('/location');
   },
+  getCV: () => {
+    return axiosInstance.get('/my/resume');
+  },
+  updateCV: () => {
+    return axiosInstance.post('/my/resume');
+  },
+  applyJob: (id: any, formData: any) => {
+    return axiosInstance.post('/apply/' + id, formData);
+  },
 };
 
 export default jobSeekerServices;

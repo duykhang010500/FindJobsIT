@@ -1,4 +1,7 @@
 import {
+  APPLY_JOB,
+  APPLY_JOB_FAILURE,
+  APPLY_JOB_SUCCESS,
   CREATE_JOB,
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
@@ -57,6 +60,19 @@ export type EmployerGetJobsSucess = {
   payload: any;
 };
 
+export type ApplyJob = {
+  type: typeof APPLY_JOB;
+  payload: any;
+};
+
+export type ApplyJobSuccess = {
+  type: typeof APPLY_JOB_SUCCESS;
+};
+
+export type ApplyJobFailure = {
+  type: typeof APPLY_JOB_FAILURE;
+};
+
 export type JobsAction =
   | CreateJob
   | CreateJobSuccess
@@ -66,4 +82,7 @@ export type JobsAction =
   | GetJob
   | GetJobSuccess
   | EmployerGetJos
-  | EmployerGetJobsSucess;
+  | EmployerGetJobsSucess
+  | ApplyJob
+  | ApplyJobSuccess
+  | ApplyJobFailure;
