@@ -107,7 +107,7 @@ class JobController extends Controller
             $paginatedItems->setPath($request->url());
             return response()->json([
                 'result' => $paginatedItems,
-            ], 500);
+            ]);
         } catch (\Exception $e) {
             echo $e->getMessage();
             return NULL;
@@ -126,7 +126,7 @@ class JobController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ], 500);
+            ]);
         }
     }
 
