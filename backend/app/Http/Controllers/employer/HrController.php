@@ -91,7 +91,7 @@ class HrController extends Controller
     {
         $job = Job::where('id',$id)->first();
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:jobs,title',
+            'title' => 'required|unique:jobs,title,'.$id,
             'job_type' => 'required',
             'level' => 'required',
             'industries' => 'required',
