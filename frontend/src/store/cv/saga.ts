@@ -17,7 +17,7 @@ function* getMyCVSaga(): any {
 
 function* updateMyCVSaga({ payload: formData }: any): any {
   try {
-    const res = yield call(jobSeekerServices.updateCV, formData);
+    yield call(jobSeekerServices.updateCV, formData);
   } catch (err) {
     throw err;
   }

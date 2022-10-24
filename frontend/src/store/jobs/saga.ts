@@ -8,6 +8,7 @@ import {
   APPLY_JOB,
   CREATE_JOB,
   EMPLOYER_GET_JOBS,
+  SEARCH_JOB,
 } from './actionTypes';
 
 import {
@@ -16,6 +17,7 @@ import {
   createJobFailure,
   createJobSuccess,
   employerGetJobsSuccess,
+  searchJobsSuccess,
 } from './actions';
 
 import guestServices from '../../services/guest';
@@ -67,12 +69,30 @@ function* applyJobSaga({ payload: { id, formData } }: any): any {
   }
 }
 
+function* searchJobs({
+  payload: { keywords, locations, industries },
+}: any): any {
+  try {
+    const res = yield call(
+      guestServices.searchJob,
+      keywords,
+      locations,
+      industries
+    );
+
+    yield put(searchJobsSuccess(res.data.result.data));
+  } catch (err) {
+    throw err;
+  }
+}
+
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
   yield takeEvery(GET_JOBS, getJobsSaga);
   yield takeEvery(GET_JOB, getJob);
   yield takeEvery(EMPLOYER_GET_JOBS, employerGetJobs);
   yield takeEvery(APPLY_JOB, applyJobSaga);
+  yield takeEvery(SEARCH_JOB, searchJobs);
 }
 
 export default jobsSaga;

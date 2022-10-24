@@ -12,7 +12,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CareerInformation from './CareerInformation';
 import ProfileInformation from './ProfileInformation';
 import EducationInformation from './EducationInformation';
-import { getIdFromArr, getStrFromArr } from '../../../utils/convert';
+import { getIdFromArr } from '../../../utils/convert';
 import { useDispatch } from 'react-redux';
 import { getMyCV, updateMyCv } from '../../../store/cv/actions';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ import { AppState } from '../../../store/reducer';
 
 type Props = {};
 
-const defaultValues = {};
+// const defaultValues = {};
 
 const ProfileForm = (props: Props) => {
   const dispatch = useDispatch();
@@ -102,7 +102,7 @@ const ProfileForm = (props: Props) => {
 
   const { control, handleSubmit, setValue, reset } = useForm({
     defaultValues,
-    // resolver: yupResolver(profileSchema),
+    resolver: yupResolver(profileSchema),
   });
 
   useEffect(() => {

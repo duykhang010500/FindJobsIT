@@ -1,3 +1,4 @@
+import SearchJobs from '../../pages/SearchJobs';
 import {
   APPLY_JOB,
   APPLY_JOB_FAILURE,
@@ -11,6 +12,7 @@ import {
   GET_JOBS,
   GET_JOBS_SUCCESS,
   GET_JOB_SUCCESS,
+  SEARCH_JOB_SUCCESS,
 } from './actionTypes';
 
 export interface IJobsState {
@@ -18,6 +20,7 @@ export interface IJobsState {
   error: any;
   job: any;
   jobs: any;
+  jobsSearch: any;
 }
 
 export type CreateJob = {
@@ -73,6 +76,16 @@ export type ApplyJobFailure = {
   type: typeof APPLY_JOB_FAILURE;
 };
 
+export type SearchJob = {
+  type: typeof SearchJobs;
+  payload: any;
+};
+
+export type SearchJobSuccess = {
+  type: typeof SEARCH_JOB_SUCCESS;
+  payload: any;
+};
+
 export type JobsAction =
   | CreateJob
   | CreateJobSuccess
@@ -85,4 +98,6 @@ export type JobsAction =
   | EmployerGetJobsSucess
   | ApplyJob
   | ApplyJobSuccess
-  | ApplyJobFailure;
+  | ApplyJobFailure
+  | SearchJob
+  | SearchJobSuccess;

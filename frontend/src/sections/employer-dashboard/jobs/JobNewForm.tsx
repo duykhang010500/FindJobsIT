@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -115,7 +115,7 @@ const JobNewForm = (props: Props) => {
       contact_emails: '',
       status: 1,
     },
-    // resolver: yupResolver(newJobSchema),
+    resolver: yupResolver(newJobSchema),
   });
 
   const [showSalary, setShowSalary] = useState<any>('Negotiate');

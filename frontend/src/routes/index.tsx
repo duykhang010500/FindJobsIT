@@ -41,6 +41,7 @@ import JobSeekerDashboardPage from '../pages/jobseeker/JobSeekerDashboard';
 import JobSeekerProfile from '../pages/jobseeker/JobSeekerProfile';
 import JobSeekerJobs from '../pages/jobseeker/JobSeekerJobs';
 import JobSeekerSettings from '../pages/jobseeker/JobSeekerSettings';
+import SearchJobs from '../pages/SearchJobs';
 
 type Props = {};
 
@@ -66,6 +67,7 @@ const Router = (props: Props) => {
             { path: 'dashboard', element: <JobSeekerDashboardPage /> },
           ],
         },
+        { path: 'search', element: <SearchJobs /> },
       ],
     },
 

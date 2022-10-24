@@ -18,8 +18,6 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import { Controller } from 'react-hook-form';
 import { AppState } from '../../../store/reducer';
-import { IIndustry } from '../../../models/industry';
-import { ILocation } from '../../../models/location';
 import { degreeTypes, jobLevel, jobTypes } from '../../../utils/defaultValues';
 import Editor from '../../../components/Editor';
 
