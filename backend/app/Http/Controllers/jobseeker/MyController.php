@@ -15,7 +15,6 @@ class MyController extends Controller
     public function getResume(Request $request)
     {
         $id = auth()->user()->resume->id;
-        
         $resume = Resume::with('locations','industries')->where('id',$id)->first();
         $resume->member;
         // dd($resume);
