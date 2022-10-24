@@ -12,6 +12,7 @@ import {
   GET_JOB_SUCCESS,
   SEARCH_JOB,
   SEARCH_JOB_SUCCESS,
+  UPDATE_JOB,
 } from './actionTypes';
 
 export const createJob = (formData: any, navigate: any) => ({
@@ -59,6 +60,16 @@ export const employerGetJobsSuccess = (jobs: any) => ({
   type: EMPLOYER_GET_JOBS_SUCCESS,
   payload: jobs,
 });
+
+export const updateJob = (id: any, formData: any) => {
+  return {
+    type: UPDATE_JOB,
+    payload: {
+      id,
+      formData,
+    },
+  };
+};
 
 export const applyJob = (id: any, formData: any) => ({
   type: APPLY_JOB,

@@ -13,6 +13,9 @@ import {
   GET_JOBS_SUCCESS,
   GET_JOB_SUCCESS,
   SEARCH_JOB_SUCCESS,
+  UPDATE_JOB,
+  UPDATE_JOB_FAILURE,
+  UPDATE_JOB_SUCCESS,
 } from './actionTypes';
 
 export interface IJobsState {
@@ -83,6 +86,20 @@ export type SearchJob = {
 
 export type SearchJobSuccess = {
   type: typeof SEARCH_JOB_SUCCESS;
+  payload: any;
+};
+
+export type UpdateJob = {
+  type: typeof UPDATE_JOB;
+  payload: any;
+};
+
+export type UpdateJobSuccess = {
+  type: typeof UPDATE_JOB_SUCCESS;
+};
+
+export type UpdateJobFailure = {
+  type: typeof UPDATE_JOB_FAILURE;
   payload: any;
 };
 

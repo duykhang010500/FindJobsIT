@@ -6,6 +6,10 @@ export const GET_JOBS = 'GET_JOBS';
 export const GET_JOBS_SUCCESS = 'GET_JOBS_SUCCESS';
 export const GET_JOBS_FAILURE = 'GET_JOBS_FAILURE';
 
+export const UPDATE_JOB = 'UPDATE_JOB';
+export const UPDATE_JOB_SUCCESS = 'UPDATE_JOB_SUCESS';
+export const UPDATE_JOB_FAILURE = 'UPDATE_JOB_FAILURE';
+
 export const GET_JOB = 'GET_JOB';
 export const GET_JOB_SUCCESS = 'GET_JOB_SUCCESS';
 export const GET_JOB_FAILURE = 'GET_JOB_FAILURE';

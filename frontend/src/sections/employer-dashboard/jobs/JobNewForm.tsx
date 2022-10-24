@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,12 +31,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import SaveIcon from '@mui/icons-material/Save';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
-import { createJob } from '../../../store/jobs/actions';
+import { createJob, updateJob } from '../../../store/jobs/actions';
 
 import { degreeTypes, jobLevel, jobTypes } from '../../../utils/defaultValues';
 import { LoadingButton } from '@mui/lab';
 
-type Props = {};
+type Props = {
+  isEdit?: boolean;
+  job?: any;
+};
 
 const convertArrayObjToString = (arr: any[]) => {
   let str = '';
@@ -50,7 +53,7 @@ const convertArrayObjToString = (arr: any[]) => {
   return str;
 };
 
-const JobNewForm = (props: Props) => {
+const JobNewForm = ({ isEdit = false, job }: Props) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -88,33 +91,35 @@ const JobNewForm = (props: Props) => {
     contact_emails: yup.string().required('Contact email is required'),
   });
 
-  const { control, handleSubmit, getValues, setValue } = useForm({
-    defaultValues: {
-      title: '',
-      job_type: '',
-      level: '',
-      industries: [],
-      degree: '',
-      locations: [],
-      exp: 'Not require',
-      exp_from: '',
-      exp_to: '',
-      salary: 'Negotiate',
-      salary_from: '',
-      salary_to: '',
-      gender: 1,
-      age_from: '',
-      age_to: '',
-      unskill_job: '',
-      job_benefits: '',
-      end_date: '',
-      job_description: '',
-      job_requirement: '',
-      company_name: '',
-      contact_name: '',
-      contact_emails: '',
-      status: 1,
-    },
+  const defaultValues = {
+    title: job?.title || '',
+    job_type: job?.job_type || '',
+    level: job?.level || '',
+    industries: job?.industries || [],
+    degree: job?.degree || '',
+    locations: job?.locations || [],
+    exp: job?.exp || 'Not require',
+    exp_from: job?.exp_from || '',
+    exp_to: job?.exp_to || '',
+    salary: job?.salary || 'Negotiate',
+    salary_from: job?.salary_from || '',
+    salary_to: job?.salary_to || '',
+    gender: job?.gender || 1,
+    age_from: job?.age_from || '',
+    age_to: job?.age_to || '',
+    unskill_job: job?.unskill_job || '',
+    job_benefits: job?.job_benefits || '',
+    end_date: job?.end_date || '',
+    job_description: job?.job_description || '',
+    job_requirement: job?.job_requirement || '',
+    company_name: job?.company_name || '',
+    contact_name: job?.contact_name || '',
+    contact_emails: job?.contact_emails || '',
+    status: 1,
+  };
+
+  const { control, handleSubmit, getValues, setValue, reset } = useForm({
+    defaultValues,
     resolver: yupResolver(newJobSchema),
   });
 
@@ -129,10 +134,16 @@ const JobNewForm = (props: Props) => {
       end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
     };
 
-    console.log('Form Values: ', newFormValues);
-
-    dispatch(createJob(newFormValues, navigate));
+    if (isEdit) {
+      dispatch(updateJob(job.id, newFormValues));
+    } else {
+      dispatch(createJob(newFormValues, navigate));
+    }
   };
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [reset, job]);
 
   return (
     <Box sx={{ mt: 6 }}>

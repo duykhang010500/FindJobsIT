@@ -88,6 +88,7 @@ const Router = (props: Props) => {
         { path: 'dashboard', element: <Statistics /> },
         { path: 'jobs/active', element: <EmployerJobsOpen /> },
         { path: 'job/create', element: <EmployerCreateJob /> },
+        { path: 'job/:id/edit', element: <EmployerCreateJob /> },
         { path: 'candidates', element: <EmployerCandidatesList /> },
         { path: 'order/active', element: <EmployerServices /> },
         { path: 'my', element: <MyProfile /> },

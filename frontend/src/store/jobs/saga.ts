@@ -9,6 +9,7 @@ import {
   CREATE_JOB,
   EMPLOYER_GET_JOBS,
   SEARCH_JOB,
+  UPDATE_JOB,
 } from './actionTypes';
 
 import {
@@ -86,6 +87,14 @@ function* searchJobs({
   }
 }
 
+function* updateJobSaga({ payload: { id, formData } }: any): any {
+  try {
+    yield call(employerServices.updateJob, id, formData);
+  } catch (err) {
+    throw err;
+  }
+}
+
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
   yield takeEvery(GET_JOBS, getJobsSaga);
@@ -93,6 +102,7 @@ function* jobsSaga() {
   yield takeEvery(EMPLOYER_GET_JOBS, employerGetJobs);
   yield takeEvery(APPLY_JOB, applyJobSaga);
   yield takeEvery(SEARCH_JOB, searchJobs);
+  yield takeEvery(UPDATE_JOB, updateJobSaga);
 }
 
 export default jobsSaga;
