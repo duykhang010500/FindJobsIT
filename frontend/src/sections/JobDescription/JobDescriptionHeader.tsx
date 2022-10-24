@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -18,10 +21,11 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import { AppState } from '../../store/reducer';
 import ApplyForm from './ApplyForm';
 
+dayjs.extend(relativeTime);
+
 type Props = {};
 
 const RootStyle = styled(Card)({
-  // marginTop: '150px',
   padding: '30px 10px',
   borderRadius: '8px',
   boxShadow:
@@ -78,35 +82,34 @@ const JobDescriptionHeader = (props: Props) => {
               <Typography variant='h4'>{job?.company.name}</Typography>
             </Link>
             <Typography variant='body2' color='rgb(99, 115, 129)'>
-              <UpdateIcon sx={{ verticalAlign: 'middle' }} /> Expiration date:
-              None
+              <UpdateIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+              Expires in {dayjs(new Date()).from(job?.end_date, true)}
             </Typography>
           </Stack>
         </Grid>
         <Grid item xs={12} sm={12} md={3}>
           <Stack
+            spacing={2.5}
+            direction='column'
             sx={{
               padding: {
                 xs: '0px 30px',
-
                 md: '0px',
                 lg: '0px 50px',
               },
             }}
-            direction='column'
-            spacing={2.5}
           >
             <Button
               size='large'
               variant='contained'
-              startIcon={<IntegrationInstructionsIcon />}
               onClick={handleOpen}
+              startIcon={<IntegrationInstructionsIcon />}
             >
               Apply now
             </Button>
             <Button
-              variant='outlined'
               size='large'
+              variant='outlined'
               startIcon={<FavoriteBorderIcon />}
             >
               Save Job

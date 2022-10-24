@@ -517,7 +517,7 @@ const JobNewForm = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <Editor
-                  id='jjob_requirement'
+                  id='job_requirement'
                   value={field.value}
                   onChange={field.onChange}
                   error={!!error}

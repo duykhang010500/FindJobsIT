@@ -5,22 +5,22 @@ import { put, call, takeEvery } from 'redux-saga/effects';
 import {
   GET_JOB,
   GET_JOBS,
+  APPLY_JOB,
   CREATE_JOB,
   EMPLOYER_GET_JOBS,
-  APPLY_JOB,
 } from './actionTypes';
+
 import {
+  getJobSuccess,
+  getJobsSuccess,
   createJobFailure,
   createJobSuccess,
   employerGetJobsSuccess,
-  getJobsSuccess,
-  getJobSuccess,
 } from './actions';
 
-import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
+import employerServices from '../../services/employer';
 import jobSeekerServices from '../../services/jobSeeker';
-import { PublicTwoTone } from '@mui/icons-material';
 
 function* createJob({ payload: { formData, navigate } }: any) {
   try {
@@ -33,10 +33,9 @@ function* createJob({ payload: { formData, navigate } }: any) {
   }
 }
 
-function* getJobs(): any {
+function* getJobsSaga(): any {
   try {
     const res = yield call(guestServices.getJobs);
-    console.log(res);
     yield put(getJobsSuccess(res.data.result.data));
   } catch (err) {}
 }
@@ -61,8 +60,7 @@ function* employerGetJobs(): any {
 
 function* applyJobSaga({ payload: { id, formData } }: any): any {
   try {
-    console.log('Apply: ', id, formData);
-    const res = yield call(jobSeekerServices.applyJob, id, formData);
+    yield call(jobSeekerServices.applyJob, id, formData);
     toast.success('Apply job success!');
   } catch (err) {
     throw err;
@@ -71,7 +69,7 @@ function* applyJobSaga({ payload: { id, formData } }: any): any {
 
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
-  yield takeEvery(GET_JOBS, getJobs);
+  yield takeEvery(GET_JOBS, getJobsSaga);
   yield takeEvery(GET_JOB, getJob);
   yield takeEvery(EMPLOYER_GET_JOBS, employerGetJobs);
   yield takeEvery(APPLY_JOB, applyJobSaga);

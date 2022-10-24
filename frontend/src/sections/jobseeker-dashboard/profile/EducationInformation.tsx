@@ -4,8 +4,11 @@ import { Card, Typography, Stack, TextField, Collapse } from '@mui/material';
 
 import { Controller } from 'react-hook-form';
 
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import Editor from '../../../components/Editor';
 
 type Props = {
   control: any;
@@ -38,14 +41,14 @@ const EducationInformation = ({ control }: Props) => {
               name='edu_school'
               control={control}
               render={({ field }) => (
-                <TextField {...field} label='School' fullWidth />
+                <TextField {...field} label='School/Major' fullWidth />
               )}
             />
             <Controller
               name='edu_certify'
               control={control}
               render={({ field }) => (
-                <TextField {...field} label='edu_certify' fullWidth />
+                <TextField {...field} label='Certificate/Diploma' fullWidth />
               )}
             />
           </Stack>
@@ -53,34 +56,55 @@ const EducationInformation = ({ control }: Props) => {
             <Controller
               name='edu_date_start'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='edu_date_start' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <DesktopDatePicker
+                  {...field}
+                  label='Time start'
+                  inputFormat='MM/DD/YYYY'
+                  renderInput={(params) => (
+                    <TextField fullWidth {...params} error={!!error} />
+                  )}
+                />
               )}
             />
             <Controller
               name='edu_date_end'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='edu_date_end' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <DesktopDatePicker
+                  {...field}
+                  label='Time end'
+                  inputFormat='MM/DD/YYYY'
+                  renderInput={(params) => (
+                    <TextField fullWidth {...params} error={!!error} />
+                  )}
+                />
               )}
             />
           </Stack>
-          <Stack direction='row' spacing={4}>
-            <Controller
-              name='edu_current_end'
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} label='edu_current_end' fullWidth />
-              )}
-            />
+
+          <div>
+            <Typography
+              variant='h5'
+              gutterBottom
+              sx={{ color: 'rgb(99, 115, 129)' }}
+            >
+              Education detail
+            </Typography>
             <Controller
               name='edu_description'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='edu_description' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <Editor
+                  id='exp_desc'
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
-          </Stack>
+          </div>
         </Stack>
       </Collapse>
     </Card>

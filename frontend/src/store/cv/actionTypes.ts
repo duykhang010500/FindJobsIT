@@ -1,3 +1,7 @@
 export const GET_MY_CV = 'GET_MY_CV';
 export const GET_MY_CV_SUCCESS = 'GET_MY_CV_SUCCESS';
 export const GET_MY_CV_FAILURE = 'GET_MY_CV_FAILURE';
+
+export const UPDATE_MY_CV = 'UPDATE_MY_CV';
+export const UPDATE_MY_CV_SUCCESS = 'UPDATE_MY_CV_SUCCESS';
+export const UPDATE_MY_CV_FAILURE = 'UPDATE_MY_CV_FAILURE';

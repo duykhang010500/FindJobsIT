@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, styled } from '@mui/material';
 import ReactQuill from 'react-quill';
+import { Box, styled } from '@mui/material';
 
 type Props = {
   id?: string;
@@ -12,10 +12,9 @@ type Props = {
 
 const EditorWrapper = styled(Box)({
   '& .ql-container': {
+    overflow: 'auto',
     minHeight: 200,
     maxHeight: 250,
-
-    overflow: 'auto',
   },
   '& .ql-picker-options': {
     borderRadius: 8,

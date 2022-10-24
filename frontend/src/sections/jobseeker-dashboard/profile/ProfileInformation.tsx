@@ -1,37 +1,51 @@
 import { useState } from 'react';
+import { Controller } from 'react-hook-form';
 
 import {
   Card,
   Stack,
-  TextField,
-  RadioGroup,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Radio,
-  Typography,
   Collapse,
   MenuItem,
+  FormLabel,
+  TextField,
+  RadioGroup,
+  Typography,
+  FormControl,
+  FormControlLabel,
+  Autocomplete,
 } from '@mui/material';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-import { Controller } from 'react-hook-form';
-
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store/reducer';
+import { Nationalities } from '../../../utils/defaultValues';
+import { Gender } from '../../../models/gender';
+import { Marital } from '../../../models/marital';
 
 type Props = {
   control: any;
+  setValue: any;
 };
 
 const genderOptions = [
-  { label: 'Male', value: 1 },
-  { label: 'Female', value: 2 },
+  { label: 'Male', id: 1 },
+  { label: 'Female', id: 2 },
 ];
 
-const ProfileInformation = ({ control }: Props) => {
+const maritalOptions = [
+  { label: 'Single', id: 1 },
+  { label: 'Married', id: 2 },
+];
+
+const ProfileInformation = ({ control, setValue }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
+
+  const { locations } = useSelector((state: AppState) => state.location);
+
   return (
     <Card sx={{ p: 3 }}>
       <Stack
@@ -54,38 +68,31 @@ const ProfileInformation = ({ control }: Props) => {
         <Stack spacing={4} sx={{ mt: 3 }}>
           <Stack direction='row' spacing={4}>
             <Controller
-              name='firstname'
+              name='fullname'
               control={control}
-              render={({ field }) => {
-                return <TextField {...field} label='First name' fullWidth />;
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <TextField
+                    {...field}
+                    label='Full name'
+                    fullWidth
+                    error={!!error}
+                    helperText={error?.message}
+                  />
+                );
               }}
             />
-            <Controller
-              name='lastname'
-              control={control}
-              render={({ field }) => {
-                return <TextField {...field} label='Last name' fullWidth />;
-              }}
-            />
-          </Stack>
-          <Stack direction='row' spacing={4}>
             <Controller
               name='phone'
               control={control}
-              render={({ field }) => {
-                return <TextField {...field} label='Phone' fullWidth />;
-              }}
-            />
-            <Controller
-              name='birthday'
-              control={control}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
-                  <DesktopDatePicker
+                  <TextField
                     {...field}
-                    label='Birthday'
-                    inputFormat='MM/DD/YYYY'
-                    renderInput={(props) => <TextField {...props} fullWidth />}
+                    label='Phone'
+                    fullWidth
+                    error={!!error}
+                    helperText={error?.message}
                   />
                 );
               }}
@@ -93,32 +100,38 @@ const ProfileInformation = ({ control }: Props) => {
           </Stack>
           <Stack direction='row' spacing={4}>
             <Controller
-              name='email'
+              name='birthday'
               control={control}
-              render={({ field }) => {
-                return <TextField {...field} label='Email' fullWidth />;
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <DesktopDatePicker
+                    {...field}
+                    label='Birthday'
+                    inputFormat='MM/DD/YYYY'
+                    renderInput={(props) => (
+                      <TextField
+                        {...props}
+                        fullWidth
+                        error={!!error}
+                        helperText={error?.message}
+                      />
+                    )}
+                  />
+                );
               }}
             />
             <Controller
-              name='birthday'
+              name='email'
               control={control}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
-                  <FormControl fullWidth>
-                    <FormLabel>Gender</FormLabel>
-                    <RadioGroup {...field} row>
-                      <FormControlLabel
-                        value='female'
-                        control={<Radio />}
-                        label='Male'
-                      />
-                      <FormControlLabel
-                        value='male'
-                        control={<Radio />}
-                        label='Male'
-                      />
-                    </RadioGroup>
-                  </FormControl>
+                  <TextField
+                    {...field}
+                    label='Email'
+                    fullWidth
+                    error={!!error}
+                    helperText={error?.message}
+                  />
                 );
               }}
             />
@@ -127,21 +140,44 @@ const ProfileInformation = ({ control }: Props) => {
             <Controller
               name='gender'
               control={control}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
+                return (
+                  <FormControl fullWidth>
+                    <FormLabel>Gender</FormLabel>
+                    <RadioGroup {...field} row>
+                      {genderOptions.map((gender: Gender) => {
+                        return (
+                          <FormControlLabel
+                            control={<Radio />}
+                            key={gender.id}
+                            value={gender.id}
+                            label={gender.label}
+                          />
+                        );
+                      })}
+                    </RadioGroup>
+                  </FormControl>
+                );
+              }}
+            />
+            <Controller
+              name='marital'
+              control={control}
+              render={({ field, fieldState: { error } }) => {
                 return (
                   <FormControl fullWidth>
                     <FormLabel>Marital status</FormLabel>
                     <RadioGroup {...field} row>
-                      <FormControlLabel
-                        value='Single'
-                        control={<Radio />}
-                        label='single'
-                      />
-                      <FormControlLabel
-                        value='married'
-                        control={<Radio />}
-                        label='Married'
-                      />
+                      {maritalOptions.map((marital: Marital) => {
+                        return (
+                          <FormControlLabel
+                            control={<Radio />}
+                            key={marital.id}
+                            value={marital.id}
+                            label={marital.label}
+                          />
+                        );
+                      })}
                     </RadioGroup>
                   </FormControl>
                 );
@@ -152,22 +188,57 @@ const ProfileInformation = ({ control }: Props) => {
             <Controller
               name='nationality'
               control={control}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
-                  <TextField {...field} select label='Nationality' fullWidth>
-                    <MenuItem></MenuItem>
-                  </TextField>
+                  <Autocomplete
+                    {...field}
+                    id='nationality'
+                    freeSolo
+                    fullWidth
+                    options={Nationalities}
+                    getOptionLabel={(country) => country.name || ''}
+                    renderOption={(props, country) => (
+                      <MenuItem {...props}>{country.name}</MenuItem>
+                    )}
+                    onChange={(_, options) => setValue('nationality', options)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='Nationality'
+                        error={!!error}
+                        helperText={error?.message}
+                      />
+                    )}
+                  />
                 );
               }}
             />
             <Controller
               name='city'
               control={control}
-              render={({ field }) => {
+              render={({ field, fieldState: { error } }) => {
                 return (
-                  <TextField {...field} select label='City' fullWidth>
-                    <MenuItem></MenuItem>
-                  </TextField>
+                  <Autocomplete
+                    {...field}
+                    fullWidth
+                    freeSolo
+                    options={locations}
+                    getOptionLabel={(location) => location.name || ''}
+                    renderOption={(props, location) => (
+                      <MenuItem {...props} key={location.id}>
+                        {location.name}
+                      </MenuItem>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label='City'
+                        error={!!error}
+                        helperText={error?.message}
+                      />
+                    )}
+                    onChange={(_, options) => setValue('city', options)}
+                  />
                 );
               }}
             />
@@ -175,8 +246,16 @@ const ProfileInformation = ({ control }: Props) => {
           <Controller
             name='address'
             control={control}
-            render={({ field }) => {
-              return <TextField {...field} label='Address' fullWidth />;
+            render={({ field, fieldState: { error } }) => {
+              return (
+                <TextField
+                  {...field}
+                  label='Address'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
+              );
             }}
           />
         </Stack>
