@@ -1,6 +1,5 @@
 import {
   APPLY_JOB,
-  APPLY_JOB_FAILURE,
   APPLY_JOB_SUCCESS,
   CREATE_JOB,
   CREATE_JOB_FAILURE,
@@ -11,6 +10,9 @@ import {
   GET_JOBS,
   GET_JOBS_SUCCESS,
   GET_JOB_SUCCESS,
+  SEARCH_JOB,
+  SEARCH_JOB_SUCCESS,
+  UPDATE_JOB,
 } from './actionTypes';
 
 export const createJob = (formData: any, navigate: any) => ({
@@ -59,6 +61,16 @@ export const employerGetJobsSuccess = (jobs: any) => ({
   payload: jobs,
 });
 
+export const updateJob = (id: any, formData: any) => {
+  return {
+    type: UPDATE_JOB,
+    payload: {
+      id,
+      formData,
+    },
+  };
+};
+
 export const applyJob = (id: any, formData: any) => ({
   type: APPLY_JOB,
   payload: {
@@ -70,5 +82,23 @@ export const applyJob = (id: any, formData: any) => ({
 export const applyJobSuccess = () => {
   return {
     type: APPLY_JOB_SUCCESS,
+  };
+};
+
+export const searchJobs = (keywords: any, locations: any, industries: any) => {
+  return {
+    type: SEARCH_JOB,
+    payload: {
+      keywords,
+      locations,
+      industries,
+    },
+  };
+};
+
+export const searchJobsSuccess = (jobs: any) => {
+  return {
+    type: SEARCH_JOB_SUCCESS,
+    payload: jobs,
   };
 };

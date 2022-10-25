@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\Resume;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,48 +110,173 @@ class MemberController extends Controller
     public function quickupload(Request $request)
     {
         try{
-            $fields_member = Validator::make($request->all(), [
-                'fullname' => 'required|string|between:2,100',
-                'email' => 'string',
-                'phone' => 'required',
-                'birthday' => 'required',
-                'gender' => 'required',
-                'marital' => 'required',
-                'nationality' => 'required',
-                'city' => 'required',
-                'address' => 'required',
+            if(!empty(auth()->user()->id)){
+                $member = Member::findOrFail(auth()->user()->id);
+                $fields_member = Validator::make($request->all(), [
+                    'fullname' => 'required|string|between:2,100',
+                    'email' => 'string',
+                    'phone' => 'required',
+                    'birthday' => 'required',
+                    'gender' => 'required',
+                    'marital' => 'required',
+                    'nationality' => 'required',
+                    'city' => 'required',
+                    'address' => 'required',
+                    ]);
+
+                $fields_resume = Validator::make($request->all(), [
+                    'resume_file'  => 'required',
+                    'resume_title' => 'required',
+                    'industries'  => 'required',
+                    'locations'  => 'required',
+                    'level'  => 'required',
+                    'current_degree'  => 'required',
+                    'yearofexperience' => 'required',
+                    'salary_unit'  => 'required',
+                    'working_type'  => 'required',
                 ]);
 
-            $fields_resume = Validator::make($request->all(), [
-                'resume_file'  => 'required',
-                'resume_title' => 'required',
-                'industries'  => 'required',
-                'locations'  => 'required',
-                'level_id'  => 'required',
-                'current_level_id'  => 'required',
-                'yearofexperience' => 'required',
-                'salary_unit'  => 'required',
-                'working_type'  => 'required',
-            ]);
+                if ($fields_member->fails()) {
+                    return response()->json($fields_member->errors(), 422);
+                }
 
-            if ($fields_member->fails()) {
-                return response()->json($fields_member->errors(), 422);
-            }
+                if ($fields_resume->fails()) {
+                    return response()->json($fields_resume->errors(), 422);
+                }
+                $member->update($fields_member->validated());
+                $resume = auth()->user()->resume;
 
-            if ($fields_resume->fails()) {
-                return response()->json($fields_resume->errors(), 422);
-            }
-            dd($request->email);
-            $member = Member::findOrFail(auth()->user()->id);
-            $member->update($fields_member->validated());
-            $resume = auth()->user()->resume;
+                if($resume != NULL){
+                    if(!empty($request->industries)){
+                        $resume->industries()->detach();
+                        $data = explode(',', $request->industries);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->industries()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                    if(!empty($request->locations)){
+                        $resume->locations()->detach();
+                        $data = explode(',', $request->locations);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->locations()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                    $resume->update($fields_resume->validated());
+                }else{
+                    $resume = Resume::create(array_merge($fields_resume->validated()));
+                    $member->resume_id = $resume->id;
+                    $member->save();
 
-            if($resume != NULL){
-                $resume->update($fields_resume->validated());
+                    if(!empty($request->industries)){
+                        $data = explode(',', $request->industries);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->industries()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                    if(!empty($request->locations)){
+                        $data = explode(',', $request->locations);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->locations()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                }
             }else{
-                $resume = Resume::create(array_merge($fields_resume->validated()));
-                $member->resume_id = $resume->id;
+                $fields_member = Validator::make($request->all(), [
+                    'fullname' => 'required|string|between:2,100',
+                    'email' => 'string',
+                    'phone' => 'required',
+                    'birthday' => 'required',
+                    'gender' => 'required',
+                    'marital' => 'required',
+                    'nationality' => 'required',
+                    'city' => 'required',
+                    'address' => 'required',
+                    ]);
+
+                $fields_resume = Validator::make($request->all(), [
+                    'resume_file'  => 'required',
+                    'resume_title' => 'required',
+                    'industries'  => 'required',
+                    'locations'  => 'required',
+                    'level'  => 'required',
+                    'current_degree'  => 'required',
+                    'yearofexperience' => 'required',
+                    'salary_unit'  => 'required',
+                    'working_type'  => 'required',
+                ]);
+
+                $new_password = \Str::random(10);
+                $member = new Member;
+                if($member->where('email',$request->email)->first())
+                    return response()->json([
+                        'message' => 'email exist',
+                    ],500);
+                $member->email = $request->email;
+                $member->fullname = $request->fullname;
+                $member->password = \Hash::make($new_password);
                 $member->save();
+                // dd($member);
+                if ($fields_member->fails()) {
+                    return response()->json($fields_member->errors(), 422);
+                }
+
+                if ($fields_resume->fails()) {
+                    return response()->json($fields_resume->errors(), 422);
+                }
+                $member->update($fields_member->validated());
+                
+
+                if(!empty(auth()->user()->resume)){
+                    $resume = auth()->user()->resume;
+                    if(!empty($request->industries)){
+                        $resume->industries()->detach();
+                        $data = explode(',', $request->industries);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->industries()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                    if(!empty($request->locations)){
+                        $resume->locations()->detach();
+                        $data = explode(',', $request->locations);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->locations()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                    $resume->update($fields_resume->validated());
+                }else{
+                    $resume = Resume::create(array_merge($fields_resume->validated()));
+                    $member->resume_id = $resume->id;
+                    $member->save();
+
+                    if(!empty($request->industries)){
+                        $data = explode(',', $request->industries);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->industries()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                    if(!empty($request->locations)){
+                        $data = explode(',', $request->locations);
+                        foreach ($data as $key => $value) {
+                            $value = (int)$value;
+                            $resume->locations()->attach($value);
+                            $resume->save();
+                        }
+                    }
+                }
             }
 
             if($member && $resume){

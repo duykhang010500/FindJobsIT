@@ -20,7 +20,7 @@ const JobDescription = () => {
         <Typography variant='h3' gutterBottom>
           Description
         </Typography>
-        <Typography variant='body2' component={'div'}>
+        <Typography variant='body1' component={'div'} sx={{ lineHeight: 2 }}>
           <div
             dangerouslySetInnerHTML={{ __html: `${job?.job_description}` }}
           />

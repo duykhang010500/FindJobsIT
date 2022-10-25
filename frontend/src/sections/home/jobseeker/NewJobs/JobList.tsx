@@ -18,7 +18,7 @@ const JobList = (props: Props) => {
   return (
     <JobListWrapper>
       <Grid container spacing={4}>
-        {jobsData.map((job, index) => {
+        {jobs.map((job: any, index: any) => {
           return (
             <Grid key={index} item xs={12} sm={6} md={4}>
               <JobCard job={job} />

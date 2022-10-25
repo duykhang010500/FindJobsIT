@@ -21,6 +21,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { uploadSingleFile } from '../../utils/upload';
 import { useDispatch } from 'react-redux';
 import { applyJob } from '../../store/jobs/actions';
+import { LoadingButton } from '@mui/lab';
 
 type Props = {
   open: boolean;
@@ -57,6 +58,8 @@ const LabelStyle = styled('label')({
 const ApplyForm = (props: Props) => {
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [isDisable, setIsDisable] = useState<boolean>(true);
 
   const [fileError, setFileError] = useState<string>('');
@@ -72,12 +75,14 @@ const ApplyForm = (props: Props) => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     const res = await uploadSingleFile(fileUpload);
     console.log('Res: ', res);
     const formData = {
       resume_file: res,
     };
     await dispatch(applyJob(props.job.id, formData));
+    setIsLoading(false);
     props.close();
   };
 
@@ -142,13 +147,14 @@ const ApplyForm = (props: Props) => {
         <Button variant='outlined' onClick={props.close}>
           Back
         </Button>
-        <Button
+        <LoadingButton
           variant='contained'
           disabled={!Boolean(fileUpload)}
           onClick={handleSubmit}
+          loading={isLoading}
         >
           Apply
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

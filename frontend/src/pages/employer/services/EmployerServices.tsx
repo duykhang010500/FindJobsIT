@@ -16,6 +16,8 @@ import { getListServicesEmployer } from '../../../store/services/actions';
 import dayjs from 'dayjs';
 import { numberWithCommas } from '../../../utils/format';
 
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 type Props = {};
 
 const EmployerServices = (props: Props) => {
@@ -54,7 +56,9 @@ const EmployerServices = (props: Props) => {
                   </IconButton>
                 </TableCell>
                 <TableCell>{numberWithCommas(item.price)}</TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <MoreVertIcon sx={{ color: 'silver' }} />
+                </TableCell>
               </TableRow>
             );
           })}

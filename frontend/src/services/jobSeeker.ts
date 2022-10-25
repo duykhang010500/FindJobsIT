@@ -23,8 +23,8 @@ const jobSeekerServices = {
   getCV: () => {
     return axiosInstance.get('/my/resume');
   },
-  updateCV: () => {
-    return axiosInstance.post('/my/resume');
+  updateCV: (formData: any) => {
+    return axiosInstance.post('/my/resume', formData);
   },
   applyJob: (id: any, formData: any) => {
     return axiosInstance.post('/apply/' + id, formData);

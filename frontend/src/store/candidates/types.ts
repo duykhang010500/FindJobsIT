@@ -4,6 +4,8 @@ import {
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
+  UPDATE_STATUS,
+  UPDATE_STATUS_SUCCESS,
 } from './actionTypes';
 
 export interface ICandidatesState {
@@ -30,6 +32,16 @@ export type AdminGetCandidatesListSuccess = {
 
 export type AdminGetCandidatesListFailure = {
   type: typeof ADMIN_GET_CANDIDATES_LIST_FAILURE;
+};
+
+export type UpdateStatus = {
+  type: typeof UPDATE_STATUS;
+  payload: any;
+};
+
+export type UpdateStatusSuccess = {
+  type: typeof UPDATE_STATUS_SUCCESS;
+  payload: any;
 };
 
 export type CandidatesActions =

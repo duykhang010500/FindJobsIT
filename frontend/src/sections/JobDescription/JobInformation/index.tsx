@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { Stack } from '@mui/material';
+
 import JobBenefit from './JobBenefit';
 import JobDescription from './JobDescription';
 import JobOverview from './JobOverview';

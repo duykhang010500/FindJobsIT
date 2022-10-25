@@ -8,6 +8,7 @@ import {
   GET_JOB,
   GET_JOBS_SUCCESS,
   GET_JOB_SUCCESS,
+  SEARCH_JOB_SUCCESS,
 } from './actionTypes';
 import { IJobsState, JobsAction } from './types';
 
@@ -16,6 +17,7 @@ const initialState: IJobsState = {
   jobs: [],
   error: null,
   isLoading: false,
+  jobsSearch: [],
 };
 
 const JobsReducer = (state = initialState, action: JobsAction) => {
@@ -69,6 +71,11 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
       return {
         ...state,
         isLoading: false,
+      };
+    case SEARCH_JOB_SUCCESS:
+      return {
+        ...state,
+        jobsSearch: action.payload,
       };
     default:
       return state;

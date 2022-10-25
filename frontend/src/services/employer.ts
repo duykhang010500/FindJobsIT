@@ -23,9 +23,11 @@ const employerServices = {
   createJob: (formData: any) => {
     return axiosInstance.post('/employer/hr/job/0', formData);
   },
-
   getJobs: () => {
     return axiosInstance.get('/employer/hr/job');
+  },
+  updateJob: (id: any, formData: any) => {
+    return axiosInstance.post('/employer/hr/job/' + id, formData);
   },
 
   //candidates
@@ -33,6 +35,9 @@ const employerServices = {
     return axiosInstance.get('/employer/hr/candidates');
   },
 
+  updateStatus: (id: any, formData: any) => {
+    return axiosInstance.post('/employer/hr/candidate/status/' + id, formData);
+  },
   //services
   getListServices: () => {
     return axiosInstance.get('/employer/services');

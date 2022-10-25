@@ -45,7 +45,7 @@ const EmployerJobsOpen = (props: Props) => {
   }, [dispatch]);
 
   const handleEdit = (id?: string) => {
-    navigate(`/employer/hr/jobs/${id}`);
+    navigate(`/employer/hr/job/${id}/edit`);
   };
 
   const handleDelete = () => {};
@@ -140,7 +140,7 @@ const EmployerJobsOpen = (props: Props) => {
                   <TableCell align='center'>0</TableCell>
                   <TableCell>
                     <JobMoreMenu
-                      onEdit={() => handleEdit()}
+                      onEdit={() => handleEdit(job.id)}
                       onDelete={() => handleDelete()}
                       onViewApplications={() => handleViewApplications()}
                     />

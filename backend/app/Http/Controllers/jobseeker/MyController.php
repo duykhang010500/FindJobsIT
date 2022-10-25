@@ -15,8 +15,14 @@ class MyController extends Controller
     public function getResume(Request $request)
     {
         $id = auth()->user()->resume->id;
+<<<<<<< HEAD
         $resume = Resume::with('locations','industries','member')->where('id',$id)->first();
         // dd($resume->member());
+=======
+        $resume = Resume::with('locations','industries')->where('id',$id)->first();
+        $resume->member;
+        // dd($resume);
+>>>>>>> e0916b0528d6e4043007aa2e72724ac00c4c33ed
         return response()->json([
             'resume' => $resume,
         ]);
