@@ -98,7 +98,7 @@ class JobController extends Controller
             // Create a new Laravel collection from the array data
             $itemCollection = collect($result);
             // Define how many items we want to be visible in each page
-            $perPage = 10;
+            $perPage = 9;
             // Slice the collection to get the items to display in current page
             $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->values();
             // Create our paginator and pass it to the view
