@@ -143,6 +143,18 @@ class HrController extends Controller
         ]);
     }
 
+    public function deleteJob(Request $request,$id){
+        $job = Job::where('id',$id)->first();
+        $job->industries()->detach();
+        $job->locations()->detach();
+        $result = $job->destroy($id);
+        if($result){
+            return response([
+                'message' => 'Delete product successfully'
+            ]);
+        }
+    }
+
     public function candidates(Request $request){
 
         $item = Candidate::with('job','member')->where([

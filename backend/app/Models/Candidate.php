@@ -33,9 +33,9 @@ class Candidate extends Authenticatable
         return $this->hasOne(Job::class,'id','job_id');
     }
 
-    // public function resume()
-    // {
-    //     return $this->hasOne(Resume::class,'id','resume_id');
-    // }
+    public function resume()
+    {
+        return $this->hasOne(Resume::class,'id','resume_id');
+    }
 
 }

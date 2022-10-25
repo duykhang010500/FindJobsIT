@@ -92,6 +92,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::get('/hr/job', [HrController::class, 'getJob']);
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
+        Route::delete('/hr/job/{id}', [HrController::class, 'deleteJob']);
 
         // candidates
         Route::get('/hr/candidates', [HrController::class, 'candidates']);
@@ -115,8 +116,12 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::post('/logout', [MemberController::class, 'logout']);
     Route::get('/info', [MemberController::class, 'info']);
 
+    //resume
     Route::post('my/resume', [MyController::class, 'resume']);
     Route::get('my/resume', [MyController::class, 'getResume']);
 
+    // history
+    Route::get('my/saved', [MyController::class, 'historyApply']);
+    //apply
     Route::post('/apply/{id}', [JobController::class, 'apply']);
 });

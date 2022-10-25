@@ -101,6 +101,7 @@ class MyController extends Controller
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
                     'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
                     'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,
+                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,
                     ]
                 ));
             }else{
@@ -109,6 +110,7 @@ class MyController extends Controller
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
                     'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
                     'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,
+                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,
                     ]
                 ));
                 $member->resume_id = $resume->id;
@@ -146,5 +148,18 @@ class MyController extends Controller
         }
     }
 
+    public function historyApply(){
+        // dd(auth()->user()->candidate);
+        if(!empty(auth()->user()->candidate->id)){
+            $history = Candidate::with('job','member')->where('id',$id)->get();
+            return response()->json([
+                'history' => $history,
+            ]);
+        }
+        return response()->json([
+            'message' => auth()->user()->candidate
+        ]);
+
+    }
 
 }
