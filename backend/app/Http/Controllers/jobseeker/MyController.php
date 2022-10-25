@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\jobseeker;
 use App\Http\Controllers\Controller;
 use App\Models\Member;
+use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Resume;
 use Illuminate\Http\Request;
@@ -149,15 +150,15 @@ class MyController extends Controller
     }
 
     public function historyApply(){
-        // dd(auth()->user()->candidate);
-        if(!empty(auth()->user()->candidate->id)){
-            $history = Candidate::with('job','member')->where('id',$id)->get();
+        $id = auth()->user()->id;
+        $history = Candidate::with('job','member','company')->where('member_id',$id)->get();
+        if(!empty($history)){
             return response()->json([
                 'history' => $history,
             ]);
         }
         return response()->json([
-            'message' => auth()->user()->candidate
+            'message' => auth()->user()->id
         ]);
 
     }

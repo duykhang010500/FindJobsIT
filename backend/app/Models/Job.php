@@ -36,4 +36,9 @@ class Job extends Authenticatable
     {
         return $this->belongsTo(Company::class,'comp_id');
     }
+
+    public function candidate()
+    {
+        return $this->hasOne(Candidate::class);
+    }
 }

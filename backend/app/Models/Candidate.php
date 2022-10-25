@@ -25,17 +25,22 @@ class Candidate extends Authenticatable
 
     public function member()
     {
-        return $this->hasOne(Member::class,'id','member_id');
+        return $this->belongsTo(Member::class,'member_id');
     }
 
     public function job()
     {
-        return $this->hasOne(Job::class,'id','job_id');
+        return $this->belongsTo(Job::class,'job_id');
     }
 
     public function resume()
     {
-        return $this->hasOne(Resume::class,'id','resume_id');
+        return $this->belongsTo(Resume::class,'resume_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'comp_id');
     }
 
 }
