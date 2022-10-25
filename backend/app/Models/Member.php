@@ -21,9 +21,10 @@ class Member extends Authenticatable
         'fullname',
         'email',
         'password',
-        'followed', 'gender', 'have_resume', 'status','resume_id',
-        'last_login', 'ratings', 'marital', 'is_labor', 'is_blacklist',
+        'followed', 'gender', 'have_resume', 'status','resume_id','city',
+        'last_login', 'ratings', 'marital', 'is_labor', 'is_blacklist','edu_current_end',
         'phone','address', 'lastname', 'firstname', 'birthday', 'nationality', 'identity', 'images',
+        'rexp_date_end','current_position','current_company','languages','rexp_current_end','edu_date_end'
     ];
 
     protected $birthday = ['date'];
@@ -43,7 +44,7 @@ class Member extends Authenticatable
 
     public function resume()
     {
-        return $this->hasOne(Resume::class,'id','resume_id');
+        return $this->belongsTo(Resume::class,'resume_id');
     }
 
 }

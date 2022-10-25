@@ -26,7 +26,7 @@ class Resume extends Authenticatable
 
     public function member()
     {
-        return $this->belongsTo(Member::class);
+        return $this->hasOne(Member::class);
     }
 
     public function industries(){

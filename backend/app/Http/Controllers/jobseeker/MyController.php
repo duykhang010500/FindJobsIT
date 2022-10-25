@@ -15,10 +15,8 @@ class MyController extends Controller
     public function getResume(Request $request)
     {
         $id = auth()->user()->resume->id;
-        
-        $resume = Resume::with('locations','industries')->where('id',$id)->first();
-        $resume->member;
-        // dd($resume);
+        $resume = Resume::with('locations','industries','member')->where('id',$id)->first();
+        // dd($resume->member());
         return response()->json([
             'resume' => $resume,
         ]);
@@ -29,7 +27,6 @@ class MyController extends Controller
         try{
             $fields_member = Validator::make($request->all(), [
                 'fullname' => 'required|string|between:2,100',
-                'email' => 'string',
                 'phone' => 'required',
                 'birthday' => 'required',
                 'gender' => 'required',
@@ -99,9 +96,21 @@ class MyController extends Controller
                         $resume->save();
                     }
                 }
-                $resume->update($fields_resume->validated());
+                $resume->update(array_merge($fields_resume->validated(),
+                    ['current_position' => $request->current_position,'current_company' => $request->current_company,
+                    'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
+                    'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
+                    'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,
+                    ]
+                ));
             }else{
-                $resume = Resume::create(array_merge($fields_resume->validated()));
+                $resume = Resume::create(array_merge($fields_resume->validated(),
+                    ['current_position' => $request->current_position,'current_company' => $request->current_company,
+                    'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
+                    'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
+                    'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,
+                    ]
+                ));
                 $member->resume_id = $resume->id;
                 $member->save();
 
