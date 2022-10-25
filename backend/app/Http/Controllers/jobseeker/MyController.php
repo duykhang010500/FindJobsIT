@@ -16,10 +16,7 @@ class MyController extends Controller
     {
         $id = auth()->user()->resume->id;
         $resume = Resume::with('locations','industries','member')->where('id',$id)->first();
-        // dd($resume->member());
-        $resume = Resume::with('locations','industries')->where('id',$id)->first();
-        $resume->member;
-        // dd($resume);
+
         return response()->json([
             'resume' => $resume,
         ]);
