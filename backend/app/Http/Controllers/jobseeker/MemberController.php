@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use Illuminate\Auth\Events\Registered;
 class MemberController extends Controller
 {
     //
@@ -32,9 +33,11 @@ class MemberController extends Controller
                 ['password' => bcrypt($request->password),
                 'status' => 1,
                 ]
-            ));
-
-
+            ))->sendEmailVerificationNotification();
+            // event(new Registered($member));
+            return response()->json([
+                'message' => ' send mail member successfully',
+            ]);
             if($member){
                 $member->save();
                 return response()->json([
@@ -75,6 +78,13 @@ class MemberController extends Controller
                     'status' => false,
                     'message' => 'Password does not match with our record.',
                 ], 401);
+
+            if (!Auth::guard('web')->attempt($validator->validated())) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            if (! auth()->user()->hasVerifiedEmail()) {
+                return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
+            }
 
             return response()->json([
                 'status' => true,

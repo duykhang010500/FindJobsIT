@@ -115,7 +115,8 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::post('/logout', [MemberController::class, 'logout']);
     Route::get('/info', [MemberController::class, 'info']);
-
+    Route::get('email/verify/{id}', 'VerificationController@verify_user')->name('verification.verify'); // Make sure to keep this as your route name
+    Route::get('email/resend', 'VerificationController@resend')->name('verification.resend'); 
     //resume
     Route::post('my/resume', [MyController::class, 'resume']);
     Route::get('my/resume', [MyController::class, 'getResume']);

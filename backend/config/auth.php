@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'api',
+        'passwords' => 'members',
     ],
 
     /*
@@ -38,8 +38,25 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'members',
         ],
+        'admin' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins',
+        ],
+        'employer' => [
+            'driver' => 'sanctum',
+            'provider' => 'employers',
+        ],
+        'member' => [
+            'driver' => 'sanctum',
+            'provider' => 'members',
+        ],
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'members',
+            'hash' => false,
+         ],
     ],
 
     /*
@@ -60,15 +77,20 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'employers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Employer::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'members' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Member::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Usersite::class,
+        ],
     ],
 
     /*
@@ -87,8 +109,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'members' => [
+            'provider' => 'members',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
