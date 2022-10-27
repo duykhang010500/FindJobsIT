@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\jobseeker\JobController;
 use App\Http\Controllers\jobseeker\MemberController;
 use App\Http\Controllers\jobseeker\MyController;
+use App\Http\Controllers\jobseeker\VerificationController;
 
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
@@ -42,6 +43,8 @@ Route::get('location/{id}', [JobController::class, 'bylocation']);
 
 Route::post('/register', [MemberController::class, 'register']);
 Route::post('/login', [MemberController::class, 'login']);
+Route::get('email/verify/{id}', [VerificationController::class, 'verify_user'])->name('verification.verify'); // Make sure to keep this as your route name
+Route::get('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
@@ -115,8 +118,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::post('/logout', [MemberController::class, 'logout']);
     Route::get('/info', [MemberController::class, 'info']);
-    Route::get('email/verify/{id}', 'VerificationController@verify_user')->name('verification.verify'); // Make sure to keep this as your route name
-    Route::get('email/resend', 'VerificationController@resend')->name('verification.resend'); 
+
     //resume
     Route::post('my/resume', [MyController::class, 'resume']);
     Route::get('my/resume', [MyController::class, 'getResume']);
