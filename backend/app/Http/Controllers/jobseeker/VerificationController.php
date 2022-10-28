@@ -23,7 +23,7 @@ class VerificationController extends Controller
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
         }
-        return response()->json($user);
+        return response()->json(["url" => "localhost:3000/login"]);
     }
 
     public function resend() {

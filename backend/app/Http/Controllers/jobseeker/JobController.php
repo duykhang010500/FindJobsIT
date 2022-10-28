@@ -233,8 +233,8 @@ class JobController extends Controller
 
             if (!empty($c_mid))
                 return response()->json([
-                    'message' => 'Job applied',
-                ]);
+                    'message' => 'The job has been applied',
+                ],500);
 
             if($member->id){
                 $candidate = new Candidate;

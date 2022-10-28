@@ -119,6 +119,7 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::post('/logout', [MemberController::class, 'logout']);
     Route::get('/info', [MemberController::class, 'info']);
 
+
     //resume
     Route::post('my/resume', [MyController::class, 'resume']);
     Route::get('my/resume', [MyController::class, 'getResume']);
