@@ -79,10 +79,10 @@ class MemberController extends Controller
                     'message' => 'Password does not match with our record.',
                 ], 401);
 
-            if (!Auth::guard('web')->attempt($validator->validated())) {
+            if (!Auth::guard('member')->attempt($validator->validated())) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-            if (! auth()->user()->hasVerifiedEmail()) {
+            if (!auth()->user()->hasVerifiedEmail()) {
                 return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
             }
 
