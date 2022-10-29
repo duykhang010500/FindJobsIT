@@ -82,9 +82,9 @@ class MemberController extends Controller
             if (!Auth::guard('web')->attempt($validator->validated())) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
-            if (!auth()->user()->hasVerifiedEmail()) {
-                return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
-            }
+            // if (!auth()->user()->hasVerifiedEmail()) {
+            //     return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
+            // }
 
             return response()->json([
                 'status' => true,

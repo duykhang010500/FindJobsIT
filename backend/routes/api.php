@@ -10,6 +10,7 @@ use App\Http\Controllers\jobseeker\VerificationController;
 
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
+use App\Http\Controllers\employer\ResumeController;
 use App\Http\Controllers\employer\OrderController;
 
 use App\Http\Controllers\admin\CompanyController;
@@ -29,6 +30,10 @@ use App\Http\Controllers\admin\MemberaController;
 */
 
 // public
+
+Route::get('/employer/search-resume', [ResumeController::class, 'search']);
+Route::get('/employer/resume/{id}', [ResumeController::class, 'detail']);
+
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/job/{id}', [JobController::class, 'detail']);
 Route::get('/job-relevant/{id}', [JobController::class, 'job_relevant_comp']);
