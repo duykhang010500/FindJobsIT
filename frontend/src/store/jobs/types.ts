@@ -16,6 +16,12 @@ import {
   UPDATE_JOB,
   UPDATE_JOB_FAILURE,
   UPDATE_JOB_SUCCESS,
+  EMPLOYER_DELETE_JOB,
+  EMPLOYER_DELETE_JOB_FAILURE,
+  EMPLOYER_DELETE_JOB_SUCCESS,
+  GET_JOBS_APPLIED,
+  GET_JOBS_APPLIED_SUCCESS,
+  GET_JOBS_APPLIED_FAILURE,
 } from './actionTypes';
 
 export interface IJobsState {
@@ -77,6 +83,7 @@ export type ApplyJobSuccess = {
 
 export type ApplyJobFailure = {
   type: typeof APPLY_JOB_FAILURE;
+  payload: any;
 };
 
 export type SearchJob = {
@@ -103,6 +110,34 @@ export type UpdateJobFailure = {
   payload: any;
 };
 
+export type EmployerDeleteJob = {
+  type: typeof EMPLOYER_DELETE_JOB_SUCCESS;
+  payload: any;
+};
+
+export type EmployerDeleteJobSuccess = {
+  type: typeof EMPLOYER_DELETE_JOB_SUCCESS;
+  payload: any;
+};
+
+export type EmployerDeleteJobFailure = {
+  type: typeof EMPLOYER_DELETE_JOB_FAILURE;
+  payload: any;
+};
+
+export type GetJobsApplied = {
+  type: typeof GET_JOBS_APPLIED;
+};
+export type GetJobsAppliedSuccess = {
+  type: typeof GET_JOBS_APPLIED_SUCCESS;
+  payload: any;
+};
+
+export type GetJobsAppliedFailure = {
+  type: typeof GET_JOBS_APPLIED_FAILURE;
+  payload: any;
+};
+
 export type JobsAction =
   | CreateJob
   | CreateJobSuccess
@@ -117,4 +152,12 @@ export type JobsAction =
   | ApplyJobSuccess
   | ApplyJobFailure
   | SearchJob
-  | SearchJobSuccess;
+  | SearchJobSuccess
+  | UpdateJobSuccess
+  | UpdateJobFailure
+  | EmployerDeleteJob
+  | EmployerDeleteJobSuccess
+  | EmployerDeleteJobFailure
+  | GetJobsApplied
+  | GetJobsAppliedSuccess
+  | GetJobsAppliedFailure;

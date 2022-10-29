@@ -4,10 +4,12 @@ import adminServices from '../../services/admin';
 import employerServices from '../../services/employer';
 import {
   adminGetCandidatesListSuccess,
+  getDetailCandidateSuccess,
   getListCandidatesForEmployerSuccess,
 } from './action';
 import {
   ADMIN_GET_CANDIDATES_LIST,
+  GET_DETAIL_CANDIDATE,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   UPDATE_STATUS,
 } from './actionTypes';
@@ -32,10 +34,23 @@ function* adminGetCandidatesListSaga(): any {
   }
 }
 
-function* updateStatus({ payload: { id, formData } }: any): any {
-  yield call(employerServices.updateStatus, id, formData);
-  yield put(getListCandidatesForEmployerSaga());
-  toast.success('Update status successfully!');
+function* updateStatusSaga({ payload: { id, formData } }: any): any {
+  try {
+    console.log(id, formData);
+    yield call(employerServices.updateStatus, id, formData);
+    toast.success('Update status successfully!');
+  } catch (err) {
+    toast.error('Update status failure!');
+  }
+}
+
+function* getCandidateSaga({ payload }: any): any {
+  try {
+    const res = yield call(employerServices.getDetailCandidate, payload);
+    yield put(getDetailCandidateSuccess(res.data.candidate));
+  } catch (err) {
+    console.log('Error: ', err);
+  }
 }
 
 function* candidatesSaga() {
@@ -44,7 +59,8 @@ function* candidatesSaga() {
     getListCandidatesForEmployerSaga
   );
   yield takeEvery(ADMIN_GET_CANDIDATES_LIST, adminGetCandidatesListSaga);
-  yield takeEvery(UPDATE_STATUS, updateStatus);
+  yield takeEvery(UPDATE_STATUS, updateStatusSaga);
+  yield takeEvery(GET_DETAIL_CANDIDATE, getCandidateSaga);
 }
 
 export default candidatesSaga;

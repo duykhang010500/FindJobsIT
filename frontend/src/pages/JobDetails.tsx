@@ -23,6 +23,7 @@ import JobDescriptionHeader from '../sections/JobDescription/JobDescriptionHeade
 
 import { AppState } from '../store/reducer';
 import { getJob } from '../store/jobs/actions';
+import DetailJobSkeleton from '../sections/JobDescription/DetailJobSkeleton';
 
 type Props = {};
 
@@ -40,7 +41,7 @@ const JobDescription: FC<Props> = () => {
   }, [dispatch, id]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <DetailJobSkeleton />;
   }
 
   const handleChangeTab = (e: SyntheticEvent, newValue: string) => {

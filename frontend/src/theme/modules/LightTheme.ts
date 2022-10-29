@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 
 const LightTheme = createTheme({
   typography: {
@@ -147,7 +148,7 @@ const LightTheme = createTheme({
       styleOverrides: {
         root: {
           '&:hover': {
-            backgroundColor: 'rgb(244, 246, 248)',
+            backgroundColor: '#f5f5f5',
           },
         },
       },
@@ -165,12 +166,17 @@ const LightTheme = createTheme({
     MuiTableHead: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgb(244, 246, 248)',
-          color: 'rgb(99,115,129)',
-          borderRadius: 8,
+          backgroundColor: '#f5f5f5',
           '& .MuiTableHead-root': {
             borderRadius: '10px !important',
           },
+        },
+      },
+    },
+    MuiSkeleton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: alpha('#919EAB', 0.16),
         },
       },
     },

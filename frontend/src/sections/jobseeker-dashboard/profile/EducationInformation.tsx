@@ -40,15 +40,27 @@ const EducationInformation = ({ control }: Props) => {
             <Controller
               name='edu_school'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='School/Major' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='School/Major *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
             <Controller
               name='edu_certify'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Certificate/Diploma' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='Certificate/Diploma *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
           </Stack>
@@ -59,10 +71,15 @@ const EducationInformation = ({ control }: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <DesktopDatePicker
                   {...field}
-                  label='Time start'
-                  inputFormat='MM/DD/YYYY'
+                  label='Time start *'
+                  inputFormat='DD/MM/YYYY'
                   renderInput={(params) => (
-                    <TextField fullWidth {...params} error={!!error} />
+                    <TextField
+                      fullWidth
+                      {...params}
+                      error={!!error}
+                      helperText={error?.message}
+                    />
                   )}
                 />
               )}
@@ -73,8 +90,8 @@ const EducationInformation = ({ control }: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <DesktopDatePicker
                   {...field}
-                  label='Time end'
-                  inputFormat='MM/DD/YYYY'
+                  label='Time end *'
+                  inputFormat='DD/MM/YYYY'
                   renderInput={(params) => (
                     <TextField fullWidth {...params} error={!!error} />
                   )}
@@ -89,7 +106,7 @@ const EducationInformation = ({ control }: Props) => {
               gutterBottom
               sx={{ color: 'rgb(99, 115, 129)' }}
             >
-              Education detail
+              Education detail *
             </Typography>
             <Controller
               name='edu_description'

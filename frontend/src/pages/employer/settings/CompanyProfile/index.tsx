@@ -15,7 +15,6 @@ import { employerUpdateCompany } from '../../../../store/companies/action';
 import UploadAvatar from '../../../../components/UploadAvatar';
 import { companySize } from '../../../../utils/defaultValues';
 import { IIndustry } from '../../../../store/industries/types';
-import { Menu } from '@mui/icons-material';
 
 type Props = {};
 
@@ -90,7 +89,6 @@ const CompanyProfile = (props: Props) => {
   };
 
   const handleChangeFile = (e: any) => {
-    console.log('handleChange: ', e.target.files[0]);
     setAvt(e.target.files[0]);
   };
 

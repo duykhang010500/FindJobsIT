@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
@@ -23,8 +23,9 @@ const EmployerCreateJob = (props: Props) => {
 
   useEffect(() => {
     dispatch(employerGetJobs());
-  }, [id]);
+  }, [id, dispatch]);
 
+  // eslint-disable-next-line
   const job = jobs.find((job: any) => job.id == id);
 
   return (
@@ -41,7 +42,7 @@ const EmployerCreateJob = (props: Props) => {
         </Link>
         <Typography>{isEdit ? 'Edit' : 'Create'}</Typography>
       </Breadcrumbs>
-      <JobNewForm job={job} isEdit={true} />
+      <JobNewForm job={job} isEdit={isEdit} />
     </Box>
   );
 };

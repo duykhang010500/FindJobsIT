@@ -27,12 +27,18 @@ const employerServices = {
     return axiosInstance.get('/employer/hr/job');
   },
   updateJob: (id: any, formData: any) => {
-    return axiosInstance.post('/employer/hr/job/' + id, formData);
+    return axiosInstance.patch('/employer/hr/job/' + id, formData);
+  },
+  deleteJob: (id: any) => {
+    return axiosInstance.delete('/employer/hr/job/' + id);
   },
 
   //candidates
   getCandidates: () => {
     return axiosInstance.get('/employer/hr/candidates');
+  },
+  getDetailCandidate: (id: number) => {
+    return axiosInstance.get('/employer/hr/candidate/' + id);
   },
 
   updateStatus: (id: any, formData: any) => {

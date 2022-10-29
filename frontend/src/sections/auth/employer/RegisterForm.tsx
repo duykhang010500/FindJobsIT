@@ -45,19 +45,29 @@ const RegisterForm = () => {
   const { locations } = useSelector((state: AppState) => state.location);
 
   const registerSchema = yup.object({
-    firstName: yup.string().required('Fisrt name required'),
-    lastName: yup.string().required('Last name required'),
+    firstName: yup
+      .string()
+      .required('Fisrt name required')
+      .max(30, 'First name allow maximum 30 character')
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+    lastName: yup
+      .string()
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
+      .max(20, 'Last name allow maximum 20 character')
+      .required('Last name required'),
     email: yup
       .string()
       .email('Email must be a valid address')
+      .max(40, 'Email allow maximum 40 character')
       .required('Email is required'),
     password: yup
       .string()
-      .min(6, 'Password must have at least 6 character')
-      .required('Password is required'),
+      .required('Password is required')
+      .min(6, 'Password must have at least 6 character'),
     password_confirmation: yup
       .string()
-      .oneOf([yup.ref('password'), null], 'Confirm password does not match'),
+      .oneOf([yup.ref('password'), null], 'Confirm password does not match')
+      .required('Confirm password is required'),
     name: yup.string().required('Company name is required'),
     industry_id: yup.string().required('Industry is required'),
     location: yup.string().required('Location is required'),
@@ -94,9 +104,7 @@ const RegisterForm = () => {
           <Typography variant='h3' color='primary' textTransform='uppercase'>
             Create account for HR
           </Typography>
-          {error && (
-            <Alert severity='error'>{error[Object.keys(error)[0]]}</Alert>
-          )}
+          {error && <Alert severity='error'>{Object.values(error)}</Alert>}
           <Box p={1} sx={{ backgroundColor: '#f2f4f5', borderRadius: 1 }}>
             <Typography variant='h5' textAlign='center'>
               Account
@@ -109,7 +117,7 @@ const RegisterForm = () => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
-                  label={`First name`}
+                  label={`First name *`}
                   fullWidth
                   size='small'
                   error={!!error}
@@ -123,7 +131,8 @@ const RegisterForm = () => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
-                  label={`Last name`}
+                  label={`Last name *`}
+                  fullWidth
                   size='small'
                   error={!!error}
                   helperText={error?.message}
@@ -137,7 +146,7 @@ const RegisterForm = () => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label={`Email`}
+                label={`Email *`}
                 size='small'
                 error={!!error}
                 helperText={error?.message}
@@ -150,7 +159,7 @@ const RegisterForm = () => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label={`Password`}
+                label={`Password *`}
                 type={showPassword ? 'text' : 'password'}
                 size='small'
                 error={!!error}
@@ -179,7 +188,7 @@ const RegisterForm = () => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label={`Confirm password`}
+                label={`Confirm password *`}
                 type={showConfirmPassword ? 'text' : 'password'}
                 size='small'
                 error={!!error}
@@ -216,7 +225,7 @@ const RegisterForm = () => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label={`Company name`}
+                label={`Company name *`}
                 size='small'
                 error={!!error}
                 helperText={error?.message}
@@ -231,7 +240,7 @@ const RegisterForm = () => {
                 {...field}
                 select
                 size='small'
-                label='Industry'
+                label='Industry *'
                 error={!!error}
                 helperText={error?.message}
               >
@@ -254,7 +263,7 @@ const RegisterForm = () => {
                 {...field}
                 select
                 size='small'
-                label='Location'
+                label='Location *'
                 error={!!error}
                 helperText={error?.message}
               >
@@ -277,7 +286,7 @@ const RegisterForm = () => {
                 {...field}
                 select
                 size='small'
-                label='Company size'
+                label='Company size *'
                 error={!!error}
                 helperText={error?.message}
               >

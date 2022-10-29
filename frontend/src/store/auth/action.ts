@@ -27,6 +27,7 @@ import {
   LOGOUT,
   UPDATE_INFO_EMPLOYER,
   UPDATE_INFO_EMPLOYER_SUCCESS,
+  UPDATE_INFO_EMPLOYER_FAILURE,
 } from './actionTypes';
 import { IUserLogin } from './types';
 
@@ -144,6 +145,11 @@ export const updateInfoEmployer = (formData: any) => ({
 
 export const updateInfoEmployerSuccess = () => ({
   type: UPDATE_INFO_EMPLOYER_SUCCESS,
+});
+
+export const updateInfoEmployerFailure = (err: any) => ({
+  type: UPDATE_INFO_EMPLOYER_FAILURE,
+  payload: err,
 });
 
 //admin

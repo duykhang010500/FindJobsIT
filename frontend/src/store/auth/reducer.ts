@@ -19,6 +19,7 @@ import {
   REGISTER_JOBSEEKER_FAILURE,
   REGISTER_JOBSEEKER_SUCCESS,
   UPDATE_INFO_EMPLOYER,
+  UPDATE_INFO_EMPLOYER_FAILURE,
   UPDATE_INFO_EMPLOYER_SUCCESS,
 } from './actionTypes';
 import { AuthActions, IAuthState } from './types';
@@ -53,6 +54,7 @@ const authReducer = (state = initialState, action: AuthActions) => {
       return {
         ...state,
         isLoading: true,
+        error: null,
       };
     case LOGIN_JOBSEEKER_SUCCESS:
       return {
@@ -69,6 +71,7 @@ const authReducer = (state = initialState, action: AuthActions) => {
     case GET_CURRENT_JOBSEEKER_SUCCESS:
       return {
         ...state,
+        error: null,
         currentUser: action.payload,
       };
 
@@ -76,11 +79,13 @@ const authReducer = (state = initialState, action: AuthActions) => {
       return {
         ...state,
         isLoading: true,
+        error: null,
       };
     case REGISTER_EMPLOYER_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        error: null,
       };
     case REGISTER_EMPLOYER_FAILURE:
       return {
@@ -92,40 +97,52 @@ const authReducer = (state = initialState, action: AuthActions) => {
       return {
         ...state,
         isLoading: true,
+        error: null,
       };
     case LOGIN_EMPLOYER_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        error: null,
         accessToken: action.payload,
       };
     case LOGIN_EMPLOYER_FAILURE:
       return {
         ...state,
         isLoading: false,
+
         error: action.payload,
       };
     case GET_INFO_EMPLOYER_SUCCESS: {
       return {
         ...state,
+        error: null,
         currentUser: action.payload,
       };
     }
     case UPDATE_INFO_EMPLOYER:
       return {
         ...state,
+        error: null,
         isLoading: true,
       };
     case UPDATE_INFO_EMPLOYER_SUCCESS:
       return {
         ...state,
+        error: null,
         isLoading: false,
+      };
+    case UPDATE_INFO_EMPLOYER_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
       };
     case LOGOUT_EMPLOYER:
       localStorage.removeItem('accessToken');
       localStorage.removeItem('role');
       return {
         ...state,
+        error: null,
         currentUser: null,
         accessToken: null,
       };

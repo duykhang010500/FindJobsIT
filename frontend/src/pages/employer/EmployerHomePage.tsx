@@ -1,4 +1,4 @@
-import Banner from '../../sections/home/employer/Banner';
+// import Banner from '../../sections/home/employer/Banner';
 import BestCustomer from '../../sections/home/employer/BestCustomer';
 import ProductAndServices from '../../sections/home/employer/ProductAndServices';
 

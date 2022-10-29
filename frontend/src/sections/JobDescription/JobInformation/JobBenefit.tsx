@@ -1,4 +1,4 @@
-import { styled, Card, Typography } from '@mui/material';
+import { styled, Card, Typography, CardContent } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
@@ -20,10 +20,12 @@ const JobBenefit = (props: Props) => {
 
   return (
     <CardStyle>
-      <Typography variant='body1' component='div' sx={{ lineHeight: 2 }}>
-        <Typography variant='h3'>Benefits</Typography>
-        <div dangerouslySetInnerHTML={{ __html: job?.job_benefits }}></div>
-      </Typography>
+      <CardContent>
+        <Typography variant='body1' component={'div'} sx={{ lineHeight: 2 }}>
+          <Typography variant='h3'>Benefits</Typography>
+          <div dangerouslySetInnerHTML={{ __html: job?.job_benefits }}></div>
+        </Typography>
+      </CardContent>
     </CardStyle>
   );
 };

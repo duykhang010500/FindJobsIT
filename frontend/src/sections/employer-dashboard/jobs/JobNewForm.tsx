@@ -1,23 +1,23 @@
 import dayjs from 'dayjs';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import {
   Box,
   Stack,
+  Radio,
   Alert,
   MenuItem,
+  FormLabel,
   TextField,
   Typography,
-  Autocomplete,
-  FormHelperText,
   RadioGroup,
   FormControl,
+  Autocomplete,
+  FormHelperText,
   FormControlLabel,
-  FormLabel,
-  Radio,
 } from '@mui/material';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -58,67 +58,111 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
 
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { currentUser } = useSelector((state: AppState) => state.auth);
+
   const { locations } = useSelector((state: AppState) => state.location);
 
   const { industries } = useSelector((state: AppState) => state.industries);
 
-  const { isLoading, error } = useSelector((state: AppState) => state.jobs);
+  const { error } = useSelector((state: AppState) => state.jobs);
 
   //validate
   const newJobSchema = yup.object({
     title: yup.string().required('Title is required'),
     job_type: yup.string().required('Job type is required'),
     level: yup.string().required('Level is required'),
-    industries: yup.array().min(1, 'Please choose at least 1 industry'),
+    industries: yup
+      .array()
+      .min(1, 'Please choose at least 1 industry')
+      .max(3, 'Industries accept up to 3 choices'),
     degree: yup.string().min(1, 'Please choose at least 1 degree'),
-    locations: yup.array().min(1, 'please choose at least 1 location'),
+    locations: yup
+      .array()
+      .min(1, 'Please choose at least 1 location')
+      .max(3, 'Location accept up to 3 choices'),
     job_description: yup.string().required('Job description is required'),
     job_requirement: yup.string().required('Job requirement is required'),
     exp: yup.string(),
-    exp_from: yup.string(),
-    exp_to: yup.string(),
+    exp_from: yup
+      .number()
+      .min(0)
+      .max(999, 'Experience accept up to 3 numeric characters'),
+    exp_to: yup
+      .number()
+      .min(0)
+      .max(9999, 'Experience accept up to 3 numeric characters'),
     salary: yup.string(),
-    salary_from: yup.string(),
-    salary_to: yup.string(),
+    salary_from: yup
+      .number()
+      .positive()
+      .min(0)
+      .max(9999999, 'Salary accept up to 7 numeric characters'),
+    salary_to: yup
+      .number()
+      .positive()
+      .min(0)
+      .max(9999999, 'Salary accept up to 7 numeric characters')
+      .moreThan(
+        yup.ref('salary_from'),
+        'Salary to must be greater than salary from'
+      ),
     gender: yup.number(),
-    age_from: yup.number().required('Age from is required'),
-    age_to: yup.number().required('Age to is required'),
+    age_from: yup
+      .number()
+      .integer()
+      .positive('Age from must be positive number')
+      .min(15, 'Age from must be between 15 and 60')
+      .max(60, 'Age from must be less than 60')
+      .lessThan(yup.ref('age_to'), 'Age from must be less than age to')
+      .required('Age from is required'),
+    age_to: yup
+      .number()
+      .min(15, 'Age to must be 15 year old or older')
+      .max(60, 'Age to must be less than 60')
+      .moreThan(yup.ref('age_from'), 'Age to must be greater than age from')
+      .required('Age to is required'),
     unskill_job: yup.string().required('Skill is require'),
     job_benefits: yup.string().required('Benefits is require'),
-    // end_date: yup.string(),
+    end_date: yup.string().required('End date is required'),
     company_name: yup.string().required('Company name is required'),
     contact_name: yup.string().required('Contact name is required'),
     contact_emails: yup.string().required('Contact email is required'),
   });
 
-  const defaultValues = {
-    title: job?.title || '',
-    job_type: job?.job_type || '',
-    level: job?.level || '',
-    industries: job?.industries || [],
-    degree: job?.degree || '',
-    locations: job?.locations || [],
-    exp: job?.exp || 'Not require',
-    exp_from: job?.exp_from || '',
-    exp_to: job?.exp_to || '',
-    salary: job?.salary || 'Negotiate',
-    salary_from: job?.salary_from || '',
-    salary_to: job?.salary_to || '',
-    gender: job?.gender || 1,
-    age_from: job?.age_from || '',
-    age_to: job?.age_to || '',
-    unskill_job: job?.unskill_job || '',
-    job_benefits: job?.job_benefits || '',
-    end_date: job?.end_date || '',
-    job_description: job?.job_description || '',
-    job_requirement: job?.job_requirement || '',
-    company_name: job?.company_name || '',
-    contact_name: job?.contact_name || '',
-    contact_emails: job?.contact_emails || '',
-    status: 1,
-  };
+  const defaultValues = useMemo(
+    () => ({
+      title: job?.title || '',
+      job_type: job?.job_type || '',
+      level: job?.level || '',
+      industries: job?.industries || [],
+      degree: job?.degree || '',
+      locations: job?.locations || [],
+      exp: job?.exp || 'Not require',
+      exp_from: job?.exp_from || 0,
+      exp_to: job?.exp_to || 0,
+      salary: job?.salary || 'Negotiate',
+      salary_from: job?.salary_from || 0,
+      salary_to: job?.salary_to || 0,
+      gender: job?.gender || '0',
+      age_from: job?.age_from || 0,
+      age_to: job?.age_to || 0,
+      unskill_job: job?.unskill_job || '',
+      job_benefits: job?.job_benefits || '',
+      end_date: job?.end_date || '',
+      job_description: job?.job_description || '',
+      job_requirement: job?.job_requirement || '',
+      company_name:
+        job?.company_name || currentUser?.info?.info_company?.name || '',
+      contact_name: job?.contact_name || currentUser?.info?.fullname || '',
+      contact_emails: job?.contact_emails || currentUser?.info?.email || '',
+      status: 1,
+    }),
+    [job, currentUser]
+  );
 
-  const { control, handleSubmit, getValues, setValue, reset } = useForm({
+  const { control, handleSubmit, setValue, reset } = useForm({
     defaultValues,
     resolver: yupResolver(newJobSchema),
   });
@@ -126,7 +170,8 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
   const [showSalary, setShowSalary] = useState<any>('Negotiate');
   const [showExperience, setShowExperience] = useState<any>('Not require');
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
     const newFormValues = {
       ...data,
       industries: convertArrayObjToString(data.industries),
@@ -135,15 +180,18 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
     };
 
     if (isEdit) {
-      dispatch(updateJob(job.id, newFormValues));
+      await dispatch(updateJob(job.id, newFormValues, navigate));
     } else {
-      dispatch(createJob(newFormValues, navigate));
+      await dispatch(createJob(newFormValues, navigate));
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     reset(defaultValues);
-  }, [reset, job]);
+    setShowExperience(isEdit ? job?.exp : 'Not require');
+    setShowSalary(isEdit ? job?.salary : 'Negotiate');
+  }, [reset, job, defaultValues, isEdit]);
 
   return (
     <Box sx={{ mt: 6 }}>
@@ -157,7 +205,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Job title'
+                label='Job title *'
                 error={!!error}
                 helperText={error?.message}
               />
@@ -170,7 +218,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Job Type'
+                label='Job Type *'
                 select
                 error={!!error}
                 helperText={error?.message}
@@ -192,7 +240,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Level'
+                label='Level *'
                 select
                 error={!!error}
                 helperText={error?.message}
@@ -221,7 +269,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                   <TextField
                     {...params}
                     size='small'
-                    label='Industry'
+                    label='Industry *'
                     error={!!error}
                     helperText={error?.message}
                   />
@@ -241,7 +289,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 select
-                label='Education'
+                label='Education *'
                 size='small'
                 error={!!error}
                 helperText={error?.message}
@@ -271,7 +319,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                   <TextField
                     {...params}
                     size='small'
-                    label='Location'
+                    label='Location *'
                     error={!!error}
                     helperText={error?.message}
                   />
@@ -311,6 +359,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
+                type='number'
                 label='From'
                 error={!!error}
                 helperText={error?.message}
@@ -325,6 +374,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
+                type='number'
                 label='To'
                 error={!!error}
                 helperText={error?.message}
@@ -341,6 +391,11 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 <FormControl fullWidth>
                   <FormLabel>Gender</FormLabel>
                   <RadioGroup {...field} row>
+                    <FormControlLabel
+                      value='0'
+                      control={<Radio />}
+                      label='No required'
+                    />
                     <FormControlLabel
                       value='1'
                       control={<Radio />}
@@ -369,6 +424,10 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 helperText={error?.message}
                 onChange={(e) => {
+                  if (e.target.value === 'Negotiate') {
+                    setValue('salary_to', '');
+                    setValue('salary_from', '');
+                  }
                   setShowSalary(e.target.value);
                   setValue('salary', e.target.value);
                 }}
@@ -416,7 +475,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Age from'
+                label='Age from *'
                 type='number'
                 error={!!error}
                 helperText={error?.message}
@@ -430,7 +489,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Age to'
+                label='Age to *'
                 type='number'
                 error={!!error}
                 helperText={error?.message}
@@ -444,7 +503,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               <TextField
                 {...field}
                 size='small'
-                label='Skill'
+                label='Skill *'
                 error={!!error}
                 helperText={error?.message}
               />
@@ -457,10 +516,15 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               return (
                 <DesktopDatePicker
                   {...field}
-                  label='End date'
+                  label='End date *'
                   inputFormat='DD/MM/YYYY'
                   renderInput={(props) => (
-                    <TextField {...props} fullWidth error={!!error} />
+                    <TextField
+                      {...props}
+                      fullWidth
+                      error={!!error}
+                      helperText={error?.message}
+                    />
                   )}
                 />
               );
@@ -472,7 +536,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               gutterBottom
               sx={{ color: 'rgb(99, 115, 129)' }}
             >
-              Job Benefits
+              Job Benefits *
             </Typography>
             <Controller
               name='job_benefits'
@@ -497,7 +561,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               gutterBottom
               sx={{ color: 'rgb(99, 115, 129)' }}
             >
-              Job description
+              Job description *
             </Typography>
             <Controller
               name='job_description'
@@ -521,7 +585,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               gutterBottom
               sx={{ color: 'rgb(99, 115, 129)' }}
             >
-              Job requirement
+              Job requirement *
             </Typography>
             <Controller
               name='job_requirement'
@@ -556,7 +620,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 {...field}
                 size='small'
                 error={!!error}
-                label='Company name'
+                label='Company name *'
                 helperText={error?.message}
               />
             )}
@@ -569,7 +633,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 {...field}
                 size='small'
                 error={!!error}
-                label='Contact name'
+                label='Contact name *'
                 helperText={error?.message}
               />
             )}
@@ -582,7 +646,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 {...field}
                 size='small'
                 error={!!error}
-                label='Contact email'
+                label='Contact email *'
                 helperText={error?.message}
               />
             )}

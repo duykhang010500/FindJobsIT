@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import {
   Box,
   Stack,
   Table,
   Button,
-  Tooltip,
   TableRow,
   TableCell,
   TableBody,
@@ -16,7 +15,6 @@ import {
 } from '@mui/material';
 import { AppState } from '../../store/reducer';
 
-import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -24,7 +22,6 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 type ServicesListProps = {};
 
 const ServicesList = (props: ServicesListProps) => {
-  const dispatch = useDispatch();
   const { isLoading, list } = useSelector((state: AppState) => state.services);
   if (isLoading) {
     return <p>Loading...</p>;

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import {
   styled,
   Stack,
-  Alert,
   Button,
   Avatar,
   Dialog,
@@ -22,6 +21,7 @@ import { uploadSingleFile } from '../../utils/upload';
 import { useDispatch } from 'react-redux';
 import { applyJob } from '../../store/jobs/actions';
 import { LoadingButton } from '@mui/lab';
+import { toast } from 'react-toastify';
 
 type Props = {
   open: boolean;
@@ -60,24 +60,25 @@ const ApplyForm = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [isDisable, setIsDisable] = useState<boolean>(true);
-
-  const [fileError, setFileError] = useState<string>('');
+  // const [fileError, setFileError] = useState<string>('');
 
   const [fileUpload, setFileUpload] = useState<any>(null);
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
 
   const handleUploadFile = (e: any) => {
-    console.log(e.target.files[0]);
-
+    const fileType = e.target.files[0].type.split('/')[1];
+    console.log(fileType);
+    if (fileType !== 'pdf') {
+      toast.error('Please upload file .pdf!');
+      return;
+    }
     setFileUpload(e.target.files[0]);
   };
 
   const handleSubmit = async () => {
     setIsLoading(true);
     const res = await uploadSingleFile(fileUpload);
-    console.log('Res: ', res);
     const formData = {
       resume_file: res,
     };
@@ -87,7 +88,13 @@ const ApplyForm = (props: Props) => {
   };
 
   return (
-    <Dialog open={props.open} onClose={props.close}>
+    <Dialog
+      open={props.open}
+      onClose={() => {
+        props.close();
+        setFileUpload(null);
+      }}
+    >
       <DialogTitle>
         <Typography>
           <Typography variant='body1' component='span' fontSize={20}>
@@ -130,7 +137,7 @@ const ApplyForm = (props: Props) => {
                 or drag it here
               </Typography>
               <Typography variant='caption' sx={{ color: 'rgb(99, 115, 129)' }}>
-                Allowed .docx, .pdf
+                Allowed .pdf
               </Typography>
             </>
           )}
@@ -138,13 +145,20 @@ const ApplyForm = (props: Props) => {
           <input
             type='file'
             id='upload'
+            accept='application/pdf'
             style={{ display: 'none' }}
             onChange={handleUploadFile}
           />
         </Upload>
       </DialogContent>
       <DialogActions>
-        <Button variant='outlined' onClick={props.close}>
+        <Button
+          variant='outlined'
+          onClick={() => {
+            props.close();
+            setFileUpload(null);
+          }}
+        >
           Back
         </Button>
         <LoadingButton

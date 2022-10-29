@@ -12,8 +12,9 @@ import {
   RadioGroup,
   Typography,
   FormControl,
-  FormControlLabel,
   Autocomplete,
+  FormHelperText,
+  FormControlLabel,
 } from '@mui/material';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -29,6 +30,7 @@ import { Marital } from '../../../models/marital';
 type Props = {
   control: any;
   setValue: any;
+  getValues: any;
 };
 
 const genderOptions = [
@@ -41,10 +43,12 @@ const maritalOptions = [
   { label: 'Married', id: 2 },
 ];
 
-const ProfileInformation = ({ control, setValue }: Props) => {
+const ProfileInformation = ({ control, setValue, getValues }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
 
   const { locations } = useSelector((state: AppState) => state.location);
+
+  const { currentUser } = useSelector((state: AppState) => state.auth);
 
   return (
     <Card sx={{ p: 3 }}>
@@ -74,7 +78,7 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                 return (
                   <TextField
                     {...field}
-                    label='Full name'
+                    label='Full name *'
                     fullWidth
                     error={!!error}
                     helperText={error?.message}
@@ -89,7 +93,8 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                 return (
                   <TextField
                     {...field}
-                    label='Phone'
+                    label='Phone *'
+                    type='number'
                     fullWidth
                     error={!!error}
                     helperText={error?.message}
@@ -106,8 +111,8 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                 return (
                   <DesktopDatePicker
                     {...field}
-                    label='Birthday'
-                    inputFormat='MM/DD/YYYY'
+                    label='Birthday *'
+                    inputFormat='DD/MM/YYYY'
                     renderInput={(props) => (
                       <TextField
                         {...props}
@@ -127,7 +132,8 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                 return (
                   <TextField
                     {...field}
-                    label='Email'
+                    disabled
+                    label='Email *'
                     fullWidth
                     error={!!error}
                     helperText={error?.message}
@@ -143,7 +149,7 @@ const ProfileInformation = ({ control, setValue }: Props) => {
               render={({ field, fieldState: { error } }) => {
                 return (
                   <FormControl fullWidth>
-                    <FormLabel>Gender</FormLabel>
+                    <FormLabel>Gender *</FormLabel>
                     <RadioGroup {...field} row>
                       {genderOptions.map((gender: Gender) => {
                         return (
@@ -156,6 +162,7 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                         );
                       })}
                     </RadioGroup>
+                    <FormHelperText error>{error?.message}</FormHelperText>
                   </FormControl>
                 );
               }}
@@ -166,7 +173,7 @@ const ProfileInformation = ({ control, setValue }: Props) => {
               render={({ field, fieldState: { error } }) => {
                 return (
                   <FormControl fullWidth>
-                    <FormLabel>Marital status</FormLabel>
+                    <FormLabel>Marital status *</FormLabel>
                     <RadioGroup {...field} row>
                       {maritalOptions.map((marital: Marital) => {
                         return (
@@ -179,6 +186,9 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                         );
                       })}
                     </RadioGroup>
+                    <FormHelperText error={!!error}>
+                      {error?.message}
+                    </FormHelperText>
                   </FormControl>
                 );
               }}
@@ -193,18 +203,19 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                   <Autocomplete
                     {...field}
                     id='nationality'
-                    freeSolo
                     fullWidth
                     options={Nationalities}
                     getOptionLabel={(country) => country.name || ''}
                     renderOption={(props, country) => (
                       <MenuItem {...props}>{country.name}</MenuItem>
                     )}
-                    onChange={(_, options) => setValue('nationality', options)}
+                    onChange={(_, options) => {
+                      setValue('nationality', options);
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label='Nationality'
+                        label='Nationality *'
                         error={!!error}
                         helperText={error?.message}
                       />
@@ -232,12 +243,14 @@ const ProfileInformation = ({ control, setValue }: Props) => {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label='City'
+                        label='City *'
                         error={!!error}
                         helperText={error?.message}
                       />
                     )}
-                    onChange={(_, options) => setValue('city', options)}
+                    onChange={(_, options) => {
+                      setValue('city', options);
+                    }}
                   />
                 );
               }}
@@ -250,7 +263,7 @@ const ProfileInformation = ({ control, setValue }: Props) => {
               return (
                 <TextField
                   {...field}
-                  label='Address'
+                  label='Address *'
                   fullWidth
                   error={!!error}
                   helperText={error?.message}

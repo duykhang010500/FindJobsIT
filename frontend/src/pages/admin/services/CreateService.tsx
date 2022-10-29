@@ -16,6 +16,8 @@ const CreateService = (props: Props) => {
   const { pathname } = useLocation();
   const isEditPage = pathname.includes('/edit');
   const { list } = useSelector((state: AppState) => state.services);
+
+  // eslint-disable-next-line
   const service = list.find((item: any) => item.id == id);
 
   useEffect(() => {

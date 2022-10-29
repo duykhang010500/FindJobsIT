@@ -20,6 +20,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import { AppState } from '../../store/reducer';
 import ApplyForm from './ApplyForm';
+import { toast } from 'react-toastify';
 
 dayjs.extend(relativeTime);
 
@@ -42,9 +43,15 @@ const Img = styled('img')({
 const JobDescriptionHeader = (props: Props) => {
   const { job } = useSelector((state: AppState) => state.jobs);
 
+  const { currentUser } = useSelector((state: AppState) => state.auth);
+
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
+    if (!currentUser) {
+      toast.error('Please login to apply this job!');
+      return;
+    }
     setOpen(true);
   };
 

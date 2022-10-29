@@ -42,6 +42,7 @@ import JobSeekerProfile from '../pages/jobseeker/JobSeekerProfile';
 import JobSeekerJobs from '../pages/jobseeker/JobSeekerJobs';
 import JobSeekerSettings from '../pages/jobseeker/JobSeekerSettings';
 import SearchJobs from '../pages/SearchJobs';
+import DetailCandidate from '../sections/employer-dashboard/candidates/DetailCandidate';
 
 type Props = {};
 
@@ -90,6 +91,7 @@ const Router = (props: Props) => {
         { path: 'job/create', element: <EmployerCreateJob /> },
         { path: 'job/:id/edit', element: <EmployerCreateJob /> },
         { path: 'candidates', element: <EmployerCandidatesList /> },
+        { path: 'candidates/:id', element: <DetailCandidate /> },
         { path: 'order/active', element: <EmployerServices /> },
         { path: 'my', element: <MyProfile /> },
         { path: 'company', element: <CompanyProfile /> },

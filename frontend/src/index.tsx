@@ -6,6 +6,8 @@ import 'swiper/css';
 import 'aos/dist/aos.css';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 import App from './App';
 import store from './store';

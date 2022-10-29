@@ -1,7 +1,7 @@
 const jobSeekerMenu = [
   { title: 'Home', to: '/' },
-  { title: 'Jobs', to: '/jobs' },
-  { title: 'Top Company', to: '/top-company' },
+  { title: 'Jobs', to: '/' },
+  { title: 'Top Company', to: '/' },
 ];
 
 const employerMenu = [

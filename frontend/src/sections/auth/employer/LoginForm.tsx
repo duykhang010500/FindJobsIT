@@ -69,7 +69,7 @@ const LoginForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label={`Email`}
+                label={`Email *`}
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -88,7 +88,7 @@ const LoginForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label={`Password`}
+                label={`Password *`}
                 name='password'
                 type={showPassword ? 'text' : 'password'}
                 error={!!error}

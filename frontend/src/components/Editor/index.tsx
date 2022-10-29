@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import { Box, styled } from '@mui/material';
+import { Box, styled, FormHelperText } from '@mui/material';
 
 type Props = {
   id?: string;
@@ -39,7 +39,9 @@ const Editor = (props: Props) => {
           placeholder='Write something ...'
         />
       </EditorWrapper>
-      {props.helperText && props.helperText}
+      <FormHelperText error={props.error}>
+        {props.helperText && props.helperText}
+      </FormHelperText>
     </>
   );
 };

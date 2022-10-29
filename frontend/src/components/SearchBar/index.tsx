@@ -33,8 +33,10 @@ const SearchBar: FC<Props> = () => {
 
   const { industries } = useSelector((state: AppState) => state.industries);
 
+  // eslint-disable-next-line
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // eslint-disable-next-line
   const [industriesOptions, setIndustriesOptions] = useState<any>([]);
 
   const [keywords, setKeywords] = useState<string>('');
@@ -69,7 +71,7 @@ const SearchBar: FC<Props> = () => {
     if (searchTemp || industriesTemp || locationsTemp) {
       dispatch(searchJobs(searchTemp, locationsTemp, industriesTemp));
     }
-  }, []);
+  }, [dispatch, searchTemp, industriesTemp, locationsTemp]);
 
   useEffect(() => {
     if (searchTemp) {
@@ -146,7 +148,6 @@ const SearchBar: FC<Props> = () => {
       </Grid>
       <Grid item xs={12} md={2}>
         <Button
-          sx={{ height: '100%' }}
           fullWidth
           size='large'
           variant='contained'

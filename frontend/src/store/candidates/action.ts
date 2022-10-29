@@ -2,9 +2,14 @@ import {
   ADMIN_GET_CANDIDATES_LIST,
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
+  GET_DETAIL_CANDIDATE,
+  GET_DETAIL_CANDIDATE_FAILURE,
+  GET_DETAIL_CANDIDATE_SUCCESS,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
   UPDATE_STATUS,
+  UPDATE_STATUS_FAILURE,
+  UPDATE_STATUS_SUCCESS,
 } from './actionTypes';
 
 export const getListCandidatesForEmployer = () => ({
@@ -42,5 +47,39 @@ export const updateStatus = (id: any, formData: any) => {
       id,
       formData,
     },
+  };
+};
+
+export const updateStatusSuccess = () => {
+  return {
+    type: UPDATE_STATUS_SUCCESS,
+  };
+};
+
+export const updateStatusFailure = (err: any) => {
+  return {
+    type: UPDATE_STATUS_FAILURE,
+    payload: err,
+  };
+};
+
+export const getDetailCandidate = (id: number) => {
+  return {
+    type: GET_DETAIL_CANDIDATE,
+    payload: id,
+  };
+};
+
+export const getDetailCandidateSuccess = (candidate: any) => {
+  return {
+    type: GET_DETAIL_CANDIDATE_SUCCESS,
+    payload: candidate,
+  };
+};
+
+export const getDetailCandidateFailure = (err: any) => {
+  return {
+    type: GET_DETAIL_CANDIDATE_FAILURE,
+    payload: err,
   };
 };

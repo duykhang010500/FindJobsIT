@@ -18,7 +18,7 @@ const JobRequirement = (props: Props) => {
     >
       <CardContent>
         <Typography variant='h3' gutterBottom>
-          Description
+          Requirements
         </Typography>
         <Typography variant='body1' component={'div'} sx={{ lineHeight: 2 }}>
           <div dangerouslySetInnerHTML={{ __html: job?.job_requirement }} />

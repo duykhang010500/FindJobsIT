@@ -1,6 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AppState } from '../../../../store/reducer';
-import { useSelector, useDispatch } from 'react-redux';
 
 import {
   Box,
@@ -11,17 +9,24 @@ import {
   Tooltip,
   TextField,
   Typography,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 
 import { LoadingButton } from '@mui/lab';
-import Image from '../../../../components/Image';
 
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import { AppState } from '../../../../store/reducer';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateInfoEmployer } from '../../../../store/auth/action';
+
+import Image from '../../../../components/Image';
 
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { updateInfoEmployer } from '../../../../store/auth/action';
+
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import { VisibilityOffRounded, VisibilityRounded } from '@mui/icons-material';
 
 type Props = {};
 
@@ -71,11 +76,16 @@ const MyProfile = (props: Props) => {
 
   const [avt, setAvt] = useState<any>();
 
-  const [error, setError] = useState<string>('');
+  const [errorAvt, setErrorAvt] = useState<string>('');
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { currentUser } = useSelector((state: AppState) => state.auth);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+
+  const { currentUser, error } = useSelector((state: AppState) => state.auth);
 
   const uploadSingleImage = async (image: any) => {
     const formData = new FormData();
@@ -131,6 +141,11 @@ const MyProfile = (props: Props) => {
 
     const values = getValues();
 
+    if (!values.password && !values.password_confirmation) {
+      delete values.password;
+      delete values.password_confirmation;
+    }
+
     delete values.email;
 
     await dispatch(updateInfoEmployer(values));
@@ -144,12 +159,12 @@ const MyProfile = (props: Props) => {
     const file = e.target.files[0];
 
     if (!supportMineType.includes(file.type.split('/')[1])) {
-      setError('Incorrect file type!');
+      setErrorAvt('Incorrect file type!');
       return;
     }
 
     if (file.size > 1 * 1024 * 1024) {
-      setError('Image must be < 1MB!');
+      setErrorAvt('Image must be < 1MB!');
       return;
     }
     setAvt(file);
@@ -168,7 +183,7 @@ const MyProfile = (props: Props) => {
                 onChange={handleChangeAvatar}
               />
               <Tooltip title='Upload avatar' placement='top'>
-                <UploadButton htmlFor='upload' onClick={() => setError('')}>
+                <UploadButton htmlFor='upload' onClick={() => setErrorAvt('')}>
                   <ModeEditOutlineIcon sx={{ fontSize: '17px' }} />
                 </UploadButton>
               </Tooltip>
@@ -199,7 +214,9 @@ const MyProfile = (props: Props) => {
               {`File size < 1MB`}
             </Typography>
           </div>
-          {error && <Alert severity='error'>{error}</Alert>}
+          {errorAvt && <Alert severity='error'>{errorAvt}</Alert>}
+          {error && <Alert severity='error'>{Object.values(error)}</Alert>}
+
           <Controller
             name='fullname'
             control={control}
@@ -223,14 +240,54 @@ const MyProfile = (props: Props) => {
             name='password'
             control={control}
             render={({ field }) => (
-              <TextField {...field} type='password' label='Password' />
+              <TextField
+                {...field}
+                type={showPassword ? 'text' : 'password'}
+                label='Password'
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <VisibilityRounded />
+                        ) : (
+                          <VisibilityOffRounded />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
             )}
           />
           <Controller
             name='password_confirmation'
             control={control}
             render={({ field }) => (
-              <TextField {...field} type='password' label='Confirm password' />
+              <TextField
+                {...field}
+                type={showConfirmPassword ? 'text' : 'password'}
+                label='Confirm password'
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityRounded />
+                        ) : (
+                          <VisibilityOffRounded />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
             )}
           />
           <Stack alignItems='flex-end'>

@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Worker } from '@react-pdf-viewer/core';
 
 import {
   getCurrentJobSeeker,
@@ -49,12 +50,14 @@ export default function App(props: IAppProps) {
   }, [location.pathname]);
 
   return (
-    <ThemProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ToastContainer autoClose={1000} position='top-center' />
-        <CssBaseline />
-        <Router />
-      </LocalizationProvider>
-    </ThemProvider>
+    <Worker workerUrl='https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js'>
+      <ThemProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <ToastContainer autoClose={1000} position='bottom-right' />
+          <CssBaseline />
+          <Router />
+        </LocalizationProvider>
+      </ThemProvider>
+    </Worker>
   );
 }

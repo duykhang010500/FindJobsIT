@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { styled } from '@mui/material';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link } from '@mui/material';
 import { employerMenu, jobSeekerMenu } from '../../../configs/menuConfig';
 type Props = {};
 
@@ -53,13 +54,14 @@ const HeaderMenu: FC<Props> = () => {
   ));
 
   const renderJobSeekerMenu = jobSeekerMenu.map((item) => (
-    <RouterLink
+    <Link
       key={item.title}
-      to={`${item.to}`}
+      // to={`${item.to}`}
+      href={`${item.to}`}
       style={{ textDecoration: 'none' }}
     >
       <StyledLink>{item.title}</StyledLink>
-    </RouterLink>
+    </Link>
   ));
 
   return (

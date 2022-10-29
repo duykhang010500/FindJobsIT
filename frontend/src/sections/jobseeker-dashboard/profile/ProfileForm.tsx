@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import dayjs from 'dayjs';
 
 import { Stack } from '@mui/material';
@@ -12,20 +12,29 @@ import SaveIcon from '@mui/icons-material/Save';
 import CareerInformation from './CareerInformation';
 import ProfileInformation from './ProfileInformation';
 import EducationInformation from './EducationInformation';
-import { getIdFromArr } from '../../../utils/convert';
+import {
+  findIndexByName,
+  findIndexByName1,
+  getDefaultMultiple,
+  getIdFromArr,
+} from '../../../utils/convert';
 import { useDispatch } from 'react-redux';
 import { getMyCV, updateMyCv } from '../../../store/cv/actions';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
+import { Nationalities } from '../../../utils/defaultValues';
+import { phoneRegExp } from '../../../utils/validate';
 
 type Props = {};
-
-// const defaultValues = {};
 
 const ProfileForm = (props: Props) => {
   const dispatch = useDispatch();
 
   const { cv } = useSelector((state: AppState) => state.cv);
+
+  const { locations } = useSelector((state: AppState) => state.location);
+
+  const { currentUser } = useSelector((state: AppState) => state.auth);
 
   useEffect(() => {
     dispatch(getMyCV());
@@ -33,84 +42,104 @@ const ProfileForm = (props: Props) => {
 
   const profileSchema = yup.object({
     fullname: yup.string().required('Full name is require'),
-    phone: yup.string().required('Phone is required'),
-    gender: yup.number().required('Gender is required'),
-    marital: yup.number().required('Marital is required'),
+    phone: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+    birthday: yup.string().required('Birthday is require'),
     email: yup
       .string()
       .email('Email must be valid email address')
       .required('Email is required'),
-    // nationality: yup.array().min(1, 'Nationality is required'),
-    // city: yup.array().min(1, 'City is required'),
+    gender: yup.string().required('Gender is required'),
+    marital: yup.string().required('Marital is required'),
+    nationality: yup.object().nullable().required('Nationality is required'),
+    city: yup.object().nullable().required('City is required'),
     address: yup.string().required('Address is required'),
+
     resume_title: yup.string().required('Job title is required'),
-    currentLevel: yup.string().required('Current level is required'),
+    current_level: yup.string().required('Current level is required'),
     level: yup.string().required('Level is required'),
-    yearofexperience: yup.number().required('Year experience is required'),
-    industries: yup.array().min(1, 'Please choose at least 1 industry'),
-    locations: yup
-      .array()
-      .min(1, 'Please choose at least 1 location you want to work in'),
+    industries: yup.array().min(1, 'Choose at least 1 industries'),
+    locations: yup.array().min(1, 'Choose at least 1 location'),
+
     current_degree: yup.string().required('Current degree is required'),
     working_type: yup.string().required('Working type is required'),
     summary: yup.string().required('Summary is required'),
+
+    rexp_title: yup.string().required('Position title is required'),
+    rexp_company: yup.string().required('Companies is required'),
+    rexp_date_start: yup.string().required('Time start is required'),
+    rexp_date_end: yup.string().required('Time start is required'),
+    rexp_description: yup.string().required('Description is required'),
+
+    edu_school: yup.string().required('School is required'),
+    edu_certify: yup.string().required('Certificate is required'),
+    edu_description: yup.string().required('Education description is required'),
+    edu_date_start: yup.string().required('Time start is required'),
+    edu_date_end: yup.string().required('Time end is required'),
+    // yearofexperience: yup.number().required('Year experience is required'),
   });
 
-  const defaultValues = {
-    fullname: cv?.fullname || '',
-    email: cv?.email || '',
-    phone: cv?.phone || '',
-    birthday: dayjs(cv?.birthday).format('DD/MM/YYYY') || '',
-    gender: cv?.gender || '',
-    marital: cv?.marital || '',
-    nationality: [],
-    city: [],
-    address: cv?.address || '',
+  const defaultValues = useMemo(
+    () => ({
+      fullname: cv?.member?.fullname || '',
+      email: currentUser?.email || '',
+      phone: cv?.member?.phone || '',
+      birthday: cv ? dayjs(cv?.member?.birthday).format('MM/DD/YYYY') : '',
+      gender: cv?.member?.gender || '',
+      marital: cv?.member?.marital || '',
+      nationality:
+        Nationalities[
+          findIndexByName1(cv?.member?.nationality, Nationalities)
+        ] || null,
+      city: locations[findIndexByName(cv?.member?.city, locations)] || null,
+      address: cv?.member?.address || '',
 
-    current_position: cv?.current_position || '',
-    resume_title: cv?.resume_title || '',
-    current_company: cv?.current_company || '',
-    yearofexperience: cv?.yearofexperience || 0,
-    current_level: cv?.current_level || '',
-    level: cv?.level || '',
-    industries: [],
-    locations: [],
-    salary_unit: cv?.salary_unit || 'Negotiate',
-    salary_from: cv?.salary_from || 0,
-    salary_to: cv?.salary_to || 0,
-    current_degree: cv?.current_degree || '',
-    working_type: cv?.working_type || '',
-    languages: '',
-    summary: cv?.summary || '',
+      current_position: cv?.current_position || '',
+      resume_title: cv?.resume_title || '',
+      current_company: cv?.current_company || '',
+      yearofexperience: cv?.yearofexperience || 0,
+      current_level: cv?.current_level || '',
+      level: cv?.level || '',
+      industries: cv?.industries || [],
+      locations: cv?.locations || [],
+      salary_unit: cv?.salary_unit || 'Negotiate',
+      salary_from: cv?.salary_from || 0,
+      salary_to: cv?.salary_to || 0,
+      current_degree: cv?.current_degree || '',
+      working_type: cv?.working_type || '',
+      languages: '',
+      summary: cv?.summary || '',
 
-    rexp_title: cv?.rexp_title || '',
-    rexp_company: cv?.rexp_company || '',
-    rexp_date_start: dayjs(cv?.rexp_date_start).format('DD/MM/YYYY') || '',
+      rexp_title: cv?.rexp_title || '',
+      rexp_company: cv?.rexp_company || '',
+      rexp_date_start: cv
+        ? dayjs(cv?.rexp_date_start).format('MM/DD/YYYY')
+        : '',
+      rexp_date_end: cv ? dayjs(cv?.rexp_date_end).format('MM/DD/YYYY') : '',
+      rexp_description: cv?.rexp_description || '',
 
-    rexp_date_end: dayjs(cv?.rexp_date_end).format('DD/MM/YYYY') || '',
-    rexp_current_end: 0,
-    rexp_description: cv?.rexp_description || '',
+      edu_school: cv?.edu_school || '',
+      edu_certify: cv?.edu_certify || '',
+      edu_date_start: cv ? dayjs(cv?.edu_date_start).format('MM/DD/YYYY') : '',
+      edu_date_end: cv ? dayjs(cv?.edu_date_end).format('MM/DD/YYYY') : '',
+      edu_current_end: cv
+        ? dayjs(cv?.edu_current_end).format('MM/DD/YYYY')
+        : '',
+      edu_description: cv?.edu_description || '',
+      resume_file: 'resume_file.docx',
+    }),
+    [cv, currentUser]
+  );
 
-    edu_school: cv?.edu_school || '',
-    edu_certify: cv?.edu_certify || '',
-    edu_date_start: dayjs(cv?.edu_date_start).format('DD/MM/YYYY') || '',
-    edu_date_end: dayjs(cv?.edu_date_end).format('DD/MM/YYYY') || '',
-    edu_current_end: 0,
-    edu_description: cv?.edu_description || '',
-    resume_file: 'resume_file.docx',
-  };
-
-  const { control, handleSubmit, setValue, reset } = useForm({
+  const { control, handleSubmit, setValue, reset, getValues } = useForm({
     defaultValues,
     resolver: yupResolver(profileSchema),
   });
 
   useEffect(() => {
     reset(defaultValues);
-  }, [cv]);
+  }, [defaultValues, reset, cv]);
 
   const onSubmit = (formValues: any) => {
-    // console.log(formValues);
     const formatValues = {
       ...formValues,
       city: formValues?.city?.name?.trim(),
@@ -124,15 +153,18 @@ const ProfileForm = (props: Props) => {
       locations: getIdFromArr(formValues.locations),
     };
 
-    console.log('Form values: ', formatValues);
-    // dispatch
+    console.log(formatValues);
     dispatch(updateMyCv(formatValues));
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
-        <ProfileInformation control={control} setValue={setValue} />
+        <ProfileInformation
+          control={control}
+          setValue={setValue}
+          getValues={getValues}
+        />
         <CareerInformation control={control} setValue={setValue} />
         <EducationInformation control={control} />
         <Stack alignItems='center'>

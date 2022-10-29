@@ -2,9 +2,10 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 
 import { GET_MY_CV, UPDATE_MY_CV } from './actionTypes';
 
-import { getMyCVFailure, getMyCVSuccess } from './actions';
+import { getMyCVFailure, getMyCVSuccess, updateMyCvFailure } from './actions';
 
 import jobSeekerServices from '../../services/jobSeeker';
+import { toast } from 'react-toastify';
 
 function* getMyCVSaga(): any {
   try {
@@ -18,8 +19,10 @@ function* getMyCVSaga(): any {
 function* updateMyCVSaga({ payload: formData }: any): any {
   try {
     yield call(jobSeekerServices.updateCV, formData);
+    toast.success('Update resume successfully!');
   } catch (err) {
-    throw err;
+    yield put(updateMyCvFailure(err));
+    toast.error('Err occur!');
   }
 }
 

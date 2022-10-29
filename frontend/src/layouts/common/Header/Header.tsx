@@ -72,8 +72,8 @@ const Header: FC<Props> = () => {
       await dispatch(logoutEmployer());
       setAnchorEl(null);
       isJobSeeker
-        ? navigate('/login')
-        : navigate('/employer/login', { replace: true });
+        ? (window.location.href = '/login')
+        : (window.location.href = '/employer/login/');
     } catch (err) {
       throw err;
     }
@@ -119,8 +119,8 @@ const Header: FC<Props> = () => {
           }}
         >
           <Link
-            component={RouterLink}
-            to={pathname.includes('/employer') ? '/employer' : '/'}
+            // component={RouterLink}
+            href={pathname.includes('/employer') ? '/employer' : '/'}
           >
             <Logo />
           </Link>

@@ -70,15 +70,27 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='current_position'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Current Position' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='Current Position'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
             <Controller
               name='resume_title'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Job title' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='Job title *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
           </Stack>
@@ -86,19 +98,27 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='current_company'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Current company' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='Current company'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
             <Controller
               name='yearofexperience'
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
                   type='number'
                   label='Year of experience'
                   fullWidth
+                  error={!!error}
+                  helperText={error?.message}
                 />
               )}
             />
@@ -107,8 +127,15 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='current_level'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} select label='Current level' fullWidth>
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  select
+                  label='Current level *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                >
                   {jobLevel.map((level: any) => {
                     return (
                       <MenuItem key={level.id} value={level.label}>
@@ -122,8 +149,15 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='level'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} select label='Level' fullWidth>
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  select
+                  label='Level *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                >
                   {jobLevel.map((level: any) => {
                     return (
                       <MenuItem key={level.id} value={level.label}>
@@ -150,7 +184,7 @@ const CareerInformation = ({ control, setValue }: Props) => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label='Industries'
+                      label='Industries *'
                       error={!!error}
                       helperText={error?.message}
                     />
@@ -177,7 +211,7 @@ const CareerInformation = ({ control, setValue }: Props) => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label='Locations'
+                      label='Locations *'
                       error={!!error}
                       helperText={error?.message}
                     />
@@ -238,8 +272,15 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='current_degree'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} select label='Current degree' fullWidth>
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  select
+                  label='Current degree *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                >
                   {degreeTypes.map((degree: any) => (
                     <MenuItem key={degree.id} value={degree.label}>
                       {degree.label}
@@ -253,8 +294,15 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='working_type'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} select label='Working type' fullWidth>
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  select
+                  label='Working type *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                >
                   {jobTypes.map((item: any) => {
                     return (
                       <MenuItem key={item.id} value={item.label}>
@@ -276,13 +324,15 @@ const CareerInformation = ({ control, setValue }: Props) => {
           <Controller
             name='summary'
             control={control}
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Career objective'
+                label='Career objective *'
                 fullWidth
                 multiline
                 minRows={5}
+                error={!!error}
+                helperText={error?.message}
               />
             )}
           />
@@ -290,15 +340,27 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='rexp_title'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Position title' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='Position title *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
             <Controller
               name='rexp_company'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Companies' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='Companies *'
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
           </Stack>
@@ -310,7 +372,7 @@ const CareerInformation = ({ control, setValue }: Props) => {
                 <DesktopDatePicker
                   {...field}
                   label='Date start'
-                  inputFormat='MM/DD/YYYY'
+                  inputFormat='DD/MM/YYYY'
                   renderInput={(params) => (
                     <TextField fullWidth {...params} error={!!error} />
                   )}
@@ -324,7 +386,7 @@ const CareerInformation = ({ control, setValue }: Props) => {
                 <DesktopDatePicker
                   {...field}
                   label='Date end'
-                  inputFormat='MM/DD/YYYY'
+                  inputFormat='DD/MM/YYYY'
                   renderInput={(params) => (
                     <TextField fullWidth {...params} error={!!error} />
                   )}
@@ -338,7 +400,7 @@ const CareerInformation = ({ control, setValue }: Props) => {
               gutterBottom
               sx={{ color: 'rgb(99, 115, 129)' }}
             >
-              Experience
+              Experience *
             </Typography>
             <Controller
               name='rexp_description'

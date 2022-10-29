@@ -29,6 +29,7 @@ import {
   updateInfoEmployerSuccess,
   getCurrentJobSeeker,
   getCurrentJobSeekerSuccess,
+  updateInfoEmployerFailure,
 } from './action';
 
 import adminServices from '../../services/admin';
@@ -116,10 +117,12 @@ function* getCurrentEmployer(): any {
 function* updateInfoEmployerSaga({ payload: formData }: any): any {
   try {
     yield call(employerServices.updateProfile, formData);
-    yield put(getInfoEmployer());
     yield put(updateInfoEmployerSuccess());
-    toast.success('Update info successfully!');
-  } catch (err) {}
+    yield put(getInfoEmployer());
+    toast.success('Update information successfully!');
+  } catch (err) {
+    yield put(updateInfoEmployerFailure(err));
+  }
 }
 
 //admin

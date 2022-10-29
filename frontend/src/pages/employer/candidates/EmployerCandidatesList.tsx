@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -7,6 +8,7 @@ import {
   Table,
   Stack,
   Avatar,
+  Tooltip,
   TableRow,
   MenuItem,
   TableBody,
@@ -19,23 +21,27 @@ import {
   TablePagination,
 } from '@mui/material';
 
+import EmailIcon from '@mui/icons-material/Email';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import SaveAsRoundedIcon from '@mui/icons-material/SaveAsRounded';
+
 import {
   getListCandidatesForEmployer,
   updateStatus,
 } from '../../../store/candidates/action';
+
 import { AppState } from '../../../store/reducer';
-import StatusBadge from '../../../components/StatusBadge';
 
 type Props = {};
 
 const EmployerCandidatesList = (props: Props) => {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const { isLoading, list } = useSelector(
     (state: AppState) => state.candidates
   );
+
   useEffect(() => {
     dispatch(getListCandidatesForEmployer());
   }, [dispatch]);
@@ -44,9 +50,10 @@ const EmployerCandidatesList = (props: Props) => {
     return null;
   }
 
-  const handleUpdateStatus = () => {
-    // dispatch(updateStatus());
+  const handleUpdateStatus = (id: any, status: any) => {
+    dispatch(updateStatus(id, { status }));
   };
+
   return (
     <TableContainer>
       <Table>
@@ -84,6 +91,9 @@ const EmployerCandidatesList = (props: Props) => {
                     label=''
                     size='small'
                     defaultValue={item.status ? item.status : 'New'}
+                    onChange={(e) =>
+                      handleUpdateStatus(item?.id, e.target.value)
+                    }
                   >
                     <MenuItem value='New'>New</MenuItem>
                     <MenuItem value='Short listed'>Short listed</MenuItem>
@@ -95,15 +105,17 @@ const EmployerCandidatesList = (props: Props) => {
                 <TableCell>
                   <Stack direction='row' spacing={0}>
                     <IconButton>
-                      <SaveAsRoundedIcon />
+                      <EmailIcon />
                     </IconButton>
-                    <IconButton>
-                      <VisibilityIcon
-                        onClick={() => {
-                          window.open(item?.resume_file, '_blank');
-                        }}
-                      />
-                    </IconButton>
+                    <Tooltip placement='top' title='View detail'>
+                      <IconButton>
+                        <VisibilityIcon
+                          onClick={() =>
+                            navigate(`/employer/hr/candidates/${item.id}`)
+                          }
+                        />
+                      </IconButton>
+                    </Tooltip>
                   </Stack>
                 </TableCell>
               </TableRow>

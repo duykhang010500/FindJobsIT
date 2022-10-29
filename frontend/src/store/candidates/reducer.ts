@@ -4,12 +4,16 @@ import {
   ADMIN_GET_CANDIDATES_LIST,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
+  GET_DETAIL_CANDIDATE,
+  GET_DETAIL_CANDIDATE_SUCCESS,
+  GET_DETAIL_CANDIDATE_FAILURE,
 } from './actionTypes';
 import { ICandidatesState, CandidatesActions } from './types';
 
 const initialState: ICandidatesState = {
   isLoading: false,
   list: [],
+  candidate: null,
 };
 
 const candidatesReducer = (state = initialState, action: CandidatesActions) => {
@@ -37,6 +41,23 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
     case ADMIN_GET_CANDIDATES_LIST_FAILURE:
       return {
         ...state,
+      };
+    case GET_DETAIL_CANDIDATE: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case GET_DETAIL_CANDIDATE_SUCCESS:
+      return {
+        ...state,
+        candidate: action.payload,
+        isLoading: false,
+      };
+    case GET_DETAIL_CANDIDATE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

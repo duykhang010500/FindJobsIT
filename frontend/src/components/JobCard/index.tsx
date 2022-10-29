@@ -1,27 +1,30 @@
 import { Link as RouterLink } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {
-  styled,
+  Box,
+  Link,
   Card,
   Stack,
-  Typography,
-  Box,
+  styled,
   Divider,
-  Link,
   useTheme,
+  Typography,
+  Tooltip,
 } from '@mui/material';
 
 // eslint-disable-next-line
-import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
-import { HiOutlineLocationMarker } from 'react-icons/hi';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import UpdateIcon from '@mui/icons-material/Update';
+import { HiOutlineLocationMarker } from 'react-icons/hi';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 
 interface Iprops {
   job: any;
   isSmall?: boolean;
 }
 
+// eslint-disable-next-line
 const randomBadgeColor = [
   {
     backgroundColor: '#fff2e8',
@@ -50,6 +53,7 @@ const JobCardWrapper = styled(Card)({
   flexDirection: 'column',
   padding: '20px',
   border: '2px solid transparent',
+  height: '100%',
   borderRadius: '18px',
   boxShadow: '-12px 12px 48px -4px rgba(145, 158, 171, 0.12)',
   '&:hover': {
@@ -57,6 +61,7 @@ const JobCardWrapper = styled(Card)({
   },
 });
 
+// eslint-disable-next-line
 const BadgeSkill = styled(Box)({
   padding: '5px 10px',
   fontSize: '11px',
@@ -98,7 +103,11 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
   if (isSmall) {
     return (
       <SmallJobCardWrapper>
-        <SmallJobCardImg src={`${job.companyLogo}`} />
+        {job.logoCompany ? (
+          <SmallJobCardImg src={`${job.companyLogo}`} />
+        ) : (
+          <ApartmentIcon />
+        )}
         <Stack spacing={1.5} ml={3} sx={{ width: '100%' }}>
           <Link component={RouterLink} to={'/'}>
             <Typography variant='h3'>{job.title}</Typography>
@@ -131,18 +140,28 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
           justifyContent='space-between'
           alignItems='center'
         >
-          <img
-            style={{ width: '60px', height: '60px' }}
-            src={job.company.logo}
-            alt='company-logo'
-          />
+          {job?.company ? (
+            <img
+              style={{ width: '60px', height: '60px' }}
+              src={job?.company?.logo}
+              alt='company-logo'
+            />
+          ) : (
+            <ApartmentIcon />
+          )}
 
+          <Tooltip placement='top' title='Save job'>
+            <IconWrapper>
+              <RiHeart3Line
+                style={{
+                  color: '#434343',
+                  fontSize: '1.2rem',
+                  cursor: 'pointer',
+                }}
+              />
+            </IconWrapper>
+          </Tooltip>
           {/* <IconWrapper>
-          <RiHeart3Line
-            style={{ color: '#434343', fontSize: '1.2rem', cursor: 'pointer' }}
-          />
-        </IconWrapper> */}
-          <IconWrapper>
             <RiHeart3Fill
               style={{
                 color: `${theme.palette.primary.main}`,
@@ -150,27 +169,37 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
                 cursor: 'pointer',
               }}
             />
-          </IconWrapper>
+          </IconWrapper> */}
         </Stack>
         <Stack>
           <Link component={RouterLink} to={`/job/${job.id}`}>
-            <Typography variant='h3' fontWeight={500}>
-              {job.title}
+            <Typography
+              variant='body1'
+              fontWeight={500}
+              fontSize={20}
+              sx={{ mt: 2 }}
+            >
+              {job?.title}
             </Typography>
           </Link>
-          <Typography variant='h4' fontWeight={500} color='#1890ff' mt={1}>
-            {job.company_name}
+          <Typography
+            variant='body2'
+            fontWeight={500}
+            color='rgb(34, 184, 207)'
+            mt={1}
+          >
+            {job?.company_name}
           </Typography>
 
           <Typography fontWeight={500} mt={1} variant='body2'>
             <HiOutlineLocationMarker style={{ marginRight: 1 }} />
-            {job.locations[0].name}
+            {job && job?.locations[0]?.name}
           </Typography>
 
           <Typography variant='caption' mt={1} color='#8c8c8c'>
-            Posted date: {dayjs(job.created_at).format('DD/MM/YYYY')}
+            Posted date: {dayjs(job?.created_at).format('DD/MM/YYYY')}
           </Typography>
-          <Divider sx={{ margin: '15px 0px' }} />
+          <Divider sx={{ margin: '15px 0px', borderStyle: 'dashed' }} />
           {/* <Stack direction='row' spacing={2}>
             {job.skill.map((skill) => {
               return (

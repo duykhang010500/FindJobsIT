@@ -1,6 +1,7 @@
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Link,
   Card,
@@ -8,6 +9,7 @@ import {
   Alert,
   TextField,
   Typography,
+  IconButton,
   InputAdornment,
 } from '@mui/material';
 
@@ -19,8 +21,12 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 import { AppState } from '../../../store/reducer';
 import { jobSeekerLogin } from '../../../store/auth/action';
+import { useState } from 'react';
 
 type Props = {};
 
@@ -30,9 +36,14 @@ type FormValues = {
 };
 
 const JobSeekerLoginForm = (props: Props) => {
-  const { isLoading, error } = useSelector((state: AppState) => state.auth);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const { isLoading, error } = useSelector((state: AppState) => state.auth);
+
   const defaultValues = {
     email: '',
     password: '',
@@ -72,7 +83,7 @@ const JobSeekerLoginForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Email'
+                label='Email *'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -91,14 +102,27 @@ const JobSeekerLoginForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Password'
-                type='password'
+                label='Password *'
+                type={showPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
                       <LockIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
                     </InputAdornment>
                   ),
                 }}

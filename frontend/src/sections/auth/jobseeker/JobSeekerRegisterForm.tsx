@@ -1,11 +1,14 @@
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
 import {
   Link,
   Card,
   Stack,
   Alert,
   TextField,
+  IconButton,
   Typography,
   InputAdornment,
 } from '@mui/material';
@@ -18,9 +21,13 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
-import PersonIcon from '@mui/icons-material/Person';
 import { AppState } from '../../../store/reducer';
+import PersonIcon from '@mui/icons-material/Person';
 import { jobSeekerRegister } from '../../../store/auth/action';
+
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useState } from 'react';
 
 type Props = {};
 
@@ -32,9 +39,16 @@ type FormValues = {
 };
 
 const JobSeekerRegisterForm = (props: Props) => {
-  const { isLoading, error } = useSelector((state: AppState) => state.auth);
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
+  const { isLoading, error } = useSelector((state: AppState) => state.auth);
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
   const defaultValues = {
     email: '',
@@ -47,12 +61,18 @@ const JobSeekerRegisterForm = (props: Props) => {
     email: yup
       .string()
       .email('Email must be valid email address')
+      .max(40, 'Email allow 40 character')
       .required('Email is required'),
-    fullname: yup.string().required('Full name is required'),
+    fullname: yup
+      .string()
+      .matches(/^[A-Za-z ]*$/, 'Please enter valid full name')
+      .max(40, 'Full name alow maximum 40 character')
+      .required('Full name is required'),
     password: yup
       .string()
       .required('Password is required')
-      .min(6, 'Password at least 6 character'),
+      .min(6, 'Password at least 6 character')
+      .max(40, 'Password allow maximum 40 character'),
     password_confirmation: yup
       .string()
       .oneOf([yup.ref('password'), null], 'Confirm password does not match')
@@ -82,7 +102,7 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Email'
+                label='Email *'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -101,7 +121,7 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Full name'
+                label='Full name *'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -120,14 +140,27 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Password'
-                type='password'
+                label='Password *'
+                type={showPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
                       <LockIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
                     </InputAdornment>
                   ),
                 }}
@@ -140,14 +173,29 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Confirm Password'
-                type='password'
+                label='Confirm Password *'
+                type={showConfirmPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
                       <LockIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
                     </InputAdornment>
                   ),
                 }}

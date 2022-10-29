@@ -88,7 +88,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
     if (!isEdit) {
       reset(defaultValues);
     }
-  }, [service, isEdit]);
+  }, [service, isEdit, defaultValues, reset]);
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
     const formData = { ...formValues, status: getStatus(formValues.status) };

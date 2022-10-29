@@ -24,10 +24,14 @@ import JobMoreMenu from '../../../sections/employer-dashboard/jobs/JobMoreMenu';
 import AddIcon from '@mui/icons-material/Add';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import JobFilter from '../../../sections/employer-dashboard/jobs/JobFilter';
-import { employerGetJobs } from '../../../store/jobs/actions';
+import {
+  employerDeleteJob,
+  employerGetJobs,
+} from '../../../store/jobs/actions';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
 import { getStrFromArr } from '../../../utils/convert';
+import TableSkeleton from '../../../components/Skeleton/TableSkeleton';
 
 type Props = {};
 
@@ -48,13 +52,11 @@ const EmployerJobsOpen = (props: Props) => {
     navigate(`/employer/hr/job/${id}/edit`);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = (id: any) => {
+    dispatch(employerDeleteJob(id));
+  };
 
   const handleViewApplications = () => {};
-
-  if (isLoading) {
-    return null;
-  }
 
   return (
     <Box>
@@ -88,66 +90,71 @@ const EmployerJobsOpen = (props: Props) => {
               </TableCell>
               <TableCell>Job title</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>View</TableCell>
               <TableCell>Application(s)</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs.reverse().map((job: any) => {
-              return (
-                <TableRow key={job.id}>
-                  <TableCell padding='checkbox'>
-                    <Checkbox />
-                  </TableCell>
-                  <TableCell sx={{ width: '40%' }}>
-                    <Stack spacing={1}>
-                      <Typography variant='h4' sx={{ color: '#40a9ff' }}>
-                        {job.title}
-                      </Typography>
-                      <Stack direction='row' alignItems='center'>
-                        <Typography variant='body2'>
-                          Work location: &nbsp;
+            {isLoading ? (
+              <TableSkeleton />
+            ) : (
+              jobs.map((job: any) => {
+                return (
+                  <TableRow key={job.id}>
+                    <TableCell padding='checkbox'>
+                      <Checkbox />
+                    </TableCell>
+                    <TableCell sx={{ width: '40%' }}>
+                      <Stack spacing={1}>
+                        <Typography variant='h4' sx={{ color: '#40a9ff' }}>
+                          {job.title}
                         </Typography>
-                        <Typography variant='body2' fontWeight={500}>
-                          {getStrFromArr(job.locations)}
+                        <Stack direction='row' alignItems='center'>
+                          <Typography variant='body2'>
+                            Work location: &nbsp;
+                          </Typography>
+                          <Typography variant='body2' fontWeight={500}>
+                            {getStrFromArr(job.locations)}
+                          </Typography>
+                        </Stack>
+                        <Stack direction='row' alignItems='center'>
+                          <Typography variant='body2'>
+                            Industries: &nbsp;
+                          </Typography>
+                          <Typography variant='body2' fontWeight={500}>
+                            {getStrFromArr(job.industries)}
+                          </Typography>
+                        </Stack>
+                        <Stack direction='row' alignItems='center'>
+                          <Typography variant='body2'>
+                            Salary: &nbsp;
+                          </Typography>
+                          <Typography variant='body2' fontWeight={500}>
+                            Negotiate
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <Stack>
+                        <Typography variant='caption'>
+                          Created at:{' '}
+                          {dayjs(job.created_at).format('DD/MM/YYYY')}
                         </Typography>
                       </Stack>
-                      <Stack direction='row' alignItems='center'>
-                        <Typography variant='body2'>
-                          Industries: &nbsp;
-                        </Typography>
-                        <Typography variant='body2' fontWeight={500}>
-                          {getStrFromArr(job.industries)}
-                        </Typography>
-                      </Stack>
-                      <Stack direction='row' alignItems='center'>
-                        <Typography variant='body2'>Salary: &nbsp;</Typography>
-                        <Typography variant='body2' fontWeight={500}>
-                          Negotiate
-                        </Typography>
-                      </Stack>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Stack>
-                      <Typography variant='caption'>
-                        Created at: {dayjs(job.created_at).format('DD/MM/YYYY')}
-                      </Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align='center'>0</TableCell>
-                  <TableCell align='center'>0</TableCell>
-                  <TableCell>
-                    <JobMoreMenu
-                      onEdit={() => handleEdit(job.id)}
-                      onDelete={() => handleDelete()}
-                      onViewApplications={() => handleViewApplications()}
-                    />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    </TableCell>
+                    <TableCell align='center'>0</TableCell>
+                    <TableCell>
+                      <JobMoreMenu
+                        onEdit={() => handleEdit(job.id)}
+                        onDelete={() => handleDelete(job.id)}
+                        onViewApplications={() => handleViewApplications()}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            )}
           </TableBody>
         </Table>
       </TableContainer>
