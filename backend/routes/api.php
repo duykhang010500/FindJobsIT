@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\UsersiteController;
 use App\Http\Controllers\admin\JobaController;
 use App\Http\Controllers\admin\MemberaController;
+use App\Http\Controllers\admin\NewsaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,7 +33,7 @@ use App\Http\Controllers\admin\MemberaController;
 // public
 
 Route::get('/employer/search-resume', [ResumeController::class, 'search']);
-Route::get('/employer/resume/{id}', [ResumeController::class, 'detail']);
+
 
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/job/{id}', [JobController::class, 'detail']);
@@ -76,6 +77,18 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
         Route::patch('/service/{id}', [ServiceController::class, 'store']);
         Route::delete('/service/{id}', [ServiceController::class, 'delete']);
 
+        //news_cat member
+        Route::get('/news/categories', [NewsaController::class, 'indexCat']);
+        Route::post('/news/category/{id}', [NewsaController::class, 'storeCat']);
+        Route::patch('/news/category/{id}', [NewsaController::class, 'storeCat']);
+        Route::delete('/news/category/{id}', [NewsaController::class, 'deleteCat']);
+
+        //news member
+        Route::get('/news', [NewsaController::class, 'index']);
+        Route::post('/news/{id}', [NewsaController::class, 'store']);
+        Route::patch('/news/{id}', [NewsaController::class, 'store']);
+        Route::delete('/news/{id}', [NewsaController::class, 'delete']);
+
         Route::get('/job/locations', [JobaController::class, 'locations']);
         Route::post('job/location/{id}', [JobaController::class, 'location']);
         Route::delete('job/location/{id}', [JobaController::class, 'delete_location']);
@@ -92,6 +105,8 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 
     Route::group(['prefix' => 'employer'],function ()
     {
+        Route::get('/employer/resume/{id}', [ResumeController::class, 'detail']);
+
         Route::post('/logout', [EmployerController::class, 'logout']);
         Route::get('/info', [EmployerController::class, 'info']);
 

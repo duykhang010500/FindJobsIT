@@ -23,7 +23,7 @@ class Member extends Authenticatable implements MustVerifyEmail
         'password',
         'followed', 'gender', 'have_resume', 'status','resume_id','city',
         'last_login', 'ratings', 'marital', 'is_labor', 'is_blacklist','edu_current_end',
-        'phone','address', 'lastname', 'firstname', 'birthday', 'nationality', 'identity', 'images',
+        'phone','address', 'lastname', 'firstname', 'birthday', 'nationality', 'identity', 'avatar',
         'rexp_date_end','current_position','current_company','languages','rexp_current_end','edu_date_end', 'email_verified_at'
     ];
 

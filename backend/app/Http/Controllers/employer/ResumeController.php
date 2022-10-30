@@ -30,6 +30,7 @@ class ResumeController extends Controller
                 'language' => $request->get('language'),
                 'degree' => $request->get('degree'),
                 'level' => $request->get('level'),
+                'nationality' => $request->get('nationality'),
                 'salary_unit' => $request->get('salary_unit'),
                 'salary_from' => $request->get('salary_from'),
                 'salary_to' => $request->get('salary_to'),
@@ -92,10 +93,11 @@ class ResumeController extends Controller
                 $result = $result->where('languages', 'like', '%'.$params['language'].'%');
             }
             if (!empty($params['nationality'])) {
-                $result->where(fn($query)=>
+                $nationality= $params['nationality'];
+                $result->where(function($query) use ($nationality) {
                     $query->whereHas('member',fn($query2) =>
-                            $query2->where('nationality','LIKE','%'.$params['nationality'].'%'))
-                );
+                            $query2->where('nationality','LIKE','%'.$nationality.'%'));
+                });
             }
             if (!empty($params['resume_update'])) {
                 switch ($params['resume_update']) {

@@ -29,6 +29,7 @@ class MyController extends Controller
             $fields_member = Validator::make($request->all(), [
                 'fullname' => 'required|string|between:2,100',
                 'phone' => 'required',
+                'avatar' => 'string',
                 'birthday' => 'required',
                 'gender' => 'required',
                 'marital' => 'required',
