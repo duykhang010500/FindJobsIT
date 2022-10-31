@@ -148,6 +148,10 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
 
     // history
     Route::get('my/saved', [MyController::class, 'historyApply']);
+    //wishlist
+    Route::get('my/jobsaves', [MyController::class, 'jobSaves']);
+    Route::post('my/jobsaved', [MyController::class, 'saved']);
+    Route::delete('my/jobsaved/{id}', [MyController::class, 'remove_on_wishlist']);
     //apply
     Route::post('/apply/{id}', [JobController::class, 'apply']);
 });

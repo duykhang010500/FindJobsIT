@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Resume;
+use App\Models\JobSave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -162,6 +163,64 @@ class MyController extends Controller
             'message' => auth()->user()->id
         ]);
 
+    }
+
+    public function jobSaves()
+    {
+        //
+        $wishlists = JobSave::with('member','job')->where("member_id", "=", auth()->user()->id)->orderby('id', 'desc')->paginate(10);
+        return ($wishlists);
+    }
+
+    public function saved(Request $request){
+
+        $fields = Validator::make($request->all(), [
+          'job_id' =>'required',
+          ]);
+
+        if ($fields->fails()) {
+            return response()->json($fields->errors(), 422);
+        }
+
+        $status=JobSave::where('member_id',auth()->user()->id)
+                          ->where('job_id',$request->job_id)
+          ->first();
+
+        if(isset($status->member_id) and isset($request->job_id))
+        {
+            return response([
+                'message' => 'This item is already in your wishlist!',
+            ], 400);
+        }
+        else
+        {
+        $wishlist = new JobSave();
+        $wishlist->member_id = auth()->user()->id;
+        $wishlist->job_id = $request->job_id;
+        $wishlist->save();
+
+        return response([
+            'message' => 'Added to your wishlist.',
+            'data' => ($wishlist)
+        ], 201);
+        }
+
+    }
+
+    public function remove_on_wishlist(Request $request,$id)
+    {
+        //
+        $wishlist = JobSave::where('member_id',auth()->user()->id)->where('job_id',$id)->first();
+        if($wishlist){
+            $wishlist->destroy($wishlist->id);
+            return response([
+                'message' => 'Delete job on wishlist'
+            ], 200);
+        }else{
+            return response([
+                'message' => 'This job does not exist in wishlist'
+            ], 400);
+        }
     }
 
 }
