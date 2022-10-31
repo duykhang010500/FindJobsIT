@@ -48,7 +48,7 @@ class MyController extends Controller
                 'industries'  => 'required',
                 'locations'  => 'required',
                 'salary_unit'  => 'required',
-                'current_degree'  => 'required',
+                // 'current_degree'  => 'required',
                 'working_type'  => 'required',
                 // 'languages'  => 'required',
                 'summary'  => 'required',
