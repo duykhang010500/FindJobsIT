@@ -29,4 +29,8 @@ class Company extends Authenticatable
     public function candidates(){
         return $this->hasMany(Candidates::class);
     }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
 }

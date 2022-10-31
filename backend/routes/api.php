@@ -54,7 +54,7 @@ Route::get('email/resend', [VerificationController::class, 'resend'])->name('ver
 
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
-Route::get('/employer/services', [OrderController::class, 'index']);
+Route::get('/employer/services', [OrderController::class, 'services']);
 
 Route::post('/admin/register', [UsersiteController::class, 'register']);
 Route::post('/admin/login', [UsersiteController::class, 'login']);
@@ -105,7 +105,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 
     Route::group(['prefix' => 'employer'],function ()
     {
-        Route::get('/employer/resume/{id}', [ResumeController::class, 'detail']);
+        Route::get('/resume/{id}', [ResumeController::class, 'detail']);
 
         Route::post('/logout', [EmployerController::class, 'logout']);
         Route::get('/info', [EmployerController::class, 'info']);
@@ -116,6 +116,8 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
         Route::delete('/hr/job/{id}', [HrController::class, 'deleteJob']);
+        // orders
+        Route::get('/hr/orders/active', [OrderController::class, 'order_active']);
 
         // candidates
         Route::get('/hr/candidates', [HrController::class, 'candidates']);

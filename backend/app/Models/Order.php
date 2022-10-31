@@ -19,11 +19,15 @@ class Order extends Authenticatable
     ];
 
     public function employer(){
-        return $this->belongsTo(Employer::class,'id','emp_id');
+        return $this->belongsTo(Employer::class,'emp_id');
+    }
+
+    public function company(){
+        return $this->belongsTo(Company::class,'comp_id');
     }
 
     public function order_detail(){
-        return $this->hasMany(Order_detail::class,'id');
+        return $this->hasMany(Order_detail::class);
     }
 
     private $Auto_increment = null;
