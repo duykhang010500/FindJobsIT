@@ -153,6 +153,7 @@ const SearchBar: FC<Props> = () => {
           variant='contained'
           startIcon={<Search />}
           onClick={handleSearch}
+          sx={{ height: '53px' }}
         >
           Search
         </Button>

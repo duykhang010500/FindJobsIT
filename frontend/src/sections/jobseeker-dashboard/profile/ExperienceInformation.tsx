@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Card, Typography, Stack, TextField, Collapse } from '@mui/material';
-
-import { Controller } from 'react-hook-form';
+import { Card, Stack, Collapse, TextField, Typography } from '@mui/material';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+
+import { Controller } from 'react-hook-form';
+
 import Editor from '../../../components/Editor';
 
 type Props = {
   control: any;
+  // setValue: any;
 };
 
-const EducationInformation = ({ control }: Props) => {
+const ExperienceInformation = ({ control }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
+
   return (
     <Card sx={{ p: 3 }}>
       <Stack
@@ -26,7 +29,7 @@ const EducationInformation = ({ control }: Props) => {
         sx={{ cursor: 'pointer' }}
       >
         <Typography variant='h3' color='primary'>
-          Education
+          Experience information
         </Typography>
         {open ? (
           <ExpandMoreIcon sx={{ color: '#FA541C' }} />
@@ -36,14 +39,14 @@ const EducationInformation = ({ control }: Props) => {
       </Stack>
       <Collapse in={open}>
         <Stack spacing={4} sx={{ mt: 3 }}>
-          <Stack direction='row' spacing={4}>
+          <Stack spacing={4} direction='row'>
             <Controller
-              name='edu_school'
+              name='rexp_title'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
-                  label='School/Major *'
+                  label='Position title *'
                   fullWidth
                   error={!!error}
                   helperText={error?.message}
@@ -51,12 +54,12 @@ const EducationInformation = ({ control }: Props) => {
               )}
             />
             <Controller
-              name='edu_certify'
+              name='rexp_company'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
-                  label='Certificate/Diploma *'
+                  label='Companies *'
                   fullWidth
                   error={!!error}
                   helperText={error?.message}
@@ -64,14 +67,14 @@ const EducationInformation = ({ control }: Props) => {
               )}
             />
           </Stack>
-          <Stack direction='row' spacing={4}>
+          <Stack spacing={4} direction='row'>
             <Controller
-              name='edu_date_start'
+              name='rexp_date_start'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <DesktopDatePicker
                   {...field}
-                  label='Time start *'
+                  label='Date start *'
                   inputFormat='DD/MM/YYYY'
                   renderInput={(params) => (
                     <TextField
@@ -85,12 +88,12 @@ const EducationInformation = ({ control }: Props) => {
               )}
             />
             <Controller
-              name='edu_date_end'
+              name='rexp_date_end'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <DesktopDatePicker
                   {...field}
-                  label='Time end'
+                  label='Date end'
                   inputFormat='DD/MM/YYYY'
                   renderInput={(params) => (
                     <TextField fullWidth {...params} error={!!error} />
@@ -99,17 +102,16 @@ const EducationInformation = ({ control }: Props) => {
               )}
             />
           </Stack>
-
           <div>
             <Typography
               variant='h5'
               gutterBottom
               sx={{ color: 'rgb(99, 115, 129)' }}
             >
-              Education detail *
+              Experience *
             </Typography>
             <Controller
-              name='edu_description'
+              name='rexp_description'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <Editor
@@ -128,4 +130,4 @@ const EducationInformation = ({ control }: Props) => {
   );
 };
 
-export default EducationInformation;
+export default ExperienceInformation;

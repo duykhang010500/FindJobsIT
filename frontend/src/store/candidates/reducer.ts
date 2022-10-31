@@ -7,6 +7,8 @@ import {
   GET_DETAIL_CANDIDATE,
   GET_DETAIL_CANDIDATE_SUCCESS,
   GET_DETAIL_CANDIDATE_FAILURE,
+  SEARCH_CANDIDATES,
+  SEARCH_CANDIDATES_SUCCESS,
 } from './actionTypes';
 import { ICandidatesState, CandidatesActions } from './types';
 
@@ -59,6 +61,18 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         ...state,
         isLoading: false,
       };
+    case SEARCH_CANDIDATES:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case SEARCH_CANDIDATES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        list: action.payload,
+      };
+
     default:
       return state;
   }

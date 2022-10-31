@@ -212,6 +212,9 @@ const ProfileInformation = ({ control, setValue, getValues }: Props) => {
                     onChange={(_, options) => {
                       setValue('nationality', options);
                     }}
+                    isOptionEqualToValue={(option, value) =>
+                      option.name === value.name
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}

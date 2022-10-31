@@ -2,15 +2,18 @@ import { toast } from 'react-toastify';
 import { call, takeEvery, put } from 'redux-saga/effects';
 import adminServices from '../../services/admin';
 import employerServices from '../../services/employer';
+import guestServices from '../../services/guest';
 import {
   adminGetCandidatesListSuccess,
   getDetailCandidateSuccess,
   getListCandidatesForEmployerSuccess,
+  searchCandidateSuccess,
 } from './action';
 import {
   ADMIN_GET_CANDIDATES_LIST,
   GET_DETAIL_CANDIDATE,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
+  SEARCH_CANDIDATES,
   UPDATE_STATUS,
 } from './actionTypes';
 
@@ -53,6 +56,13 @@ function* getCandidateSaga({ payload }: any): any {
   }
 }
 
+function* searchCandidatesSaga({ payload }: any): any {
+  try {
+    const res = yield call(guestServices.searchCandidates, payload);
+    yield put(searchCandidateSuccess(res.data.result));
+  } catch (err) {}
+}
+
 function* candidatesSaga() {
   yield takeEvery(
     GET_LIST_CANDIDATES_FOR_EMPLOYER,
@@ -61,6 +71,7 @@ function* candidatesSaga() {
   yield takeEvery(ADMIN_GET_CANDIDATES_LIST, adminGetCandidatesListSaga);
   yield takeEvery(UPDATE_STATUS, updateStatusSaga);
   yield takeEvery(GET_DETAIL_CANDIDATE, getCandidateSaga);
+  yield takeEvery(SEARCH_CANDIDATES, searchCandidatesSaga);
 }
 
 export default candidatesSaga;

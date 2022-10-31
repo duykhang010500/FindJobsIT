@@ -25,6 +25,13 @@ const guestServices = {
       },
     });
   },
+  searchCandidates: (params: any) => {
+    return axiosInstance.get('/employer/search-resume', {
+      params: {
+        ...params,
+      },
+    });
+  },
 };
 
 export default guestServices;

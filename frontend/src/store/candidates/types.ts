@@ -7,6 +7,8 @@ import {
   GET_DETAIL_CANDIDATE_SUCCESS,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
+  SEARCH_CANDIDATES,
+  SEARCH_CANDIDATES_SUCCESS,
   UPDATE_STATUS,
   UPDATE_STATUS_FAILURE,
   UPDATE_STATUS_SUCCESS,
@@ -69,6 +71,16 @@ export type GetCandidateFailure = {
   payload: any;
 };
 
+export type SearchCandidates = {
+  type: typeof SEARCH_CANDIDATES;
+  payload: any;
+};
+
+export type SearchCandidatesSuccess = {
+  type: typeof SEARCH_CANDIDATES_SUCCESS;
+  payload: any;
+};
+
 export type CandidatesActions =
   | GetListCandidatesForEmployer
   | GetListCandidatesForEmployerSuccess
@@ -80,4 +92,6 @@ export type CandidatesActions =
   | UpdateStatusFailure
   | GetCandidate
   | GetCandidateSuccess
-  | GetCandidateFailure;
+  | GetCandidateFailure
+  | SearchCandidates
+  | SearchCandidatesSuccess;

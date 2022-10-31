@@ -43,6 +43,7 @@ import JobSeekerJobs from '../pages/jobseeker/JobSeekerJobs';
 import JobSeekerSettings from '../pages/jobseeker/JobSeekerSettings';
 import SearchJobs from '../pages/SearchJobs';
 import DetailCandidate from '../sections/employer-dashboard/candidates/DetailCandidate';
+import SearchCandidates from '../pages/employer/SearchCondidates';
 
 type Props = {};
 
@@ -80,6 +81,7 @@ const Router = (props: Props) => {
         { element: <Register />, path: 'register' },
         { element: <EmployerHomePage />, index: true },
         { path: 'services', element: <Services /> },
+        { path: 'candidates/search', element: <SearchCandidates /> },
       ],
     },
     {

@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { LoadingButton } from '@mui/lab';
 import { uploadSingleFile } from '../../../../utils/upload';
-import { Box, TextField, Stack, MenuItem } from '@mui/material';
+import { Box, TextField, Stack, MenuItem, FormHelperText } from '@mui/material';
 
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 
@@ -15,6 +17,7 @@ import { employerUpdateCompany } from '../../../../store/companies/action';
 import UploadAvatar from '../../../../components/UploadAvatar';
 import { companySize } from '../../../../utils/defaultValues';
 import { IIndustry } from '../../../../store/industries/types';
+import { YouTube } from '@mui/icons-material';
 
 type Props = {};
 
@@ -38,6 +41,8 @@ const CompanyProfile = (props: Props) => {
 
   const [avt, setAvt] = useState<any>();
 
+  const [errLogo, setErrLogo] = useState<string | null>('');
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
@@ -47,6 +52,24 @@ const CompanyProfile = (props: Props) => {
   const { industries } = useSelector((state: AppState) => state.industries);
 
   const info_company = currentUser?.info?.info_company;
+
+  const validateSchema = yup.object({
+    // logo: yup.string().required('Logo is required'),
+    name: yup.string().required('Company name is required'),
+    address: yup.string().required('Address is required'),
+    phone: yup.string().required('Phone is required'),
+    fax: yup.string().required('Fax is required'),
+    company_size: yup.string().required('Company size is required'),
+    tax: yup.string().required('Tax is required'),
+    website: yup.string().required('Website is require'),
+    email: yup
+      .string()
+      .email('Email must be valid email')
+      .required('Email is required'),
+    location: yup.string().required('Location is required'),
+    industry_id: yup.string().required('Industry is required'),
+    content: yup.string().required('Summary is required'),
+  });
 
   const defaultValues = useMemo(() => {
     return {
@@ -68,6 +91,7 @@ const CompanyProfile = (props: Props) => {
   const { control, handleSubmit, reset, setValue, getValues } =
     useForm<FormValues>({
       defaultValues,
+      resolver: yupResolver(validateSchema),
     });
 
   useEffect(() => {
@@ -75,6 +99,10 @@ const CompanyProfile = (props: Props) => {
   }, [currentUser, reset, defaultValues]);
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
+    if (!avt) {
+      return;
+    }
+
     setLoading(true);
 
     if (avt) {
@@ -89,40 +117,89 @@ const CompanyProfile = (props: Props) => {
   };
 
   const handleChangeFile = (e: any) => {
-    setAvt(e.target.files[0]);
+    console.log('onchange', e.target.files[0]);
+    if (
+      e.target.files[0].type == ('image/png' || 'image/jpeg' || 'image/jpg')
+    ) {
+      console.log('Right');
+      if (e.target.files[0].size > 2 * 1024 * 1024) {
+        setErrLogo('Please upload image < 2MB');
+        return;
+      }
+      setAvt(e.target.files[0]);
+      setErrLogo('');
+    } else {
+      setErrLogo('Invalid file!');
+      setAvt(null);
+      return;
+    }
   };
 
   return (
     <Box sx={{ p: 5 }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3}>
-          <UploadAvatar handleChange={handleChangeFile} avt={avt} />
+          <div>
+            <UploadAvatar handleChange={handleChangeFile} avt={avt} />
+            {errLogo && (
+              <FormHelperText error sx={{ textAlign: 'center' }}>
+                {errLogo}
+              </FormHelperText>
+            )}
+          </div>
+
           <Controller
             name='name'
             control={control}
-            render={({ field }) => (
-              <TextField {...field} label='Company name' />
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                {...field}
+                label='Company name'
+                error={!!error}
+                helperText={error?.message}
+              />
             )}
           />
           <Controller
             name='address'
             control={control}
-            render={({ field }) => <TextField label='Address' {...field} />}
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                label='Address'
+                {...field}
+                error={!!error}
+                helperText={error?.message}
+              />
+            )}
           />
 
           <Stack direction='row' spacing={2} sx={{ width: '100% important' }}>
             <Controller
               name='phone'
               control={control}
-              render={({ field }) => (
-                <TextField label='Phone' type='number' fullWidth {...field} />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  label='Phone'
+                  type='number'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
             <Controller
               name='fax'
               control={control}
-              render={({ field }) => (
-                <TextField label='Fax' type='number' fullWidth {...field} />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  label='Fax'
+                  type='number'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
           </Stack>
@@ -131,8 +208,15 @@ const CompanyProfile = (props: Props) => {
             <Controller
               name='company_size'
               control={control}
-              render={({ field }) => (
-                <TextField select label='Company size' fullWidth {...field}>
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  select
+                  label='Company size'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                >
                   {companySize.map((item: any) => {
                     return (
                       <MenuItem key={item} value={item}>
@@ -146,8 +230,15 @@ const CompanyProfile = (props: Props) => {
             <Controller
               name='tax'
               control={control}
-              render={({ field }) => (
-                <TextField label='Tax' type='number' fullWidth {...field} />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  label='Tax'
+                  type='number'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
           </Stack>
@@ -155,15 +246,27 @@ const CompanyProfile = (props: Props) => {
             <Controller
               name='website'
               control={control}
-              render={({ field }) => (
-                <TextField label='Website' fullWidth {...field} />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  label='Website'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
             <Controller
               name='email'
               control={control}
-              render={({ field }) => (
-                <TextField label='Email' fullWidth {...field} />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  label='Email'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                />
               )}
             />
           </Stack>
@@ -171,8 +274,15 @@ const CompanyProfile = (props: Props) => {
             <Controller
               name='location'
               control={control}
-              render={({ field }) => (
-                <TextField select label='Location' fullWidth {...field}>
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  select
+                  label='Location'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                >
                   {locations.map((location: any) => {
                     return (
                       <MenuItem key={location.id} value={location.name.trim()}>
@@ -186,8 +296,15 @@ const CompanyProfile = (props: Props) => {
             <Controller
               name='industry_id'
               control={control}
-              render={({ field }) => (
-                <TextField select label='Industry' fullWidth {...field}>
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  select
+                  label='Industry'
+                  fullWidth
+                  {...field}
+                  error={!!error}
+                  helperText={error?.message}
+                >
                   {industries.map((industry: IIndustry) => {
                     return (
                       <MenuItem key={industry.id} value={industry.id}>
@@ -202,8 +319,15 @@ const CompanyProfile = (props: Props) => {
           <Controller
             name='content'
             control={control}
-            render={({ field }) => (
-              <TextField label='Description' {...field} minRows={5} multiline />
+            render={({ field, fieldState: { error } }) => (
+              <TextField
+                label='Description'
+                {...field}
+                minRows={5}
+                multiline
+                error={!!error}
+                helperText={error?.message}
+              />
             )}
           />
           <Stack alignItems='flex-end'>
@@ -212,6 +336,12 @@ const CompanyProfile = (props: Props) => {
               variant='contained'
               startIcon={<SaveAsIcon />}
               loading={loading}
+              onClick={() => {
+                if (!avt) {
+                  setErrLogo('Please upload logo');
+                  return;
+                }
+              }}
             >
               Save Changes
             </LoadingButton>

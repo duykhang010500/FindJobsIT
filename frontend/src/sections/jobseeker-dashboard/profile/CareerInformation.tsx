@@ -37,7 +37,7 @@ const CareerInformation = ({ control, setValue }: Props) => {
 
   const handleChangeTypeSalary = (e: any) => {
     setValue('salary_unit', e.target.value);
-    if (e.target.value === 'VND') {
+    if (e.target.value === 'VND' || e.target.value === 'USD') {
       setShowSalary(false);
     } else {
       setShowSalary(true);
@@ -189,6 +189,9 @@ const CareerInformation = ({ control, setValue }: Props) => {
                       helperText={error?.message}
                     />
                   )}
+                  isOptionEqualToValue={(option, value) =>
+                    option.name === value.name
+                  }
                   onChange={(_, data) => {
                     field.onChange(data);
                     return data;
@@ -216,6 +219,9 @@ const CareerInformation = ({ control, setValue }: Props) => {
                       helperText={error?.message}
                     />
                   )}
+                  isOptionEqualToValue={(option, value) =>
+                    option.name === value.name
+                  }
                   onChange={(_, data) => {
                     field.onChange(data);
                     return data;
@@ -227,16 +233,19 @@ const CareerInformation = ({ control, setValue }: Props) => {
           <Controller
             name='salary_unit'
             control={control}
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
                 select
                 label='Salary unit'
                 fullWidth
                 onChange={handleChangeTypeSalary}
+                error={!!error}
+                helperText={error?.message}
               >
                 <MenuItem value={'Negotiate'}>Negotiate</MenuItem>
                 <MenuItem value={'VND'}>VND</MenuItem>
+                <MenuItem value={'USD'}>USD</MenuItem>
               </TextField>
             )}
           />
@@ -244,39 +253,43 @@ const CareerInformation = ({ control, setValue }: Props) => {
             <Controller
               name='salary_from'
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
                   type='number'
                   label='Salary from'
                   fullWidth
                   disabled={showSalary}
+                  error={!!error}
+                  helperText={error?.message}
                 />
               )}
             />
             <Controller
               name='salary_to'
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
                   label='Salary to'
                   type='number'
                   fullWidth
                   disabled={showSalary}
+                  error={!!error}
+                  helperText={error?.message}
                 />
               )}
             />
           </Stack>
           <Stack spacing={4} direction='row'>
             <Controller
-              name='current_degree'
+              name='degree'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   {...field}
                   select
-                  label='Current degree *'
+                  label='Highest degree level *'
                   fullWidth
                   error={!!error}
                   helperText={error?.message}
@@ -336,86 +349,6 @@ const CareerInformation = ({ control, setValue }: Props) => {
               />
             )}
           />
-          <Stack spacing={4} direction='row'>
-            <Controller
-              name='rexp_title'
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  {...field}
-                  label='Position title *'
-                  fullWidth
-                  error={!!error}
-                  helperText={error?.message}
-                />
-              )}
-            />
-            <Controller
-              name='rexp_company'
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <TextField
-                  {...field}
-                  label='Companies *'
-                  fullWidth
-                  error={!!error}
-                  helperText={error?.message}
-                />
-              )}
-            />
-          </Stack>
-          <Stack spacing={4} direction='row'>
-            <Controller
-              name='rexp_date_start'
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <DesktopDatePicker
-                  {...field}
-                  label='Date start'
-                  inputFormat='DD/MM/YYYY'
-                  renderInput={(params) => (
-                    <TextField fullWidth {...params} error={!!error} />
-                  )}
-                />
-              )}
-            />
-            <Controller
-              name='rexp_date_end'
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <DesktopDatePicker
-                  {...field}
-                  label='Date end'
-                  inputFormat='DD/MM/YYYY'
-                  renderInput={(params) => (
-                    <TextField fullWidth {...params} error={!!error} />
-                  )}
-                />
-              )}
-            />
-          </Stack>
-          <div>
-            <Typography
-              variant='h5'
-              gutterBottom
-              sx={{ color: 'rgb(99, 115, 129)' }}
-            >
-              Experience *
-            </Typography>
-            <Controller
-              name='rexp_description'
-              control={control}
-              render={({ field, fieldState: { error } }) => (
-                <Editor
-                  id='exp_desc'
-                  value={field.value}
-                  onChange={field.onChange}
-                  error={!!error}
-                  helperText={error?.message}
-                />
-              )}
-            />
-          </div>
         </Stack>
       </Collapse>
     </Card>

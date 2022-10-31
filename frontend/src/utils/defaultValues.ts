@@ -34,6 +34,29 @@ export const degreeTypes = [
   { id: 6, label: 'Others' },
 ];
 
+export const resumeUpdateStatus = [
+  { id: 1, value: 'today', label: 'Today' },
+  { id: 2, value: '3days', label: '3 days' },
+  { id: 3, value: '7days', label: '7 days' },
+  { id: 4, value: '14days', label: '14 days' },
+  { id: 5, value: '1month', label: '1 month' },
+  { id: 6, value: '3months', label: '3 months' },
+  { id: 7, value: '6months', label: '6 months' },
+  { id: 8, value: '1year', label: '1 year' },
+];
+
+export const salaryUnits = [
+  { id: 0, value: 'Negotiate' },
+  { id: 1, value: 'VND' },
+  { id: 2, value: 'USD' },
+];
+
+export const languages = [
+  { id: 1, value: 'English' },
+  { id: 2, value: 'Vietnamese' },
+  { id: 3, value: 'Thailand' },
+];
+
 export const Nationalities = [
   {
     num_code: '4',
