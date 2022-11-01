@@ -160,6 +160,7 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
 
     // history
     Route::get('my/saved', [MyController::class, 'historyApply']);
+    Route::get('my/saved/{id}', [MyController::class, 'applyDetail']);
     //wishlist
     Route::get('my/jobsaves', [MyController::class, 'jobSaves']);
     Route::post('my/jobsaved', [MyController::class, 'saved']);

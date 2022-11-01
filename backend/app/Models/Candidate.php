@@ -18,7 +18,7 @@ class Candidate extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'job_id', 'member_id', 'resume_id', 'resume_file', 'attach_file', 'letter_content',
+        'job_id', 'member_id', 'resume_id', 'resume_file', 'resume_online', 'letter_content',
         'comp_id', 'ratings', 'rating', 'apply_nonmember','status'
     ];
     protected $casts  = [ 'resume_file' => 'array'];

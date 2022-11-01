@@ -163,7 +163,20 @@ class MyController extends Controller
             ]);
         }
         return response()->json([
-            'message' => auth()->user()->id
+            'message' => 'None apply'
+        ]);
+
+    }
+
+    public function applyDetail(Request $request,$id){
+        $history = Candidate::with('job','member','company','resume')->where('member_id',auth()->user()->id)->where('job_id',$id)->get();
+        if(!empty($history)){
+            return response()->json([
+                'history' => $history,
+            ]);
+        }
+        return response()->json([
+            'message' => 'None apply'
         ]);
 
     }
@@ -171,7 +184,7 @@ class MyController extends Controller
     public function jobSaves()
     {
         //
-        $wishlists = JobSave::with('member','job')->where("member_id", "=", auth()->user()->id)->orderby('id', 'desc')->paginate(10);
+        $wishlists = JobSave::with(['job','job.company'])->where("member_id", "=", auth()->user()->id)->orderby('id', 'desc')->get();
         return ($wishlists);
     }
 

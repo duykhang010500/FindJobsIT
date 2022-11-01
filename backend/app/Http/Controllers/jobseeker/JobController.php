@@ -241,7 +241,8 @@ class JobController extends Controller
                 $candidate -> member_id = $member -> id;
                 $candidate -> job_id = $job -> id;
                 $candidate -> comp_id = $job -> comp_id;
-                $candidate -> resume_file = $request -> post('resume_file');
+                if($request -> post('resume_file')) $candidate -> resume_file = $request -> post('resume_file');
+                if($request -> post('resume_online')) $candidate -> resume_online = $request -> post('resume_online');
                 $candidate -> save();
             }
             // if(!$member->resume){
