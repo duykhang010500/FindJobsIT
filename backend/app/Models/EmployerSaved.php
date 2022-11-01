@@ -9,14 +9,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class EmployerSaved extends Authenticatable
+class EmployerSaved extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'employer_saved';
 
     protected $fillable = [
-        'resume_id' ,'comp_id' , 'folder_id', 'emp_id'
+        'resume_id' ,'comp_id' , 'employer_folder_id', 'emp_id'
     ];
 
     public function resume(){
@@ -27,8 +27,8 @@ class EmployerSaved extends Authenticatable
         return $this->belongsTo(Company::class,'comp_id');
     }
 
-    public function folder(){
-        return $this->belongsTo(EmployerFolder::class,'folder_id');
+    public function EmployerFolders(){
+        return $this->belongsTo(EmployerFolder::class,'employer_folder_id');
     }
 
     public function employer(){

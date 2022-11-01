@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class EmployerFolder extends Authenticatable
+class EmployerFolder extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -19,7 +19,7 @@ class EmployerFolder extends Authenticatable
         'name', 'emp_id' ,'comp_id' , 'type_id', 'is_private'
     ];
 
-    public function employerSaved(){
+    public function EmployerSaved(){
         return $this->hasMany(EmployerSaved::class);
     }
 
