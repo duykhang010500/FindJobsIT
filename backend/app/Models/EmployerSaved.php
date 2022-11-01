@@ -28,7 +28,7 @@ class EmployerSaved extends Authenticatable
     }
 
     public function folder(){
-        return $this->belongsTo(EmployerFolder::class);
+        return $this->belongsTo(EmployerFolder::class,'folder_id');
     }
 
     public function employer(){
