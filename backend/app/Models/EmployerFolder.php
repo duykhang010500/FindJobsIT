@@ -19,12 +19,17 @@ class EmployerFolder extends Authenticatable
         'name', 'emp_id' ,'comp_id' , 'type_id', 'is_private'
     ];
 
-    public function employer(){
-        return $this->belongsTo(Employer::class,'emp_id');
+    public function employerSaved(){
+        return $this->hasMany(EmployerSaved::class);
     }
+
 
     public function company(){
         return $this->belongsTo(Company::class,'comp_id');
     }
+
+    // public function employer_save(){
+    //     return $this->hasMany(EmployerSave::class);
+    // }
 
 }
