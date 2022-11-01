@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\employer;
 use App\Http\Controllers\Controller;
 use App\Models\Employer;
+use App\Models\EmployerFolder;
 use App\Models\Company;
 use App\Models\Job;
 use App\Models\Member;
@@ -248,6 +249,53 @@ class HrController extends Controller
         return response()->json([
             'profile' => $model,
             'message' => 'Update profile successfully'
+        ]);
+
+    }
+
+    public function actionFolders(Request $request){
+        return response()->json([
+            'folders' => EmployerFolder::orderBy('id','desc')->get()
+        ]);
+    }
+
+    public function actionFolder(Request $request,$id){
+        $model = EmployerFolder::where('id',$id)->where('comp_id',auth()->user()->company->id)->first();
+        if ($request->isMethod('get')) {
+            return response()->json([
+                'folder' => $model,
+            ]);
+        };
+        if ($request->isMethod('delete')) {
+            if($model != null){
+                $model->delete();
+                $message = 'Folder deleted successfully';
+            }else{
+                $message = 'Folder not exist';
+            }
+            return response()->json([
+                'message' => $message
+            ]);
+        };
+        if ($request->isMethod('post')) {
+            $fields = Validator::make($request->all(), [
+                'name' =>'required|string|unique:employer_folders',
+            ]);
+        };
+        if($request->isMethod('patch')) {
+            $fields = Validator::make($request->all(), [
+                'name' =>'required|string|unique:employer_folders,name,'.$id,
+            ]);
+        };
+        if ($fields->fails()) {
+            return response()->json($fields->errors(), 422);
+        }
+        ($model != null) ? $model->update(array_merge($fields->validated(),['is_private' => $request->is_private]))
+                         : $model = EmployerFolder::create(array_merge($fields->validated(),
+                            ['is_private' => $request->is_private,'comp_id' => auth()->user()->company->id,'emp_id' => auth()->user()->id]));
+
+        return response()->json([
+            'folder' => $model,
         ]);
 
     }

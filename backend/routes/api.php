@@ -112,6 +112,18 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
 
+        //folders
+        Route::get('/hr/folders', [HrController::class, 'actionFolders']);
+        Route::get('/hr/folder/{id}', [HrController::class, 'actionFolder']);
+        Route::post('/hr/folder/{id}', [HrController::class, 'actionFolder']);
+        Route::patch('/hr/folder/{id}', [HrController::class, 'actionFolder']);
+        Route::delete('/hr/folder/{id}', [HrController::class, 'actionFolder']);
+
+        //saved resume
+        Route::get('/hr/resume/saved', [ResumeController::class, 'getResumeSaved']);
+        Route::post('/hr/resume/saved', [ResumeController::class, 'saveResume']);
+        Route::delete('/hr/resume/saved/{id}', [ResumeController::class, 'remove_on_wishlist']);
+
         Route::get('/hr/job', [HrController::class, 'getJob']);
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);

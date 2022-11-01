@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employer;
 use App\Models\Resume;
 use App\Models\Member;
+use App\Models\EmployerSaved;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -233,4 +234,61 @@ class ResumeController extends Controller
         }
     }
 
+    public function getResumeSaved()
+    {
+        //
+        $wishlists = EmployerSaved::with('resume','company','folder')->where("comp_id", "=", auth()->user()->company->id)->orderby('id', 'desc')->paginate(10);
+        return ($wishlists);
+    }
+
+    public function saveResume(Request $request){
+        $fields = Validator::make($request->all(), [
+            'resume_id' =>'required',
+            ]);
+
+          if ($fields->fails()) {
+              return response()->json($fields->errors(), 422);
+          }
+
+          $status=EmployerSaved::where('resume_id',$request->resume_id)
+                            ->where('comp_id',auth()->user()->company->id)
+            ->first();
+
+          if(isset($status->resume_id) and isset(auth()->user()->company->id))
+          {
+              return response([
+                  'message' => 'This resume is already in your wishlist!',
+              ], 400);
+          }
+          else
+          {
+          $wishlist = new EmployerSaved();
+          $wishlist->resume_id = $request->resume_id;
+          $wishlist->comp_id = auth()->user()->company->id;
+          $wishlist->emp_id = auth()->user()->id;
+          if($request->folder_id) $wishlist->folder_id = $request->folder_id;
+          $wishlist->save();
+
+          return response([
+              'message' => 'Added to your wishlist.',
+              'data' => ($wishlist)
+          ], 201);
+          }
+    }
+
+    public function remove_on_wishlist(Request $request,$id)
+    {
+        //
+        $wishlist = EmployerSaved::where('comp_id',auth()->user()->company->id)->where('resume_id',$id)->first();
+        if($wishlist){
+            $wishlist->destroy($wishlist->id);
+            return response([
+                'message' => 'Delete resume on wishlist'
+            ], 200);
+        }else{
+            return response([
+                'message' => 'This resume does not exist in wishlist'
+            ], 400);
+        }
+    }
 }
