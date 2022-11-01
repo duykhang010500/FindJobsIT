@@ -245,7 +245,11 @@ class HrController extends Controller
         if ($fields->fails()) {
             return response()->json($fields->errors(), 422);
         }
-        $model->update(array_merge($fields->validated(),['password' => bcrypt($request->password)]));
+        if($request->password){
+            $model->update(array_merge($fields->validated(),['password' => Hash::make($request->password)]));
+        }else{
+            $model->update(array_merge($fields->validated()));
+        }
         return response()->json([
             'profile' => $model,
             'message' => 'Update profile successfully'

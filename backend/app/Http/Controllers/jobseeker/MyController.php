@@ -16,12 +16,15 @@ class MyController extends Controller
     //
     public function getResume(Request $request)
     {
-        $id = auth()->user()->resume->id;
-        $resume = Resume::with('locations','industries','member')->where('id',$id)->first();
-
+        if(!empty(auth()->user()->resume->id)){
+            $resume = Resume::with('locations','industries','member')->where('id',auth()->user()->resume->id)->first();
+            return response()->json([
+                'resume' => $resume,
+            ]);
+        }
         return response()->json([
-            'resume' => $resume,
-        ]);
+            'message' => 'Resume not exist',
+        ],400);
     }
 
     public function resume(Request $request)

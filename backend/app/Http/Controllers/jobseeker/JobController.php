@@ -244,40 +244,40 @@ class JobController extends Controller
                 $candidate -> resume_file = $request -> post('resume_file');
                 $candidate -> save();
             }
-            if(!$member->resume){
-                $resume = new Resume;
-                $resume -> resume_status = 1; //active resume
-                if (!empty($job->level))
-                    $resume->level = $job->level;
-                if (!empty($job->degree))
-                    $resume->degree = $job->degree;
-                if (!empty($job->resume_title))
-                    $resume->resume_title = $job->resume_title;
+            // if(!$member->resume){
+            //     $resume = new Resume;
+            //     $resume -> resume_status = 1; //active resume
+            //     if (!empty($job->level))
+            //         $resume->level = $job->level;
+            //     if (!empty($job->degree))
+            //         $resume->degree = $job->degree;
+            //     if (!empty($job->resume_title))
+            //         $resume->resume_title = $job->resume_title;
 
-                $resume->resume_file = $request -> post('resume_file');
+            //     $resume->resume_file = $request -> post('resume_file');
 
-                $resume -> save();
+            //     $resume -> save();
 
-                $member -> resume_id = $resume -> id;
-                $member -> save();
+            //     $member -> resume_id = $resume -> id;
+            //     $member -> save();
 
-                if(!empty($job->industries)){
-                    $data = explode(',', $job->industries);
-                    foreach ($data as $key => $value) {
-                        $value = (int)$value;
-                        $resume->industries()->attach($value);
-                        $resume->save();
-                    }
-                }
-                if(!empty($job->locations)){
-                    $data = explode(',', $job->locations);
-                    foreach ($data as $key => $value) {
-                        $value = (int)$value;
-                        $resume->locations()->attach($value);
-                        $resume->save();
-                    }
-                }
-            }
+            //     if(!empty($job->industries)){
+            //         $data = explode(',', $job->industries);
+            //         foreach ($data as $key => $value) {
+            //             $value = (int)$value;
+            //             $resume->industries()->attach($value);
+            //             $resume->save();
+            //         }
+            //     }
+            //     if(!empty($job->locations)){
+            //         $data = explode(',', $job->locations);
+            //         foreach ($data as $key => $value) {
+            //             $value = (int)$value;
+            //             $resume->locations()->attach($value);
+            //             $resume->save();
+            //         }
+            //     }
+            // }
             return response()->json([
                 'message' => 'Apply successfully',
                 'candidate' => $candidate,
