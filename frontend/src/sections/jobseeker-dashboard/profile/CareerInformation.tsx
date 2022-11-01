@@ -18,7 +18,12 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import { Controller } from 'react-hook-form';
 import { AppState } from '../../../store/reducer';
-import { degreeTypes, jobLevel, jobTypes } from '../../../utils/defaultValues';
+import {
+  degreeTypes,
+  jobLevel,
+  jobTypes,
+  languages,
+} from '../../../utils/defaultValues';
 import Editor from '../../../components/Editor';
 
 type Props = {
@@ -326,13 +331,26 @@ const CareerInformation = ({ control, setValue }: Props) => {
                 </TextField>
               )}
             />
-            {/* <Controller
+            <Controller
               name='languages'
               control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Languages' fullWidth />
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  label='Language'
+                  select
+                  fullWidth
+                  error={!!error}
+                  helperText={error?.message}
+                >
+                  {languages.map((item: any) => (
+                    <MenuItem key={item.id} value={item.value}>
+                      {item.value}
+                    </MenuItem>
+                  ))}
+                </TextField>
               )}
-            /> */}
+            />
           </Stack>
           <Controller
             name='summary'

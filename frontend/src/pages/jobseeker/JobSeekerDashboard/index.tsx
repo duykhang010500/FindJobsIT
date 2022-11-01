@@ -32,7 +32,7 @@ const JobSeekerDashboardPage = (props: Props) => {
         </Grid>
         <Grid item xs={12} sm={12} md={4}>
           <StatisticCard
-            title='Employer views'
+            title='Views'
             color='#f759ab'
             icon={<RemoveRedEyeIcon />}
             count={1}

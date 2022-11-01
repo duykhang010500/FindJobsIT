@@ -5,14 +5,20 @@ import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
 import {
   adminGetCandidatesListSuccess,
+  getDetailCandidateFailure,
   getDetailCandidateSuccess,
+  getDetailResumeCandidateSuccess,
   getListCandidatesForEmployerSuccess,
   searchCandidateSuccess,
 } from './action';
 import {
   ADMIN_GET_CANDIDATES_LIST,
+  DELETE_SAVED_CANDIDATE,
   GET_DETAIL_CANDIDATE,
+  GET_DETAIL_RESUME_CANDIDATE,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
+  GET_SAVED_CANDIDATES,
+  SAVE_CANDIDATE,
   SEARCH_CANDIDATES,
   UPDATE_STATUS,
 } from './actionTypes';
@@ -63,6 +69,30 @@ function* searchCandidatesSaga({ payload }: any): any {
   } catch (err) {}
 }
 
+function* getDetailResumeCandidateSaga({ payload }: any): any {
+  try {
+    const res = yield call(employerServices.getDetailResumeCandidate, payload);
+    yield put(getDetailResumeCandidateSuccess(res.data.resume));
+  } catch (err) {
+    yield put(getDetailCandidateFailure(err));
+  }
+}
+
+function* saveCandidateSaga({ payload }: any): any {
+  try {
+  } catch (err) {}
+}
+
+function* getSavedCandidatesSaga(): any {
+  try {
+  } catch (err) {}
+}
+
+function* deleteSavedCandidateSaga({ payload }: any): any {
+  try {
+  } catch (err) {}
+}
+
 function* candidatesSaga() {
   yield takeEvery(
     GET_LIST_CANDIDATES_FOR_EMPLOYER,
@@ -72,6 +102,10 @@ function* candidatesSaga() {
   yield takeEvery(UPDATE_STATUS, updateStatusSaga);
   yield takeEvery(GET_DETAIL_CANDIDATE, getCandidateSaga);
   yield takeEvery(SEARCH_CANDIDATES, searchCandidatesSaga);
+  yield takeEvery(GET_DETAIL_RESUME_CANDIDATE, getDetailResumeCandidateSaga);
+  yield takeEvery(SAVE_CANDIDATE, saveCandidateSaga);
+  yield takeEvery(GET_SAVED_CANDIDATES, getSavedCandidatesSaga);
+  yield takeEvery(DELETE_SAVED_CANDIDATE, deleteSavedCandidateSaga);
 }
 
 export default candidatesSaga;

@@ -147,7 +147,7 @@ const MyProfile = (props: Props) => {
     }
 
     delete values.email;
-
+    console.log(values);
     await dispatch(updateInfoEmployer(values));
 
     setLoading(false);

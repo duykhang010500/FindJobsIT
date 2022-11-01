@@ -90,7 +90,7 @@ const EmployerJobsOpen = (props: Props) => {
               </TableCell>
               <TableCell>Job title</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Application(s)</TableCell>
+              {/* <TableCell>Application(s)</TableCell> */}
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -110,18 +110,18 @@ const EmployerJobsOpen = (props: Props) => {
                           {job.title}
                         </Typography>
                         <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2'>
+                          <Typography variant='body2' noWrap>
                             Work location: &nbsp;
                           </Typography>
-                          <Typography variant='body2' fontWeight={500}>
+                          <Typography variant='body2' fontWeight={500} noWrap>
                             {getStrFromArr(job.locations)}
                           </Typography>
                         </Stack>
                         <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2'>
+                          <Typography variant='body2' noWrap>
                             Industries: &nbsp;
                           </Typography>
-                          <Typography variant='body2' fontWeight={500}>
+                          <Typography variant='body2' fontWeight={500} noWrap>
                             {getStrFromArr(job.industries)}
                           </Typography>
                         </Stack>
@@ -130,7 +130,14 @@ const EmployerJobsOpen = (props: Props) => {
                             Salary: &nbsp;
                           </Typography>
                           <Typography variant='body2' fontWeight={500}>
-                            Negotiate
+                            {job?.salary !== 'Negotiate' ? (
+                              <>
+                                {job?.salary_from} - {job?.salary_to} &nbsp;
+                                {job?.salary}
+                              </>
+                            ) : (
+                              <>Negotiate</>
+                            )}
                           </Typography>
                         </Stack>
                       </Stack>
@@ -143,7 +150,7 @@ const EmployerJobsOpen = (props: Props) => {
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell align='center'>0</TableCell>
+                    {/* <TableCell align='center'>0</TableCell> */}
                     <TableCell>
                       <JobMoreMenu
                         onEdit={() => handleEdit(job.id)}

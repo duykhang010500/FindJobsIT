@@ -25,7 +25,7 @@ const CandidateCard = ({ candidate }: Props) => {
               },
             }}
             component={Link}
-            to='/'
+            to={`/employer/candidates/${candidate?.id}`}
           >
             {candidate?.member?.fullname}
           </Typography>

@@ -9,13 +9,18 @@ import {
   GET_DETAIL_CANDIDATE_FAILURE,
   SEARCH_CANDIDATES,
   SEARCH_CANDIDATES_SUCCESS,
+  GET_DETAIL_RESUME_CANDIDATE,
+  GET_DETAIL_RESUME_CANDIDATE_SUCCESS,
+  GET_DETAIL_RESUME_CANDIDATE_FAILURE,
 } from './actionTypes';
 import { ICandidatesState, CandidatesActions } from './types';
 
 const initialState: ICandidatesState = {
   isLoading: false,
-  list: [],
   candidate: null,
+  resume: null,
+  list: [],
+  savedCandidates: [],
 };
 
 const candidatesReducer = (state = initialState, action: CandidatesActions) => {
@@ -72,7 +77,22 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         isLoading: false,
         list: action.payload,
       };
-
+    case GET_DETAIL_RESUME_CANDIDATE:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_DETAIL_RESUME_CANDIDATE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        resume: action.payload,
+      };
+    case GET_DETAIL_RESUME_CANDIDATE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
       return state;
   }

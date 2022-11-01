@@ -33,7 +33,11 @@ const sidebarData = [
   {
     title: `Candidates Management`,
     icon: <PeopleRoundedIcon />,
-    path: '/employer/hr/candidates',
+    // path: '/employer/hr/candidates',
+    children: [
+      { title: 'Jobs by candidates', path: '/employer/hr/candidates' },
+      { title: 'Saved candidates', path: '/employer/hr/saved-candidates' },
+    ],
   },
   {
     title: `Manage Services`,

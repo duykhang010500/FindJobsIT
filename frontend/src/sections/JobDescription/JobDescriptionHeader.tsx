@@ -21,6 +21,8 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import { AppState } from '../../store/reducer';
 import ApplyForm from './ApplyForm';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { saveJob } from '../../store/jobsSaved/action';
 
 dayjs.extend(relativeTime);
 
@@ -41,6 +43,8 @@ const Img = styled('img')({
 });
 
 const JobDescriptionHeader = (props: Props) => {
+  const dispatch = useDispatch();
+
   const { job } = useSelector((state: AppState) => state.jobs);
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
@@ -57,6 +61,10 @@ const JobDescriptionHeader = (props: Props) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSaveJob = () => {
+    dispatch(saveJob(job?.id));
   };
 
   return (
@@ -118,6 +126,7 @@ const JobDescriptionHeader = (props: Props) => {
               size='large'
               variant='outlined'
               startIcon={<FavoriteBorderIcon />}
+              onClick={handleSaveJob}
             >
               Save Job
             </Button>

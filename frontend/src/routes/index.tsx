@@ -44,6 +44,9 @@ import JobSeekerSettings from '../pages/jobseeker/JobSeekerSettings';
 import SearchJobs from '../pages/SearchJobs';
 import DetailCandidate from '../sections/employer-dashboard/candidates/DetailCandidate';
 import SearchCandidates from '../pages/employer/SearchCondidates';
+import EmployerViewProfileCandidate from '../pages/employer/candidates/EmployerViewProfileCandidate';
+import JobSaved from '../pages/jobseeker/JobSeekerJobs/JobSaved';
+import EmployerCandidateSaved from '../pages/employer/candidates/EmployerCandidateSaved';
 
 type Props = {};
 
@@ -64,6 +67,7 @@ const Router = (props: Props) => {
           element: <JobSeekerDashboardLayout />,
           children: [
             { path: 'jobs', element: <JobSeekerJobs /> },
+            { path: 'jobs/saved', element: <JobSaved /> },
             { path: 'profile', element: <JobSeekerProfile /> },
             { path: 'settings', element: <JobSeekerSettings /> },
             { path: 'dashboard', element: <JobSeekerDashboardPage /> },
@@ -82,6 +86,7 @@ const Router = (props: Props) => {
         { element: <EmployerHomePage />, index: true },
         { path: 'services', element: <Services /> },
         { path: 'candidates/search', element: <SearchCandidates /> },
+        { path: 'candidates/:id', element: <EmployerViewProfileCandidate /> },
       ],
     },
     {
@@ -97,6 +102,7 @@ const Router = (props: Props) => {
         { path: 'order/active', element: <EmployerServices /> },
         { path: 'my', element: <MyProfile /> },
         { path: 'company', element: <CompanyProfile /> },
+        { path: 'saved-candidates', element: <EmployerCandidateSaved /> },
       ],
     },
     {

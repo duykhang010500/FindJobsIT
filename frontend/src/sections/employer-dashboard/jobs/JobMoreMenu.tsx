@@ -37,9 +37,9 @@ const JobMoreMenu = ({ onEdit, onDelete, onViewApplications }: Props) => {
           <MenuItem onClick={onEdit}>
             <SaveAsOutlinedIcon sx={{ mr: 2 }} /> Edit
           </MenuItem>
-          <MenuItem onClick={onViewApplications}>
+          {/* <MenuItem onClick={onViewApplications}>
             <PeopleAltOutlinedIcon sx={{ mr: 2 }} /> Applications
-          </MenuItem>
+          </MenuItem> */}
           <Divider sx={{ border: '1px dashed rgba(145, 158, 171, 0.24)' }} />
           <MenuItem onClick={onDelete} sx={{ color: '#ff4d4f' }}>
             <DeleteOutlineIcon sx={{ mr: 2 }} />

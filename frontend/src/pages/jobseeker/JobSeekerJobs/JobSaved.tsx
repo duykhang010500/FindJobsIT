@@ -14,43 +14,50 @@ import {
   TablePagination,
   Stack,
   Link,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 
-import { AppState } from '../../../store/reducer';
-import { getJobsApplied } from '../../../store/jobs/actions';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { AppState } from '../../../store/reducer';
+
 import Image from '../../../components/Image';
+import { deleteJobSaved, getJobsSaved } from '../../../store/jobsSaved/action';
 
 type Props = {};
 
-const JobSeekerJobs = (props: Props) => {
+const JobSaved = (props: Props) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getJobsApplied());
-  }, [dispatch]);
 
-  const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
+  const { isLoading, list } = useSelector((state: AppState) => state.jobsSaved);
+
+  useEffect(() => {
+    dispatch(getJobsSaved());
+  }, [dispatch]);
 
   if (isLoading) {
     return null;
   }
+
+  const handleDelete = (id: any) => {
+    dispatch(deleteJobSaved(id));
+  };
 
   return (
     <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Job title</TableCell>
-            <TableCell>Date applied</TableCell>
-            <TableCell>Status</TableCell>
+            <TableCell>Job</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {jobs?.map((job: any) => {
+          {list?.map((job: any) => {
             return (
-              <TableRow key={job?.id}>
-                <TableCell>
+              <TableRow>
+                <TableCell sx={{ width: '90%' }}>
                   <Stack direction='row' spacing={1} alignItems='center'>
                     <Image
                       alt='logo'
@@ -79,9 +86,12 @@ const JobSeekerJobs = (props: Props) => {
                   </Stack>
                 </TableCell>
                 <TableCell>
-                  {dayjs(job?.created_at).format('DD/MM/YYYY h:mm A')}
+                  <Tooltip title='Remove' placement='top'>
+                    <IconButton onClick={() => handleDelete(job?.id)}>
+                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
-                <TableCell>{job?.status || 'Inprogress'}</TableCell>
               </TableRow>
             );
           })}
@@ -100,4 +110,4 @@ const JobSeekerJobs = (props: Props) => {
   );
 };
 
-export default JobSeekerJobs;
+export default JobSaved;

@@ -2,11 +2,18 @@ import {
   ADMIN_GET_CANDIDATES_LIST,
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
+  DELETE_SAVED_CANDIDATE,
   GET_DETAIL_CANDIDATE,
   GET_DETAIL_CANDIDATE_FAILURE,
   GET_DETAIL_CANDIDATE_SUCCESS,
+  GET_DETAIL_RESUME_CANDIDATE,
+  GET_DETAIL_RESUME_CANDIDATE_FAILURE,
+  GET_DETAIL_RESUME_CANDIDATE_SUCCESS,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
+  GET_SAVED_CANDIDATES,
+  GET_SAVED_CANDIDATES_SUCCESS,
+  SAVE_CANDIDATE,
   SEARCH_CANDIDATES,
   SEARCH_CANDIDATES_SUCCESS,
   UPDATE_STATUS,
@@ -97,5 +104,53 @@ export const searchCandidateSuccess = (candidates: any) => {
   return {
     type: SEARCH_CANDIDATES_SUCCESS,
     payload: candidates,
+  };
+};
+
+export const getDetailResumeCandidate = (id: number) => {
+  return {
+    type: GET_DETAIL_RESUME_CANDIDATE,
+    payload: id,
+  };
+};
+
+export const getDetailResumeCandidateSuccess = (resume: any) => {
+  return {
+    type: GET_DETAIL_RESUME_CANDIDATE_SUCCESS,
+    payload: resume,
+  };
+};
+
+export const getDetailResumeCandidateFailure = (err: any) => {
+  return {
+    type: GET_DETAIL_RESUME_CANDIDATE_FAILURE,
+    payload: err,
+  };
+};
+
+export const saveCandidate = (id: any) => {
+  return {
+    type: SAVE_CANDIDATE,
+    payload: id,
+  };
+};
+
+export const getSavedCandidates = () => {
+  return {
+    type: GET_SAVED_CANDIDATES,
+  };
+};
+
+export const getSavedCandidatesSuccess = (list: any) => {
+  return {
+    type: GET_SAVED_CANDIDATES_SUCCESS,
+    payload: list,
+  };
+};
+
+export const deleteSavedCandidate = (id: any) => {
+  return {
+    type: DELETE_SAVED_CANDIDATE,
+    payload: id,
   };
 };

@@ -3,7 +3,7 @@ import { alpha } from '@mui/material/styles';
 
 const LightTheme = createTheme({
   typography: {
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'Poppins, sans-serif',
     h6: {
       fontWeight: 500,
       color: '#212B36',

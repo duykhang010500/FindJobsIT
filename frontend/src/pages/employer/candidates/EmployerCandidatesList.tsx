@@ -74,16 +74,16 @@ const EmployerCandidatesList = (props: Props) => {
                     <Avatar />
                     <Box sx={{ ml: 2 }}>
                       <Typography variant='body2'>
-                        {item.member.fullname}
+                        {item?.member?.fullname}
                       </Typography>
                       <Typography variant='caption'>
-                        {item.member.email}
+                        {item?.member?.email}
                       </Typography>
                     </Box>
                   </Box>
                 </TableCell>
                 <TableCell align='center'>
-                  {dayjs(item?.created_at).format('DD/MM/YYYY')}
+                  {dayjs(item?.created_at).format('DD/MM/YYYY h:mm A')}
                 </TableCell>
                 <TableCell>
                   <TextField

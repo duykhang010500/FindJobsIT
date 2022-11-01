@@ -154,7 +154,7 @@ const CompanyProfile = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Company name'
+                label='Company name *'
                 error={!!error}
                 helperText={error?.message}
               />
@@ -165,7 +165,7 @@ const CompanyProfile = (props: Props) => {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
-                label='Address'
+                label='Address *'
                 {...field}
                 error={!!error}
                 helperText={error?.message}
@@ -179,7 +179,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Phone'
+                  label='Phone *'
                   type='number'
                   fullWidth
                   {...field}
@@ -193,7 +193,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Fax'
+                  label='Fax *'
                   type='number'
                   fullWidth
                   {...field}
@@ -211,7 +211,7 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Company size'
+                  label='Company size *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -232,7 +232,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Tax'
+                  label='Tax *'
                   type='number'
                   fullWidth
                   {...field}
@@ -248,7 +248,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Website'
+                  label='Website *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -261,7 +261,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Email'
+                  label='Email *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -277,7 +277,7 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Location'
+                  label='Location *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -299,7 +299,7 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Industry'
+                  label='Industry *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -321,7 +321,7 @@ const CompanyProfile = (props: Props) => {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
-                label='Description'
+                label='Description *'
                 {...field}
                 minRows={5}
                 multiline

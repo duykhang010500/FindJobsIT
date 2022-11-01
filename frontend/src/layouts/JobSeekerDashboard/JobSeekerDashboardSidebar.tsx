@@ -11,8 +11,18 @@ type Props = {};
 const menu = [
   { title: 'Dashboard', icon: <DashboardIcon />, path: '/my/dashboard' },
   { title: 'Profile', icon: <PersonIcon />, path: '/my/profile' },
-  { title: 'My jobs', icon: <WorkIcon />, path: '/my/jobs' },
-  { title: 'Settings', icon: <SettingsIcon />, path: '/my/settings' },
+  {
+    title: 'My jobs',
+    icon: <WorkIcon />,
+    children: [
+      {
+        title: 'Applied',
+        path: '/my/jobs',
+      },
+      { title: 'Saved', path: '/my/jobs/saved' },
+    ],
+  },
+  // { title: 'Settings', icon: <SettingsIcon />, path: '/my/settings' },
 ];
 
 const JobSeekerDashboardSidebar = (props: Props) => {

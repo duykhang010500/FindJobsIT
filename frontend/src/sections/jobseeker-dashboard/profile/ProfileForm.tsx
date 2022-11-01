@@ -86,12 +86,18 @@ const ProfileForm = (props: Props) => {
     degree: yup.string().required('Degree is required'),
     // current_degree: yup.string().required('Current degree is required'),
     working_type: yup.string().required('Working type is required'),
+    languages: yup.string().required('Language is required'),
     summary: yup.string().required('Summary is required'),
 
     rexp_title: yup.string().required('Position title is required'),
     rexp_company: yup.string().required('Companies is required'),
 
-    rexp_date_start: yup.date().max(new Date(), 'Date start is before today'),
+    rexp_date_start: yup
+      .date()
+      .max(new Date(), 'Date start is before today')
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
+      .required('Date start is required'),
 
     // rexp_date_end: yup.string().required('Time start is required'),
     rexp_description: yup.string().required('Description is required'),
@@ -99,7 +105,12 @@ const ProfileForm = (props: Props) => {
     edu_school: yup.string().required('School is required'),
     edu_certify: yup.string().required('Certificate is required'),
     edu_description: yup.string().required('Education description is required'),
-    edu_date_start: yup.date().max(new Date(), 'Time start is before today'),
+    edu_date_start: yup
+      .date()
+      .max(new Date(), 'Time start is before today')
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
+      .required('Time start is required'),
     // edu_date_end: yup.string().required('Time end is required'),
 
     yearofexperience: yup.number().min(0, 'Year must be >= 0'),
@@ -134,7 +145,7 @@ const ProfileForm = (props: Props) => {
       current_degree: cv?.current_degree || '',
       degree: cv?.degree || '',
       working_type: cv?.working_type || '',
-      languages: '',
+      languages: cv?.languages || '',
       summary: cv?.summary || '',
 
       rexp_title: cv?.rexp_title || '',

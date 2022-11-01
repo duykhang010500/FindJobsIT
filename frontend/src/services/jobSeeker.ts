@@ -34,6 +34,17 @@ const jobSeekerServices = {
   getJobsApplied: () => {
     return axiosInstance.get('/my/saved');
   },
+  savedJob: (id: any) => {
+    return axiosInstance.post('/my/jobsaved', {
+      job_id: id,
+    });
+  },
+  getSavedJobs: () => {
+    return axiosInstance.get('/my/jobsaves');
+  },
+  deleteJobSaved: (id: any) => {
+    return axiosInstance.delete('/my/jobsaved/' + id);
+  },
 };
 
 export default jobSeekerServices;

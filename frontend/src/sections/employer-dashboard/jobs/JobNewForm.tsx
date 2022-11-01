@@ -70,7 +70,10 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
 
   //validate
   const newJobSchema = yup.object({
-    title: yup.string().required('Title is required'),
+    title: yup
+      .string()
+      .max(40, 'Title is upto 40 character')
+      .required('Title is required'),
     job_type: yup.string().required('Job type is required'),
     level: yup.string().required('Level is required'),
     industries: yup
@@ -84,7 +87,12 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
       .max(3, 'Location accept up to 3 choices'),
     job_description: yup.string().required('Job description is required'),
     job_requirement: yup.string().required('Job requirement is required'),
-    exp: yup.string(),
+
+    exp: yup.string().when('exp_from', {
+      is: (value: any) => value && value === 0,
+      then: yup.number().min(2, '> 2 gium em'),
+    }),
+
     exp_from: yup
       .number()
       .min(0)
@@ -92,7 +100,17 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
     exp_to: yup
       .number()
       .min(0)
-      .max(9999, 'Experience accept up to 3 numeric characters'),
+      .when('exp', {
+        is: (value: any) => value === 'Year',
+        then: yup
+          .number()
+          .moreThan(
+            yup.ref('exp_from'),
+            'Experience to must be greater than experience from'
+          ),
+      })
+      .max(999, 'Experience accept up to 3 numeric characters'),
+
     salary: yup.string(),
     salary_from: yup
       .number()
@@ -104,28 +122,38 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
       .positive()
       .min(0)
       .max(9999999, 'Salary accept up to 7 numeric characters')
-      .moreThan(
-        yup.ref('salary_from'),
-        'Salary to must be greater than salary from'
-      ),
+      .when('salary', {
+        is: (value: any) => value !== 'Negotiate',
+        then: yup
+          .number()
+          .moreThan(
+            yup.ref('salary_from'),
+            'Salary to must be greater than salary from'
+          ),
+      }),
     gender: yup.number(),
     age_from: yup
       .number()
       .integer()
+      .required('Age from is required')
       .positive('Age from must be positive number')
       .min(15, 'Age from must be between 15 and 60')
-      .max(60, 'Age from must be less than 60')
-      .lessThan(yup.ref('age_to'), 'Age from must be less than age to')
-      .required('Age from is required'),
+      .max(60, 'Age from must be less than 60'),
+
     age_to: yup
       .number()
+      .required('Age to is required')
       .min(15, 'Age to must be 15 year old or older')
       .max(60, 'Age to must be less than 60')
-      .moreThan(yup.ref('age_from'), 'Age to must be greater than age from')
-      .required('Age to is required'),
+      .moreThan(yup.ref('age_from'), 'Age to must be greater than age from'),
     unskill_job: yup.string().required('Skill is require'),
     job_benefits: yup.string().required('Benefits is require'),
-    end_date: yup.string().required('End date is required'),
+    end_date: yup
+      .date()
+      .min(new Date(), 'End date must be after today')
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
+      .required('End date is required'),
     company_name: yup.string().required('Company name is required'),
     contact_name: yup.string().required('Contact name is required'),
     contact_emails: yup.string().required('Contact email is required'),
@@ -163,6 +191,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
   );
 
   const { control, handleSubmit, setValue, reset } = useForm({
+    mode: 'onChange',
     defaultValues,
     resolver: yupResolver(newJobSchema),
   });
@@ -434,6 +463,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               >
                 <MenuItem value='Negotiate'>Negotiate</MenuItem>
                 <MenuItem value='VND'>VND</MenuItem>
+                <MenuItem value='USD'>USD</MenuItem>
               </TextField>
             )}
           />
@@ -662,9 +692,9 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             >
               Save
             </LoadingButton>
-            <LoadingButton size='large' variant='outlined' loading={isLoading}>
+            {/* <LoadingButton size='large' variant='outlined' loading={isLoading}>
               Save Draft
-            </LoadingButton>
+            </LoadingButton> */}
           </Stack>
         </Stack>
       </form>

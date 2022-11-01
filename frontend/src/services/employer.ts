@@ -40,7 +40,9 @@ const employerServices = {
   getDetailCandidate: (id: number) => {
     return axiosInstance.get('/employer/hr/candidate/' + id);
   },
-
+  getDetailResumeCandidate: (id: number) => {
+    return axiosInstance.get('/employer/resume/' + id);
+  },
   updateStatus: (id: any, formData: any) => {
     return axiosInstance.post('/employer/hr/candidate/status/' + id, formData);
   },
