@@ -169,7 +169,7 @@ class MyController extends Controller
     }
 
     public function applyDetail(Request $request,$id){
-        $history = Candidate::with('job','member','company','resume')->where('member_id',auth()->user()->id)->where('id',$id)->get();
+        $history = Candidate::with(['job','member','company','resume','resume.industries','resume.locations'])->where('member_id',auth()->user()->id)->where('id',$id)->get();
         if(!empty($history)){
             return response()->json([
                 'history' => $history,

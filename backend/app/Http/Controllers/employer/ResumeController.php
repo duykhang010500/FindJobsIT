@@ -266,7 +266,7 @@ class ResumeController extends Controller
           $wishlist->resume_id = $request->resume_id;
           $wishlist->comp_id = auth()->user()->company->id;
           $wishlist->emp_id = auth()->user()->id;
-          if($request->folder_id) $wishlist->folder_id = $request->folder_id;
+          if($request->employer_folder_id) $wishlist->employer_folder_id = $request->employer_folder_id;
           $wishlist->save();
 
           return response([
