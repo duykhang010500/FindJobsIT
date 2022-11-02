@@ -19,6 +19,8 @@ import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import BusinessOutlinedIcon from '@mui/icons-material/BusinessOutlined';
 
+import ApartmentIcon from '@mui/icons-material/Apartment';
+
 type Props = {};
 
 const Img = styled('img')({
@@ -38,9 +40,13 @@ const CompanyOverview = (props: Props) => {
   return (
     <Grid container spacing={2} alignItems='center'>
       <Grid item xs={12} sm={4}>
-        <RouterLink to={`/`}>
-          <Img src={`${job?.company?.logo}`} alt='logo' />
-        </RouterLink>
+        {!job?.company?.logo ? (
+          <ApartmentIcon sx={{ fontSize: 100 }} />
+        ) : (
+          <RouterLink to={`/`}>
+            <Img src={`${job?.company?.logo}`} alt='logo' />
+          </RouterLink>
+        )}
       </Grid>
       <Grid item xs={12} sm={8}>
         <Stack spacing={2}>

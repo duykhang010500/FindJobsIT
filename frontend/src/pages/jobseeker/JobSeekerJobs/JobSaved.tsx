@@ -4,25 +4,26 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  Link,
   Table,
+  Stack,
+  Tooltip,
+  Skeleton,
   TableRow,
-  TableBody,
   TableCell,
+  TableBody,
   TableHead,
+  IconButton,
   Typography,
   TableContainer,
   TablePagination,
-  Stack,
-  Link,
-  IconButton,
-  Tooltip,
 } from '@mui/material';
+
+import Image from '../../../components/Image';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { AppState } from '../../../store/reducer';
-
-import Image from '../../../components/Image';
 import { deleteJobSaved, getJobsSaved } from '../../../store/jobsSaved/action';
 
 type Props = {};
@@ -37,10 +38,18 @@ const JobSaved = (props: Props) => {
   }, [dispatch]);
 
   if (isLoading) {
-    return null;
+    return (
+      <Stack spacing={2}>
+        <Skeleton variant='rounded' width={'100%'} height={60} />
+        <Skeleton variant='rounded' width={'100%'} height={60} />
+        <Skeleton variant='rounded' width={'100%'} height={60} />
+        <Skeleton variant='rounded' width={'100%'} height={60} />
+      </Stack>
+    );
   }
 
   const handleDelete = (id: any) => {
+    console.log(id);
     dispatch(deleteJobSaved(id));
   };
 
@@ -58,10 +67,10 @@ const JobSaved = (props: Props) => {
             return (
               <TableRow>
                 <TableCell sx={{ width: '90%' }}>
-                  <Stack direction='row' spacing={1} alignItems='center'>
+                  <Stack direction='row' spacing={2}>
                     <Image
                       alt='logo'
-                      src={job?.company?.logo}
+                      src={job?.job?.company?.logo}
                       sx={{
                         width: 80,
                         height: 80,
@@ -75,19 +84,26 @@ const JobSaved = (props: Props) => {
                         color='#1890ff'
                         component={RouterLink}
                         to={`/job/${job?.job_id}`}
-                        sx={{ fontSize: '18px', fontWeight: 500 }}
+                        sx={{ fontSize: '18px', fontWeight: 500, mb: 1 }}
                       >
                         {job?.job?.title}
                       </Link>
-                      <Typography typography='h5'>
-                        {job?.company?.name}
+                      <Typography typography='h5' gutterBottom>
+                        {job?.job?.company?.name}
+                      </Typography>
+                      <Typography typography='body1'>
+                        {job?.job?.salary != 'Negotiate' ? (
+                          <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
+                        ) : (
+                          <>{job?.job?.salary}</>
+                        )}
                       </Typography>
                     </Stack>
                   </Stack>
                 </TableCell>
                 <TableCell>
                   <Tooltip title='Remove' placement='top'>
-                    <IconButton onClick={() => handleDelete(job?.id)}>
+                    <IconButton onClick={() => handleDelete(job?.job_id)}>
                       <DeleteIcon sx={{ color: '#ff4d4f' }} />
                     </IconButton>
                   </Tooltip>

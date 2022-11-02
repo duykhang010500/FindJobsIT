@@ -71,6 +71,7 @@ function* employerGetJobsSaga(): any {
 
 function* applyJobSaga({ payload: { id, formData } }: any): any {
   try {
+    console.log('Form data apply job!', formData);
     yield call(jobSeekerServices.applyJob, id, formData);
     toast.success('Apply job success!');
   } catch (err: any) {

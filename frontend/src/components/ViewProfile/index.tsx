@@ -33,7 +33,7 @@ const HeadingStyle = styled(Box)({
 
 const ViewProfile = ({ resume }: Props) => {
   return (
-    <Box>
+    <div id='profile'>
       <Stack spacing={6}>
         <Box>
           <HeadingStyle>
@@ -394,7 +394,7 @@ const ViewProfile = ({ resume }: Props) => {
                           {resume?.salary_unit}
                         </>
                       ) : (
-                        <>resume?.salary_unit</>
+                        <>{resume?.salary_unit}</>
                       )}
                     </Typography>
                   </Stack>
@@ -448,7 +448,7 @@ const ViewProfile = ({ resume }: Props) => {
           </Box>
         </Box>
       </Stack>
-    </Box>
+    </div>
   );
 };
 

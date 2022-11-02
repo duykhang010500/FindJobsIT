@@ -47,6 +47,7 @@ import SearchCandidates from '../pages/employer/SearchCondidates';
 import EmployerViewProfileCandidate from '../pages/employer/candidates/EmployerViewProfileCandidate';
 import JobSaved from '../pages/jobseeker/JobSeekerJobs/JobSaved';
 import EmployerCandidateSaved from '../pages/employer/candidates/EmployerCandidateSaved';
+import ViewResume from '../pages/jobseeker/ViewResume';
 
 type Props = {};
 
@@ -74,6 +75,7 @@ const Router = (props: Props) => {
           ],
         },
         { path: 'search', element: <SearchJobs /> },
+        { path: 'view-resume', element: <ViewResume /> },
       ],
     },
 

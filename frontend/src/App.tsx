@@ -17,6 +17,7 @@ import {
 } from './store/auth/action';
 import { getLocations } from './store/location/actions';
 import { getIndustries } from './store/industries/actions';
+import { getMyCV } from './store/cv/actions';
 export interface IAppProps {}
 
 export default function App(props: IAppProps) {
@@ -31,6 +32,7 @@ export default function App(props: IAppProps) {
   useEffect(() => {
     dispatch(getLocations());
     dispatch(getIndustries());
+    dispatch(getMyCV());
     if (localStorage.getItem('role') === '2') {
       dispatch(getInfoEmployer());
     }

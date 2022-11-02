@@ -1,7 +1,9 @@
 import { useEffect, useMemo } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-import { Stack } from '@mui/material';
+import { Button, Stack, Tooltip } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -26,11 +28,14 @@ import { Nationalities } from '../../../utils/defaultValues';
 import { phoneRegExp } from '../../../utils/validate';
 import ExperienceInformation from './ExperienceInformation';
 import { MinimalButton } from '@react-pdf-viewer/core';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 type Props = {};
 
 const ProfileForm = (props: Props) => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const { cv } = useSelector((state: AppState) => state.cv);
 
@@ -51,6 +56,8 @@ const ProfileForm = (props: Props) => {
         new Date(Date.now() - 567648000000),
         'You must be at least 18 years old'
       )
+      .nullable()
+      .transform((curr, orig) => (orig === '' ? null : curr))
       .required('Birthday is required'),
     email: yup
       .string()
@@ -216,7 +223,16 @@ const ProfileForm = (props: Props) => {
         <CareerInformation control={control} setValue={setValue} />
         <ExperienceInformation control={control} />
         <EducationInformation control={control} />
-        <Stack alignItems='center'>
+        <Stack direction='row' spacing={2}>
+          <Button
+            variant='outlined'
+            startIcon={<RemoveRedEyeIcon />}
+            onClick={() => navigate('/view-resume')}
+            disabled={!cv}
+          >
+            View Resume
+          </Button>
+
           <LoadingButton
             type='submit'
             variant='contained'

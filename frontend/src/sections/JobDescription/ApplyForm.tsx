@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 import {
+  Card,
+  Box,
   styled,
   Stack,
   Button,
@@ -11,6 +13,13 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  Collapse,
+  Tooltip,
 } from '@mui/material';
 
 import { useSelector } from 'react-redux';
@@ -55,16 +64,29 @@ const LabelStyle = styled('label')({
   position: 'absolute',
 });
 
+const ApplyOption = styled(Card)({
+  width: '100%',
+  padding: 10,
+  marginTop: '10px',
+});
+
 const ApplyForm = (props: Props) => {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [openUpload, setOpenUpload] = useState<boolean>(false);
+
   // const [fileError, setFileError] = useState<string>('');
+  const [applyType, setApplyType] = useState<any>(null);
 
   const [fileUpload, setFileUpload] = useState<any>(null);
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
+
+  const { cv } = useSelector((state: AppState) => state.cv);
+
+  const isValidApplyCv = applyType === 0 && fileUpload;
 
   const handleUploadFile = (e: any) => {
     const fileType = e.target.files[0].type.split('/')[1];
@@ -77,12 +99,31 @@ const ApplyForm = (props: Props) => {
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
-    const res = await uploadSingleFile(fileUpload);
-    const formData = {
-      resume_file: res,
-    };
-    await dispatch(applyJob(props.job.id, formData));
+    console.log('submit');
+
+    if (applyType == 0) {
+      if (!fileUpload) {
+        toast.error('Please upload file CV!');
+        return;
+      }
+      setIsLoading(true);
+
+      const res = await uploadSingleFile(fileUpload);
+
+      const formData = {
+        resume_file: res,
+        resume_online: 0,
+      };
+      await dispatch(applyJob(props.job.id, formData));
+    } else {
+      setIsLoading(true);
+
+      const formData = {
+        resume_online: 1,
+      };
+      await dispatch(applyJob(props.job.id, formData));
+    }
+
     setIsLoading(false);
     props.close();
   };
@@ -93,6 +134,8 @@ const ApplyForm = (props: Props) => {
       onClose={() => {
         props.close();
         setFileUpload(null);
+        setApplyType(null);
+        setOpenUpload(false);
       }}
     >
       <DialogTitle>
@@ -124,46 +167,102 @@ const ApplyForm = (props: Props) => {
           </Typography>
         </Stack>
 
-        <Upload>
-          <FileUploadIcon sx={{ fontSize: '40px', color: '#C0C0C0' }} />
-          {fileUpload ? (
-            <Typography>{fileUpload.name}</Typography>
-          ) : (
-            <>
-              <Typography>
-                <Typography color='primary' component='span' fontWeight={500}>
-                  Chose file
-                </Typography>{' '}
-                or drag it here
-              </Typography>
-              <Typography variant='caption' sx={{ color: 'rgb(99, 115, 129)' }}>
-                Allowed .pdf
-              </Typography>
-            </>
-          )}
-          <LabelStyle htmlFor='upload'></LabelStyle>
-          <input
-            type='file'
-            id='upload'
-            accept='application/pdf'
-            style={{ display: 'none' }}
-            onChange={handleUploadFile}
-          />
-        </Upload>
+        <FormControl sx={{ width: '100%' }}>
+          <RadioGroup
+            onChange={(e, value) => {
+              console.log(value);
+              setApplyType(value);
+            }}
+          >
+            <ApplyOption>
+              <Tooltip placement='top' title='Apply with your CV file'>
+                <FormControlLabel
+                  value='0'
+                  control={
+                    <Radio
+                      checked={openUpload}
+                      onChange={() => setOpenUpload(true)}
+                    />
+                  }
+                  label='Upload CV'
+                />
+              </Tooltip>
+              <Collapse in={openUpload}>
+                <Upload>
+                  <FileUploadIcon sx={{ fontSize: '40px', color: '#C0C0C0' }} />
+                  {fileUpload ? (
+                    <Typography>{fileUpload.name}</Typography>
+                  ) : (
+                    <>
+                      <Typography>
+                        <Typography
+                          color='primary'
+                          component='span'
+                          fontWeight={500}
+                        >
+                          Chose file
+                        </Typography>{' '}
+                        or drag it here
+                      </Typography>
+                      <Typography
+                        variant='caption'
+                        sx={{ color: 'rgb(99, 115, 129)' }}
+                      >
+                        Allowed .pdf
+                      </Typography>
+                    </>
+                  )}
+                  <LabelStyle htmlFor='upload'></LabelStyle>
+                  <input
+                    type='file'
+                    id='upload'
+                    accept='application/pdf'
+                    style={{ display: 'none' }}
+                    onChange={handleUploadFile}
+                  />
+                </Upload>
+              </Collapse>
+            </ApplyOption>
+            <Tooltip
+              placement='top'
+              title={
+                cv
+                  ? 'Apply job with your online profile'
+                  : 'Please update your profile to use this option!'
+              }
+            >
+              <ApplyOption>
+                <FormControlLabel
+                  value='1'
+                  control={
+                    <Radio
+                      disabled={!cv}
+                      onChange={() => setOpenUpload(false)}
+                    />
+                  }
+                  label='Online Profile'
+                />
+              </ApplyOption>
+            </Tooltip>
+          </RadioGroup>
+        </FormControl>
       </DialogContent>
       <DialogActions>
         <Button
           variant='outlined'
           onClick={() => {
             props.close();
+            setApplyType(null);
             setFileUpload(null);
+            setOpenUpload(false);
           }}
         >
           Back
         </Button>
         <LoadingButton
           variant='contained'
-          disabled={!Boolean(fileUpload)}
+          // disabled={!Boolean(fileUpload)}
+          disabled={!applyType}
           onClick={handleSubmit}
           loading={isLoading}
         >

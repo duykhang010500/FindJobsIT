@@ -82,7 +82,7 @@ const CompanyProfile = (props: Props) => {
       tax: info_company?.tax || '',
       website: info_company?.website || '',
       email: info_company?.email || '',
-      location: info_company?.location || '',
+      location: info_company?.location?.trim() || '',
       industry_id: info_company?.industry_id || '',
       content: info_company?.content || '',
     };
@@ -99,8 +99,10 @@ const CompanyProfile = (props: Props) => {
   }, [currentUser, reset, defaultValues]);
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
-    if (!avt) {
-      return;
+    if (!info_company?.logo) {
+      if (!avt) {
+        return;
+      }
     }
 
     setLoading(true);
@@ -337,9 +339,12 @@ const CompanyProfile = (props: Props) => {
               startIcon={<SaveAsIcon />}
               loading={loading}
               onClick={() => {
-                if (!avt) {
+                if (!info_company?.logo) {
                   setErrLogo('Please upload logo');
-                  return;
+                  // if (!avt) {
+                  //   setErrLogo('Please upload logo');
+                  //   return;
+                  // }
                 }
               }}
             >

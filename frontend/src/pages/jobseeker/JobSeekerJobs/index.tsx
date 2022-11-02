@@ -81,7 +81,9 @@ const JobSeekerJobs = (props: Props) => {
                 <TableCell>
                   {dayjs(job?.created_at).format('DD/MM/YYYY h:mm A')}
                 </TableCell>
-                <TableCell>{job?.status || 'Inprogress'}</TableCell>
+                <TableCell>
+                  {!job?.status ? 'Inprogress' : job?.status}
+                </TableCell>
               </TableRow>
             );
           })}

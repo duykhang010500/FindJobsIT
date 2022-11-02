@@ -15,9 +15,9 @@ import {
 // eslint-disable-next-line
 import UpdateIcon from '@mui/icons-material/Update';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
-import ApartmentIcon from '@mui/icons-material/Apartment';
 import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 interface Iprops {
   job: any;
@@ -140,7 +140,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
           justifyContent='space-between'
           alignItems='center'
         >
-          {job?.company ? (
+          {job?.company?.logo ? (
             <img
               style={{ width: '60px', height: '60px' }}
               src={job?.company?.logo}
@@ -150,7 +150,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
             <ApartmentIcon />
           )}
 
-          <Tooltip placement='top' title='Save job'>
+          {/* <Tooltip placement='top' title='Save job'>
             <IconWrapper>
               <RiHeart3Line
                 style={{
@@ -160,7 +160,7 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
                 }}
               />
             </IconWrapper>
-          </Tooltip>
+          </Tooltip> */}
           {/* <IconWrapper>
             <RiHeart3Fill
               style={{
@@ -192,8 +192,21 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
           </Typography>
 
           <Typography fontWeight={500} mt={1} variant='body2'>
-            <HiOutlineLocationMarker style={{ marginRight: 1 }} />
-            {job && job?.locations[0]?.name}
+            <HiOutlineLocationMarker
+              style={{
+                marginRight: 2,
+                fontSize: '1.2rem',
+                // verticalAlign: 'middle',
+              }}
+            />
+            {job &&
+              job?.locations?.map((item: any, index: number) => {
+                if (index === 0) {
+                  return <>{item?.name}</>;
+                } else {
+                  return <>{` - ${item.name}`}</>;
+                }
+              })}
           </Typography>
 
           <Typography variant='caption' mt={1} color='#8c8c8c'>

@@ -199,7 +199,9 @@ const Header: FC<Props> = () => {
                           </MenuItem>
                           <MenuItem
                             sx={{ color: '#637381' }}
-                            onClick={() => navigate('/employer/hr/dashboard')}
+                            onClick={() =>
+                              navigate('/employer/candidates/search')
+                            }
                           >
                             <ContentPasteSearchIcon sx={{ mr: 3 }} />
                             {`Find candidates`}

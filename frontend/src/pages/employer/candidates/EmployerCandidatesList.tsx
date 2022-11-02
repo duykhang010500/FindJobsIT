@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -69,15 +69,34 @@ const EmployerCandidatesList = (props: Props) => {
           {list.map((item: any, index: number) => {
             return (
               <TableRow key={index}>
-                <TableCell>
+                <TableCell sx={{ width: '50%' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar />
+                    <Avatar
+                      variant='square'
+                      sx={{
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '8px',
+                      }}
+                    />
                     <Box sx={{ ml: 2 }}>
-                      <Typography variant='body2'>
+                      <Typography
+                        variant='h4'
+                        gutterBottom
+                        sx={{ color: '#262626', textDecoration: 'none' }}
+                        fontWeight={500}
+                        component={RouterLink}
+                        to={`/employer/hr/candidates/${item.id}`}
+                      >
                         {item?.member?.fullname}
                       </Typography>
-                      <Typography variant='caption'>
-                        {item?.member?.email}
+                      <Typography
+                        variant='body2'
+                        textTransform='uppercase'
+                        // fontWeight={500}
+                        sx={{ color: '#595959' }}
+                      >
+                        {item?.job?.title}
                       </Typography>
                     </Box>
                   </Box>
@@ -104,9 +123,9 @@ const EmployerCandidatesList = (props: Props) => {
                 </TableCell>
                 <TableCell>
                   <Stack direction='row' spacing={0}>
-                    <IconButton>
+                    {/* <IconButton>
                       <EmailIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <Tooltip placement='top' title='View detail'>
                       <IconButton>
                         <VisibilityIcon
@@ -124,13 +143,14 @@ const EmployerCandidatesList = (props: Props) => {
         </TableBody>
       </Table>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[20, 40, 60]}
         component='div'
-        count={10}
-        rowsPerPage={5}
+        count={40}
+        rowsPerPage={20}
         page={1}
         onPageChange={() => {}}
         onRowsPerPageChange={() => {}}
+        sx={{ mt: 2 }}
       />
     </TableContainer>
   );

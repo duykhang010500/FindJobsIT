@@ -34,7 +34,7 @@ const JobOverview = (props: Props) => {
         boxShadow: 'none',
       }}
     >
-      <List sx={{ maxWidth: '300px' }} disablePadding>
+      <List sx={{ maxWidth: '400px' }} disablePadding>
         <ListItem
           disableGutters
           secondaryAction={<Typography variant='body2'>Negotiate</Typography>}

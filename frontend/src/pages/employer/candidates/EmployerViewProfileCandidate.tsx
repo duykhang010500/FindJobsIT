@@ -57,14 +57,14 @@ const EmployerViewProfileCandidate = (props: Props) => {
         <Typography variant='h4' sx={{ mb: 2 }}>
           {/* Resume */}
         </Typography>
-        <Stack spacing={2} direction='row'>
+        {/* <Stack spacing={2} direction='row'>
           <Button variant='contained' startIcon={<DownloadIcon />}>
             Download
           </Button>
           <Button variant='outlined' startIcon={<SaveIcon />}>
             Save resume
           </Button>
-        </Stack>
+        </Stack> */}
       </Stack>
       <ViewProfile resume={resume} />
     </Box>

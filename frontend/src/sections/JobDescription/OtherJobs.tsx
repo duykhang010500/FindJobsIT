@@ -7,13 +7,13 @@ type Props = {};
 const OtherJobs = (props: Props) => {
   return (
     <Grid container spacing={2}>
-      {jobsData.map((job, index) => {
+      {/* {jobsData.map((job, index) => {
         return (
           <Grid item xs={12} sm={6} key={index}>
             <JobCard job={job} isSmall={true} />
           </Grid>
         );
-      })}
+      })} */}
     </Grid>
   );
 };

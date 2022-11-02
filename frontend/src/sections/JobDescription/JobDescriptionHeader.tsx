@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -24,7 +25,10 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { saveJob } from '../../store/jobsSaved/action';
 
+import ApartmentIcon from '@mui/icons-material/Apartment';
+
 dayjs.extend(relativeTime);
+dayjs.extend(isSameOrBefore);
 
 type Props = {};
 
@@ -51,6 +55,11 @@ const JobDescriptionHeader = (props: Props) => {
 
   const [open, setOpen] = useState<boolean>(false);
 
+  // console.log(dayjs(new Date()).format('DD/MM/YYYY'));
+
+  const canApply = dayjs().isSameOrBefore(job?.end_date, 'day');
+  // console.log();
+
   const handleOpen = () => {
     if (!currentUser) {
       toast.error('Please login to apply this job!');
@@ -64,6 +73,10 @@ const JobDescriptionHeader = (props: Props) => {
   };
 
   const handleSaveJob = () => {
+    if (!currentUser) {
+      toast.error('Please login to save this job!');
+      return;
+    }
     dispatch(saveJob(job?.id));
   };
 
@@ -76,17 +89,21 @@ const JobDescriptionHeader = (props: Props) => {
         sx={{ textAlign: { xs: 'center', md: 'left' } }}
       >
         <Grid item xs={12} sm={3} md={3}>
-          <Img
-            src={`${job?.company?.logo}`}
-            alt='logo'
-            sx={{
-              width: '120px',
-              height: '120px',
-              padding: '10px',
-              borderRadius: '8px',
-              border: '1px solid #d9d9d9',
-            }}
-          />
+          {!job?.company?.logo ? (
+            <ApartmentIcon sx={{ fontSize: 100, margin: '50px' }} />
+          ) : (
+            <Img
+              src={`${job?.company?.logo}`}
+              alt='logo'
+              sx={{
+                width: '120px',
+                height: '120px',
+                padding: '10px',
+                borderRadius: '8px',
+                border: '1px solid #d9d9d9',
+              }}
+            />
+          )}
         </Grid>
         <Grid item xs={12} sm={9} md={6}>
           <Stack spacing={1}>
@@ -98,7 +115,11 @@ const JobDescriptionHeader = (props: Props) => {
             </Link>
             <Typography variant='body2' color='rgb(99, 115, 129)'>
               <UpdateIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-              Expires in {dayjs(new Date()).from(job?.end_date, true)}
+              {!canApply ? (
+                <>Expires</>
+              ) : (
+                <>Expires in {dayjs(new Date()).from(job?.end_date, true)}</>
+              )}
             </Typography>
           </Stack>
         </Grid>
@@ -119,6 +140,7 @@ const JobDescriptionHeader = (props: Props) => {
               variant='contained'
               onClick={handleOpen}
               startIcon={<IntegrationInstructionsIcon />}
+              disabled={!canApply}
             >
               Apply now
             </Button>

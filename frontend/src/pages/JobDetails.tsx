@@ -34,7 +34,7 @@ const JobDescription: FC<Props> = () => {
 
   const [tabActive, setTabActive] = useState('1');
 
-  const { isLoading } = useSelector((state: AppState) => state.jobs);
+  const { isLoading, job } = useSelector((state: AppState) => state.jobs);
 
   useEffect(() => {
     dispatch(getJob(id));
@@ -62,7 +62,7 @@ const JobDescription: FC<Props> = () => {
           <Link component={RouterLink} to={`/`}>
             Job
           </Link>
-          <Typography>Front-end developer</Typography>
+          <Typography>{job?.title}</Typography>
         </Breadcrumbs>
         <JobDescriptionHeader />
         <Grid container spacing={4} sx={{ mt: 3 }}>

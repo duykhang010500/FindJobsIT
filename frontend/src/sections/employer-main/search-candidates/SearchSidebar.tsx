@@ -20,6 +20,7 @@ import {
 
 type Props = {
   control: any;
+  reset: any;
 };
 
 const SearchSidebar = (props: Props) => {
@@ -148,67 +149,89 @@ const SearchSidebar = (props: Props) => {
         <Controller
           name='salary_from'
           control={props.control}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               type='number'
               label='Salary from'
               size='small'
+              error={!!error}
+              helperText={error?.message}
             />
           )}
         />
         <Controller
           name='salary_to'
           control={props.control}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               type='number'
               label='Salary to'
               size='small'
+              error={!!error}
+              helperText={error?.message}
             />
           )}
         />
         <Controller
           name='exp_from'
           control={props.control}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               type='number'
               label='Experience from'
               size='small'
+              error={!!error}
+              helperText={error?.message}
             />
           )}
         />
         <Controller
           name='exp_to'
           control={props.control}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <TextField
               {...field}
               type='number'
               label='Experience to'
               size='small'
+              error={!!error}
+              helperText={error?.message}
             />
           )}
         />
         <Controller
           name='age_from'
           control={props.control}
-          render={({ field }) => (
-            <TextField {...field} type='number' label='Age from' size='small' />
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              {...field}
+              type='number'
+              label='Age from'
+              size='small'
+              error={!!error}
+              helperText={error?.message}
+            />
           )}
         />
         <Controller
           name='age_to'
           control={props.control}
-          render={({ field }) => (
-            <TextField {...field} type='number' label='Age to' size='small' />
+          render={({ field, fieldState: { error } }) => (
+            <TextField
+              {...field}
+              type='number'
+              label='Age to'
+              size='small'
+              error={!!error}
+              helperText={error?.message}
+            />
           )}
         />
         <Stack direction='row' spacing={2}>
-          <Button variant='outlined' fullWidth>
+          <Button variant='outlined' fullWidth onClick={props.reset}>
             Clear
           </Button>
           <Button variant='contained' fullWidth type='submit'>

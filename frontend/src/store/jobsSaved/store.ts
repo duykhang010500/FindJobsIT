@@ -17,13 +17,14 @@ function* saveJobSaga({ payload }: any): any {
 function* getJobsSavedSaga(): any {
   try {
     const res = yield call(jobSeekerServices.getSavedJobs);
-    yield put(getJobsSavedSuccess(res.data.data));
+    yield put(getJobsSavedSuccess(res.data));
   } catch (err) {}
 }
 
 function* deleteJobSavedSaga({ payload }: any): any {
   try {
     yield call(jobSeekerServices.deleteJobSaved, payload);
+    toast.success('Delete saved job successfully!');
     yield put(getJobsSaved());
   } catch (err) {}
 }

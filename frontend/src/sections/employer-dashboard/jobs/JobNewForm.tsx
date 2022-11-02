@@ -72,7 +72,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
   const newJobSchema = yup.object({
     title: yup
       .string()
-      .max(40, 'Title is upto 40 character')
+      .max(80, 'Title is upto 80 character')
       .required('Title is required'),
     job_type: yup.string().required('Job type is required'),
     level: yup.string().required('Level is required'),
@@ -116,12 +116,12 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
       .number()
       .positive()
       .min(0)
-      .max(9999999, 'Salary accept up to 7 numeric characters'),
+      .max(999999999, 'Salary accept up to 9 numeric characters'),
     salary_to: yup
       .number()
       .positive()
       .min(0)
-      .max(9999999, 'Salary accept up to 7 numeric characters')
+      .max(999999999, 'Salary accept up to 9 numeric characters')
       .when('salary', {
         is: (value: any) => value !== 'Negotiate',
         then: yup

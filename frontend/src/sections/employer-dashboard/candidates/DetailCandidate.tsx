@@ -1,30 +1,45 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Stack, Avatar, Typography, Box, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Breadcrumbs,
+  Link,
+  Stack,
+  styled,
+  Button,
+} from '@mui/material';
 
 import { Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 
 import { getDetailCandidate } from '../../../store/candidates/action';
 import { AppState } from '../../../store/reducer';
+import ViewProfile from '../../../components/ViewProfile';
 
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
+import DownloadIcon from '@mui/icons-material/Download';
 
 type Props = {};
+
+const BoxStyled = styled(Box)({
+  display: 'block',
+  padding: '16px',
+  border: '2px dashed #bfbfbf',
+  borderRadius: '8px',
+});
 
 const DetailCandidate = (props: Props) => {
   let { id } = useParams();
 
-  const [tab, setTab] = useState('1');
-
   const dispatch = useDispatch();
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
+
+  const pdfExportComponent = useRef(null);
+  const contentArea = useRef<any>(null);
 
   useEffect(() => {
     dispatch(getDetailCandidate(Number(id)));
@@ -38,54 +53,85 @@ const DetailCandidate = (props: Props) => {
     return null;
   }
 
-  return (
-    <>
-      <Box sx={{ width: '100%' }}>
-        <Stack direction='row' spacing={4} alignItems={'center'}>
-          <Avatar sx={{ width: 120, height: 120 }} />
+  // console.log(candidate);
 
-          <Stack>
-            <Typography variant='h3' color='primary' gutterBottom>
-              {candidate?.fullname}
+  const resume = {
+    ...candidate?.resume,
+    member: { ...candidate?.member },
+  };
+
+  // const handleExportWithComponent = (event: any) => {
+  //   pdfExportComponent.current.save();
+  // };
+
+  const handleExportWithFunction = () => {
+    savePDF(contentArea.current, {
+      paperSize: 'auto',
+      margin: 20,
+    });
+  };
+
+  if (candidate?.resume_online == 0) {
+    return (
+      <Box>
+        <Breadcrumbs sx={{ mb: 3 }}>
+          <Link component={RouterLink} to='/employer/hr/candidates'>
+            Candidates
+          </Link>
+          <Typography>{candidate?.member?.fullname}</Typography>
+        </Breadcrumbs>
+
+        <BoxStyled sx={{ mb: 6 }}>
+          <Stack spacing={2}>
+            <Typography variant='h3' sx={{ color: '#1890ff' }}>
+              {candidate?.member?.fullname}
             </Typography>
-            <Typography variant='h5' gutterBottom>
-              {candidate?.resume?.resume_title}
+            <Typography variant='h4' sx={{ color: '#ff4d4f' }}>
+              {candidate?.job?.title}
             </Typography>
-            <Typography variant='h5' gutterBottom>
-              Experience: {candidate?.resume?.yearofexperience} year
-            </Typography>
-            <Typography variant='h5'>
-              Current company: {candidate?.resume?.current_company || 'none'}
+            <Typography variant='h5' sx={{ color: '#595959' }}>
+              {candidate?.member?.email}
             </Typography>
           </Stack>
-          <Button variant='contained' sx={{ height: '40px', float: 'right' }}>
-            Save
-          </Button>
-        </Stack>
+        </BoxStyled>
+        <Viewer
+          fileUrl={candidate?.resume_file}
+          plugins={[defaultLayoutPluginInstance]}
+        />
       </Box>
-
-      <TabContext value={tab}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 3 }}>
-          <TabList
-            onChange={(e, value: string) => setTab(value)}
-            aria-label='lab API tabs example'
+    );
+  } else {
+    return (
+      <>
+        <Breadcrumbs sx={{ mb: 3 }}>
+          <Link component={RouterLink} to='/employer/hr/candidates'>
+            Candidates
+          </Link>
+          <Typography>{candidate?.member?.fullname}</Typography>
+        </Breadcrumbs>
+        <BoxStyled sx={{ mb: 3 }}>
+          <Typography variant='h4' sx={{ color: '#595959' }}>
+            {candidate?.job?.title}
+          </Typography>
+        </BoxStyled>
+        <Box sx={{ width: '100%', textAlign: 'right' }}>
+          <Button
+            variant='contained'
+            sx={{ mb: 3 }}
+            onClick={handleExportWithFunction}
+            startIcon={<DownloadIcon />}
           >
-            <Tab label='General' value='1' />
-            <Tab label='Experience' value='2' />
-            <Tab label='Education' value='3' />
-          </TabList>
+            Download
+          </Button>
         </Box>
-        <TabPanel value='1'>
-          <Viewer
-            fileUrl={candidate?.resume?.resume_file}
-            plugins={[defaultLayoutPluginInstance]}
-          />
-        </TabPanel>
-        <TabPanel value='2'>Experience</TabPanel>
-        <TabPanel value='3'>Education</TabPanel>
-      </TabContext>
-    </>
-  );
+        <PDFExport ref={pdfExportComponent} paperSize='auto' margin={20}>
+          <div ref={contentArea}>
+            <ViewProfile resume={resume} />
+          </div>
+        </PDFExport>
+      </>
+    );
+  }
 };
 
 export default DetailCandidate;

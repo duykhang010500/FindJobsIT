@@ -25,18 +25,18 @@ const SearchCandidates = (props: Props) => {
     salary_to: yup
       .number()
       .min(0, 'Salary to must be equal or greater than 0')
-      .max(99999999, 'Salary to maximum 99999999'),
+      .max(9999999999, 'Salary to maximum 9999999999'),
     salary_from: yup
       .number()
       .min(0, 'Salary to must be equal or greater than 0')
-      .max(99999999, 'Salary to maximum 99999999'),
+      .max(9999999999, 'Salary to maximum 9999999999'),
     age_from: yup
       .number()
-      .min(15, 'Age from allow min 15')
+      .min(0, 'Age from allow min 0')
       .max(60, 'Age to maximum 60'),
     age_to: yup
       .number()
-      .min(15, 'Age to allow min 15')
+      .min(0, 'Age to allow min 0')
       .max(60, 'Age to maximum 60'),
     exp_to: yup
       .number()
@@ -58,12 +58,12 @@ const SearchCandidates = (props: Props) => {
     nationality: '',
     resume_update: '',
     salary_unit: '',
-    salary_from: '',
-    salary_to: '',
-    exp_from: '',
-    exp_to: '',
-    age_from: '',
-    age_to: '',
+    salary_from: 0,
+    salary_to: 0,
+    exp_from: 0,
+    exp_to: 0,
+    age_from: 0,
+    age_to: 0,
   };
 
   const dispatch = useDispatch();
@@ -72,10 +72,10 @@ const SearchCandidates = (props: Props) => {
     dispatch(searchCandidate(defaultValues));
   }, []);
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     mode: 'onChange',
     defaultValues,
-    // resolver: yupResolver(validateScheme),
+    resolver: yupResolver(validateScheme),
   });
 
   const onSubmit = (formValues: any) => {
@@ -96,7 +96,7 @@ const SearchCandidates = (props: Props) => {
       </Card>
       <Grid container spacing={3} sx={{ mt: 2 }}>
         <Grid item xs={12} md={3}>
-          <SearchSidebar control={control} />
+          <SearchSidebar control={control} reset={reset} />
         </Grid>
         <Grid item xs={12} md={9}>
           {isLoading ? (
