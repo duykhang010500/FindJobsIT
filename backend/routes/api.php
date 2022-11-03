@@ -12,6 +12,7 @@ use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
 use App\Http\Controllers\employer\ResumeController;
 use App\Http\Controllers\employer\OrderController;
+use App\Http\Controllers\employer\MailController;
 
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
@@ -111,6 +112,9 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::get('/info', [EmployerController::class, 'info']);
 
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
+
+        //send mail jsk
+        Route::post('/hr/send-mail', [MailController::class, 'sendMailJSK']);
 
         //folders
         Route::get('/hr/folders', [HrController::class, 'actionFolders']);
