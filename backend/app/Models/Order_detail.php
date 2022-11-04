@@ -19,10 +19,10 @@ class Order_detail extends Authenticatable
     ];
 
     public function order(){
-        return $this->belongsTo(Order::class,'id','order_id');
+        return $this->belongsTo(Order::class,'order_id');
     }
     public function service(){
-        return $this->belongsTo(Service::class,'id','service_id');
+        return $this->belongsTo(Service::class,'service_id');
     }
 
 }

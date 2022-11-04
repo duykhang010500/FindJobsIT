@@ -33,7 +33,7 @@ class Order extends Authenticatable
     private $Auto_increment = null;
     public function getNextId()
     {
-        $statement = DB::select("show table status like 'services'");
+        $statement = DB::select("show table status like 'orders'");
 
         return $statement[0]->Auto_increment;
     }

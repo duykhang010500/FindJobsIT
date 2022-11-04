@@ -17,4 +17,28 @@ class SendMail extends Model
 
     protected $table = 'send_mail';
 
+    public function employer(){
+        return $this->belongsTo(Employer::class,'emp_id');
+    }
+
+    public function company(){
+        return $this->belongsTo(Company::class,'comp_id');
+    }
+
+    public function job(){
+        return $this->belongsTo(Job::class,'job_id');
+    }
+
+    public function resume(){
+        return $this->belongsTo(Resume::class,'resume_id');
+    }
+
+    public function member(){
+        return $this->belongsTo(Member::class,'mid');
+    }
+
+    public function candidate(){
+        return $this->belongsTo(Candidate::class,'apply_id');
+    }
+
 }

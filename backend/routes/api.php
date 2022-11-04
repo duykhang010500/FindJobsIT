@@ -2,24 +2,25 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+// jsk
 use App\Http\Controllers\jobseeker\JobController;
 use App\Http\Controllers\jobseeker\MemberController;
 use App\Http\Controllers\jobseeker\MyController;
 use App\Http\Controllers\jobseeker\VerificationController;
-
+// employer
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
 use App\Http\Controllers\employer\ResumeController;
 use App\Http\Controllers\employer\OrderController;
 use App\Http\Controllers\employer\MailController;
-
+// admin
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\UsersiteController;
 use App\Http\Controllers\admin\JobaController;
 use App\Http\Controllers\admin\MemberaController;
 use App\Http\Controllers\admin\NewsaController;
+use App\Http\Controllers\admin\OrderaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -65,14 +66,23 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
 
     Route::group(['prefix' => 'admin'],function ()
     {
+        // orders
+        Route::get('/orders', [OrderaController::class, 'index']);
+        Route::get('/order/{id}', [OrderaController::class, 'order']);
+        Route::post('/order/{id}', [OrderaController::class, 'change_status_order']);
+
+        // logout,info
         Route::post('/logout', [UsersiteController::class, 'logout']);
         Route::get('/info', [UsersiteController::class, 'info']);
 
+        // members
         Route::get('/members', [MemberaController::class, 'index']);
 
+        //companies
         Route::get('/companies', [CompanyController::class, 'index']);
         Route::post('/company', [CompanyController::class, 'store']);
 
+        //services
         Route::get('/services', [ServiceController::class, 'index']);
         Route::post('/service/{id}', [ServiceController::class, 'store']);
         Route::patch('/service/{id}', [ServiceController::class, 'store']);
@@ -90,10 +100,12 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
         Route::patch('/news/{id}', [NewsaController::class, 'store']);
         Route::delete('/news/{id}', [NewsaController::class, 'delete']);
 
+        //locations
         Route::get('/job/locations', [JobaController::class, 'locations']);
         Route::post('job/location/{id}', [JobaController::class, 'location']);
         Route::delete('job/location/{id}', [JobaController::class, 'delete_location']);
 
+        //industries
         Route::get('/job/industries', [JobaController::class, 'industries']);
         Route::post('job/industry/{id}', [JobaController::class, 'industry']);
         Route::delete('job/industry/{id}', [JobaController::class, 'delete_industry']);
@@ -106,14 +118,18 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 
     Route::group(['prefix' => 'employer'],function ()
     {
+        //resume
         Route::get('/resume/{id}', [ResumeController::class, 'detail']);
 
+        // logout,info
         Route::post('/logout', [EmployerController::class, 'logout']);
         Route::get('/info', [EmployerController::class, 'info']);
 
+        //dashboard
         Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
 
         //send mail jsk
+        Route::get('hr/mail-candidates', [MailController::class, 'getListMailJSK']);
         Route::post('/hr/send-mail', [MailController::class, 'sendMailJSK']);
 
         //folders
@@ -128,12 +144,17 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::post('/hr/resume/saved', [ResumeController::class, 'saveResume']);
         Route::delete('/hr/resume/saved/{id}', [ResumeController::class, 'remove_on_wishlist']);
 
+        // jobs
         Route::get('/hr/job', [HrController::class, 'getJob']);
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
         Route::delete('/hr/job/{id}', [HrController::class, 'deleteJob']);
+
         // orders
-        Route::get('/hr/orders/active', [OrderController::class, 'order_active']);
+        Route::get('/hr/orders/active', [OrderController::class, 'orders']);
+        Route::get('/hr/orders/active/{id}', [OrderController::class, 'order']);
+        Route::post('/hr/orders/active/{id}', [OrderController::class, 'change_status_order']);
+        Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
 
         // candidates
         Route::get('/hr/candidates', [HrController::class, 'candidates']);
@@ -144,19 +165,20 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::post('/hr/company', [HrController::class, 'company']);
         Route::get('/hr/company', [HrController::class, 'getCompany']);
 
+        //profile
         Route::get('/hr/profile', [HrController::class, 'getProfile']);
         Route::post('/hr/profile', [HrController::class, 'profile']);
 
-        Route::post('/confirm-order', [OrderController::class, 'confirm_order']);
+
     });
 
 });
 
 // user
 Route::middleware(['auth:sanctum','ability:member'])->group(function () {
+    //logout,info
     Route::post('/logout', [MemberController::class, 'logout']);
     Route::get('/info', [MemberController::class, 'info']);
-
 
     //resume
     Route::post('my/resume', [MyController::class, 'resume']);
@@ -165,10 +187,12 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     // history
     Route::get('my/saved', [MyController::class, 'historyApply']);
     Route::get('my/saved/{id}', [MyController::class, 'applyDetail']);
+
     //wishlist
     Route::get('my/jobsaves', [MyController::class, 'jobSaves']);
     Route::post('my/jobsaved', [MyController::class, 'saved']);
     Route::delete('my/jobsaved/{id}', [MyController::class, 'remove_on_wishlist']);
+
     //apply
     Route::post('/apply/{id}', [JobController::class, 'apply']);
 });

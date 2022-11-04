@@ -14,6 +14,12 @@ use App\Mail\ContactMail;
 class MailController extends Controller
 {
     //
+    public function getListMailJSK(Request $request){
+        $listMail = SendMail::with('candidate','job','resume','member','employer')->where('comp_id', auth()->user()->company->id)->get();
+        return [
+            'listMail' => $listMail
+        ];
+    }
     public function sendMailJSK(Request $request) {
 
         $fields = Validator::make($request->all(), [
