@@ -7,12 +7,14 @@ use App\Http\Controllers\jobseeker\JobController;
 use App\Http\Controllers\jobseeker\MemberController;
 use App\Http\Controllers\jobseeker\MyController;
 use App\Http\Controllers\jobseeker\VerificationController;
+use App\Http\Controllers\jobseeker\ResetPasswordController;
 // employer
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
 use App\Http\Controllers\employer\ResumeController;
 use App\Http\Controllers\employer\OrderController;
 use App\Http\Controllers\employer\MailController;
+use App\Http\Controllers\employer\ResetPasswordeController;
 // admin
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
@@ -34,30 +36,47 @@ use App\Http\Controllers\admin\OrderaController;
 
 // public
 
+//reset password member
+Route::post('reset-password', [ResetPasswordController::class, 'sendMail']);
+Route::put('reset-password', [ResetPasswordController::class, 'reset']);
+
+//reset password employer
+Route::post('/employer/reset-password', [ResetPasswordeController::class, 'sendMail']);
+Route::put('/employer/reset-password', [ResetPasswordeController::class, 'reset']);
+
 Route::get('/employer/search-resume', [ResumeController::class, 'search']);
 
-
+// jobs
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/job/{id}', [JobController::class, 'detail']);
 Route::get('/job-relevant/{id}', [JobController::class, 'job_relevant_comp']);
 
+//companies
 Route::get('/companies', [JobController::class, 'companies']);
+
+//quickupload
 Route::post('/quickupload', [MemberController::class, 'quickupload']);
 
+//locations
 Route::get('industries', [JobController::class, 'industries']);
 Route::get('industry/{id}', [JobController::class, 'byindustry']);
 Route::get('locations', [JobController::class, 'locations']);
 Route::get('location/{id}', [JobController::class, 'bylocation']);
 
+//member register,login
 Route::post('/register', [MemberController::class, 'register']);
 Route::post('/login', [MemberController::class, 'login']);
 Route::get('email/verify/{id}', [VerificationController::class, 'verify_user'])->name('verification.verify'); // Make sure to keep this as your route name
 Route::get('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
+//employer login,register
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
+
+//services
 Route::get('/employer/services', [OrderController::class, 'services']);
 
+//admin login
 Route::post('/admin/register', [UsersiteController::class, 'register']);
 Route::post('/admin/login', [UsersiteController::class, 'login']);
 
@@ -195,4 +214,5 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
 
     //apply
     Route::post('/apply/{id}', [JobController::class, 'apply']);
+
 });
