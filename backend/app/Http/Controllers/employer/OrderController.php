@@ -8,7 +8,7 @@ use App\Models\Order_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Validator,Mail;
 class OrderController extends Controller
 {
     //
@@ -76,6 +76,27 @@ class OrderController extends Controller
                 $order->note = $data['note'];
             $order->payment_type = $data['payment_type'];
             $order->save();
+
+            //send mail confirm
+            $now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
+            $title_mail = "Đơn hàng xác nhận ngày".' '.$now;
+            $user = auth()->user();
+            $data['email'] = $user->email;
+            //lay gio hang
+            $order_details_mail = Order_detail::where('order_code', $order->code)->get();
+            foreach($order_details_mail  as $key ){
+                $cart_array[] = array(
+                    'product_name' => $key->name,
+                    'product_price' => $key->price,
+                    'product_qty' => $key->qty,
+                );
+            }
+            //lay ma giam gia, lay coupon code
+            $ordercode_mail = array(
+               'coupon_code' => $order->evoucher,
+               'order_code' => $order->code,
+               'total' => $order->total,
+            );
             return response([
                 'message' => 'Order Success',
                 'order' => $order,

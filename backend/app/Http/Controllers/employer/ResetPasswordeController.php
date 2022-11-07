@@ -49,7 +49,7 @@ class ResetPasswordeController extends Controller
         }else{
             return response()->json([
                 'message' => 'Email does not match with our record.'
-                ]);
+                ],400);
         }
 
     }

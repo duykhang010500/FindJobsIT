@@ -27,7 +27,7 @@ class ResetPasswordController extends Controller
             return response()->json($fields->errors(), 422);
         }
 
-        $user = Member::where('email', $request->email)->firstOrFail();
+        $user = Member::where('email', $request->email)->first();
         // dd($user->email);
         if($user){
             $passwordReset = PasswordReset::updateOrCreate([
@@ -49,7 +49,7 @@ class ResetPasswordController extends Controller
         }else{
             return response()->json([
                 'message' => 'Email does not match with our record.'
-                ]);
+                ],400);
         }
     }
 
