@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\employer;
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use App\Models\Order;
 use App\Models\Order_detail;
 use Illuminate\Http\Request;
