@@ -107,7 +107,7 @@ class MyController extends Controller
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
                     'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
                     'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,
-                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,
+                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type,
                     ]
                 ));
             }else{
@@ -116,7 +116,7 @@ class MyController extends Controller
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
                     'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
                     'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,
-                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,
+                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type,
                     ]
                 ));
                 $member->resume_id = $resume->id;

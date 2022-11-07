@@ -8,7 +8,7 @@ use App\Models\Order_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Validator,Mail;
+use Validator,Carbon\Carbon,Mail;
 class OrderController extends Controller
 {
     //
@@ -91,8 +91,12 @@ class OrderController extends Controller
                     'product_qty' => $key->qty,
                 );
             }
+
             $shipping_array = array(
                 'note' => $data['note'],
+                'name' =>auth()->user()->name,
+                'email' =>auth()->user()->email,
+                'phone' =>auth()->user()->phone,
                 'method' => $data['payment_type']
             );
             //lay ma giam gia, lay coupon code
@@ -101,6 +105,12 @@ class OrderController extends Controller
                'order_code' => $order->code,
                'total' => $order->total,
             );
+            // dd($shipping_array);
+            Mail::send('order',  ['cart_array'=>$cart_array, 'shipping_array'=>$shipping_array ,'code'=>$ordercode_mail] , function($message) use ($title_mail,$data){
+                $message->to(auth()->user()->email)->subject($title_mail);//send this mail with subject
+                $message->from(auth()->user()->email,$title_mail);//send from this mail
+            });
+           
             return response([
                 'message' => 'Order Success',
                 'order' => $order,
