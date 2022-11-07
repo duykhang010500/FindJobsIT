@@ -91,9 +91,13 @@ class OrderController extends Controller
                     'product_qty' => $key->qty,
                 );
             }
+            $shipping_array = array(
+                'note' => $data['note'],
+                'method' => $data['payment_type']
+            );
             //lay ma giam gia, lay coupon code
             $ordercode_mail = array(
-               'coupon_code' => $order->evoucher,
+            //    'coupon_code' => $order->evoucher,
                'order_code' => $order->code,
                'total' => $order->total,
             );
