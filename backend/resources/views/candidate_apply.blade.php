@@ -18,45 +18,45 @@
 			font-size: x-small;
 		}
 		.gray {
-			background-color: lightgray
+			background-color: rgb(103, 191, 203)
 		}
 	</style>
 </head>
 <body>
-	<div width="100%" style="border-radius: 12px;padding:15px;">
+	<div width="100%" style="background: #222;border-radius: 12px;padding:15px;">
 		<div class="col-md-12" >
-			<div class="row" style="padding: 15px">
+			<p style="text-align: center;color: #fff">Đây là email tự động. Quý khách vui lòng không trả lời email này.</p>
+			<div class="row" style="background: rgb(96, 152, 198);padding: 15px">
 
 				<div class="col-md-6" style="text-align: center;color: red;font-weight: bold;font-size: 30px">
 					<h4 style="margin:0">NEW USER APPLY TO JOB</h4>
 				</div>
-				<div class="col-md-6"  style="color: #fff">
-					<p>CONTACT INFORMATION</p>
-				</div>
-				{{$info['name']}}
-				<!-- <div class="col-md-12">
+				{{-- <div class="col-md-6"  style="color: rgb(44, 5, 5)"> --}}
+					<strong style="color: rgb(44, 5, 5);font-size:18px">CONTACT INFORMATION</strong>
+				{{-- </div> --}}
+				<div class="col-md-12">
 					<p>Name:
 						@if($info['name']=='')
-							<strong style="color:#fff">không có</strong>
+							<strong style="color:rgb(22, 21, 21)">không có</strong>
 						@else
-							<strong style="color:#fff">{{$info['name']}}</strong>
+							<strong style="color:rgb(19, 18, 18)">{{$info['name']}}</strong>
 						@endif
 					</strong></p>
 					<p>Phone:
 						@if($info['phone']=='')
-							<strong style="color:#fff">không có</strong>
+							<strong style="color:rgb(24, 22, 22)">không có</strong>
 						@else
-							<strong style="color:#fff">{{$info['phone']}}</strong>
+							<strong style="color:rgb(16, 16, 16)">{{$info['phone']}}</strong>
 						@endif
 					</strong></p>
 					<p>Email:
 						@if($info['email']=='')
-							<strong style="color:#fff">không có</strong>
+							<strong style="color:rgb(19, 19, 19)">không có</strong>
 						@else
-							<strong style="color:#fff">{{$info['email']}}</strong>
+							<strong style="color:rgb(10, 10, 10)">{{$info['email']}}</strong>
 						@endif
 					</strong></p>
-				</div> -->
+				</div>
 			</div>
 		</div>
 	</div>
