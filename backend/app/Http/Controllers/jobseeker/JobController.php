@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Validator;
+use Validator,Carbon\Carbon,Mail;
 class JobController extends Controller
 {
     //
@@ -223,8 +223,9 @@ class JobController extends Controller
         //
         try{
             $member = auth('sanctum')->user();
-            $job = Job::findOrFail($id);
 
+            $job = Job::findOrFail($id);
+            // dd($job);
             // check member apply
             $c_mid = Candidate::where([
                 ['member_id', '=', $member -> id],
@@ -246,6 +247,16 @@ class JobController extends Controller
                 if($request -> post('resume_online')) $candidate -> resume_online = $request -> post('resume_online');
                 $candidate -> save();
             }
+            $title_mail = 'CV app for "'. $job->title.'"';
+            $info_array = array(
+                'name' =>auth()->user()->name,
+                'email' =>auth()->user()->email,
+                'phone' =>auth()->user()->phone
+            );
+            Mail::send('candidate_apply',  ['job_name'=>$job->title,'info'=>$info_array] , function($message) use ($title_mail){
+                $message->to(auth()->user()->email)->subject($title_mail);//send this mail with subject
+                $message->from(auth()->user()->email,$title_mail);//send from this mail
+            });
 
             // if(!$member->resume){
             //     $resume = new Resume;

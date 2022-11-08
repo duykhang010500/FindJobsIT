@@ -46,7 +46,7 @@ class OrderController extends Controller
             $order->emp_id = auth()->user()->id;
             $order->comp_id = auth()->user()->company->id;
             $order->status = 0;
-            $order->code = substr(md5(microtime()),rand(0,26),5);
+            $order->code = substr(md5(microtime()),rand(0,26),8);
             // dd((new Order)->getNextId());
             if($data['cart'] && $data['cart'][0]){   // check cart
                 $total_cart = 0;
@@ -78,7 +78,7 @@ class OrderController extends Controller
             $order->save();
 
             //send mail confirm
-            $now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
+            $now = Carbon::now('Asia/Ho_Chi_Minh')->format('H:i:s d-m-Y');
             $title_mail = "Đơn hàng xác nhận ngày".' '.$now;
             $user = auth()->user();
             $data['email'] = $user->email;
@@ -94,6 +94,7 @@ class OrderController extends Controller
 
             $shipping_array = array(
                 'note' => $data['note'],
+                'comp_name' =>auth()->user()->company->name,
                 'name' =>auth()->user()->name,
                 'email' =>auth()->user()->email,
                 'phone' =>auth()->user()->phone,
@@ -104,13 +105,14 @@ class OrderController extends Controller
             //    'coupon_code' => $order->evoucher,
                'order_code' => $order->code,
                'total' => $order->total,
+               'now' => $now
             );
             // dd($shipping_array);
             Mail::send('order',  ['cart_array'=>$cart_array, 'shipping_array'=>$shipping_array ,'code'=>$ordercode_mail] , function($message) use ($title_mail,$data){
                 $message->to(auth()->user()->email)->subject($title_mail);//send this mail with subject
                 $message->from(auth()->user()->email,$title_mail);//send from this mail
             });
-           
+
             return response([
                 'message' => 'Order Success',
                 'order' => $order,

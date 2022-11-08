@@ -6,30 +6,66 @@
 	<title>Xác nhận đơn hàng</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+	<style type="text/css">
+		* {
+			font-family: Verdana, Arial, sans-serif;
+		}
+		table{
+			font-size: x-small;
+		}
+		tfoot tr td{
+			font-weight: bold;
+			font-size: x-small;
+		}
+		.gray {
+			background-color: lightgray
+		}
+	</style>
 </head>
 <body>
-	<div class="container" style="background: #222;border-radius: 12px;padding:15px;">
+	<div width="100%" style="background: #222;border-radius: 12px;padding:15px;">
 		<div class="col-md-12" >
 
 			<p style="text-align: center;color: #fff">Đây là email tự động. Quý khách vui lòng không trả lời email này.</p>
 			<div class="row" style="background: rgb(96, 152, 198);padding: 15px">
 
-				
 				<div class="col-md-6" style="text-align: center;color: #fff;font-weight: bold;font-size: 30px">
-					<h4 style="margin:0">CÔNG TY FindJobIT</h4>
-					<h6 style="margin:0">DỊCH VỤ KIẾM TIẾM ỨNG VIÊN CHUYÊN NGHIỆP</h5>
+					<h4 style="margin:0">XÁC NHẬN ĐƠN HÀNG</h4>
+					<h6 style="margin:0">Mã đơn hàng: {{$code['order_code']}}</h6>
+					<h6 style="margin:0">Ngày tạo: {{$code['now']}}</h6>
 				</div>
 
 				<div class="col-md-6 logo"  style="color: #fff">
 					<p>Chào bạn <strong style="color: #000;text-decoration: underline;">{{$shipping_array['name']}}</strong></p>
 				</div>
-				
+
 				<div class="col-md-12">
 					<p style="color:#fff;font-size: 17px;">Bạn hoặc một ai đó đã đăng ký dịch vụ tại shop với thông tin như sau:</p>
-					<h4 style="color: #000;text-transform: uppercase;">Thông tin đơn hàng</h4>
+					<h4 style="color: #000;text-transform: uppercase;">Thông tin dịch vụ đã mua</h4>
+					<p>Tên công ty : <strong style="text-transform: uppercase;color:#fff">{{$shipping_array['comp_name']}}</strong></p>
+					<p>Liên hệ :
+						@if($shipping_array['name']=='')
+							<strong style="color:#fff">Không có</strong>
+						@else
+							<strong style="color:#fff">{{$shipping_array['name']}}</strong>
+						@endif
+					</strong></p>
+					<p>Số điện thoại:
+						@if($shipping_array['phone']=='')
+							<strong style="color:#fff">không có</strong>
+						@else
+							<strong style="color:#fff">{{$shipping_array['phone']}}</strong>
+						@endif
+					</strong></p>
+					<p>Email:
+						@if($shipping_array['email']=='')
+							<strong style="color:#fff">không có</strong>
+						@else
+							<strong style="color:#fff">{{$shipping_array['email']}}</strong>
+						@endif
+					</strong></p>
 					<p>Mã đơn hàng : <strong style="text-transform: uppercase;color:#fff">{{$code['order_code']}}</strong></p>
-					{{-- <p>Mã khuyến mãi áp dụng : 
+					{{-- <p>Mã khuyến mãi áp dụng :
                         @if($code['coupon_code']=='')
 							<span style="text-transform: uppercase;color:#fff">Không có</span>
 						@else
@@ -38,62 +74,32 @@
                     </p> --}}
 					{{-- <p>Phí ship hàng : <strong style="text-transform: uppercase;color:#fff">{{$shipping_array['fee']}}</strong></p> --}}
 					<p>Dịch vụ : <strong style="text-transform: uppercase;color:#fff">Đặt hàng trực tuyến</strong></p>
-					
-					<h4 style="color: #000;text-transform: uppercase;">Thông tin người nhận</h4>
 
-					<p>Email : 
-						@if($shipping_array['email']=='')
-							<span style="color:#fff">không có</span>
-						@else
-							<span style="color:#fff">{{$shipping_array['email']}}</span>
-						@endif
-					</p>
+					<h4 style="color: #000;text-transform: uppercase;">Thông tin chi tiết</h4>
 
-					<p>Họ và tên người gửi : 
-						@if($shipping_array['name']=='')
-							<span style="color:#fff">Không có</span>
-						@else
-							<span style="color:#fff">{{$shipping_array['name']}}</span>
-						@endif
-					</p>
-					{{-- <p>Địa chỉ nhận hàng : 
-						@if($shipping_array['address']=='')
-							<span style="color:#fff">Không có</span>
-						@else
-							<span style="color:#fff">{{$shipping_array['address']}}</span>
-						@endif
-					</p> --}}
-					<p>Số điện thoại : 
-						@if($shipping_array['phone']=='')
-							<span style="color:#fff">không có</span>
-						@else
-							<span style="color:#fff">{{$shipping_array['phone']}}</span>
-						@endif
-					</p>	
-					<p>Ghi chú đơn hàng : 
+					<p>Ghi chú đơn hàng :
 						@if($shipping_array['note']=='')
 							<span style="color:#fff">Không có</span>
 						@else
 							<span style="color:#fff">{{$shipping_array['note']}}</span>
 						@endif
-					</p>	
+					</p>
 					<p>Hình thức thanh toán : <strong style="text-transform: uppercase;color:#fff">
 						@if($shipping_array['method']==1)
 							Chuyển khoản
 						@else
 							Online - VNPAY
 						@endif
-					
+
 					</strong></p>
 					<p style="color:#fff">Nếu thông tin người nhận hàng không có chúng tôi sẽ liên hệ với người đặt hàng để trao đổi thông tin về đơn hàng đã đặt.</p>
 
-
-
 					<h4 style="color: #000;text-transform: uppercase;">Sản phẩm đã đặt</h4>
 
-					<table class="table table-striped" style="border:1px">
-						<thead>
+					<table width="100%" class="table table-striped" style="border:1px">
+						<thead style="background-color: lightgray;">
 							<tr>
+								<th>STT</th>
 								<th>Sản phẩm</th>
 								<th>Giá tiền</th>
 								<th>Số lượng đặt</th>
@@ -103,22 +109,23 @@
 						</thead>
 
 						<tbody>
-							@php 
+							@php
 							$sub_total = 0;
-							@endphp	
+							@endphp
 
-							@foreach($cart_array as $cart)
+							@foreach($cart_array as $key => $cart)
 
-							@php 
+							@php
 							$sub_total = $cart['product_qty']*$cart['product_price'];
 
-							@endphp	
+							@endphp
 
 							<tr>
-								<td>{{$cart['product_name']}}</td>
-								<td>{{number_format($cart['product_price'],0,',','.')}}vnđ</td>
-								<td>{{$cart['product_qty']}}</td>
-								<td>{{number_format($sub_total,0,',','.')}}vnđ</td>
+								<th scope="row">{{$key+1}}</th>
+								<td	align="center">{{$cart['product_name']}}</td>
+								<td	align="center">{{number_format($cart['product_price'],0,',','.')}}vnđ</td>
+								<td	align="center">{{$cart['product_qty']}}</td>
+								<td	align="center">{{number_format($sub_total,0,',','.')}}vnđ</td>
 							</tr>
 							@endforeach
 
@@ -131,7 +138,7 @@
 
 				</div>
 
-				<p style="color:#fff">Mọi chi tiết xin liên hệ website tại : <a target="_blank" href="https://www.facebook.com/duykhang15">URL</a>, hoặc liên hệ qua số hotline : 19005689.Xin cảm ơn quý khách đã đặt hàng shop chúng tôi.</p>
+				<p style="color:#fff">Mọi chi tiết xin liên hệ website tại : <a target="_blank" href="https://www.facebook.com/duykhang15">URL</a>, hoặc liên hệ qua số hotline : 19005689.Xin cảm ơn quý khách đã đặt hàng công ty chúng tôi.</p>
 
 			</div>
 		</div>
