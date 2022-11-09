@@ -2,13 +2,15 @@ import { useState } from 'react';
 
 import {
   Card,
-  Typography,
+  Link,
+  Alert,
   Stack,
   TextField,
-  InputAdornment,
   IconButton,
-  Alert,
+  Typography,
+  InputAdornment,
 } from '@mui/material';
+
 import { LoadingButton } from '@mui/lab';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -60,7 +62,7 @@ const LoginForm = (props: Props) => {
   return (
     <Card sx={{ p: 10 }}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={4}>
+        <Stack spacing={3.5}>
           <Typography variant='h2' gutterBottom>{`Welcome back!`}</Typography>
           {error && <Alert severity='error'>{error}</Alert>}
           <Controller
@@ -116,6 +118,9 @@ const LoginForm = (props: Props) => {
               />
             )}
           />
+          <Link href='/employer/forgot-password' sx={{ textAlign: 'right' }}>
+            Forgot password?
+          </Link>
 
           <LoadingButton
             type='submit'

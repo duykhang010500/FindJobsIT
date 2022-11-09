@@ -44,3 +44,14 @@ export const findIndexByName1 = (name: string, arr: any[]) => {
   let idx = arr.findIndex((item: any) => item?.name == name);
   return idx;
 };
+
+export const getStatusOrder = (status: number) => {
+  switch (status) {
+    case 0:
+      return 'Pending';
+    case 1:
+      return 'Precessed';
+    case 2:
+      return 'Rejected';
+  }
+};

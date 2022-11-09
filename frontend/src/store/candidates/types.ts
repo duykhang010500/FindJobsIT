@@ -5,6 +5,12 @@ import {
   DELETE_SAVED_CANDIDATE,
   DELETE_SAVED_CANDIDATE_FAILURE,
   DELETE_SAVED_CANDIDATE_SUCCESS,
+  EMPLOYER_GET_SENT_MAIL_LIST,
+  EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
+  EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS,
+  EMPLOYER_SEND_MAIL,
+  EMPLOYER_SEND_MAIL_FAILURE,
+  EMPLOYER_SEND_MAIL_SUCCESS,
   GET_DETAIL_CANDIDATE,
   GET_DETAIL_CANDIDATE_FAILURE,
   GET_DETAIL_CANDIDATE_SUCCESS,
@@ -32,6 +38,8 @@ export interface ICandidatesState {
   candidate: null | any;
   resume: null | any;
   savedCandidates: null | any;
+  isSendMail: boolean;
+  mails: any;
 }
 
 export type GetListCandidatesForEmployer = {
@@ -155,6 +163,35 @@ export type DeleteSavedCandidateFailure = {
   payload: any;
 };
 
+export type EmployerSendMail = {
+  type: typeof EMPLOYER_SEND_MAIL;
+  payload: any;
+};
+
+export type EmployerSendMailSuccess = {
+  type: typeof EMPLOYER_SEND_MAIL_SUCCESS;
+  payload: any;
+};
+
+export type EmployerSendMailFailure = {
+  type: typeof EMPLOYER_SEND_MAIL_FAILURE;
+  payload: any;
+};
+
+export type EmployerGetSentMailList = {
+  type: typeof EMPLOYER_GET_SENT_MAIL_LIST;
+};
+
+export type EmployerGetSentMailListSuccess = {
+  type: typeof EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS;
+  payload: any;
+};
+
+export type EmployerGetSentMailListFailure = {
+  type: typeof EMPLOYER_GET_SENT_MAIL_LIST_FAILURE;
+  payload: any;
+};
+
 export type CandidatesActions =
   | GetListCandidatesForEmployer
   | GetListCandidatesForEmployerSuccess
@@ -180,4 +217,10 @@ export type CandidatesActions =
   | GetSavedCandidatesFailure
   | DeleteSavedCandidate
   | DeleteSavedCandidateSuccess
-  | DeleteSavedCandidateFailure;
+  | DeleteSavedCandidateFailure
+  | EmployerSendMail
+  | EmployerSendMailSuccess
+  | EmployerSendMailFailure
+  | EmployerGetSentMailList
+  | EmployerGetSentMailListSuccess
+  | EmployerGetSentMailListFailure;

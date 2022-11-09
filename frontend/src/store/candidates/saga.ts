@@ -5,6 +5,9 @@ import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
 import {
   adminGetCandidatesListSuccess,
+  employerGetSentListMailSuccess,
+  employerSendMailFailure,
+  employerSendMailSuccess,
   getDetailCandidateFailure,
   getDetailCandidateSuccess,
   getDetailResumeCandidateSuccess,
@@ -14,6 +17,8 @@ import {
 import {
   ADMIN_GET_CANDIDATES_LIST,
   DELETE_SAVED_CANDIDATE,
+  EMPLOYER_GET_SENT_MAIL_LIST,
+  EMPLOYER_SEND_MAIL,
   GET_DETAIL_CANDIDATE,
   GET_DETAIL_RESUME_CANDIDATE,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
@@ -26,7 +31,9 @@ import {
 function* getListCandidatesForEmployerSaga(): any {
   try {
     const response = yield call(employerServices.getCandidates);
-    yield put(getListCandidatesForEmployerSuccess(response.data.candidate));
+    yield put(
+      getListCandidatesForEmployerSuccess(response.data.candidate.reverse())
+    );
   } catch (err) {
     throw err;
   }
@@ -93,6 +100,28 @@ function* deleteSavedCandidateSaga({ payload }: any): any {
   } catch (err) {}
 }
 
+function* sendMailSaga({ payload }: any): any {
+  try {
+    const res = yield call(employerServices.sendMail, payload);
+    console.log('send mail res: ', res);
+    toast.success('Send mail successfully!');
+    yield put(employerSendMailSuccess({}));
+  } catch (err) {
+    toast.error('Send mail failure');
+    yield put(employerSendMailFailure(err));
+    console.log(err);
+  }
+}
+
+function* employerGetSentMailListSaga(): any {
+  try {
+    const res = yield call(employerServices.getSentMailList);
+    yield put(employerGetSentListMailSuccess(res.data.listMail.reverse()));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* candidatesSaga() {
   yield takeEvery(
     GET_LIST_CANDIDATES_FOR_EMPLOYER,
@@ -106,6 +135,8 @@ function* candidatesSaga() {
   yield takeEvery(SAVE_CANDIDATE, saveCandidateSaga);
   yield takeEvery(GET_SAVED_CANDIDATES, getSavedCandidatesSaga);
   yield takeEvery(DELETE_SAVED_CANDIDATE, deleteSavedCandidateSaga);
+  yield takeEvery(EMPLOYER_SEND_MAIL, sendMailSaga);
+  yield takeEvery(EMPLOYER_GET_SENT_MAIL_LIST, employerGetSentMailListSaga);
 }
 
 export default candidatesSaga;

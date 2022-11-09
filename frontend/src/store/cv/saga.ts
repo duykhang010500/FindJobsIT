@@ -11,6 +11,7 @@ import {
 
 import jobSeekerServices from '../../services/jobSeeker';
 import { toast } from 'react-toastify';
+import { getCurrentJobSeeker } from '../auth/action';
 
 function* getMyCVSaga(): any {
   try {
@@ -26,6 +27,7 @@ function* updateMyCVSaga({ payload: formData }: any): any {
     yield call(jobSeekerServices.updateCV, formData);
     toast.success('Update resume successfully!');
     yield put(getMyCV());
+    yield put(getCurrentJobSeeker());
   } catch (err) {
     yield put(updateMyCvFailure(err));
     toast.error('Err occur!');

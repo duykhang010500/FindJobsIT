@@ -12,6 +12,11 @@ import {
   GET_DETAIL_RESUME_CANDIDATE,
   GET_DETAIL_RESUME_CANDIDATE_SUCCESS,
   GET_DETAIL_RESUME_CANDIDATE_FAILURE,
+  EMPLOYER_SEND_MAIL,
+  EMPLOYER_SEND_MAIL_SUCCESS,
+  EMPLOYER_SEND_MAIL_FAILURE,
+  EMPLOYER_GET_SENT_MAIL_LIST,
+  EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS,
 } from './actionTypes';
 import { ICandidatesState, CandidatesActions } from './types';
 
@@ -21,6 +26,8 @@ const initialState: ICandidatesState = {
   resume: null,
   list: [],
   savedCandidates: [],
+  isSendMail: false,
+  mails: [],
 };
 
 const candidatesReducer = (state = initialState, action: CandidatesActions) => {
@@ -89,6 +96,39 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         resume: action.payload,
       };
     case GET_DETAIL_RESUME_CANDIDATE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case EMPLOYER_SEND_MAIL:
+      return {
+        ...state,
+        isSendMail: true,
+      };
+    case EMPLOYER_SEND_MAIL_SUCCESS:
+      return {
+        ...state,
+        isSendMail: false,
+      };
+    case EMPLOYER_SEND_MAIL_FAILURE:
+      return {
+        ...state,
+        isSendMail: false,
+
+        error: action.payload,
+      };
+    case EMPLOYER_GET_SENT_MAIL_LIST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        mails: action.payload,
+      };
+    case EMPLOYER_GET_SENT_MAIL_LIST:
       return {
         ...state,
         isLoading: false,

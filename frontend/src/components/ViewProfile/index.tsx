@@ -47,7 +47,10 @@ const ViewProfile = ({ resume }: Props) => {
           </HeadingStyle>
           <Box>
             <Stack direction='row' spacing={3}>
-              <Avatar sx={{ width: '100px', height: '100px' }} />
+              <Avatar
+                sx={{ width: '100px', height: '100px' }}
+                src={resume?.member?.avatar || 'none'}
+              />
               <Stack spacing={1}>
                 <Typography variant='h4'>{resume?.member?.fullname}</Typography>
                 <Stack direction='row' alignItems={'center'}>

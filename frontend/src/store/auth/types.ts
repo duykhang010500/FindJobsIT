@@ -1,4 +1,7 @@
 import {
+  EMPLOYER_FORGOT_PASSWORD,
+  EMPLOYER_FORGOT_PASSWORD_FAILURE,
+  EMPLOYER_FORGOT_PASSWORD_SUCCESS,
   GET_CURRENT_JOBSEEKER_SUCCESS,
   GET_INFO_ADMIN,
   GET_INFO_ADMIN_FAILURE,
@@ -25,6 +28,15 @@ import {
   UPDATE_INFO_EMPLOYER,
   UPDATE_INFO_EMPLOYER_FAILURE,
   UPDATE_INFO_EMPLOYER_SUCCESS,
+  EMPLOYER_RESET_PASSWORD,
+  EMPLOYER_RESET_PASSWORD_FAILURE,
+  EMPLOYER_RESET_PASSWORD_SUCCESS,
+  JOBSEEKER_FORGOT_PASSWORD,
+  JOBSEEKER_FORGOT_PASSWORD_SUCCESS,
+  JOBSEEKER_FORGOT_PASSWORD_FAILURE,
+  JOBSEEKER_RESET_PASSWORD,
+  JOBSEEKER_RESET_PASSWORD_SUCCESS,
+  JOBSEEKER_RESET_PASSWORD_FAILURE,
 } from './actionTypes';
 
 export interface IAuthState {
@@ -162,6 +174,66 @@ export type Logout = {
   type: typeof LOGOUT;
 };
 
+export type EmployerForgotPassword = {
+  type: typeof EMPLOYER_FORGOT_PASSWORD;
+  payload: any;
+};
+
+export type EmployerForgotPasswordSuccess = {
+  type: typeof EMPLOYER_FORGOT_PASSWORD_SUCCESS;
+  payload: any;
+};
+
+export type EmployerForgotPasswordFailure = {
+  type: typeof EMPLOYER_FORGOT_PASSWORD_FAILURE;
+  payload: any;
+};
+
+export type EmployerResetPassword = {
+  type: typeof EMPLOYER_RESET_PASSWORD;
+  payload: any;
+};
+
+export type EmployerResetPasswordSuccess = {
+  type: typeof EMPLOYER_RESET_PASSWORD_SUCCESS;
+  payload: any;
+};
+
+export type EmployerResetPasswordFailure = {
+  type: typeof EMPLOYER_RESET_PASSWORD_FAILURE;
+  payload: any;
+};
+
+export type JobSeekerForgotPassword = {
+  type: typeof JOBSEEKER_FORGOT_PASSWORD;
+  payload: any;
+};
+
+export type JobSeekerForgotPasswordSuccess = {
+  type: typeof JOBSEEKER_FORGOT_PASSWORD_SUCCESS;
+  payload: any;
+};
+
+export type JobSeekerForgotPasswordFailure = {
+  type: typeof JOBSEEKER_FORGOT_PASSWORD_FAILURE;
+  payload: any;
+};
+
+export type JobSeekerResetPassword = {
+  type: typeof JOBSEEKER_RESET_PASSWORD;
+  payload: any;
+};
+
+export type JobSeekerResetPasswordSuccess = {
+  type: typeof JOBSEEKER_RESET_PASSWORD_SUCCESS;
+  payload: any;
+};
+
+export type JobSeekerResetPasswordFailure = {
+  type: typeof JOBSEEKER_RESET_PASSWORD_FAILURE;
+  payload: any;
+};
+
 export type AuthActions =
   | RegisterJobSeeker
   | RegisterJobSeekerSuccess
@@ -187,4 +259,16 @@ export type AuthActions =
   | GetInfoAdmin
   | GetInfoAdminSuccess
   | GetInfoAdminFailure
-  | Logout;
+  | Logout
+  | EmployerForgotPassword
+  | EmployerForgotPasswordSuccess
+  | EmployerForgotPasswordFailure
+  | EmployerResetPassword
+  | EmployerResetPasswordSuccess
+  | EmployerResetPasswordFailure
+  | JobSeekerForgotPassword
+  | JobSeekerForgotPasswordSuccess
+  | JobSeekerForgotPasswordFailure
+  | JobSeekerResetPassword
+  | JobSeekerResetPasswordSuccess
+  | JobSeekerResetPasswordFailure;

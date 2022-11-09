@@ -82,7 +82,7 @@ const CompanyProfile = (props: Props) => {
       tax: info_company?.tax || '',
       website: info_company?.website || '',
       email: info_company?.email || '',
-      location: info_company?.location?.trim() || '',
+      location: info_company?.location || '',
       industry_id: info_company?.industry_id || '',
       content: info_company?.content || '',
     };
@@ -120,9 +120,7 @@ const CompanyProfile = (props: Props) => {
 
   const handleChangeFile = (e: any) => {
     console.log('onchange', e.target.files[0]);
-    if (
-      e.target.files[0].type == ('image/png' || 'image/jpeg' || 'image/jpg')
-    ) {
+    if (e.target.files[0].type == 'image/png' || 'image/jpeg' || 'image/jpg') {
       console.log('Right');
       if (e.target.files[0].size > 2 * 1024 * 1024) {
         setErrLogo('Please upload image < 2MB');
@@ -287,7 +285,7 @@ const CompanyProfile = (props: Props) => {
                 >
                   {locations.map((location: any) => {
                     return (
-                      <MenuItem key={location.id} value={location.name.trim()}>
+                      <MenuItem key={location.id} value={location.name}>
                         {location.name}
                       </MenuItem>
                     );

@@ -35,24 +35,25 @@ const sidebarData = [
     icon: <PeopleRoundedIcon />,
     // path: '/employer/hr/candidates',
     children: [
-      { title: 'Jobs by candidates', path: '/employer/hr/candidates' },
+      { title: 'Candidates application', path: '/employer/hr/candidates' },
       // { title: 'Saved candidates', path: '/employer/hr/saved-candidates' },
+      { title: 'History sent mail', path: '/employer/hr/mails' },
     ],
   },
-  // {
-  //   title: `Manage Services`,
-  //   icon: <TextSnippetIcon />,
-  //   children: [
-  //     {
-  //       title: `Active services`,
-  //       path: '/employer/hr/order/active',
-  //     },
-  //     // {
-  //     //   title: `Expire services`,
-  //     //   path: '/employer/hr/order/expire',
-  //     // },
-  //   ],
-  // },
+  {
+    title: `Manage Services`,
+    icon: <TextSnippetIcon />,
+    children: [
+      {
+        title: `Ordered services`,
+        path: '/employer/hr/order/active',
+      },
+      // {
+      //   title: `Expire services`,
+      //   path: '/employer/hr/order/expire',
+      // },
+    ],
+  },
   {
     title: 'Settings',
     icon: <SettingsIcon />,

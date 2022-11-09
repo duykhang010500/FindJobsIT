@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -92,7 +91,7 @@ const JobSaved = (props: Props) => {
                         {job?.job?.company?.name}
                       </Typography>
                       <Typography typography='body1'>
-                        {job?.job?.salary != 'Negotiate' ? (
+                        {job?.job?.salary !== 'Negotiate' ? (
                           <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
                         ) : (
                           <>{job?.job?.salary}</>

@@ -3,6 +3,12 @@ import {
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
   DELETE_SAVED_CANDIDATE,
+  EMPLOYER_GET_SENT_MAIL_LIST,
+  EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
+  EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS,
+  EMPLOYER_SEND_MAIL,
+  EMPLOYER_SEND_MAIL_FAILURE,
+  EMPLOYER_SEND_MAIL_SUCCESS,
   GET_DETAIL_CANDIDATE,
   GET_DETAIL_CANDIDATE_FAILURE,
   GET_DETAIL_CANDIDATE_SUCCESS,
@@ -154,3 +160,38 @@ export const deleteSavedCandidate = (id: any) => {
     payload: id,
   };
 };
+
+export const employerSendMail = (formData: any) => {
+  return {
+    type: EMPLOYER_SEND_MAIL,
+    payload: formData,
+  };
+};
+
+export const employerSendMailSuccess = (data: any) => {
+  return {
+    type: EMPLOYER_SEND_MAIL_SUCCESS,
+    payload: data,
+  };
+};
+
+export const employerSendMailFailure = (err: any) => {
+  return {
+    type: EMPLOYER_SEND_MAIL_FAILURE,
+    payload: err,
+  };
+};
+
+export const employerGetSentListMail = () => ({
+  type: EMPLOYER_GET_SENT_MAIL_LIST,
+});
+
+export const employerGetSentListMailSuccess = (mails: any) => ({
+  type: EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS,
+  payload: mails,
+});
+
+export const employerGetSentListMailFailure = (err: any) => ({
+  type: EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
+  payload: err,
+});

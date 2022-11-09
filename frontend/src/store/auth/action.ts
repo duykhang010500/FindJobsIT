@@ -28,6 +28,18 @@ import {
   UPDATE_INFO_EMPLOYER,
   UPDATE_INFO_EMPLOYER_SUCCESS,
   UPDATE_INFO_EMPLOYER_FAILURE,
+  EMPLOYER_FORGOT_PASSWORD,
+  EMPLOYER_FORGOT_PASSWORD_SUCCESS,
+  EMPLOYER_FORGOT_PASSWORD_FAILURE,
+  EMPLOYER_RESET_PASSWORD,
+  EMPLOYER_RESET_PASSWORD_FAILURE,
+  EMPLOYER_RESET_PASSWORD_SUCCESS,
+  JOBSEEKER_FORGOT_PASSWORD_SUCCESS,
+  JOBSEEKER_FORGOT_PASSWORD,
+  JOBSEEKER_FORGOT_PASSWORD_FAILURE,
+  JOBSEEKER_RESET_PASSWORD,
+  JOBSEEKER_RESET_PASSWORD_SUCCESS,
+  JOBSEEKER_RESET_PASSWORD_FAILURE,
 } from './actionTypes';
 import { IUserLogin } from './types';
 
@@ -177,4 +189,64 @@ export const getInfoAdminFailure = () => ({
 
 export const logout = () => ({
   type: LOGOUT,
+});
+
+export const employerForgotPassword = (formData: any) => ({
+  type: EMPLOYER_FORGOT_PASSWORD,
+  payload: formData,
+});
+
+export const employerForgotPasswordSuccess = (data: any) => ({
+  type: EMPLOYER_FORGOT_PASSWORD_SUCCESS,
+  payload: data,
+});
+
+export const employerForgotPasswordFailure = (err: any) => ({
+  type: EMPLOYER_FORGOT_PASSWORD_FAILURE,
+  payload: err,
+});
+
+export const employerResetPassword = (token: any, formData: any) => ({
+  type: EMPLOYER_RESET_PASSWORD,
+  payload: { token, formData },
+});
+
+export const employerResetPasswordSuccess = (data: any) => ({
+  type: EMPLOYER_RESET_PASSWORD_SUCCESS,
+  payload: data,
+});
+
+export const employerResetPasswordFailure = (err: any) => ({
+  type: EMPLOYER_RESET_PASSWORD_FAILURE,
+  payload: err,
+});
+
+export const jobSeekerForgotPassword = (formData: any) => ({
+  type: JOBSEEKER_FORGOT_PASSWORD,
+  payload: formData,
+});
+
+export const jobSeekerForgotPasswordSuccess = (data: any) => ({
+  type: JOBSEEKER_FORGOT_PASSWORD_SUCCESS,
+  payload: data,
+});
+
+export const jobSeekerForgotPasswordFailure = (err: any) => ({
+  type: JOBSEEKER_FORGOT_PASSWORD_FAILURE,
+  payload: err,
+});
+
+export const jobSeekerResetPassword = (token: any, formData: any) => ({
+  type: JOBSEEKER_RESET_PASSWORD,
+  payload: { token, formData },
+});
+
+export const jobSeekerResetPasswordSuccess = (data: any) => ({
+  type: JOBSEEKER_RESET_PASSWORD_SUCCESS,
+  payload: data,
+});
+
+export const jobSeekerResetPasswordFailure = (err: any) => ({
+  type: JOBSEEKER_RESET_PASSWORD_FAILURE,
+  payload: err,
 });

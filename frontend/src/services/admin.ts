@@ -1,3 +1,4 @@
+import { NumberSchema } from 'yup';
 import { IUserLogin } from '../store/auth/types';
 import { IIndustry } from '../store/industries/types';
 import { ILocation } from '../store/location/types';
@@ -57,6 +58,13 @@ const adminServices = {
   },
   deleteIndustry: (id: number) => {
     return axiosInstance.delete(`/admin/job/industry/${id}`);
+  },
+  //order
+  getOrderedServices: () => {
+    return axiosInstance.get('/admin/orders');
+  },
+  changeStatusOrder: (orderId: number, status: number) => {
+    return axiosInstance.post(`/admin/order/${orderId}?status=${status}`);
   },
 };
 

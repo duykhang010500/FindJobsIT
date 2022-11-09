@@ -11,6 +11,10 @@ import {
   GET_INFO_ADMIN,
   UPDATE_INFO_EMPLOYER,
   GET_CURRENT_JOBSEEKER,
+  EMPLOYER_FORGOT_PASSWORD,
+  EMPLOYER_RESET_PASSWORD,
+  JOBSEEKER_FORGOT_PASSWORD,
+  JOBSEEKER_RESET_PASSWORD,
 } from './actionTypes';
 
 import {
@@ -30,6 +34,10 @@ import {
   getCurrentJobSeeker,
   getCurrentJobSeekerSuccess,
   updateInfoEmployerFailure,
+  employerForgotPasswordSuccess,
+  employerResetPasswordSuccess,
+  jobSeekerForgotPasswordSuccess,
+  jobSeekerResetPasswordSuccess,
 } from './action';
 
 import adminServices from '../../services/admin';
@@ -43,7 +51,7 @@ function* jobSeekerRegisterSaga({ payload: { formData, navigate } }: any): any {
     console.log('res: ', res);
     if (res.status === 200) {
       yield put(jobSeekerRegisterSuccess());
-      toast.success('Register successfully!');
+      toast.success('Please check email to verify account!');
       navigate('/login');
     }
   } catch (err) {
@@ -152,6 +160,51 @@ function* getInfoAdminSaga(): any {
   }
 }
 
+function* employerForgotPasswordSaga({ payload }: any): any {
+  try {
+    const res = yield call(employerServices.forgotPassword, payload);
+    yield put(employerForgotPasswordSuccess(res.data.message));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* employerResetPasswordSaga({
+  payload: { token, formData },
+}: any): any {
+  try {
+    console.log(token, formData);
+    const res = yield call(employerServices.resetPassword, token, formData);
+    toast.success('Reset password successfully!');
+    yield put(employerResetPasswordSuccess(res.data.message));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* jobSeekerForgotPasswordSaga({ payload }: any): any {
+  try {
+    console.log('payload: ', payload);
+    const res = yield call(jobSeekerServices.forgotPassword, payload);
+    yield put(jobSeekerForgotPasswordSuccess(res.data.message));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* jobSeekerResetPasswordSaga({
+  payload: { token, formData },
+}: any): any {
+  try {
+    console.log(token, formData);
+    const res = yield call(jobSeekerServices.resetPassword, token, formData);
+    toast.success('Reset password successfully!');
+    yield put(jobSeekerResetPasswordSuccess(res.data.message));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* authSaga() {
   yield takeEvery(REGISTER_JOBSEEKER, jobSeekerRegisterSaga);
   yield takeEvery(LOGIN_JOBSEEKER, jobSeekerLoginSaga);
@@ -162,6 +215,10 @@ function* authSaga() {
   yield takeEvery(LOGIN_ADMIN, adminLogin);
   yield takeEvery(GET_INFO_ADMIN, getInfoAdminSaga);
   yield takeEvery(UPDATE_INFO_EMPLOYER, updateInfoEmployerSaga);
+  yield takeEvery(EMPLOYER_FORGOT_PASSWORD, employerForgotPasswordSaga);
+  yield takeEvery(EMPLOYER_RESET_PASSWORD, employerResetPasswordSaga);
+  yield takeEvery(JOBSEEKER_FORGOT_PASSWORD, jobSeekerForgotPasswordSaga);
+  yield takeEvery(JOBSEEKER_RESET_PASSWORD, jobSeekerResetPasswordSaga);
 }
 
 export default authSaga;

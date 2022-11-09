@@ -9,6 +9,15 @@ const employerServices = {
   login: (formData: IUserLogin) => {
     return axiosInstance.post('/employer/login', formData);
   },
+  forgotPassword: (formData: any) => {
+    return axiosInstance.post('/employer/reset-password', formData);
+  },
+  resetPassword: (token: any, formData: any) => {
+    return axiosInstance.put(
+      `/employer/reset-password?token=${token}`,
+      formData
+    );
+  },
   getMyInfo: () => {
     return axiosInstance.get('/employer/info');
   },
@@ -46,9 +55,25 @@ const employerServices = {
   updateStatus: (id: any, formData: any) => {
     return axiosInstance.post('/employer/hr/candidate/status/' + id, formData);
   },
+  sendMail: (formData: any) => {
+    return axiosInstance.post('/employer/hr/send-mail', formData);
+  },
+  getSentMailList: () => {
+    return axiosInstance.get('/employer/hr/mail-candidates');
+  },
+
   //services
   getListServices: () => {
     return axiosInstance.get('/employer/services');
+  },
+  orderServices: (formData: any) => {
+    return axiosInstance.post('/employer/confirm-order', formData);
+  },
+  getOrderedServices: () => {
+    return axiosInstance.get('/employer/hr/orders/active');
+  },
+  getDetailOrderedService: (id: any) => {
+    return axiosInstance.get('/employer/hr/orders/active/' + id);
   },
 };
 

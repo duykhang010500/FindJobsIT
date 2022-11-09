@@ -48,6 +48,11 @@ import EmployerViewProfileCandidate from '../pages/employer/candidates/EmployerV
 import JobSaved from '../pages/jobseeker/JobSeekerJobs/JobSaved';
 import EmployerCandidateSaved from '../pages/employer/candidates/EmployerCandidateSaved';
 import ViewResume from '../pages/jobseeker/ViewResume';
+import ForgotPassword from '../pages/auth/common/ForgotPassword';
+import ResetPassword from '../pages/auth/common/ResetPassword';
+import EmployerCheckout from '../pages/employer/EmployerCheckout';
+import EmployerCandidateHistorySentMail from '../pages/employer/candidates/EmployerCandidateHistorySentMail';
+import EmployerOrderSuccess from '../pages/employer/EmployerOrderSuccess';
 
 type Props = {};
 
@@ -63,6 +68,8 @@ const Router = (props: Props) => {
         { path: 'login', element: <JobSeekerLogin /> },
         { path: 'job/:id', element: <JobDescription /> },
         { path: 'company/:id' },
+        { path: 'reset-password', element: <ResetPassword /> },
+        { path: 'forgot-password', element: <ForgotPassword /> },
         {
           path: 'my',
           element: <JobSeekerDashboardLayout />,
@@ -86,7 +93,14 @@ const Router = (props: Props) => {
         { element: <Login />, path: 'login' },
         { element: <Register />, path: 'register' },
         { element: <EmployerHomePage />, index: true },
+        { element: <ForgotPassword />, path: 'forgot-password' },
+        { element: <ResetPassword />, path: 'reset-password' },
         { path: 'services', element: <Services /> },
+        { path: 'services/checkout', element: <EmployerCheckout /> },
+        {
+          path: 'services/order-success/:id',
+          element: <EmployerOrderSuccess />,
+        },
         { path: 'candidates/search', element: <SearchCandidates /> },
         { path: 'candidates/:id', element: <EmployerViewProfileCandidate /> },
       ],
@@ -105,6 +119,10 @@ const Router = (props: Props) => {
         { path: 'my', element: <MyProfile /> },
         { path: 'company', element: <CompanyProfile /> },
         { path: 'saved-candidates', element: <EmployerCandidateSaved /> },
+        {
+          path: 'mails',
+          element: <EmployerCandidateHistorySentMail />,
+        },
       ],
     },
     {

@@ -29,6 +29,7 @@ import { phoneRegExp } from '../../../utils/validate';
 import ExperienceInformation from './ExperienceInformation';
 import { MinimalButton } from '@react-pdf-viewer/core';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { uploadSingleFile } from '../../../utils/upload';
 
 type Props = {};
 
@@ -37,7 +38,7 @@ const ProfileForm = (props: Props) => {
 
   const navigate = useNavigate();
 
-  const { cv } = useSelector((state: AppState) => state.cv);
+  const { cv, isLoading } = useSelector((state: AppState) => state.cv);
 
   const { locations } = useSelector((state: AppState) => state.location);
 
@@ -125,6 +126,7 @@ const ProfileForm = (props: Props) => {
 
   const defaultValues = useMemo(
     () => ({
+      avatar: cv?.member?.avatar || 'none',
       fullname: cv?.member?.fullname || currentUser?.fullname || '',
       email: currentUser?.email || '',
       phone: cv?.member?.phone || '',
@@ -191,25 +193,35 @@ const ProfileForm = (props: Props) => {
     reset(defaultValues);
   }, [defaultValues, reset, cv]);
 
-  const onSubmit = (formValues: any) => {
-    const formatValues = {
-      ...formValues,
-      city: formValues?.city?.name?.trim(),
-      nationality: formValues?.nationality?.name?.trim(),
-      birthday: dayjs(formValues.birthday).format('YYYY/MM/DD'),
-      edu_date_start: dayjs(formValues.edu_date_start).format('YYYY/MM/DD'),
-      edu_date_end: formValues.edu_date_end
-        ? dayjs(formValues.edu_date_end).format('YYYY/MM/DD')
-        : null,
-      rexp_date_start: dayjs(formValues.rexp_date_start).format('YYYY/MM/DD'),
-      rexp_date_end: formValues.rexp_date_end
-        ? dayjs(formValues.rexp_date_end).format('YYYY/MM/DD')
-        : null,
-      industries: getIdFromArr(formValues.industries),
-      locations: getIdFromArr(formValues.locations),
-    };
-    console.log(formatValues);
-    dispatch(updateMyCv(formatValues));
+  const onSubmit = async (formValues: any) => {
+    try {
+      let avatar = formValues.avatar;
+      if (formValues.avatar !== 'none') {
+        avatar = await uploadSingleFile(formValues.avatar);
+      }
+
+      const formatValues = {
+        ...formValues,
+        city: formValues?.city?.name?.trim(),
+        nationality: formValues?.nationality?.name?.trim(),
+        birthday: dayjs(formValues.birthday).format('YYYY/MM/DD'),
+        edu_date_start: dayjs(formValues.edu_date_start).format('YYYY/MM/DD'),
+        edu_date_end: formValues.edu_date_end
+          ? dayjs(formValues.edu_date_end).format('YYYY/MM/DD')
+          : null,
+        rexp_date_start: dayjs(formValues.rexp_date_start).format('YYYY/MM/DD'),
+        rexp_date_end: formValues.rexp_date_end
+          ? dayjs(formValues.rexp_date_end).format('YYYY/MM/DD')
+          : null,
+        industries: getIdFromArr(formValues.industries),
+        locations: getIdFromArr(formValues.locations),
+        avatar: avatar,
+      };
+      console.log(formatValues);
+      dispatch(updateMyCv(formatValues));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -237,6 +249,7 @@ const ProfileForm = (props: Props) => {
             type='submit'
             variant='contained'
             startIcon={<SaveIcon />}
+            loading={isLoading}
           >
             Save changes
           </LoadingButton>

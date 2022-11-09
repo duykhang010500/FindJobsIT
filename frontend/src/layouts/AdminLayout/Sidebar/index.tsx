@@ -43,8 +43,8 @@ const sidebarData = [
     icon: <DescriptionIcon />,
     path: '/admin/services',
     children: [
-      // { title: `Orders`, path: '/admin/services/orders' },
-      { title: `List services`, path: '/admin/services/list' },
+      { title: `List of services`, path: '/admin/services/list' },
+      { title: `Orders`, path: '/admin/services/orders' },
     ],
   },
   {
@@ -75,7 +75,7 @@ const Sidebar = (props: Props) => {
   return (
     <Box
       sx={{
-        width: '300px',
+        width: '320px',
         padding: '20px',
         display: 'flex',
         alignItems: 'center',

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 
 import {
+  Alert,
   Card,
   Stack,
   Radio,
@@ -15,6 +16,9 @@ import {
   Autocomplete,
   FormHelperText,
   FormControlLabel,
+  styled,
+  Tooltip,
+  Avatar,
 } from '@mui/material';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -26,6 +30,10 @@ import { AppState } from '../../../store/reducer';
 import { Nationalities } from '../../../utils/defaultValues';
 import { Gender } from '../../../models/gender';
 import { Marital } from '../../../models/marital';
+import UploadAvatar from '../../../components/UploadAvatar';
+import Image from '../../../components/Image';
+
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 
 type Props = {
   control: any;
@@ -43,12 +51,68 @@ const maritalOptions = [
   { label: 'Married', id: 2 },
 ];
 
+const AvatarUploadWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+  margin: 'auto',
+  padding: '5px',
+  width: '144px',
+  height: '144px',
+  borderRadius: '50%',
+  boxShadow: '0px 2px 4px 0px rgba(0, 0, 0, 0.12)',
+  '& > div': {
+    width: '100%',
+    height: '100%',
+  },
+});
+
+const UploadButton = styled('label')({
+  zIndex: 2,
+  top: -5,
+  right: 2,
+  width: 35,
+  height: 35,
+  borderRadius: '100%',
+  backgroundColor: '#fff',
+  position: 'absolute',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  boxShadow: '0px 2px 4px 0px rgba(0,0,0,0.12)',
+});
+
 const ProfileInformation = ({ control, setValue, getValues }: Props) => {
+  const [avt, setAvt] = useState<any>();
+
+  const [errorAvt, setErrorAvt] = useState<string>('');
+
   const [open, setOpen] = useState<boolean>(true);
 
   const { locations } = useSelector((state: AppState) => state.location);
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
+
+  const handleChangeAvatar = (e: any) => {
+    const supportMineType = ['jpeg', 'png', 'jpg'];
+
+    const file = e.target.files[0];
+
+    if (!supportMineType.includes(file.type.split('/')[1])) {
+      setErrorAvt('Incorrect file type!');
+      return;
+    }
+
+    if (file.size > 1 * 1024 * 1024) {
+      setErrorAvt('Image must be < 1MB!');
+      return;
+    }
+    setAvt(file);
+
+    setValue('avatar', e.target.files[0]);
+  };
 
   return (
     <Card sx={{ p: 3 }}>
@@ -70,6 +134,42 @@ const ProfileInformation = ({ control, setValue, getValues }: Props) => {
       </Stack>
       <Collapse in={open}>
         <Stack spacing={4} sx={{ mt: 3 }}>
+          <div>
+            <AvatarUploadWrapper>
+              <input
+                id='upload'
+                type='file'
+                style={{ display: 'none' }}
+                onChange={handleChangeAvatar}
+              />
+              <Tooltip title='Upload avatar' placement='top'>
+                <UploadButton htmlFor='upload' onClick={() => setErrorAvt('')}>
+                  <ModeEditOutlineIcon sx={{ fontSize: '17px' }} />
+                </UploadButton>
+              </Tooltip>
+              {currentUser?.avatar !== 'none' && !avt ? (
+                <Avatar src={currentUser?.avatar || 'none'} />
+              ) : avt ? (
+                <Image
+                  alt='avt'
+                  src={URL.createObjectURL(avt)}
+                  sx={{ borderRadius: '50%' }}
+                />
+              ) : (
+                <Avatar />
+              )}
+            </AvatarUploadWrapper>
+            <Typography
+              variant='subtitle2'
+              sx={{ color: 'silver', textAlign: 'center', marginTop: '10px' }}
+            >
+              Allowed *.jpg, *.png, *.jpge
+              <br />
+              {`File size < 1MB`}
+            </Typography>
+          </div>
+          {errorAvt && <Alert severity='error'>{errorAvt}</Alert>}
+
           <Stack direction='row' spacing={4}>
             <Controller
               name='fullname'

@@ -11,6 +11,14 @@ const jobSeekerServices = {
   getCurrentJobSeeker: () => {
     return axiosInstance.get('/info');
   },
+  forgotPassword: (formData: any) => {
+    return axiosInstance.post('/reset-password', formData);
+  },
+  resetPassword: (token: any, formData: any) => {
+    return axiosInstance.put(`/reset-password?token=${token}`, formData);
+  },
+
+  //job
   getJobsList: () => {
     return axiosInstance.get('/jobs');
   },

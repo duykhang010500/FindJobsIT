@@ -129,6 +129,9 @@ const JobSeekerLoginForm = (props: Props) => {
               />
             )}
           />
+          <Link href='/forgot-password' sx={{ textAlign: 'right' }}>
+            Forgot password?
+          </Link>
           <LoadingButton
             type='submit'
             variant='contained'

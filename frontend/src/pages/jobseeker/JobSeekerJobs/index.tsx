@@ -14,6 +14,7 @@ import {
   TablePagination,
   Stack,
   Link,
+  Avatar,
 } from '@mui/material';
 
 import { AppState } from '../../../store/reducer';
@@ -21,6 +22,8 @@ import { getJobsApplied } from '../../../store/jobs/actions';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Image from '../../../components/Image';
+
+import BusinessIcon from '@mui/icons-material/Business';
 
 type Props = {};
 
@@ -52,17 +55,31 @@ const JobSeekerJobs = (props: Props) => {
               <TableRow key={job?.id}>
                 <TableCell>
                   <Stack direction='row' spacing={1} alignItems='center'>
-                    <Image
-                      alt='logo'
-                      src={job?.company?.logo}
-                      sx={{
-                        width: 80,
-                        height: 80,
-                        border: '1px solid #d9d9d9',
-                        padding: '4px',
-                        borderRadius: '8px',
-                      }}
-                    />
+                    {job?.company?.logo ? (
+                      <Image
+                        alt='logo'
+                        src={job?.company?.logo}
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          border: '1px solid #d9d9d9',
+                          padding: '4px',
+                          borderRadius: '8px',
+                        }}
+                      />
+                    ) : (
+                      <Avatar
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          border: '1px solid #d9d9d9',
+                          padding: '4px',
+                          borderRadius: '8px',
+                        }}
+                      >
+                        <BusinessIcon />
+                      </Avatar>
+                    )}
                     <Stack>
                       <Link
                         color='#1890ff'
@@ -82,7 +99,9 @@ const JobSeekerJobs = (props: Props) => {
                   {dayjs(job?.created_at).format('DD/MM/YYYY h:mm A')}
                 </TableCell>
                 <TableCell>
-                  {!job?.status ? 'Inprogress' : job?.status}
+                  {!job?.status || job?.status === 'New'
+                    ? 'Inprogress'
+                    : job?.status}
                 </TableCell>
               </TableRow>
             );

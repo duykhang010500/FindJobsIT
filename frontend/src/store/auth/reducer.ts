@@ -1,4 +1,7 @@
 import {
+  EMPLOYER_FORGOT_PASSWORD,
+  EMPLOYER_FORGOT_PASSWORD_FAILURE,
+  EMPLOYER_FORGOT_PASSWORD_SUCCESS,
   GET_CURRENT_JOBSEEKER_SUCCESS,
   GET_INFO_ADMIN_SUCCESS,
   GET_INFO_EMPLOYER_SUCCESS,
@@ -21,6 +24,15 @@ import {
   UPDATE_INFO_EMPLOYER,
   UPDATE_INFO_EMPLOYER_FAILURE,
   UPDATE_INFO_EMPLOYER_SUCCESS,
+  EMPLOYER_RESET_PASSWORD,
+  EMPLOYER_RESET_PASSWORD_FAILURE,
+  EMPLOYER_RESET_PASSWORD_SUCCESS,
+  JOBSEEKER_RESET_PASSWORD_FAILURE,
+  JOBSEEKER_RESET_PASSWORD_SUCCESS,
+  JOBSEEKER_RESET_PASSWORD,
+  JOBSEEKER_FORGOT_PASSWORD_FAILURE,
+  JOBSEEKER_FORGOT_PASSWORD_SUCCESS,
+  JOBSEEKER_FORGOT_PASSWORD,
 } from './actionTypes';
 import { AuthActions, IAuthState } from './types';
 
@@ -169,6 +181,70 @@ const authReducer = (state = initialState, action: AuthActions) => {
         ...state,
         currentUser: null,
         accessToken: null,
+      };
+    case EMPLOYER_FORGOT_PASSWORD:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EMPLOYER_FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case EMPLOYER_FORGOT_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case EMPLOYER_RESET_PASSWORD:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EMPLOYER_RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case EMPLOYER_RESET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case JOBSEEKER_FORGOT_PASSWORD:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case JOBSEEKER_FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case JOBSEEKER_FORGOT_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+    case JOBSEEKER_RESET_PASSWORD:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case JOBSEEKER_RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case JOBSEEKER_RESET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
       };
     default:
       return state;

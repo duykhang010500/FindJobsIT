@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -13,6 +13,7 @@ import { searchCandidate } from '../../store/candidates/action';
 import { getIdFromArr } from '../../utils/convert';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
+import { employerGetOrderedServices } from '../../store/services/actions';
 
 type Props = {};
 
@@ -48,29 +49,33 @@ const SearchCandidates = (props: Props) => {
       .max(100, 'Exp from maximum 100'),
   });
 
-  const defaultValues = {
-    locations: [],
-    industries: [],
-    degree: '',
-    keywords: '',
-    level: '',
-    language: '',
-    nationality: '',
-    resume_update: '',
-    salary_unit: '',
-    salary_from: 0,
-    salary_to: 0,
-    exp_from: 0,
-    exp_to: 0,
-    age_from: 0,
-    age_to: 0,
-  };
+  const defaultValues = useMemo(
+    () => ({
+      locations: [],
+      industries: [],
+      degree: '',
+      keywords: '',
+      level: '',
+      language: '',
+      nationality: '',
+      resume_update: '',
+      salary_unit: '',
+      salary_from: 0,
+      salary_to: 0,
+      exp_from: 0,
+      exp_to: 0,
+      age_from: 0,
+      age_to: 0,
+    }),
+    []
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(searchCandidate(defaultValues));
-  }, []);
+    dispatch(employerGetOrderedServices());
+  }, [dispatch, defaultValues]);
 
   const { control, handleSubmit, reset } = useForm({
     mode: 'onChange',

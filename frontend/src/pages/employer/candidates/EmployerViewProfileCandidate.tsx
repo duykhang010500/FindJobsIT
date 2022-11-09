@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { Typography, Box, Skeleton, Stack, Button } from '@mui/material';
+import { Typography, Box, Skeleton, Stack } from '@mui/material';
 import ViewProfile from '../../../components/ViewProfile';
 import { getDetailResumeCandidate } from '../../../store/candidates/action';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
-
-import DownloadIcon from '@mui/icons-material/Download';
-
-import SaveIcon from '@mui/icons-material/Save';
 
 type Props = {};
 
@@ -26,7 +22,7 @@ const EmployerViewProfileCandidate = (props: Props) => {
 
   useEffect(() => {
     dispatch(getDetailResumeCandidate(Number(id)));
-  }, [id]);
+  }, [dispatch, id]);
 
   if (isLoading) {
     return (

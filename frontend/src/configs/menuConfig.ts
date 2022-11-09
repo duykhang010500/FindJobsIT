@@ -6,7 +6,7 @@ const jobSeekerMenu = [
 
 const employerMenu = [
   { title: 'Home', to: '/employer' },
-  // { title: 'Services', to: '/employer/services' },
+  { title: 'Services', to: '/employer/services' },
   { title: 'Find candidate', to: '/employer/candidates/search' },
 ];
 

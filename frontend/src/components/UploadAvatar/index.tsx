@@ -10,6 +10,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 type Props = {
   handleChange?: any;
   avt?: any;
+  isShowAvatar?: any;
 };
 
 const AvatarUploadWrapper = styled('div')({

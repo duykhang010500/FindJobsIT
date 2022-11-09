@@ -138,7 +138,7 @@ const Header: FC<Props> = () => {
                           width: 30,
                           height: 30,
                         }}
-                        src={currentUser?.info?.avatar}
+                        src={currentUser?.info?.avatar || currentUser?.avatar}
                       />
                     </IconButton>
                     <Popover

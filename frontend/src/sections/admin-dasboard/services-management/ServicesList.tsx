@@ -61,32 +61,36 @@ const ServicesList = (props: Props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Day(s)</TableCell>
-                <TableCell>Unit price</TableCell>
-                <TableCell>Discount</TableCell>
-                <TableCell>Created at</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell align='left'>Name</TableCell>
+                <TableCell align='left'>Description</TableCell>
+                {/* <TableCell align='center'>Day(s)</TableCell> */}
+                <TableCell align='right'>Unit price</TableCell>
+                {/* <TableCell>Discount</TableCell> */}
+                <TableCell align='center'>Created at</TableCell>
+                {/* <TableCell>Status</TableCell> */}
                 <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {list.map((item: any) => (
                 <TableRow key={item.id}>
-                  <TableCell>
+                  <TableCell align='left'>
                     <Typography variant='subtitle1'>{item.name}</Typography>
                   </TableCell>
-                  <TableCell sx={{ width: '20%' }}>{item.note}</TableCell>
-                  <TableCell align='center'>{item.days}</TableCell>
-                  <TableCell>{numberWithCommas(item.price)}</TableCell>
-                  <TableCell align='center'>{item.discount}%</TableCell>
-                  <TableCell>
+                  <TableCell align='left' sx={{ width: '30%' }}>
+                    {item.note}
+                  </TableCell>
+                  {/* <TableCell align='center'>{item.days}</TableCell> */}
+                  <TableCell align='right'>
+                    {numberWithCommas(item.price)}
+                  </TableCell>
+                  {/* <TableCell align='center'>{item.discount}%</TableCell> */}
+                  <TableCell align='center'>
                     {dayjs(item.created_at).format('DD/MM/YYYY')}
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <StatusBadge />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Tooltip title='Edit' placement='top'>
                       <IconButton
@@ -110,11 +114,11 @@ const ServicesList = (props: Props) => {
         </TableContainer>
 
         <TablePagination
-          rowsPerPageOptions={[5, 10, 20]}
+          rowsPerPageOptions={[20, 40, 60]}
           component='div'
-          count={10}
-          rowsPerPage={5}
-          page={1}
+          count={60}
+          rowsPerPage={20}
+          page={0}
           onPageChange={() => {}}
           onRowsPerPageChange={() => {}}
         />

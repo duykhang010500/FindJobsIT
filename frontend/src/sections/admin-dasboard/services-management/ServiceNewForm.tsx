@@ -69,10 +69,10 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
   const schema = yup.object({
     name: yup.string().required('Name is required'),
     note: yup.string().required('Description is required'),
+    price: yup.number().moreThan(0, 'Price must be greater than 0'),
     // service_type: yup.string().required('Name is required'),
-    days: yup.number().moreThan(0, 'Day should not be 0'),
+    // days: yup.number().moreThan(0, 'Day should not be 0'),
     // priority: yup.string().required('Name is required'),
-    price: yup.number().moreThan(0, 'Price should not be 0'),
     // discount: yup.number().required('Name is required'),
   });
 
@@ -134,7 +134,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                   />
                 )}
               />
-              <Controller
+              {/* <Controller
                 name='days'
                 control={control}
                 render={({ field, fieldState: { error } }) => (
@@ -146,7 +146,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                     helperText={error?.message}
                   />
                 )}
-              />
+              /> */}
             </Stack>
           </Grid>
           <Grid item md={6}>
@@ -164,7 +164,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                   />
                 )}
               />
-              <Controller
+              {/* <Controller
                 name='discount'
                 control={control}
                 render={({ field, fieldState: { error } }) => (
@@ -176,7 +176,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                     helperText={error?.message}
                   />
                 )}
-              />
+              /> */}
               <FormControlLabel
                 label={`Status`}
                 control={

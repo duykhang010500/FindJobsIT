@@ -157,7 +157,7 @@ const ApplyForm = (props: Props) => {
       <DialogContent>
         <Divider sx={{ mb: 3 }} />
         <Stack alignItems='center' spacing={2}>
-          <Avatar sx={{ width: 55, height: 55 }} />
+          <Avatar sx={{ width: 55, height: 55 }} src={currentUser?.avatar} />
           <Typography variant='h5'>{currentUser?.fullname}</Typography>
           <Typography variant='body2' align='center'>
             <Typography sx={{ fontWeight: 500 }} component='span'>
