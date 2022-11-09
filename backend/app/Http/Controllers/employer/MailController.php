@@ -39,7 +39,9 @@ class MailController extends Controller
             'apply_id' =>  $request->apply_id,
         ];
 
-        Mail::to(auth()->user()->email)->send(new ContactMail($data));
+        // Mail::to(auth()->user()->email)->send(new ContactMail($data));
+        Mail::to($request -> email)->send(new ContactMail($data));
+
 
         $candidate = Candidate::with('resume','job','company','member')->where('id',$request->apply_id)->first();
         $sendmail = SendMail::create(array_merge(
