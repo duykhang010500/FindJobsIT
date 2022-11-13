@@ -79,7 +79,7 @@ class OrderController extends Controller
 
             //send mail confirm
             $now = Carbon::now('Asia/Ho_Chi_Minh')->format('H:i:s d-m-Y');
-            $title_mail = "Đơn hàng xác nhận ngày".' '.$now;
+            $title_mail = "Đơn hàng được đặt vào lúc".' '.$now;
             $user = auth()->user();
             $data['email'] = $user->email;
             //lay gio hang

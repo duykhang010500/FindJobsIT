@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Order_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
-use Validator;
+use Validator,Carbon\Carbon,Mail;
 class OrderaController extends Controller
 {
     //
@@ -42,6 +42,37 @@ class OrderaController extends Controller
             return response([
                 'message' => 'Choose 1:processing, 2:processed 3:reject, 4: customer cancel',
             ], 400);
+        if($request->status == 3)
+            $now = Carbon::now('Asia/Ho_Chi_Minh')->format('H:i:s d-m-Y');
+            $title_mail = "Đơn hàng đã được xác nhận vào lúc".' '.$now;
+            //lay gio hang
+            $order_details_mail = Order_detail::where('order_code', $order->code)->get();
+            foreach($order_details_mail  as $key ){
+                $cart_array[] = array(
+                    'product_name' => $key->name,
+                    'product_price' => $key->price,
+                    'product_qty' => $key->qty,
+                );
+            }
+            $shipping_array = array(
+                'note' => $order->note,
+                'comp_name' =>$order->company->name,
+                'name' =>$order->employer->name,
+                'email' =>$order->employer->email,
+                'phone' =>$order->employer->phone,
+                'method' => $order->payment_type,
+            );
+            //lay ma giam gia, lay coupon code
+            $ordercode_mail = array(
+            //    'coupon_code' => $order->evoucher,
+               'order_code' => $order->code,
+               'total' => $order->total,
+               'now' => $now
+            );
+            Mail::send('comfirm_order',  ['cart_array'=>$cart_array, 'shipping_array'=>$shipping_array ,'code'=>$ordercode_mail] , function($message) use ($title_mail,$order){
+                $message->to($order->employer->email)->subject($title_mail);//send this mail with subject
+                $message->from('contact@hktech.com',$title_mail);//send from this mail
+            });
         $order->update($field->validated());
         return response([
             'message' => 'Change status order successfully',
