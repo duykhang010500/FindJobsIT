@@ -35,6 +35,8 @@ class MemberController extends Controller
                 ]
             ))->sendEmailVerificationNotification();
             // event(new Registered($member));
+            // $member->notify(new MemberRegisterRequest($member));
+            // event(new Registered($member)); ->sendEmailVerificationNotification()
             return response()->json([
                 'message' => ' send mail member successfully',
             ]);

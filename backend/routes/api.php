@@ -15,6 +15,7 @@ use App\Http\Controllers\employer\ResumeController;
 use App\Http\Controllers\employer\OrderController;
 use App\Http\Controllers\employer\MailController;
 use App\Http\Controllers\employer\ResetPasswordeController;
+use App\Http\Controllers\employer\VerificationeController;
 // admin
 use App\Http\Controllers\admin\CompanyController;
 use App\Http\Controllers\admin\ServiceController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\admin\JobaController;
 use App\Http\Controllers\admin\MemberaController;
 use App\Http\Controllers\admin\NewsaController;
 use App\Http\Controllers\admin\OrderaController;
+use App\Http\Controllers\admin\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -72,6 +74,8 @@ Route::get('email/resend', [VerificationController::class, 'resend'])->name('ver
 //employer login,register
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
+Route::get('/employer/email/verify/{id}', [VerificationeController::class, 'verify_user'])->name('verification.verify'); // Make sure to keep this as your route name
+Route::get('/employer/email/resend', [VerificationeController::class, 'resend'])->name('verification.resend');
 
 //services
 Route::get('/employer/services', [OrderController::class, 'services']);
@@ -85,6 +89,8 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
 
     Route::group(['prefix' => 'admin'],function ()
     {
+        //dashboard
+        Route::get('/dashboard', [DashboardController::class, 'index']);
         // orders
         Route::get('/orders', [OrderaController::class, 'index']);
         Route::get('/order/{id}', [OrderaController::class, 'order']);

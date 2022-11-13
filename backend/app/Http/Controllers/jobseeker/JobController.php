@@ -92,7 +92,8 @@ class JobController extends Controller
                 });
             }
             // dd($params);
-            $result = $result->with('company','industries','locations')->orderBy('id','desc')->get();
+            $result = $result->with('company','industries','locations')->orderBy('id','desc')
+            ->where('status', 1)->orderBy('end_date','asc')->get();
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             // Create a new Laravel collection from the array data

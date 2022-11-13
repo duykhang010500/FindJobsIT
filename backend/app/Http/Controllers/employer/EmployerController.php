@@ -57,6 +57,7 @@ class EmployerController extends Controller
             if($employer && $company){
                 $employer->comp_id = $company->id;
                 $employer->save();
+                $employer->sendEmailVerificationNotification();
                 return response()->json([
                     'employer' => $employer,
                     'company' => $company,
@@ -78,9 +79,6 @@ class EmployerController extends Controller
                 'password' => 'required|string|min:6',
             ]);
 
-
-            $credentials = request(['email', 'password']);
-
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
             }
@@ -99,11 +97,19 @@ class EmployerController extends Controller
                     'message' => 'Password does not match with our record.',
                 ], 401);
 
-            $tokenResult = $Employer->createToken($request['email'], ['emp'])->plainTextToken;
+            if (!Auth::guard('web')->attempt($validator->validated())) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            if (!auth()->user()->hasVerifiedEmail()) {
+                return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
+            }
+            if(!$Employer->email_verified_at) {
+                return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
+            }
 
             return response()->json([
                 'status_code' => 200,
-                'access_token' => $tokenResult,
+                'access_token' => $Employer->createToken($request['email'], ['emp'])->plainTextToken,
                 'token_type' => 'Bearer',
                 'role' => 'emp',
             ]);
