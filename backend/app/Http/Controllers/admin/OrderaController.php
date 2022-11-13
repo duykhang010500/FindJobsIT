@@ -47,7 +47,17 @@ class OrderaController extends Controller
             $title_mail = "Đơn hàng đã được xác nhận vào lúc".' '.$now;
             //lay gio hang
             $order_details_mail = Order_detail::where('order_code', $order->code)->get();
+            // dd($order_details_mail);
+            // return response([
+            //     'message' => 'Change status order successfully',
+            //     'order' => $order_details_mail,
+            // ], 200);
             foreach($order_details_mail  as $key ){
+                $daysToAdd = $key->days;
+                $date = now('Asia/Ho_Chi_Minh')->addDays($daysToAdd);
+                // dd($date);
+                $key->expire = $date;
+                $key->save();
                 $cart_array[] = array(
                     'product_name' => $key->name,
                     'product_price' => $key->price,
