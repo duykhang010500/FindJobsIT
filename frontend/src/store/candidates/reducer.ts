@@ -17,6 +17,7 @@ import {
   EMPLOYER_SEND_MAIL_FAILURE,
   EMPLOYER_GET_SENT_MAIL_LIST,
   EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS,
+  // EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
 } from './actionTypes';
 import { ICandidatesState, CandidatesActions } from './types';
 
@@ -128,11 +129,11 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         isLoading: false,
         mails: action.payload,
       };
-    case EMPLOYER_GET_SENT_MAIL_LIST:
-      return {
-        ...state,
-        isLoading: false,
-      };
+    // case EMPLOYER_GET_SENT_MAIL_LIST_FAILURE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //   };
     default:
       return state;
   }

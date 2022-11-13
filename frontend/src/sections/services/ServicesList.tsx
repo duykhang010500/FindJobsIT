@@ -19,16 +19,9 @@ import {
 } from '@mui/material';
 import { AppState } from '../../store/reducer';
 
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import {
-  addToCart,
-  decreaseItem,
-  increaseItem,
-  removeItem,
-} from '../../store/services/actions';
+import { addToCart, removeItem } from '../../store/services/actions';
 import { useEffect, useState } from 'react';
 import { numberWithCommas } from '../../utils/format';
 
@@ -62,14 +55,14 @@ const ServicesList = (props: ServicesListProps) => {
     );
   }
 
-  const handleDecrease = (item: any) => {
-    dispatch(decreaseItem(item));
-  };
+  // const handleDecrease = (item: any) => {
+  //   dispatch(decreaseItem(item));
+  // };
 
-  const handleIncrease = (item: any) => {
-    console.log(item);
-    dispatch(increaseItem(item));
-  };
+  // const handleIncrease = (item: any) => {
+  //   console.log(item);
+  //   dispatch(increaseItem(item));
+  // };
 
   const handleAddToCart = (item: any) => {
     dispatch(addToCart(item));
@@ -79,13 +72,13 @@ const ServicesList = (props: ServicesListProps) => {
     dispatch(removeItem(item));
   };
 
-  const getQuantity = (id: number) => {
-    if (cart.length > 0) {
-      const item = cart.find((item: any) => item.id === id);
-      return item?.qty;
-    }
-    return 0;
-  };
+  // const getQuantity = (id: number) => {
+  //   if (cart.length > 0) {
+  //     const item = cart.find((item: any) => item.id === id);
+  //     return item?.qty;
+  //   }
+  //   return 0;
+  // };
 
   const serviceInCart = (id: any) => {
     const isExist = cart.findIndex((item: any) => item.id === id);
@@ -195,38 +188,38 @@ const ServicesList = (props: ServicesListProps) => {
   );
 };
 
-type QuantityControlProps = {
-  onIncrease?: () => void;
-  onDecrease?: () => void;
-  count?: any;
-};
+// type QuantityControlProps = {
+//   onIncrease?: () => void;
+//   onDecrease?: () => void;
+//   count?: any;
+// };
 
-const QuantityControl = ({
-  onIncrease,
-  onDecrease,
-  count,
-}: QuantityControlProps) => {
-  return (
-    <Box
-      sx={{
-        padding: '2px 1px',
-        border: '1px solid silver',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderRadius: '8px',
-        width: '100px',
-      }}
-    >
-      <IconButton size='small' onClick={onDecrease} disabled={!count}>
-        <RemoveIcon />
-      </IconButton>
-      <Typography>{count ? count : 0}</Typography>
-      <IconButton size='small' onClick={onIncrease}>
-        <AddIcon />
-      </IconButton>
-    </Box>
-  );
-};
+// const QuantityControl = ({
+//   onIncrease,
+//   onDecrease,
+//   count,
+// }: QuantityControlProps) => {
+//   return (
+//     <Box
+//       sx={{
+//         padding: '2px 1px',
+//         border: '1px solid silver',
+//         display: 'flex',
+//         alignItems: 'center',
+//         justifyContent: 'space-between',
+//         borderRadius: '8px',
+//         width: '100px',
+//       }}
+//     >
+//       <IconButton size='small' onClick={onDecrease} disabled={!count}>
+//         <RemoveIcon />
+//       </IconButton>
+//       <Typography>{count ? count : 0}</Typography>
+//       <IconButton size='small' onClick={onIncrease}>
+//         <AddIcon />
+//       </IconButton>
+//     </Box>
+//   );
+// };
 
 export default ServicesList;

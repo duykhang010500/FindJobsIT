@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { takeEvery, call, put, takeLatest } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 
 import jobSeekerServices from '../../services/jobSeeker';
 import { getJobsSaved, getJobsSavedSuccess } from './action';

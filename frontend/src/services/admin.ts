@@ -1,4 +1,3 @@
-import { NumberSchema } from 'yup';
 import { IUserLogin } from '../store/auth/types';
 import { IIndustry } from '../store/industries/types';
 import { ILocation } from '../store/location/types';

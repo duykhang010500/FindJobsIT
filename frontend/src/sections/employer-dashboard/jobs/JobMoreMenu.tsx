@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Popover, IconButton, MenuItem, Box, Divider } from '@mui/material';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 type Props = {

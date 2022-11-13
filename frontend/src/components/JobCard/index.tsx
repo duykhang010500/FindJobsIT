@@ -9,7 +9,6 @@ import {
   Divider,
   useTheme,
   Typography,
-  Tooltip,
 } from '@mui/material';
 
 // eslint-disable-next-line

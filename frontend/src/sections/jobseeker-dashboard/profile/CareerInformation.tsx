@@ -11,8 +11,6 @@ import {
   Autocomplete,
 } from '@mui/material';
 
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
@@ -24,7 +22,6 @@ import {
   jobTypes,
   languages,
 } from '../../../utils/defaultValues';
-import Editor from '../../../components/Editor';
 
 type Props = {
   control: any;

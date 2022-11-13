@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-import { Button, Stack, Tooltip } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -17,7 +17,6 @@ import EducationInformation from './EducationInformation';
 import {
   findIndexByName,
   findIndexByName1,
-  getDefaultMultiple,
   getIdFromArr,
 } from '../../../utils/convert';
 import { useDispatch } from 'react-redux';
@@ -27,7 +26,6 @@ import { AppState } from '../../../store/reducer';
 import { Nationalities } from '../../../utils/defaultValues';
 import { phoneRegExp } from '../../../utils/validate';
 import ExperienceInformation from './ExperienceInformation';
-import { MinimalButton } from '@react-pdf-viewer/core';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { uploadSingleFile } from '../../../utils/upload';
 
@@ -180,7 +178,7 @@ const ProfileForm = (props: Props) => {
       edu_description: cv?.edu_description || '',
       resume_file: 'resume_file.docx',
     }),
-    [cv, currentUser]
+    [cv, currentUser, locations]
   );
 
   const { control, handleSubmit, setValue, reset, getValues } = useForm({

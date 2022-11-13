@@ -1,4 +1,3 @@
-import { UPDATE_SERVICE_FAILURE } from '../services/actionTypes';
 import {
   APPLY_JOB,
   APPLY_JOB_FAILURE,

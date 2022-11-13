@@ -1,4 +1,3 @@
-import { boolean } from 'yup';
 import {
   GET_JOBS_SAVED,
   GET_JOBS_SAVED_FAILURE,
@@ -8,11 +7,6 @@ import {
   SAVE_JOB_SUCCESS,
 } from './actionTypes';
 import { JobsSavedAction } from './types';
-
-interface JobSaved {
-  isLoading: boolean;
-  list: any;
-}
 
 const initialState = {
   isLoading: false,

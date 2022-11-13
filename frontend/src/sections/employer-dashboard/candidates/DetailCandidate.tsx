@@ -71,7 +71,7 @@ const DetailCandidate = (props: Props) => {
     });
   };
 
-  if (candidate?.resume_online == 0) {
+  if (candidate?.resume_online === 0) {
     return (
       <Box>
         <Breadcrumbs sx={{ mb: 3 }}>

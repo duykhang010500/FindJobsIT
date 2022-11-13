@@ -20,7 +20,6 @@ import {
 import { AppState } from '../../../store/reducer';
 import { getJobsApplied } from '../../../store/jobs/actions';
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Image from '../../../components/Image';
 
 import BusinessIcon from '@mui/icons-material/Business';

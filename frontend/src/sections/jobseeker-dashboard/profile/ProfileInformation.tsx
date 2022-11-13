@@ -30,7 +30,6 @@ import { AppState } from '../../../store/reducer';
 import { Nationalities } from '../../../utils/defaultValues';
 import { Gender } from '../../../models/gender';
 import { Marital } from '../../../models/marital';
-import UploadAvatar from '../../../components/UploadAvatar';
 import Image from '../../../components/Image';
 
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';

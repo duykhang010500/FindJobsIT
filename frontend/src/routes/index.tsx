@@ -53,6 +53,7 @@ import ResetPassword from '../pages/auth/common/ResetPassword';
 import EmployerCheckout from '../pages/employer/EmployerCheckout';
 import EmployerCandidateHistorySentMail from '../pages/employer/candidates/EmployerCandidateHistorySentMail';
 import EmployerOrderSuccess from '../pages/employer/EmployerOrderSuccess';
+import PaymentSuccess from '../pages/employer/PaymentSuccess';
 
 type Props = {};
 
@@ -96,11 +97,12 @@ const Router = (props: Props) => {
         { element: <ForgotPassword />, path: 'forgot-password' },
         { element: <ResetPassword />, path: 'reset-password' },
         { path: 'services', element: <Services /> },
-        { path: 'services/checkout', element: <EmployerCheckout /> },
         {
           path: 'services/order-success/:id',
           element: <EmployerOrderSuccess />,
         },
+        { path: 'vnpay_return', element: <PaymentSuccess /> },
+        { path: 'services/checkout', element: <EmployerCheckout /> },
         { path: 'candidates/search', element: <SearchCandidates /> },
         { path: 'candidates/:id', element: <EmployerViewProfileCandidate /> },
       ],
@@ -109,15 +111,15 @@ const Router = (props: Props) => {
       path: 'employer/hr',
       element: <EmployerDashboardLayout />,
       children: [
+        { path: 'my', element: <MyProfile /> },
         { path: 'dashboard', element: <Statistics /> },
+        { path: 'company', element: <CompanyProfile /> },
         { path: 'jobs/active', element: <EmployerJobsOpen /> },
         { path: 'job/create', element: <EmployerCreateJob /> },
-        { path: 'job/:id/edit', element: <EmployerCreateJob /> },
-        { path: 'candidates', element: <EmployerCandidatesList /> },
-        { path: 'candidates/:id', element: <DetailCandidate /> },
         { path: 'order/active', element: <EmployerServices /> },
-        { path: 'my', element: <MyProfile /> },
-        { path: 'company', element: <CompanyProfile /> },
+        { path: 'job/:id/edit', element: <EmployerCreateJob /> },
+        { path: 'candidates/:id', element: <DetailCandidate /> },
+        { path: 'candidates', element: <EmployerCandidatesList /> },
         { path: 'saved-candidates', element: <EmployerCandidateSaved /> },
         {
           path: 'mails',

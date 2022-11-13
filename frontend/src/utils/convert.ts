@@ -36,12 +36,12 @@ export const getDefaultMultiple = (ids: any, arr: any[]) => {
 };
 
 export const findIndexByName = (name: string, arr: any[]) => {
-  let idx = arr.findIndex((item: any) => item?.name?.trim() == name?.trim());
+  let idx = arr.findIndex((item: any) => item?.name?.trim() === name?.trim());
   return idx;
 };
 
 export const findIndexByName1 = (name: string, arr: any[]) => {
-  let idx = arr.findIndex((item: any) => item?.name == name);
+  let idx = arr.findIndex((item: any) => item?.name === name);
   return idx;
 };
 
