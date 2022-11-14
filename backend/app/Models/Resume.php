@@ -42,4 +42,8 @@ class Resume extends Authenticatable
         return $this->belongsToMany(Location::class);
     }
 
+    public function skills(){
+        return $this->belongsToMany(Skill::class);
+    }
+
 }
