@@ -8,3 +8,5 @@ declare module '*.jpeg';
 
 declare module 'dateformat';
 declare module 'crypto';
+
+declare module '*.webp';

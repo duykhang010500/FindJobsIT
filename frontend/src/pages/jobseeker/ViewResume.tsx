@@ -1,51 +1,67 @@
-import React, { useRef } from 'react';
-
-import { Container, Button, Box } from '@mui/material';
-import ViewProfile from '../../components/ViewProfile';
 import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
+import {
+  PDFDownloadLink,
+  PDFViewer,
+  Page,
+  Document,
+  View,
+  Text,
+} from '@react-pdf/renderer';
+
+import { Container, Button, Box, Typography } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+
+import ViewProfile from '../../components/ViewProfile';
+
 import { AppState } from '../../store/reducer';
 
-import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
-import DownloadIcon from '@mui/icons-material/Download';
+import { PDFExport } from '@progress/kendo-react-pdf';
 
 type Props = {};
 
 const ViewResume = (props: Props) => {
   const { cv } = useSelector((state: AppState) => state.cv);
 
-  const pdfExportComponent = useRef(null);
+  const [selectedCV, setSelectedCV] = useState<null | number>(null);
 
-  const contentArea = useRef<any>(null);
+  useEffect(() => {
+    setSelectedCV(cv?.cv_type || null);
+  }, [cv]);
+
+  const pdfExportComponent = useRef<any>(null);
 
   const handleExportWithFunction = () => {
-    savePDF(contentArea.current, {
-      paperSize: 'a4',
-      margin: 10,
-      scale: 0.8,
-    });
+    pdfExportComponent.current.save();
   };
+
+  function exportPDF() {
+    const elm: any = document.getElementById('content');
+    html2canvas(elm, { logging: true, useCORS: true }).then((canvas) => {
+      const data: any = canvas.toDataURL('image/png', 1.0);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(data, 'JPEG', 0, 0, 210, 297);
+      pdf.save(`CV_${cv?.member?.fullname}.pdf`);
+    });
+  }
 
   return (
     <Container sx={{ mt: 15 }}>
-      <Box sx={{ width: '100%', textAlign: 'right' }}>
+      <Box sx={{ width: '210mm', textAlign: 'right', margin: 'auto' }}>
         <Button
           variant='contained'
           sx={{ mb: 3 }}
-          onClick={handleExportWithFunction}
+          onClick={exportPDF}
           startIcon={<DownloadIcon />}
         >
           Download
         </Button>
       </Box>
-      <PDFExport
-        ref={pdfExportComponent}
-        paperSize='a3'
-        margin={10}
-        // scale={0.7}
-      >
-        <div ref={contentArea}>
-          <ViewProfile resume={cv} />
-        </div>
+      <PDFExport ref={pdfExportComponent} paperSize='A4' scale={0.75}>
+        <ViewProfile resume={cv} type={selectedCV || 2} />
       </PDFExport>
     </Container>
   );
