@@ -51,4 +51,8 @@ class Member extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Resume::class,'resume_id');
     }
 
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\CustomVerifyEmail);
+    }
 }

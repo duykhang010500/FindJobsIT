@@ -60,7 +60,7 @@ class OrderController extends Controller
                     $order_details->name =  $service->name;
                     $order_details->price =  $service->price;
                     $order_details->qty =  $cart['qty'];
-
+                    $order_details->days =  $service->days;
                     $total_cart += $order_details->price*$order_details->qty;
                     $order_details->save();
                 }
