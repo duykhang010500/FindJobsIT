@@ -9,6 +9,7 @@ import companiesSaga from './companies/saga';
 import candidatesSaga from './candidates/saga';
 import industriesSaga from './industries/saga';
 import jobsSavedSaga from './jobsSaved/store';
+import { dashboardSaga } from './dashboard/saga';
 
 function* rootSaga() {
   yield all([
@@ -21,6 +22,7 @@ function* rootSaga() {
     fork(industriesSaga),
     fork(candidatesSaga),
     fork(jobsSavedSaga),
+    fork(dashboardSaga),
   ]);
 }
 

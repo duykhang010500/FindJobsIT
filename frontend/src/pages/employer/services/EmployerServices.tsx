@@ -110,7 +110,7 @@ const EmployerServices = (props: Props) => {
           </Typography>
           <Typography gutterBottom>
             <span style={{ fontWeight: 500 }}>Payment method: </span>
-            Bank transfer
+            {selectedOrder?.payment_type}
           </Typography>
           <Typography gutterBottom>
             <span style={{ fontWeight: 500 }}>Note: </span>

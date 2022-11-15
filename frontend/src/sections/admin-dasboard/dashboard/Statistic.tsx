@@ -8,17 +8,19 @@ import GroupIcon from '@mui/icons-material/Group';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-type Props = {};
+type Props = {
+  data: any;
+};
 
-const Statistic = (props: Props) => {
+const Statistic = ({ data }: Props) => {
   return (
     <Grid container sx={{ mt: 3 }} spacing={3}>
       <Grid item xs={12} sm={6} md={3}>
         <StatisticCard
           icon={<WorkIcon />}
           color='#40a9ff'
-          count={76}
-          title='Total Jos'
+          count={data?.totalJobsActive}
+          title='Total Jobs'
           key={1}
         />
       </Grid>
@@ -26,8 +28,8 @@ const Statistic = (props: Props) => {
         <StatisticCard
           icon={<GroupIcon />}
           color='#ff4d4f'
-          count={142}
-          title='Total candidates'
+          count={data?.totalMembers}
+          title='Total Members'
           key={1}
         />
       </Grid>
@@ -35,8 +37,8 @@ const Statistic = (props: Props) => {
         <StatisticCard
           icon={<ApartmentIcon />}
           color='#faad14'
-          count={40}
-          title='Total Employers'
+          count={data?.totalResumes}
+          title='Total Resumes'
           key={1}
         />
       </Grid>
@@ -44,8 +46,8 @@ const Statistic = (props: Props) => {
         <StatisticCard
           icon={<VisibilityIcon />}
           color='#73d13d'
-          count={40}
-          title='Job Views'
+          count={data?.totalCandidates}
+          title='Total Candidates'
           key={1}
         />
       </Grid>

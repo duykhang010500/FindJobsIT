@@ -65,6 +65,11 @@ const adminServices = {
   changeStatusOrder: (orderId: number, status: number) => {
     return axiosInstance.post(`/admin/order/${orderId}?status=${status}`);
   },
+
+  //dashboard
+  getDashboard: () => {
+    return axiosInstance.get('/admin/dashboard');
+  },
 };
 
 export default adminServices;

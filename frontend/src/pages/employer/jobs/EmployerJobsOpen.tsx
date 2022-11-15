@@ -90,7 +90,7 @@ const EmployerJobsOpen = (props: Props) => {
               to={`/employer/hr/job/create`}
               variant='contained'
               startIcon={<AddIcon />}
-              disabled={canPostJob < 0}
+              // disabled={canPostJob < 0}
             >
               Post a job
             </Button>

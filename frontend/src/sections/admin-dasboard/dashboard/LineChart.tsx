@@ -2,9 +2,11 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { Box } from '@mui/material';
 import { ApexOptions } from 'apexcharts';
-type Props = {};
+type Props = {
+  data: any;
+};
 
-const LineChart = (props: Props) => {
+const LineChart = ({ data }: Props) => {
   const options: ApexOptions = {
     chart: {
       toolbar: {
@@ -29,11 +31,11 @@ const LineChart = (props: Props) => {
     },
     yaxis: {
       title: {
-        text: 'Candidate (person)',
+        text: 'Candidates (person)',
       },
     },
     title: {
-      text: `Monthly application in system, ${new Date().getFullYear()}`,
+      text: `Monthly application in website, ${new Date().getFullYear()}`,
       floating: true,
       offsetY: 0,
       align: 'center',
@@ -45,14 +47,14 @@ const LineChart = (props: Props) => {
 
   const series = [
     {
-      name: 'Number of person: ',
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 12, 11, 1],
+      name: 'Candidates: ',
+      data: data?.candidate_apply_by_month,
     },
   ];
   return (
     <Box
       sx={{
-        p: 2,
+        p: 1,
       }}
     >
       <ReactApexChart type='line' options={options} series={series} />
