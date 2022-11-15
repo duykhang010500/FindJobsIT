@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\employer;
 use App\Http\Controllers\Controller;
 use App\Models\Employer;
+use App\Models\EmployerVerify;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Validator,Mail;
 class EmployerController extends Controller
 {
     //
@@ -57,7 +58,17 @@ class EmployerController extends Controller
             if($employer && $company){
                 $employer->comp_id = $company->id;
                 $employer->save();
-                $employer->sendEmailVerificationNotification();
+
+                $token = \Str::random(64);
+  
+                EmployerVerify::create([
+                    'emp_id' => $employer->id,
+                    'token' => $token
+                    ]);
+                Mail::send('verify', ['token' => $token], function($message) use($request){
+                    $message->to($request->email);
+                    $message->subject('Email Verification Mail');
+                });
                 return response()->json([
                     'employer' => $employer,
                     'company' => $company,
@@ -97,9 +108,9 @@ class EmployerController extends Controller
                     'message' => 'Password does not match with our record.',
                 ], 401);
 
-            if (!Auth::guard('web')->attempt($validator->validated())) {
-                return response()->json(['error' => 'Unauthorized'], 401);
-            }
+            // if (!Auth::guard('web')->attempt($validator->validated())) {
+            //     return response()->json(['error' => 'Unauthorized'], 401);
+            // }
 
             if(!$Employer->email_verified_at) {
                 return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
@@ -133,5 +144,25 @@ class EmployerController extends Controller
         return [
             'info' => $result
         ];
+    }
+
+    public function verifyAccount($token)
+    {
+        $verifyUser = EmployerVerify::where('token', $token)->first();
+  
+        $message = 'Sorry your email cannot be identified.';
+  
+        if(!is_null($verifyUser) ){
+            $user = $verifyUser->employer;
+            if(!$user->email_verified_at) {
+                $verifyUser->employer->email_verified_at = now();
+                $verifyUser->employer->save();
+                $message = "Your e-mail is verified. You can now login.";
+            } else {
+                $message = "Your e-mail is already verified. You can now login.";
+            }
+        }
+  
+        return redirect(url(env('FRONT_END_URL').'/employer/login'));
     }
 }

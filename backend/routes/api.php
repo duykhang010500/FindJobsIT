@@ -74,9 +74,7 @@ Route::get('email/resend', [VerificationController::class, 'resend'])->name('ver
 //employer login,register
 Route::post('/employer/register', [EmployerController::class, 'register']);
 Route::post('/employer/login', [EmployerController::class, 'login']);
-Route::get('/employer/email/verify/{id}', [VerificationeController::class, 'verify_user'])->name('verification.verify'); // Make sure to keep this as your route name
-Route::get('/employer/email/resend', [VerificationeController::class, 'resend'])->name('verification.resend');
-
+Route::get('employer/verify/{token}', [EmployerController::class, 'verifyAccount'])->name('employers.verify');
 //services
 Route::get('/employer/services', [OrderController::class, 'services']);
 

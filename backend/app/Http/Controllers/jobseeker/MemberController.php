@@ -13,10 +13,7 @@ use Illuminate\Auth\Events\Registered;
 class MemberController extends Controller
 {
     //
-    public function __construct()
-    {
-        $this->middleware(['verified']);
-    }
+
 
     public function register(Request $request)
     {
@@ -37,7 +34,7 @@ class MemberController extends Controller
                 ['password' => bcrypt($request->password),
                 'status' => 1,
                 ]
-            ))->sendEmailVerificationNotification();
+            ));
             event(new Registered($member));
             // $member->notify(new MemberRegisterRequest($member));
             // event(new Registered($member)); ->sendEmailVerificationNotification()
