@@ -42,9 +42,9 @@ class OrderaController extends Controller
             return response([
                 'message' => 'Choose 1:processing, 2:processed 3:reject, 4: customer cancel',
             ], 400);
-        if($request->status == 3)
+        if($request->status == 3){
             $now = Carbon::now('Asia/Ho_Chi_Minh')->format('H:i:s d-m-Y');
-            $title_mail = "Đơn hàng đã được xác nhận vào lúc".' '.$now;
+            $title_mail = "Đơn hàng đã được xác nhận vào lúc".' '. $now;
             //lay gio hang
             $order_details_mail = Order_detail::where('order_code', $order->code)->get();
             // dd($order_details_mail);
@@ -83,6 +83,8 @@ class OrderaController extends Controller
                 $message->to($order->employer->email)->subject($title_mail);//send this mail with subject
                 $message->from('contact@hktech.com',$title_mail);//send from this mail
             });
+        }
+
         $order->update($field->validated());
         return response([
             'message' => 'Change status order successfully',

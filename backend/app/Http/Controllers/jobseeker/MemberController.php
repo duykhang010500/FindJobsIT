@@ -13,6 +13,10 @@ use Illuminate\Auth\Events\Registered;
 class MemberController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware(['verified']);
+    }
 
     public function register(Request $request)
     {
