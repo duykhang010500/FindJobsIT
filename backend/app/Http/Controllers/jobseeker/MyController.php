@@ -239,4 +239,18 @@ class MyController extends Controller
         }
     }
 
+    public function updateCVType(Request $request){
+        try{
+            $resume = auth() -> user() -> resume;
+            $resume -> update(['cv_type' => $request -> cv_type]);
+              return response()->json([
+                    'message' => 'Update successfully!'
+                ]);
+        }catch(\Throwable $th){
+            return response()->json([
+                'message' => 'Occur error!'
+            ], 500);
+        }
+    }
+
 }

@@ -208,6 +208,7 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     //resume
     Route::post('my/resume', [MyController::class, 'resume']);
     Route::get('my/resume', [MyController::class, 'getResume']);
+    Route::post('/my/update-cv-type', [MyController::class, 'updateCVType']);
 
     // history
     Route::get('my/saved', [MyController::class, 'historyApply']);
