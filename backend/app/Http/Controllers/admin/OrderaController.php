@@ -54,7 +54,7 @@ class OrderaController extends Controller
             // ], 200);
             foreach($order_details_mail  as $key ){
                 $daysToAdd = $key->days;
-                $date = now('Asia/Ho_Chi_Minh')->addDays($daysToAdd);
+                $date = Carbon::now('Asia/Ho_Chi_Minh')->addDays($daysToAdd);
                 // dd($date);
                 $key->expire = $date;
                 $key->save();
