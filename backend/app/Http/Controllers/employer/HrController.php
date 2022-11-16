@@ -31,6 +31,15 @@ class HrController extends Controller
             'job' => $jobs,
         ]);
     }
+
+    public function detail(Request $request, $id)
+    {
+        $job = Job::with(['industries','locations','company','candidate','candidate.resume'])->where('comp_id',auth()->user()->company->id)->where('id', $id)->first();
+        return response()->json([
+            'job' => $job,
+        ]);
+    }
+
     public function job(Request $request)
     {
 

@@ -38,11 +38,15 @@ class OrderaController extends Controller
             return response()->json($field->errors(), 422);
         }
 
+        if($request->status == 1)
+            return response([
+                'message' => 'You cannot edit status',
+            ], 404);
         if($request->status > 4)
             return response([
                 'message' => 'Choose 1:processing, 2:processed 3:reject, 4: customer cancel',
             ], 400);
-        if($request->status == 3){
+        if($request->status == 2){
             $now = Carbon::now('Asia/Ho_Chi_Minh')->format('H:i:s d-m-Y');
             $title_mail = "Đơn hàng đã được xác nhận vào lúc".' '. $now;
             //lay gio hang

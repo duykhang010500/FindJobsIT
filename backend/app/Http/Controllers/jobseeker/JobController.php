@@ -258,7 +258,10 @@ class JobController extends Controller
                 $message->to($emp->email)->subject($title_mail);//send this mail with subject
                 $message->from(auth()->user()->email,$title_mail);//send from this mail
             });
-
+            if($job){
+                $job->applied += 1;
+                $job->save();
+            }
             // if(!$member->resume){
             //     $resume = new Resume;
             //     $resume -> resume_status = 1; //active resume

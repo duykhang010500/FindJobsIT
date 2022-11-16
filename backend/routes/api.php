@@ -48,7 +48,7 @@ Route::put('/employer/reset-password', [ResetPasswordeController::class, 'reset'
 
 Route::get('/employer/search-resume', [ResumeController::class, 'search']);
 
-// jobs
+//jobs
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/job/{id}', [JobController::class, 'detail']);
 Route::get('/job-relevant/{id}', [JobController::class, 'job_relevant_comp']);
@@ -169,6 +169,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
 
         // jobs
         Route::get('/hr/job', [HrController::class, 'getJob']);
+        Route::get('/hr/job/{id}', [HrController::class, 'detail']);
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
         Route::delete('/hr/job/{id}', [HrController::class, 'deleteJob']);

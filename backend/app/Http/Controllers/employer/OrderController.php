@@ -75,6 +75,9 @@ class OrderController extends Controller
             if($data['note'])
                 $order->note = $data['note'];
             $order->payment_type = $data['payment_type'];
+            if($data['payment_type'] != '1'){
+                $order->status = 2; //processed
+            }
             $order->save();
 
             //send mail confirm
