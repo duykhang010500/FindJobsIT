@@ -2,6 +2,7 @@ import { Box, styled } from '@mui/material';
 
 import CV1 from './CV1';
 import CV2 from './CV2';
+import CV3 from './CV3';
 import CVDefault from './CVDefault';
 
 type Props = {
@@ -29,6 +30,14 @@ const ViewProfile = ({ resume, type }: Props) => {
     return (
       <CVWrapper id='content'>
         <CV2 resume={resume} />
+      </CVWrapper>
+    );
+  }
+
+  if (type === 3) {
+    return (
+      <CVWrapper id='content'>
+        <CV3 resume={resume} />
       </CVWrapper>
     );
   }
