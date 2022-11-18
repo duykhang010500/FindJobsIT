@@ -16,7 +16,8 @@ class DashboardController extends Controller
     public function index()
     {
         //
-        $totalJobsActive = Job::whereDate('end_date', '>', Carbon::now())->where('status', 1)->count();
+        $totalJobsActive = Job::whereDate('end_date', '>', Carbon::now())->where('status', Job::STATUS_PUBLISHED)->count();
+        $totalJobsPending = Job::where('status', Job::STATUS_PENDING)->count();
         $totalMembers = Member::count();
         $totalResumes = Resume::count();
         $totalCandidates = Candidate::count();
@@ -40,6 +41,7 @@ class DashboardController extends Controller
         if(!$data) $data = [0,0,0,0,0,0,0,0,0,0,0,0];
         return response()->json([
             'totalJobsActive' => $totalJobsActive,
+            'totalJobsPending' => $totalJobsPending,
             'totalMembers' => $totalMembers,
             'totalResumes' => $totalResumes,
             'totalCandidates' => $totalCandidates,

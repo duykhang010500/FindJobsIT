@@ -132,6 +132,10 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
         Route::get('/job/industries', [JobaController::class, 'industries']);
         Route::post('job/industry/{id}', [JobaController::class, 'industry']);
         Route::delete('job/industry/{id}', [JobaController::class, 'delete_industry']);
+
+        //jobs
+        Route::get('/jobs/pendings', [JobaController::class, 'job_pendings']);
+        Route::post('/jobs/pending/{id}', [JobaController::class, 'job_pending']);
     });
 
 });
@@ -149,7 +153,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::get('/info', [EmployerController::class, 'info']);
 
         //dashboard
-        Route::post('/hr/dashboard', [HrController::class, 'dashboard']);
+        Route::get('/hr/dashboard', [HrController::class, 'dashboard']);
 
         //send mail jsk
         Route::get('hr/mail-candidates', [MailController::class, 'getListMailJSK']);

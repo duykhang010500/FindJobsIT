@@ -12,6 +12,11 @@ use Laravel\Sanctum\HasApiTokens;
 class Job extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    const   STATUS_DRAFT = 0,
+            STATUS_PUBLISHED = 1,
+            STATUS_PENDING = 2,
+            STATUS_CLOSED = 3,
+            STATUS_REJECTED = 4;
 
     protected $fillable = [
         'title',  'job_description','code', 'title','job_requirement','job_description',

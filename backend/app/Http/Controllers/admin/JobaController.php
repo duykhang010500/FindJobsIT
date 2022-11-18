@@ -13,6 +13,58 @@ use Validator,Rule;
 class JobaController extends Controller
 {
     //
+    public function job_pendings(Request $request)
+    {
+        //
+        $filter = $request->input('filter');
+        if($filter == 'all'){
+            $JobsPendings = Job::with('company','industries','locations')->where('status', Job::STATUS_PENDING)->get();
+            return response()->json([
+                'JobsPendings' => $JobsPendings,
+            ]);
+        }
+        if($filter == 'active'){
+            $JobsPendings = Job::with('company','industries','locations')->where('status', Job::STATUS_PUBLISHED)->get();
+            return response()->json([
+                'JobsPendings' => $JobsPendings,
+            ]);
+        }
+        if($filter == 'reject'){
+            $JobsPendings = Job::with('company','industries','locations')->where('status', Job::STATUS_REJECTED)->get();
+            return response()->json([
+                'JobsPendings' => $JobsPendings,
+            ]);
+        }
+    }
+
+    public function job_pending(Request $request,$id)
+    {
+        //
+        $fields = Validator::make($request->all(), [
+            'status' => 'required',
+        ]);
+        if ($fields->fails()) {
+            return response()->json($fields->errors(), 422);
+        }
+        $job = Job::find($id);
+        if($job){
+            if($request->status == Job::STATUS_PUBLISHED || $request->status == Job::STATUS_REJECTED){
+                $job->update($fields->validated());
+                $job->status == Job::STATUS_PUBLISHED ? $message = 'Accept job posted.' : $message = 'Reject post job.';
+                return response()->json([
+                    'job' => $job,
+                    'message' => $message
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'Choose status 1:STATUS_PUBLISHED; 4:STATUS_REJECTED'
+                ]);
+            }
+        };
+        return response()->json([
+            'message' => 'Job does not match with our record.'
+        ]);
+    }
 
     public function locations()
     {

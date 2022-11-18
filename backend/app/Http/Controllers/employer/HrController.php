@@ -11,16 +11,44 @@ use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Validator,Carbon\Carbon,DB;
 class HrController extends Controller
 {
+
     //
     public function dashboard()
     {
         //
-        $employers = Employer::orderBy('id','desc')->get();
+        $totalJobsActive = Job::whereDate('end_date', '>', Carbon::now())->where('status', Job::STATUS_PUBLISHED)->where('comp_id',auth()->user()->company->id)->count();
+        $totalJobsExpired = Job::whereDate('end_date', '<', Carbon::now())->where('status', Job::STATUS_PUBLISHED)->where('comp_id',auth()->user()->company->id)->count();
+        $totalJobsPending = Job::where('status', Job::STATUS_PENDING)->where('comp_id',auth()->user()->company->id)->count();
+        $totalJobsStopPosting = Job::whereDate('end_date', '>', Carbon::now())->where('status', Job::STATUS_CLOSED)->where('comp_id',auth()->user()->company->id)->count();
+        $totalCandidates = Candidate::where('comp_id',auth()->user()->company->id)->count();
+
+        $candidate_apply = Candidate::where('comp_id',auth()->user()->company->id)->first();
+        if($candidate_apply){
+            $candidate_apply_by_month = Candidate::select(DB::raw("COUNT(*) as count"))
+                            ->whereYear('updated_at', date('Y'))
+                            ->groupBy(DB::raw("Month(updated_at)"))
+                            ->pluck('count');
+            $months =  Candidate::select(DB::raw("Month(updated_at) as month"))
+                            ->whereYear('updated_at', date('Y'))
+                            ->groupBy(DB::raw("Month(updated_at)"))
+                            ->pluck('month');
+            $data = [0,0,0,0,0,0,0,0,0,0,0,0];
+            foreach ($months as $index => $month){
+                --$month;
+                $data[$month] = $candidate_apply_by_month[$index];
+            }
+        }
+        if(!$data) $data = [0,0,0,0,0,0,0,0,0,0,0,0];
         return response()->json([
-            'data' => $employers,
+            'totalJobsActive' => $totalJobsActive,
+            'totalJobsPending' => $totalJobsPending,
+            'totalJobsStopPosting' => $totalJobsStopPosting,
+            'totalJobsExpired' => $totalJobsExpired,
+            'totalCandidates' => $totalCandidates,
+            'candidate_apply_by_month' => $data,
         ]);
     }
 
@@ -65,7 +93,7 @@ class HrController extends Controller
 
         $job = Job::create(array_merge(
             $validator->validated(),
-            ['comp_id' => auth()->user()->company->id,'status' => $request->status,
+            ['comp_id' => auth()->user()->company->id,'status' => Job::STATUS_PENDING,
             'exp' => $request->exp,
             'exp_from' => $request->exp_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
             'salary_from' => $request->salary_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
@@ -94,6 +122,7 @@ class HrController extends Controller
         }
         return response()->json([
             'job' => $job,
+            'message' => 'Your job is waiting for admin approval'
         ]);
     }
 
