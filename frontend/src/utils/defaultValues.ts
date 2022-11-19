@@ -57,6 +57,19 @@ export const languages = [
   { id: 3, value: 'Thailand' },
 ];
 
+export const skills = [
+  'HTML',
+  'CSS',
+  'JavaScript',
+  'PHP',
+  'C#',
+  'C/C++',
+  'React',
+  'UI/UX',
+  'SQL',
+  'Mongo',
+];
+
 export const Nationalities = [
   {
     num_code: '4',

@@ -2,15 +2,6 @@ import dayjs from 'dayjs';
 
 import { styled, Typography, Box, Stack, Avatar, Grid } from '@mui/material';
 
-import {
-  Page,
-  Text,
-  View,
-  Image,
-  Document,
-  StyleSheet,
-} from '@react-pdf/renderer';
-
 import WcRoundedIcon from '@mui/icons-material/WcRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import MailRoundedIcon from '@mui/icons-material/MailRounded';
@@ -20,15 +11,9 @@ import LocationCityRoundedIcon from '@mui/icons-material/LocationCityRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 
-// import Image from '../Image';
-
 type Props = {
   resume: any;
 };
-
-const styles = StyleSheet.create({
-  page: {},
-});
 
 const BadgeInformation = styled(Box)({
   backgroundColor: '#f0f0f0',
@@ -238,60 +223,74 @@ const CV2 = ({ resume }: Props) => {
               </Typography>
             </Stack>
           </Box>
+
+          {/* Skills  */}
+          <Box>
+            <HeadingSection>Skills</HeadingSection>
+            <Typography>{resume?.skills}</Typography>
+          </Box>
         </Grid>
         <Grid item md={6}>
           {/* Career Information  */}
           <Box sx={{ mt: 4 }}>
             <HeadingSection>career information</HeadingSection>
             <Stack spacing={1} sx={{ my: 2 }}>
-              <Stack direction='row' spacing={4}>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ fontWeight: 500, minWidth: '150px' }}
-                >
-                  Year of experience :
-                </Typography>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ minWidth: '60px' }}
-                >
-                  {resume?.yearofexperience}
-                </Typography>
-              </Stack>
-              <Stack direction='row' spacing={4}>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ fontWeight: 500, minWidth: '150px' }}
-                >
-                  Current position :
-                </Typography>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ minWidth: '60px' }}
-                >
-                  {resume?.current_position ? resume?.current_position : 'None'}
-                </Typography>
-              </Stack>
-              <Stack direction='row' spacing={4}>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ fontWeight: 500, minWidth: '150px' }}
-                >
-                  Current company:
-                </Typography>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ minWidth: '60px' }}
-                >
-                  {resume?.current_company ? resume?.current_company : 'None'}
-                </Typography>
-              </Stack>
+              {resume?.yearofexperience !== 0 && (
+                <Stack direction='row' spacing={4}>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ fontWeight: 500, minWidth: '150px' }}
+                  >
+                    Year of experience :
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ minWidth: '60px' }}
+                  >
+                    {resume?.yearofexperience}
+                  </Typography>
+                </Stack>
+              )}
+
+              {resume?.current_position && (
+                <Stack direction='row' spacing={4}>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ fontWeight: 500, minWidth: '150px' }}
+                  >
+                    Current position :
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ minWidth: '60px' }}
+                  >
+                    {resume?.current_position}
+                  </Typography>
+                </Stack>
+              )}
+
+              {resume?.current_company && (
+                <Stack direction='row' spacing={4}>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ fontWeight: 500, minWidth: '150px' }}
+                  >
+                    Current company:
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ minWidth: '60px' }}
+                  >
+                    {resume?.current_company}
+                  </Typography>
+                </Stack>
+              )}
               <Stack direction='row' spacing={4}>
                 <Typography
                   variant='body1'

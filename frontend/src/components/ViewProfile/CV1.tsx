@@ -90,54 +90,62 @@ const CV1 = ({ resume }: Props) => {
             {/* Career information */}
             <HeadingStyled>Career information</HeadingStyled>
             <Stack spacing={1} sx={{ my: 2 }} alignItems='flex-end'>
-              <Stack direction='row' spacing={4}>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ fontWeight: 500 }}
-                >
-                  Year of experience :
-                </Typography>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ minWidth: '60px', textAlign: 'right' }}
-                >
-                  {resume?.yearofexperience}
-                </Typography>
-              </Stack>
-              <Stack direction='row' spacing={4}>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ fontWeight: 500 }}
-                >
-                  Current position :
-                </Typography>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ minWidth: '60px', textAlign: 'right' }}
-                >
-                  {resume?.current_position ? resume?.current_position : 'None'}
-                </Typography>
-              </Stack>
-              <Stack direction='row' spacing={4}>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ fontWeight: 500 }}
-                >
-                  Current company:
-                </Typography>
-                <Typography
-                  variant='body1'
-                  component='span'
-                  sx={{ minWidth: '60px', textAlign: 'right' }}
-                >
-                  {resume?.current_company ? resume?.current_company : 'None'}
-                </Typography>
-              </Stack>
+              {resume?.yearofexpericence && (
+                <Stack direction='row' spacing={4}>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ fontWeight: 500 }}
+                  >
+                    Year of experience :
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ minWidth: '60px', textAlign: 'right' }}
+                  >
+                    {resume?.yearofexperience}
+                  </Typography>
+                </Stack>
+              )}
+
+              {resume?.current_position && (
+                <Stack direction='row' spacing={4}>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ fontWeight: 500 }}
+                  >
+                    Current position :
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ minWidth: '60px', textAlign: 'right' }}
+                  >
+                    {resume?.current_position}
+                  </Typography>
+                </Stack>
+              )}
+
+              {resume?.current_company && (
+                <Stack direction='row' spacing={4}>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ fontWeight: 500 }}
+                  >
+                    Current company:
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    component='span'
+                    sx={{ minWidth: '60px', textAlign: 'right' }}
+                  >
+                    {resume?.current_company ? resume?.current_company : 'None'}
+                  </Typography>
+                </Stack>
+              )}
               <Stack direction='row' spacing={4}>
                 <Typography
                   variant='body1'
@@ -171,6 +179,12 @@ const CV1 = ({ resume }: Props) => {
                 </Typography>
               </Stack>
             </Stack>
+
+            {/* skills */}
+            <Box>
+              <HeadingStyled>Skills</HeadingStyled>
+              <Typography sx={{ mt: 2 }}>{resume?.skills}</Typography>
+            </Box>
           </Stack>
         </Grid>
         <Grid item md={6}>

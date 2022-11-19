@@ -1,18 +1,13 @@
 import dayjs from 'dayjs';
 
-import {
-  Box,
-  Grid,
-  Stack,
-  Button,
-  styled,
-  Avatar,
-  Typography,
-} from '@mui/material';
+import { Box, Grid, Stack, styled, Avatar, Typography } from '@mui/material';
 
 import WorkIcon from '@mui/icons-material/Work';
+import CodeIcon from '@mui/icons-material/Code';
 import PersonIcon from '@mui/icons-material/Person';
+import SchoolIcon from '@mui/icons-material/School';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 
 type Props = {
   resume: any;
@@ -30,7 +25,7 @@ const HeadingStyle = styled(Box)({
 
 const CVDefault = ({ resume }: Props) => {
   return (
-    <>
+    <Box sx={{ p: 1 }}>
       <Stack spacing={6}>
         <Box>
           <HeadingStyle>
@@ -146,12 +141,12 @@ const CVDefault = ({ resume }: Props) => {
 
         <Box>
           <HeadingStyle>
-            <PersonIcon sx={{ color: 'inherit', marginRight: '20px' }} />
+            <SchoolIcon sx={{ color: 'inherit', marginRight: '20px' }} />
             <Typography
               variant='h3'
               sx={{ color: 'inherit', textTransform: 'uppercase' }}
             >
-              EDUCATIOn
+              EDUCATION
             </Typography>
           </HeadingStyle>
           <Box>
@@ -211,7 +206,20 @@ const CVDefault = ({ resume }: Props) => {
 
         <Box>
           <HeadingStyle>
-            <PersonIcon sx={{ color: 'inherit', marginRight: '20px' }} />
+            <CodeIcon />
+            <Typography
+              variant='h3'
+              sx={{ color: 'inherit', textTransform: 'uppercase', ml: '20px' }}
+            >
+              Skills
+            </Typography>
+          </HeadingStyle>
+          <Typography>{resume?.skills}</Typography>
+        </Box>
+
+        <Box>
+          <HeadingStyle>
+            <WorkHistoryIcon sx={{ color: 'inherit', marginRight: '20px' }} />
             <Typography
               variant='h3'
               sx={{ color: 'inherit', textTransform: 'uppercase' }}
@@ -286,7 +294,7 @@ const CVDefault = ({ resume }: Props) => {
 
         <Box>
           <HeadingStyle>
-            <PersonIcon sx={{ color: 'inherit', marginRight: '20px' }} />
+            <WorkIcon sx={{ color: 'inherit', marginRight: '20px' }} />
             <Typography
               variant='h3'
               sx={{ color: 'inherit', textTransform: 'uppercase' }}
@@ -296,44 +304,6 @@ const CVDefault = ({ resume }: Props) => {
           </HeadingStyle>
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <Stack spacing={1.5}>
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Year of experience
-                    </Typography>
-                    <Typography variant='h5'>
-                      {resume?.yearofexperience ? (
-                        <>{resume?.yearofexperience} year</>
-                      ) : (
-                        'None'
-                      )}
-                    </Typography>
-                  </Stack>
-
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Current position
-                    </Typography>
-                    <Typography variant='h5'>
-                      {resume?.current_position
-                        ? resume?.current_position
-                        : 'None'}
-                    </Typography>
-                  </Stack>
-
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Current company
-                    </Typography>
-                    <Typography variant='h5'>
-                      {resume?.current_company
-                        ? resume?.current_company
-                        : 'None'}
-                    </Typography>
-                  </Stack>
-                </Stack>
-              </Grid>
               <Grid item xs={12} md={6}>
                 <Stack spacing={1.5}>
                   <Stack direction='row'>
@@ -351,6 +321,40 @@ const CVDefault = ({ resume }: Props) => {
                     </Typography>
                     <Typography variant='h5'>{resume?.degree}</Typography>
                   </Stack>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Stack spacing={1.5}>
+                  {resume?.yearofexperience !== 0 && (
+                    <Stack direction='row'>
+                      <Typography gutterBottom sx={{ width: '200px' }}>
+                        Year of experience
+                      </Typography>
+                      <Typography variant='h5'>
+                        <>{resume?.yearofexperience} year</>
+                      </Typography>
+                    </Stack>
+                  )}
+                  {resume?.current_position && (
+                    <Stack direction='row'>
+                      <Typography gutterBottom sx={{ width: '200px' }}>
+                        Current position
+                      </Typography>
+                      <Typography variant='h5'>
+                        {resume?.current_position}
+                      </Typography>
+                    </Stack>
+                  )}
+                  {resume?.current_company && (
+                    <Stack direction='row'>
+                      <Typography gutterBottom sx={{ width: '200px' }}>
+                        Current company
+                      </Typography>
+                      <Typography variant='h5'>
+                        {resume?.current_company}
+                      </Typography>
+                    </Stack>
+                  )}
                 </Stack>
               </Grid>
             </Grid>
@@ -448,7 +452,7 @@ const CVDefault = ({ resume }: Props) => {
           </Box>
         </Box>
       </Stack>
-    </>
+    </Box>
   );
 };
 

@@ -15,6 +15,7 @@ import CareerInformation from './CareerInformation';
 import ProfileInformation from './ProfileInformation';
 import EducationInformation from './EducationInformation';
 import {
+  convertArrStringToString,
   findIndexByName,
   findIndexByName1,
   getIdFromArr,
@@ -28,6 +29,7 @@ import { phoneRegExp } from '../../../utils/validate';
 import ExperienceInformation from './ExperienceInformation';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { uploadSingleFile } from '../../../utils/upload';
+import SkillsInformation from './SkillsInformation';
 
 type Props = {};
 
@@ -108,6 +110,8 @@ const ProfileForm = (props: Props) => {
     // rexp_date_end: yup.string().required('Time start is required'),
     rexp_description: yup.string().required('Description is required'),
 
+    skills: yup.array().min(1, 'Skills is is require'),
+
     edu_school: yup.string().required('School is required'),
     edu_certify: yup.string().required('Certificate is required'),
     edu_description: yup.string().required('Education description is required'),
@@ -166,6 +170,8 @@ const ProfileForm = (props: Props) => {
       // rexp_current_end: ,
       rexp_description: cv?.rexp_description || '',
 
+      skills: cv?.skills.split(', ') || [],
+
       edu_school: cv?.edu_school || '',
       edu_certify: cv?.edu_certify || '',
       edu_date_start: cv ? dayjs(cv?.edu_date_start).format('MM/DD/YYYY') : '',
@@ -214,6 +220,7 @@ const ProfileForm = (props: Props) => {
         industries: getIdFromArr(formValues.industries),
         locations: getIdFromArr(formValues.locations),
         avatar: avatar,
+        skills: convertArrStringToString(formValues.skills),
       };
       console.log(formatValues);
       dispatch(updateMyCv(formatValues));
@@ -232,6 +239,7 @@ const ProfileForm = (props: Props) => {
         />
         <CareerInformation control={control} setValue={setValue} />
         <ExperienceInformation control={control} />
+        <SkillsInformation control={control} />
         <EducationInformation control={control} />
         <Stack direction='row' spacing={2}>
           <Button

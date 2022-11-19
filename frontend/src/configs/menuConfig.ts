@@ -1,6 +1,6 @@
 const jobSeekerMenu = [
   { title: 'Home', to: '/' },
-  { title: 'Jobs', to: '/' },
+  // { title: 'Jobs', to: '/' },
   // { title: 'Top Company', to: '/' },
 ];
 

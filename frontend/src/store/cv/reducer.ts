@@ -1,4 +1,11 @@
-import { GET_MY_CV, GET_MY_CV_FAILURE, GET_MY_CV_SUCCESS } from './actionTypes';
+import {
+  GET_MY_CV,
+  GET_MY_CV_FAILURE,
+  GET_MY_CV_SUCCESS,
+  UPDATE_CV_TYPE,
+  UPDATE_CV_TYPE_FAILURE,
+  UPDATE_CV_TYPE_SUCCESS,
+} from './actionTypes';
 import { ICV, CVActions } from './types';
 
 const initialState: ICV = {
@@ -20,6 +27,21 @@ const cvReducer = (state = initialState, action: CVActions) => {
         cv: action.payload,
       };
     case GET_MY_CV_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case UPDATE_CV_TYPE:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case UPDATE_CV_TYPE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case UPDATE_CV_TYPE_FAILURE:
       return {
         ...state,
         isLoading: false,

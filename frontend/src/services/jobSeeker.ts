@@ -28,11 +28,16 @@ const jobSeekerServices = {
   getLocationList: () => {
     return axiosInstance.get('/location');
   },
+
+  //cv
   getCV: () => {
     return axiosInstance.get('/my/resume');
   },
   updateCV: (formData: any) => {
     return axiosInstance.post('/my/resume', formData);
+  },
+  updateCVType: (cv_type: number) => {
+    return axiosInstance.post('/my/update-cv-type', { cv_type });
   },
 
   //job

@@ -9,6 +9,9 @@ import {
   GET_MY_CV,
   GET_MY_CV_FAILURE,
   GET_MY_CV_SUCCESS,
+  UPDATE_CV_TYPE,
+  UPDATE_CV_TYPE_FAILURE,
+  UPDATE_CV_TYPE_SUCCESS,
   UPDATE_MY_CV,
   UPDATE_MY_CV_FAILURE,
 } from './actionTypes';
@@ -40,5 +43,19 @@ export const updateMyCv = (formData: any): UpdateMyCv => ({
 
 export const updateMyCvFailure = (err: any): UpdateMyCvFailure => ({
   type: UPDATE_MY_CV_FAILURE,
+  payload: err,
+});
+
+export const updateCVType = (cv_type: number) => ({
+  type: UPDATE_CV_TYPE,
+  payload: cv_type,
+});
+
+export const updateCVTypeSuccess = () => ({
+  type: UPDATE_CV_TYPE_SUCCESS,
+});
+
+export const updateCVTypeFailure = (err: any) => ({
+  type: UPDATE_CV_TYPE_FAILURE,
   payload: err,
 });

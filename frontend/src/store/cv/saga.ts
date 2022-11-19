@@ -1,11 +1,13 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
-import { GET_MY_CV, UPDATE_MY_CV } from './actionTypes';
+import { GET_MY_CV, UPDATE_MY_CV, UPDATE_CV_TYPE } from './actionTypes';
 
 import {
   getMyCV,
   getMyCVFailure,
   getMyCVSuccess,
+  updateCVTypeFailure,
+  updateCVTypeSuccess,
   updateMyCvFailure,
 } from './actions';
 
@@ -34,9 +36,21 @@ function* updateMyCVSaga({ payload: formData }: any): any {
   }
 }
 
+function* updateCVTypeSaga({ payload }: any): any {
+  try {
+    yield call(jobSeekerServices.updateCVType, payload);
+    toast.success('Update CV successfully!');
+    yield put(updateCVTypeSuccess());
+  } catch (error) {
+    toast.error('Update CV failure!');
+    yield put(updateCVTypeFailure(error));
+  }
+}
+
 function* cvSaga() {
   yield takeEvery(GET_MY_CV, getMyCVSaga);
   yield takeEvery(UPDATE_MY_CV, updateMyCVSaga);
+  yield takeEvery(UPDATE_CV_TYPE, updateCVTypeSaga);
 }
 
 export default cvSaga;

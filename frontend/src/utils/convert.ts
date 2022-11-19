@@ -55,3 +55,17 @@ export const getStatusOrder = (status: number) => {
       return 'Rejected';
   }
 };
+
+export const convertArrStringToString = (arrStr: any) => {
+  let str = '';
+
+  arrStr.forEach((item: any, index: number) => {
+    if (index === 0) {
+      str += item;
+    } else {
+      str += `, ${item}`;
+    }
+  });
+
+  return str;
+};
