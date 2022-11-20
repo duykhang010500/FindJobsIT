@@ -10,6 +10,7 @@ import {
   EMPLOYER_DELETE_JOB_SUCCESS,
   EMPLOYER_GET_JOBS,
   EMPLOYER_GET_JOBS_SUCCESS,
+  GET_ACTIVE_JOBS_SUCCESS,
   GET_JOB,
   GET_JOBS,
   GET_JOBS_APPLIED,
@@ -20,6 +21,7 @@ import {
   GET_PENDING_JOBS,
   GET_PENDING_JOBS_FAILURE,
   GET_PENDING_JOBS_SUCCESS,
+  GET_REJECTED_JOBS_SUCCESS,
   SEARCH_JOB,
   SEARCH_JOB_SUCCESS,
   UPDATE_JOB_FAILURE,
@@ -171,6 +173,17 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
     case GET_PENDING_JOBS_FAILURE:
       return {
         ...state,
+      };
+
+    case GET_ACTIVE_JOBS_SUCCESS:
+      return {
+        ...state,
+        activeJobs: action.payload,
+      };
+    case GET_REJECTED_JOBS_SUCCESS:
+      return {
+        ...state,
+        rejectedJobs: action.payload,
       };
 
     default:

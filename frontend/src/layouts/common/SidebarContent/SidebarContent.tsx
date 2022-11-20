@@ -15,7 +15,7 @@ type Props = {
 
 const SidebarContent = ({ sidebarData }: Props) => {
   return (
-    <List>
+    <List sx={{ mt: 3, width: '100%' }}>
       {sidebarData.map((item: any) => {
         return (
           <NavItem

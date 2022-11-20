@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Typography, Breadcrumbs, Link, Grid } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Grid, Card } from '@mui/material';
 
 import Statistic from '../../../sections/admin-dasboard/dashboard/Statistic';
 import LineChart from '../../../sections/admin-dasboard/dashboard/LineChart';
-import PieChart from '../../../sections/admin-dasboard/dashboard/PieChart';
 
 import { getDashboardAmin } from '../../../store/dashboard/actions';
 import { AppState } from '../../../store/reducer';
@@ -18,7 +17,7 @@ const DashboardAdmin = (props: Props) => {
 
   useEffect(() => {
     dispatch(getDashboardAmin());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -32,7 +31,9 @@ const DashboardAdmin = (props: Props) => {
       <Statistic data={data} />
       <Grid container spacing={3} sx={{ mt: 3 }} justifyContent='center'>
         <Grid item xs={12} md={7}>
-          <LineChart data={data} />
+          <Card sx={{ p: 1 }}>
+            <LineChart data={data} />
+          </Card>
         </Grid>
         {/* <Grid item xs={12} md={5}>
           <PieChart />

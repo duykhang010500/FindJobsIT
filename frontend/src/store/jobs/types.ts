@@ -28,6 +28,12 @@ import {
   APPROVE_JOBS,
   APPROVE_JOBS_SUCCESS,
   APPROVE_JOBS_FAILURE,
+  GET_ACTIVE_JOBS,
+  GET_ACTIVE_JOBS_SUCCESS,
+  GET_ACTIVE_JOBS_FAILURE,
+  GET_REJECTED_JOBS,
+  GET_REJECTED_JOBS_SUCCESS,
+  GET_REJECTED_JOBS_FAILURE,
 } from './actionTypes';
 
 export interface IJobsState {
@@ -174,6 +180,34 @@ export type ApproveJobFailure = {
   payload: any;
 };
 
+export type GetActiveJobs = {
+  type: typeof GET_ACTIVE_JOBS;
+};
+
+export type GetActiveJobsSuccess = {
+  type: typeof GET_ACTIVE_JOBS_SUCCESS;
+  payload: any;
+};
+
+export type GetActiveJobsFailure = {
+  type: typeof GET_ACTIVE_JOBS_FAILURE;
+  payload: any;
+};
+
+export type GetRejectedJobs = {
+  type: typeof GET_REJECTED_JOBS;
+};
+
+export type GetRejectedJobsSuccess = {
+  type: typeof GET_REJECTED_JOBS_SUCCESS;
+  payload: any;
+};
+
+export type GetRejectedJobsFailure = {
+  type: typeof GET_REJECTED_JOBS_FAILURE;
+  payload: any;
+};
+
 export type JobsAction =
   | CreateJob
   | CreateJobSuccess
@@ -202,4 +236,10 @@ export type JobsAction =
   | GetPendingJobsFailure
   | ApproveJob
   | ApplyJobSuccess
-  | ApproveJobFailure;
+  | ApproveJobFailure
+  | GetActiveJobs
+  | GetActiveJobsSuccess
+  | GetActiveJobsFailure
+  | GetRejectedJobs
+  | GetRejectedJobsSuccess
+  | GetRejectedJobsFailure;

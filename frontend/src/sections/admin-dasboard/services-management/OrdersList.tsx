@@ -41,9 +41,7 @@ const OrdersList = (props: Props) => {
 
   const [selectedOrder, setSelectedOrder] = useState<null | any>(null);
 
-  const { orderList, isLoading } = useSelector(
-    (state: AppState) => state.services
-  );
+  const { orderList } = useSelector((state: AppState) => state.services);
 
   useEffect(() => {
     dispatch(adminGetOrderedServices());
@@ -60,7 +58,7 @@ const OrdersList = (props: Props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>OrderID</TableCell>
+                <TableCell>Order ID</TableCell>
                 <TableCell>Created at</TableCell>
                 <TableCell>Company name</TableCell>
                 <TableCell align='right'>Total price</TableCell>

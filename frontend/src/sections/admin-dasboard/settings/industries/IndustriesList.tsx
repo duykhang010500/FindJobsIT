@@ -47,7 +47,7 @@ const IndustriesList = (props: Props) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Id</TableCell>
+              <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Created at</TableCell>
               <TableCell>Updated at</TableCell>

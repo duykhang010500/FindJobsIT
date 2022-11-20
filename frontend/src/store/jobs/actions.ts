@@ -11,6 +11,9 @@ import {
   EMPLOYER_DELETE_JOB_SUCCESS,
   EMPLOYER_GET_JOBS,
   EMPLOYER_GET_JOBS_SUCCESS,
+  GET_ACTIVE_JOBS,
+  GET_ACTIVE_JOBS_FAILURE,
+  GET_ACTIVE_JOBS_SUCCESS,
   GET_JOB,
   GET_JOBS,
   GET_JOBS_APPLIED,
@@ -21,6 +24,9 @@ import {
   GET_PENDING_JOBS,
   GET_PENDING_JOBS_FAILURE,
   GET_PENDING_JOBS_SUCCESS,
+  GET_REJECTED_JOBS,
+  GET_REJECTED_JOBS_FAILURE,
+  GET_REJECTED_JOBS_SUCCESS,
   SEARCH_JOB,
   SEARCH_JOB_FAILURE,
   SEARCH_JOB_SUCCESS,
@@ -209,3 +215,31 @@ export const approveJob = (jobId: number, status: number) => {
     },
   };
 };
+
+export const GetActiveJobs = () => ({
+  type: GET_ACTIVE_JOBS,
+});
+
+export const GetActiveJobsSuccess = (jobs: any) => ({
+  type: GET_ACTIVE_JOBS_SUCCESS,
+  payload: jobs,
+});
+
+export const GetActiveJobsFailure = (err: any) => ({
+  type: GET_ACTIVE_JOBS_FAILURE,
+  payload: err,
+});
+
+export const GetRejectedJobs = () => ({
+  type: GET_REJECTED_JOBS,
+});
+
+export const GetRejectedJobsSuccess = (jobs: any) => ({
+  type: GET_REJECTED_JOBS_SUCCESS,
+  payload: jobs,
+});
+
+export const GetRejectedJobsFailure = (err: any) => ({
+  type: GET_REJECTED_JOBS_FAILURE,
+  payload: err,
+});

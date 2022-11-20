@@ -1,15 +1,16 @@
-import React from 'react';
 import { Box } from '@mui/material';
 import Logo from '../../../components/Logo';
-import SidebarAccount from './SidebarAccount';
 import SidebarContent from '../../common/SidebarContent/SidebarContent';
 
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import SettingsIcon from '@mui/icons-material/Settings';
-import DescriptionIcon from '@mui/icons-material/Description';
-import BusinessIcon from '@mui/icons-material/Business';
 import WorkIcon from '@mui/icons-material/Work';
+// eslint-disable-next-line
+import PeopleIcon from '@mui/icons-material/People';
+// eslint-disable-next-line
+import BusinessIcon from '@mui/icons-material/Business';
+
+import SettingsIcon from '@mui/icons-material/Settings';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 type Props = {};
 
@@ -63,7 +64,7 @@ const sidebarData = [
     icon: <SettingsIcon />,
     children: [
       {
-        title: `Location`,
+        title: `Locations`,
         path: '/admin/settings/location',
       },
       {
@@ -86,8 +87,8 @@ const Sidebar = (props: Props) => {
   return (
     <Box
       sx={{
-        width: '320px',
-        padding: '20px',
+        width: '280px',
+        padding: '10px',
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
@@ -96,7 +97,7 @@ const Sidebar = (props: Props) => {
       }}
     >
       <Logo />
-      <SidebarAccount />
+      {/* <SidebarAccount /> */}
       <SidebarContent sidebarData={sidebarData} />
     </Box>
   );

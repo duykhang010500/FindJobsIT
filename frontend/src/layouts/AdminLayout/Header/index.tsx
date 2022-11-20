@@ -5,9 +5,9 @@ import HeaderLangues from '../../common/Header/HeaderLanguages';
 
 type Props = {};
 const HeaderWrapper = styled(AppBar)({
-  backgroundColor: 'transparent',
+  backgroundColor: '#fff',
   boxShadow: 'none',
-  height: 80,
+  height: 60,
 });
 
 const Header = (props: Props) => {

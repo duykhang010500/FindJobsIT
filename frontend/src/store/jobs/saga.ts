@@ -14,6 +14,8 @@ import {
   GET_JOBS_APPLIED,
   GET_PENDING_JOBS,
   APPROVE_JOBS,
+  GET_ACTIVE_JOBS,
+  GET_REJECTED_JOBS,
 } from './actionTypes';
 
 import {
@@ -30,6 +32,10 @@ import {
   getJobsAppliedSuccess,
   getPendingJobsSuccess,
   getPendingJobs,
+  GetRejectedJobsSuccess,
+  GetActiveJobsSuccess,
+  GetActiveJobs,
+  GetRejectedJobs,
 } from './actions';
 
 import guestServices from '../../services/guest';
@@ -146,9 +152,25 @@ function* approveJobSaga({ payload }: any): any {
     yield call(adminServices.approveJob, jobId, status);
     toast.success('Update successfully!');
     yield put(getPendingJobs());
+    yield put(GetActiveJobs());
+    yield put(GetRejectedJobs());
   } catch (error) {
     toast.error('Somethings went wrong!');
   }
+}
+
+function* getActiveJobsSagas(): any {
+  try {
+    const res = yield call(adminServices.getJobs, 'active');
+    yield put(GetActiveJobsSuccess(res.data.JobsPendings));
+  } catch (error) {}
+}
+
+function* getRejectedJobsSaga(): any {
+  try {
+    const res = yield call(adminServices.getJobs, 'reject');
+    yield put(GetRejectedJobsSuccess(res.data.JobsPendings));
+  } catch (error) {}
 }
 
 function* jobsSaga() {
@@ -163,6 +185,8 @@ function* jobsSaga() {
   yield takeEvery(GET_JOBS_APPLIED, getJobsAppliedSaga);
   yield takeEvery(GET_PENDING_JOBS, getPendingJobsSaga);
   yield takeEvery(APPROVE_JOBS, approveJobSaga);
+  yield takeEvery(GET_ACTIVE_JOBS, getActiveJobsSagas);
+  yield takeEvery(GET_REJECTED_JOBS, getRejectedJobsSaga);
 }
 
 export default jobsSaga;
