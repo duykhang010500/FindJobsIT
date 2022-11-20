@@ -69,3 +69,23 @@ export const convertArrStringToString = (arrStr: any) => {
 
   return str;
 };
+
+export const convertJobStatus = (status: number) => {
+  switch (status) {
+    case 0: {
+      return 'Draft';
+    }
+    case 1: {
+      return 'Public';
+    }
+    case 2: {
+      return 'Pending';
+    }
+    case 3: {
+      return 'Closed';
+    }
+    case 4: {
+      return 'Rejected';
+    }
+  }
+};

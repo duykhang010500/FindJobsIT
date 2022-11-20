@@ -116,7 +116,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                 render={({ field, fieldState: { error } }) => (
                   <TextField
                     {...field}
-                    label={`Service name`}
+                    label={`Service name *`}
                     error={!!error}
                     helperText={error?.message}
                   />
@@ -128,7 +128,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                 render={({ field, fieldState: { error } }) => (
                   <TextField
                     {...field}
-                    label={`Description`}
+                    label={`Description *`}
                     error={!!error}
                     helperText={error?.message}
                   />
@@ -157,7 +157,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                 render={({ field, fieldState: { error } }) => (
                   <TextField
                     {...field}
-                    label={`Price`}
+                    label={`Price *`}
                     type='number'
                     error={!!error}
                     helperText={error?.message}

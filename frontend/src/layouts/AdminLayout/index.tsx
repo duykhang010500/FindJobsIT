@@ -13,7 +13,7 @@ const AdminLayout = (props: Props) => {
       <Sidebar />
       <Box
         sx={{
-          mt: 7,
+          mt: 8,
           p: 3,
           width: 'calc(100% - 300px)',
           // backgroundColor: 'rgb(250, 250, 251)',

@@ -22,21 +22,22 @@ import {
 
 import AddIcon from '@mui/icons-material/Add';
 
-import BadgeStatus from '../../../components/Badge';
-
+import JobMoreMenu from '../../../sections/employer-dashboard/jobs/JobMoreMenu';
 // import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import JobFilter from '../../../sections/employer-dashboard/jobs/JobFilter';
-import JobMoreMenu from '../../../sections/employer-dashboard/jobs/JobMoreMenu';
 
+import {
+  employerDeleteJob,
+  employerGetJobs,
+} from '../../../store/jobs/actions';
 import { AppState } from '../../../store/reducer';
-import { employerGetJobs } from '../../../store/jobs/actions';
-import { employerGetOrderedServices } from '../../../store/services/actions';
-
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
+import { employerGetOrderedServices } from '../../../store/services/actions';
+import BadgeStatus from '../../../components/Badge';
 
 type Props = {};
 
-const EmployerJobsOpen = (props: Props) => {
+const EmployerDraftJob = (props: Props) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -58,14 +59,15 @@ const EmployerJobsOpen = (props: Props) => {
     navigate(`/employer/hr/job/${id}/edit`);
   };
 
-  const handleViewApplications = () => {};
+  const handlePost = () => {};
 
-  const handleClose = (id: number) => {};
+  const handleDelete = (id: number) => {
+    dispatch(employerDeleteJob(id));
+  };
 
   if (isLoading) {
     return (
       <Stack spacing={3}>
-        <Skeleton variant='rounded' width={100} height={30} />
         <Skeleton variant='rounded' width={'100%'} height={100} />
         <Skeleton variant='rounded' width={'100%'} height={100} />
         <Skeleton variant='rounded' width={'100%'} height={100} />
@@ -77,22 +79,6 @@ const EmployerJobsOpen = (props: Props) => {
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' sx={{ mb: 2 }}>
-        <Tooltip
-          placement='top'
-          title={canPostJob < 0 ? 'Please buy this service!' : ''}
-        >
-          <div>
-            <Button
-              component={Link}
-              to={`/employer/hr/job/create`}
-              variant='contained'
-              startIcon={<AddIcon />}
-              // disabled={canPostJob < 0}
-            >
-              Post a job
-            </Button>
-          </div>
-        </Tooltip>
         {/* <Button
           variant='contained'
           color='info'
@@ -121,7 +107,7 @@ const EmployerJobsOpen = (props: Props) => {
           </TableHead>
           <TableBody>
             {jobs?.map((job: any) => {
-              if (job.status === 1 || job.status === 2 || job.status === 4) {
+              if (job.status === 0) {
                 return (
                   <TableRow key={job.id}>
                     {/* <TableCell padding='checkbox'>
@@ -181,8 +167,7 @@ const EmployerJobsOpen = (props: Props) => {
                     <TableCell align='center'>
                       <JobMoreMenu
                         onEdit={() => handleEdit(job.id)}
-                        onClose={() => handleClose(job.id)}
-                        onViewApplications={() => handleViewApplications()}
+                        onDelete={() => handleDelete(job.id)}
                       />
                     </TableCell>
                   </TableRow>
@@ -205,4 +190,4 @@ const EmployerJobsOpen = (props: Props) => {
   );
 };
 
-export default EmployerJobsOpen;
+export default EmployerDraftJob;

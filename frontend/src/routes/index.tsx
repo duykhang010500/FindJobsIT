@@ -57,6 +57,8 @@ import PaymentSuccess from '../pages/employer/PaymentSuccess';
 import JobsPending from '../pages/admin/Jobs/JobsPending';
 import JobsActive from '../pages/admin/Jobs/JobsActive';
 import JobsReject from '../pages/admin/Jobs/JobsReject';
+import EmployerClosedJobs from '../pages/employer/jobs/EmployerClosedJobs';
+import EmployerDraftJobs from '../pages/employer/jobs/EmployerDraftJobs';
 
 type Props = {};
 
@@ -114,13 +116,19 @@ const Router = (props: Props) => {
       path: 'employer/hr',
       element: <EmployerDashboardLayout />,
       children: [
+        //information settings
         { path: 'my', element: <MyProfile /> },
         { path: 'dashboard', element: <Statistics /> },
         { path: 'company', element: <CompanyProfile /> },
-        { path: 'jobs/active', element: <EmployerJobsOpen /> },
+
+        //jobs
         { path: 'job/create', element: <EmployerCreateJob /> },
-        { path: 'order/active', element: <EmployerServices /> },
         { path: 'job/:id/edit', element: <EmployerCreateJob /> },
+        { path: 'jobs/active', element: <EmployerJobsOpen /> },
+        { path: 'jobs/closed', element: <EmployerClosedJobs /> },
+        { path: 'jobs/draft', element: <EmployerDraftJobs /> },
+
+        //candidates
         { path: 'candidates/:id', element: <DetailCandidate /> },
         { path: 'candidates', element: <EmployerCandidatesList /> },
         { path: 'saved-candidates', element: <EmployerCandidateSaved /> },
@@ -128,6 +136,9 @@ const Router = (props: Props) => {
           path: 'mails',
           element: <EmployerCandidateHistorySentMail />,
         },
+
+        //services
+        { path: 'order/active', element: <EmployerServices /> },
       ],
     },
     {
@@ -144,6 +155,7 @@ const Router = (props: Props) => {
         { path: 'jobs/pending', element: <JobsPending /> },
         { path: 'jobs/active', element: <JobsActive /> },
         { path: 'jobs/reject', element: <JobsReject /> },
+        { path: 'jobs/:id' },
 
         //candidates
         { path: 'candidates/list', element: <AdminCandidatesPage /> },

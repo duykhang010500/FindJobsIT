@@ -17,17 +17,21 @@ const sidebarData = [
     path: '/employer/hr/dashboard',
   },
   {
-    title: `Manage Jobs Postings`,
+    title: `Jobs Management`,
     icon: <BusinessCenterIcon />,
     children: [
       {
-        title: `Jobs`,
+        title: `Open Jobs`,
         path: '/employer/hr/jobs/active',
       },
-      // {
-      //   title: `Jobs closed`,
-      //   path: '/employer/hr/jobs/inactive',
-      // },
+      {
+        title: `Closed Jobs`,
+        path: '/employer/hr/jobs/closed',
+      },
+      {
+        title: `Draft Jobs`,
+        path: `/employer/hr/jobs/draft`,
+      },
     ],
   },
   {

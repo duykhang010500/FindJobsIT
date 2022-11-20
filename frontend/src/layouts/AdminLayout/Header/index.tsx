@@ -13,7 +13,14 @@ const HeaderWrapper = styled(AppBar)({
 const Header = (props: Props) => {
   return (
     <HeaderWrapper>
-      <Toolbar sx={{ minHeight: '100%' }}>
+      <Toolbar
+        sx={{
+          minHeight: '100%',
+          borderBottom: '1px solid rgb(240, 240, 240)',
+          zIndex: 9999,
+          backgroundColor: '#fff',
+        }}
+      >
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction='row' spacing={2}>
           <HeaderLangues />

@@ -182,36 +182,36 @@ const OrdersList = (props: Props) => {
         <DialogActions>
           <Stack direction='row' spacing={2} sx={{ mr: 'auto' }}>
             <Button
-              variant={selectedOrder?.status === 0 ? 'contained' : 'outlined'}
+              variant={selectedOrder?.status === 1 ? 'contained' : 'outlined'}
               // disabled={selectedOrder?.status === 0}
 
               onClick={() => {
                 setSelectedOrder({ ...selectedOrder, status: 0 });
                 dispatch(
-                  adminUpdateOrderedServicesStatus(selectedOrder?.id, 0)
+                  adminUpdateOrderedServicesStatus(selectedOrder?.id, 1)
                 );
               }}
             >
               Pending
             </Button>
             <Button
-              variant={selectedOrder?.status === 1 ? 'contained' : 'outlined'}
+              variant={selectedOrder?.status === 2 ? 'contained' : 'outlined'}
               onClick={() => {
                 setSelectedOrder({ ...selectedOrder, status: 1 });
                 console.log(selectedOrder.id);
                 dispatch(
-                  adminUpdateOrderedServicesStatus(selectedOrder?.id, 1)
+                  adminUpdateOrderedServicesStatus(selectedOrder?.id, 2)
                 );
               }}
             >
               Processed
             </Button>
             <Button
-              variant={selectedOrder?.status === 2 ? 'contained' : 'outlined'}
+              variant={selectedOrder?.status === 3 ? 'contained' : 'outlined'}
               onClick={() => {
                 setSelectedOrder({ ...selectedOrder, status: 2 });
                 dispatch(
-                  adminUpdateOrderedServicesStatus(selectedOrder?.id, 2)
+                  adminUpdateOrderedServicesStatus(selectedOrder?.id, 3)
                 );
               }}
             >

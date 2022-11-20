@@ -13,7 +13,7 @@ const EmployerDashboardLayout = (props: Props) => {
     <Fragment>
       <Header />
       <Container sx={{ mt: 15 }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={4}>
           <Grid item md={4}>
             <Sidebar />
           </Grid>

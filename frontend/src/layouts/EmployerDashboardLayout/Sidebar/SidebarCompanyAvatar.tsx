@@ -46,7 +46,7 @@ const SidebarCompanyAvatar = (props: Props) => {
         )}
       </LogoCompanyWrapper>
 
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           alignItem: 'center',
@@ -57,7 +57,7 @@ const SidebarCompanyAvatar = (props: Props) => {
         <Typography variant='h5'>
           {currentUser?.info?.info_company?.followed || 0}
         </Typography>
-      </Box>
+      </Box> */}
     </Stack>
   );
 };
