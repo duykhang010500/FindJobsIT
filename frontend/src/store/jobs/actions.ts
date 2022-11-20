@@ -2,6 +2,7 @@ import {
   APPLY_JOB,
   APPLY_JOB_FAILURE,
   APPLY_JOB_SUCCESS,
+  APPROVE_JOBS,
   CREATE_JOB,
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
@@ -17,6 +18,9 @@ import {
   GET_JOBS_SUCCESS,
   GET_JOB_FAILURE,
   GET_JOB_SUCCESS,
+  GET_PENDING_JOBS,
+  GET_PENDING_JOBS_FAILURE,
+  GET_PENDING_JOBS_SUCCESS,
   SEARCH_JOB,
   SEARCH_JOB_FAILURE,
   SEARCH_JOB_SUCCESS,
@@ -174,5 +178,34 @@ export const searchJobsFailure = (err: any) => {
   return {
     type: SEARCH_JOB_FAILURE,
     payload: err,
+  };
+};
+
+export const getPendingJobs = () => {
+  return {
+    type: GET_PENDING_JOBS,
+  };
+};
+
+export const getPendingJobsSuccess = (jobs: any) => {
+  return {
+    type: GET_PENDING_JOBS_SUCCESS,
+    payload: jobs,
+  };
+};
+
+export const getPendingJobsFailure = () => {
+  return {
+    type: GET_PENDING_JOBS_FAILURE,
+  };
+};
+
+export const approveJob = (jobId: number, status: number) => {
+  return {
+    type: APPROVE_JOBS,
+    payload: {
+      jobId,
+      status,
+    },
   };
 };

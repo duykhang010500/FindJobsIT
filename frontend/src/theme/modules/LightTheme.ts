@@ -84,6 +84,9 @@ const LightTheme = createTheme({
     success: {
       main: '#00AB55',
     },
+    error: {
+      main: '#ff4d4f',
+    },
   },
   shape: {
     borderRadius: 8,
@@ -159,7 +162,7 @@ const LightTheme = createTheme({
           borderBottom: 'none',
         },
         head: {
-          color: 'rgb(99, 115, 129)',
+          color: '#595959',
         },
       },
     },
@@ -167,9 +170,6 @@ const LightTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: '#f5f5f5',
-          '& .MuiTableHead-root': {
-            borderRadius: '10px !important',
-          },
         },
       },
     },

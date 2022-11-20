@@ -9,6 +9,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DescriptionIcon from '@mui/icons-material/Description';
 import BusinessIcon from '@mui/icons-material/Business';
+import WorkIcon from '@mui/icons-material/Work';
 
 type Props = {};
 
@@ -18,25 +19,35 @@ const sidebarData = [
     icon: <DashboardIcon />,
     path: '/admin/dashboard',
   },
+  // {
+  //   title: `Employers management`,
+  //   icon: <BusinessIcon />,
+  //   children: [
+  //     {
+  //       title: `Companies`,
+  //       path: '/admin/companies',
+  //     },
+  //   {
+  //     title: `Jobs`,
+  //     path: '/admin/companies/jobs',
+  //   },
+  //   ],
+  // },
+  // {
+  //   title: `Candidates Management`,
+  //   icon: <PeopleIcon />,
+  //   path: '/admin/candidates',
+  //   children: [{ title: `List`, path: `/admin/candidates/list` }],
+  // },
   {
-    title: `Employers management`,
-    icon: <BusinessIcon />,
+    title: `Jobs Management`,
+    icon: <WorkIcon />,
+    path: '/admin/jobs',
     children: [
-      {
-        title: `Companies`,
-        path: '/admin/companies',
-      },
-      // {
-      //   title: `Jobs`,
-      //   path: '/admin/companies/jobs',
-      // },
+      { title: 'Pending Jobs', path: '/admin/jobs/pending' },
+      { title: 'Active Jobs', path: '/admin/jobs/active' },
+      { title: 'Reject Jobs', path: '/admin/jobs/reject' },
     ],
-  },
-  {
-    title: `Candidates Management`,
-    icon: <PeopleIcon />,
-    path: '/admin/candidates',
-    children: [{ title: `List`, path: `/admin/candidates/list` }],
   },
   {
     title: `Services Management`,

@@ -17,6 +17,9 @@ import {
   GET_JOBS_APPLIED_SUCCESS,
   GET_JOBS_SUCCESS,
   GET_JOB_SUCCESS,
+  GET_PENDING_JOBS,
+  GET_PENDING_JOBS_FAILURE,
+  GET_PENDING_JOBS_SUCCESS,
   SEARCH_JOB,
   SEARCH_JOB_SUCCESS,
   UPDATE_JOB_FAILURE,
@@ -30,6 +33,9 @@ const initialState: IJobsState = {
   error: null,
   isLoading: false,
   jobsSearch: [],
+  pendingJobs: [],
+  activeJobs: [],
+  rejectedJobs: [],
 };
 
 const JobsReducer = (state = initialState, action: JobsAction) => {
@@ -151,6 +157,22 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
         ...state,
         isLoading: false,
       };
+    case GET_PENDING_JOBS:
+      return {
+        ...state,
+      };
+
+    case GET_PENDING_JOBS_SUCCESS:
+      return {
+        ...state,
+        pendingJobs: action.payload,
+      };
+
+    case GET_PENDING_JOBS_FAILURE:
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }

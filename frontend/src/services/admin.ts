@@ -11,14 +11,31 @@ const adminServices = {
   getCurrentInfo: () => {
     return axiosInstance.get('/admin/info');
   },
+
+  //jobs
+  getJobs: (status: any) => {
+    return axiosInstance.get('/admin/jobs/pendings', {
+      params: {
+        filter: status,
+      },
+    });
+  },
+  approveJob: (jobId: number, status: number) => {
+    return axiosInstance.post(`/admin/jobs/pending/${jobId}`, {
+      status,
+    });
+  },
+
   //companies
   getCompaniesList: () => {
     return axiosInstance.get('/admin/companies');
   },
+
   //candidates
   getCandidatesList: () => {
     return axiosInstance.get('/admin/members');
   },
+
   //services
   createService: (formData: any) => {
     return axiosInstance.post('/admin/service/0', formData);
@@ -32,6 +49,7 @@ const adminServices = {
   deleteService: (id: string) => {
     return axiosInstance.delete(`/admin/service/${id}`);
   },
+
   //location
   createLocation: (formData: any) => {
     return axiosInstance.post('/admin/job/location/0', formData);
@@ -45,6 +63,7 @@ const adminServices = {
   deleteLocation: (id: number) => {
     return axiosInstance.delete(`/admin/job/location/${id}`);
   },
+
   //industries
   createIndustry: (formData: any) => {
     return axiosInstance.post('/admin/job/industry/0', formData);
@@ -58,6 +77,7 @@ const adminServices = {
   deleteIndustry: (id: number) => {
     return axiosInstance.delete(`/admin/job/industry/${id}`);
   },
+
   //order
   getOrderedServices: () => {
     return axiosInstance.get('/admin/orders');

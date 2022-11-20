@@ -54,6 +54,9 @@ import EmployerCheckout from '../pages/employer/EmployerCheckout';
 import EmployerCandidateHistorySentMail from '../pages/employer/candidates/EmployerCandidateHistorySentMail';
 import EmployerOrderSuccess from '../pages/employer/EmployerOrderSuccess';
 import PaymentSuccess from '../pages/employer/PaymentSuccess';
+import JobsPending from '../pages/admin/Jobs/JobsPending';
+import JobsActive from '../pages/admin/Jobs/JobsActive';
+import JobsReject from '../pages/admin/Jobs/JobsReject';
 
 type Props = {};
 
@@ -132,13 +135,26 @@ const Router = (props: Props) => {
       element: <AdminLayout />,
       children: [
         { path: 'dashboard', element: <DashboardAdmin /> },
+
+        //companies
         { path: 'companies', element: <CompanyList /> },
         { path: 'companies/jobs' },
+
+        //jobs
+        { path: 'jobs/pending', element: <JobsPending /> },
+        { path: 'jobs/active', element: <JobsActive /> },
+        { path: 'jobs/reject', element: <JobsReject /> },
+
+        //candidates
         { path: 'candidates/list', element: <AdminCandidatesPage /> },
+
+        //services
         { path: 'services/orders', element: <OrdersPage /> },
         { path: 'services/list', element: <ServicesPage /> },
         { path: 'services/new', element: <CreateService /> },
         { path: 'services/:id/edit', element: <CreateService /> },
+
+        //settings
         { path: 'settings/location', element: <LocationPage /> },
         { path: 'settings/industries', element: <IndustriesPage /> },
         { path: 'settings/degree', element: <DegreesPage /> },

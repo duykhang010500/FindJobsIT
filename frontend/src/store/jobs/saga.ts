@@ -12,6 +12,8 @@ import {
   UPDATE_JOB,
   EMPLOYER_DELETE_JOB,
   GET_JOBS_APPLIED,
+  GET_PENDING_JOBS,
+  APPROVE_JOBS,
 } from './actionTypes';
 
 import {
@@ -26,11 +28,14 @@ import {
   employerDeleteJobFailure,
   employerGetJobs,
   getJobsAppliedSuccess,
+  getPendingJobsSuccess,
+  getPendingJobs,
 } from './actions';
 
 import guestServices from '../../services/guest';
 import employerServices from '../../services/employer';
 import jobSeekerServices from '../../services/jobSeeker';
+import adminServices from '../../services/admin';
 
 function* createJob({ payload: { formData, navigate } }: any) {
   try {
@@ -126,6 +131,26 @@ function* getJobsAppliedSaga(): any {
   }
 }
 
+function* getPendingJobsSaga(): any {
+  try {
+    const res = yield call(adminServices.getJobs, 'all');
+    yield put(getPendingJobsSuccess(res.data.JobsPendings));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* approveJobSaga({ payload }: any): any {
+  try {
+    const { jobId, status } = payload;
+    yield call(adminServices.approveJob, jobId, status);
+    toast.success('Update successfully!');
+    yield put(getPendingJobs());
+  } catch (error) {
+    toast.error('Somethings went wrong!');
+  }
+}
+
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
   yield takeEvery(GET_JOBS, getJobsSaga);
@@ -136,6 +161,8 @@ function* jobsSaga() {
   yield takeEvery(UPDATE_JOB, updateJobSaga);
   yield takeEvery(EMPLOYER_DELETE_JOB, employerDeleteJobSaga);
   yield takeEvery(GET_JOBS_APPLIED, getJobsAppliedSaga);
+  yield takeEvery(GET_PENDING_JOBS, getPendingJobsSaga);
+  yield takeEvery(APPROVE_JOBS, approveJobSaga);
 }
 
 export default jobsSaga;
