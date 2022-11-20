@@ -75,6 +75,11 @@ const employerServices = {
   getDetailOrderedService: (id: any) => {
     return axiosInstance.get('/employer/hr/orders/active/' + id);
   },
+
+  //dashboard
+  getDashboard: () => {
+    return axiosInstance.get('/employer/hr/dashboard');
+  },
 };
 
 export default employerServices;

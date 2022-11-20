@@ -1,9 +1,13 @@
-import React from 'react';
-import { Box, Card, Grid, Typography, styled } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Box, Card, Grid, Typography, styled, Stack } from '@mui/material';
 
 import { FaUser } from 'react-icons/fa';
 import { MdWork } from 'react-icons/md';
 import StatisticsMap from './StatisticsMap';
+import { AppState } from '../../../store/reducer';
+import { useEffect } from 'react';
+import { getDashboardEmployer } from '../../../store/dashboard/actions';
 
 type Props = {};
 
@@ -14,6 +18,7 @@ const CardStyle = styled(Card)({
   justifyContent: 'space-between',
   boxShadow: 'none',
   border: '2px solid #f2f4f5',
+  height: '100%',
 });
 
 const IconWrapperStyle = styled(Box)({
@@ -26,15 +31,23 @@ const IconWrapperStyle = styled(Box)({
 });
 
 const Statistics = (props: Props) => {
+  const dispatch = useDispatch();
+
+  const { data } = useSelector((state: AppState) => state.dashboard);
+
+  useEffect(() => {
+    dispatch(getDashboardEmployer());
+  }, [dispatch]);
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} sm={12} md={6}>
         <CardStyle>
           <Box>
             <Typography variant='h1' gutterBottom sx={{ color: '#40a9ff' }}>
-              99
+              {data?.totalCandidates}
             </Typography>
-            <Typography variant='h5' color='#8c8c8c'>
+            <Typography variant='body1' color='#8c8c8c'>
               Candidates
             </Typography>
           </Box>
@@ -53,15 +66,63 @@ const Statistics = (props: Props) => {
           </IconWrapperStyle>
         </CardStyle>
       </Grid>
+
       <Grid item xs={12} sm={12} md={6}>
         <CardStyle>
           <Box>
-            <Typography variant='h1' gutterBottom sx={{ color: '#ffc53d' }}>
-              99
-            </Typography>
-            <Typography variant='h5' color='#8c8c8c'>
-              Jobs
-            </Typography>
+            <Stack spacing={0.2}>
+              <Stack direction='row' spacing={2}>
+                <Typography
+                  variant='body1'
+                  gutterBottom
+                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                >
+                  Active
+                </Typography>
+                <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
+                  {data?.totalJobsActive}
+                </Typography>
+              </Stack>
+
+              <Stack direction='row' spacing={2}>
+                <Typography
+                  variant='body1'
+                  gutterBottom
+                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                >
+                  Pending
+                </Typography>
+                <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
+                  {data?.totalJobsPending}
+                </Typography>
+              </Stack>
+
+              <Stack direction='row' spacing={2}>
+                <Typography
+                  variant='body1'
+                  gutterBottom
+                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                >
+                  Closed
+                </Typography>
+                <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
+                  {data?.totalJobsStopPosting}
+                </Typography>
+              </Stack>
+
+              <Stack direction='row' spacing={2}>
+                <Typography
+                  variant='body1'
+                  gutterBottom
+                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                >
+                  Expired
+                </Typography>
+                <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
+                  {data?.totalJobsExpired}
+                </Typography>
+              </Stack>
+            </Stack>
           </Box>
           <IconWrapperStyle
             sx={{
@@ -78,8 +139,9 @@ const Statistics = (props: Props) => {
           </IconWrapperStyle>
         </CardStyle>
       </Grid>
-      <Grid item xs={12}>
-        <StatisticsMap />
+
+      <Grid item xs={12} sm={12}>
+        <StatisticsMap data={data?.candidate_apply_by_month} />
       </Grid>
     </Grid>
   );

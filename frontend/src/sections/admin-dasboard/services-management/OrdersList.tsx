@@ -31,6 +31,7 @@ import { AppState } from '../../../store/reducer';
 import { getStatusOrder } from '../../../utils/convert';
 import { Visibility } from '@mui/icons-material';
 import { numberWithCommas } from '../../../utils/format';
+import BadgeStatus from '../../../components/Badge';
 
 type Props = {};
 
@@ -81,7 +82,9 @@ const OrdersList = (props: Props) => {
                       {numberWithCommas(item.total)}
                     </TableCell>
                     <TableCell align='center'>
-                      {getStatusOrder(item.status)}
+                      <BadgeStatus status={item.status}>
+                        {getStatusOrder(item.status)}
+                      </BadgeStatus>
                     </TableCell>
                     <TableCell>
                       <Tooltip placement='top' title='View detail'>
@@ -183,10 +186,9 @@ const OrdersList = (props: Props) => {
           <Stack direction='row' spacing={2} sx={{ mr: 'auto' }}>
             <Button
               variant={selectedOrder?.status === 1 ? 'contained' : 'outlined'}
-              // disabled={selectedOrder?.status === 0}
-
+              disabled={selectedOrder?.status === 2}
               onClick={() => {
-                setSelectedOrder({ ...selectedOrder, status: 0 });
+                setSelectedOrder({ ...selectedOrder, status: 1 });
                 dispatch(
                   adminUpdateOrderedServicesStatus(selectedOrder?.id, 1)
                 );
@@ -197,7 +199,7 @@ const OrdersList = (props: Props) => {
             <Button
               variant={selectedOrder?.status === 2 ? 'contained' : 'outlined'}
               onClick={() => {
-                setSelectedOrder({ ...selectedOrder, status: 1 });
+                setSelectedOrder({ ...selectedOrder, status: 2 });
                 console.log(selectedOrder.id);
                 dispatch(
                   adminUpdateOrderedServicesStatus(selectedOrder?.id, 2)
@@ -208,8 +210,9 @@ const OrdersList = (props: Props) => {
             </Button>
             <Button
               variant={selectedOrder?.status === 3 ? 'contained' : 'outlined'}
+              disabled={selectedOrder?.status === 2}
               onClick={() => {
-                setSelectedOrder({ ...selectedOrder, status: 2 });
+                setSelectedOrder({ ...selectedOrder, status: 3 });
                 dispatch(
                   adminUpdateOrderedServicesStatus(selectedOrder?.id, 3)
                 );

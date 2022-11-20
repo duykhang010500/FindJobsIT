@@ -3,9 +3,11 @@ import { Box } from '@mui/material';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 
-type Props = {};
+type Props = {
+  data?: any;
+};
 
-const StatisticsMap = (props: Props) => {
+const StatisticsMap = ({ data }: Props) => {
   const options: ApexOptions = {
     chart: {
       toolbar: {
@@ -30,11 +32,11 @@ const StatisticsMap = (props: Props) => {
     },
     yaxis: {
       title: {
-        text: 'Candidate (person)',
+        text: 'Candidates',
       },
     },
     title: {
-      text: `Monthly application in system, ${new Date().getFullYear()}`,
+      text: `Monthly applications in system, ${new Date().getFullYear()}`,
       floating: true,
       offsetY: 0,
       align: 'center',
@@ -46,8 +48,8 @@ const StatisticsMap = (props: Props) => {
 
   const series = [
     {
-      name: 'Number of person: ',
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 12, 11, 1],
+      name: 'Number of applications: ',
+      data,
     },
   ];
   return (

@@ -1,8 +1,7 @@
 import dayjs from 'dayjs';
-
-import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   Box,
@@ -59,6 +58,10 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [showSalary, setShowSalary] = useState<any>('Negotiate');
+
+  const [showExperience, setShowExperience] = useState<any>('Not require');
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
 
@@ -196,8 +199,11 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
     resolver: yupResolver(newJobSchema),
   });
 
-  const [showSalary, setShowSalary] = useState<any>('Negotiate');
-  const [showExperience, setShowExperience] = useState<any>('Not require');
+  useEffect(() => {
+    reset(defaultValues);
+    setShowExperience(isEdit ? job?.exp : 'Not require');
+    setShowSalary(isEdit ? job?.salary : 'Negotiate');
+  }, [reset, job, defaultValues, isEdit]);
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -216,11 +222,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    reset(defaultValues);
-    setShowExperience(isEdit ? job?.exp : 'Not require');
-    setShowSalary(isEdit ? job?.salary : 'Negotiate');
-  }, [reset, job, defaultValues, isEdit]);
+  const handleSaveDraft = () => {};
 
   return (
     <Box sx={{ mt: 6 }}>
@@ -692,9 +694,15 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             >
               Save
             </LoadingButton>
-            {/* <LoadingButton size='large' variant='outlined' loading={isLoading}>
+            <LoadingButton
+              size='large'
+              color='info'
+              variant='outlined'
+              loading={isLoading}
+              onClick={handleSaveDraft}
+            >
               Save Draft
-            </LoadingButton> */}
+            </LoadingButton>
           </Stack>
         </Stack>
       </form>

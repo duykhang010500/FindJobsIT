@@ -284,7 +284,7 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
         return Arr;
       };
 
-      let processedOrders = orders.filter((item: any) => item.status === 1);
+      let processedOrders = orders.filter((item: any) => item.status === 2);
 
       const ActiveServices = uniqBy(getServicesActive(processedOrders), 'id');
 

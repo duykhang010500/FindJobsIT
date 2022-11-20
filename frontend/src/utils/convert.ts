@@ -47,11 +47,11 @@ export const findIndexByName1 = (name: string, arr: any[]) => {
 
 export const getStatusOrder = (status: number) => {
   switch (status) {
-    case 0:
-      return 'Pending';
     case 1:
-      return 'Precessed';
+      return 'Pending';
     case 2:
+      return 'Precessed';
+    case 3:
       return 'Rejected';
   }
 };

@@ -24,6 +24,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogActions,
+  FormHelperText,
 } from '@mui/material';
 
 import { LoadingButton } from '@mui/lab';
@@ -44,6 +45,7 @@ import {
 import { AppState } from '../../../store/reducer';
 import { TrySharp } from '@mui/icons-material';
 import { employerGetOrderedServices } from '../../../store/services/actions';
+import Editor from '../../../components/Editor';
 
 type Props = {};
 
@@ -270,23 +272,26 @@ const EmployerCandidatesList = (props: Props) => {
                   );
                 }}
               />
-              <Controller
-                control={control}
-                name='content'
-                render={({ field, fieldState: { error } }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label='Content *'
-                      multiline
-                      minRows={5}
-                      maxRows={10}
-                      error={!!error}
-                      helperText={error?.message}
-                    />
-                  );
-                }}
-              />
+              <div>
+                <FormHelperText sx={{ mb: 1 }}>
+                  <Typography variant='caption'>Content *</Typography>
+                </FormHelperText>
+                <Controller
+                  control={control}
+                  name='content'
+                  render={({ field, fieldState: { error } }) => {
+                    return (
+                      <Editor
+                        id='content'
+                        error={!!error}
+                        value={field.value}
+                        onChange={field.onChange}
+                        helperText={error?.message}
+                      />
+                    );
+                  }}
+                />
+              </div>
             </Stack>
           </DialogContent>
           <DialogActions>
