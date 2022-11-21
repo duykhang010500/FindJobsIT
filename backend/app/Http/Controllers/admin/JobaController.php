@@ -66,6 +66,14 @@ class JobaController extends Controller
         ]);
     }
 
+    public function detail(Request $request, $id)
+    {
+        $job = Job::with(['industries','locations','company'])->where('id', $id)->first();
+        return response()->json([
+            'job' => $job,
+        ]);
+    }
+
     public function locations()
     {
         //

@@ -134,6 +134,7 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
         Route::delete('job/industry/{id}', [JobaController::class, 'delete_industry']);
 
         //jobs
+        Route::get('/job/{id}', [JobaController::class, 'detail']);
         Route::get('/jobs/pendings', [JobaController::class, 'job_pendings']);
         Route::post('/jobs/pending/{id}', [JobaController::class, 'job_pending']);
     });
@@ -174,6 +175,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         // jobs
         Route::get('/hr/job', [HrController::class, 'getJob']);
         Route::get('/hr/job/{id}', [HrController::class, 'detail']);
+        Route::get('/hr/job/candidates/{id}', [HrController::class, 'get_candidate_by_job']);
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
         Route::delete('/hr/job/{id}', [HrController::class, 'deleteJob']);
