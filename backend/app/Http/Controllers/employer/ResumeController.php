@@ -192,11 +192,11 @@ class ResumeController extends Controller
                             $query2->whereBetween('birthday', [$maxFilter, $minFilter]));
                 });
             }
-            return response()->json([
-                'result' => $result->get()
-            ]);
+            // return response()->json([
+            //     'result' => $result->get()
+            // ]);
             // dd($params);
-            $result = $result->orderBy('id','desc')->get();
+            $result = $result->where('resume_status', Resume::STATUS_PUBLISHED)->orderBy('id','desc')->get();
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             // Create a new Laravel collection from the array data
