@@ -9,8 +9,10 @@ import UploadIcon from '@mui/icons-material/Upload';
 import PeopleIcon from '@mui/icons-material/People';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { number } from 'yup';
 
 type Props = {
+  status?: number;
   onEdit: () => void;
   onDelete?: () => void;
   onPost?: () => void;
@@ -20,6 +22,7 @@ type Props = {
 };
 
 const JobMoreMenu = ({
+  status,
   onEdit,
   onDelete,
   onPost,
@@ -62,13 +65,17 @@ const JobMoreMenu = ({
           </MenuItem>
           {isActivePage && (
             <>
-              <MenuItem onClick={onViewApplications}>
-                <PeopleIcon sx={{ mr: 2, color: '#ffc53d' }} /> Applications
-              </MenuItem>
-              <Divider sx={{ my: 1 }} />
-              <MenuItem onClick={onClose}>
-                <BlockIcon sx={{ mr: 2, color: '#ff4d4f' }} /> Close
-              </MenuItem>
+              {status !== 2 && (
+                <>
+                  <MenuItem onClick={onViewApplications}>
+                    <PeopleIcon sx={{ mr: 2, color: '#ffc53d' }} /> Applications
+                  </MenuItem>
+                  <Divider sx={{ my: 1 }} />
+                  <MenuItem onClick={onClose}>
+                    <BlockIcon sx={{ mr: 2, color: '#ff4d4f' }} /> Close
+                  </MenuItem>
+                </>
+              )}
             </>
           )}
           {isClosedPage && (

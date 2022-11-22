@@ -72,7 +72,7 @@ function* getCandidateSaga({ payload }: any): any {
 function* searchCandidatesSaga({ payload }: any): any {
   try {
     const res = yield call(guestServices.searchCandidates, payload);
-    yield put(searchCandidateSuccess(res.data.result));
+    yield put(searchCandidateSuccess(res.data.result.data));
   } catch (err) {}
 }
 

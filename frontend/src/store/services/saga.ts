@@ -92,7 +92,7 @@ export function* employerOrderServicesSaga({
 }: any): any {
   try {
     const res = yield call(employerServices.orderServices, formData);
-    console.log('emp order services :', res);
+    // console.log('emp order services :', res);
     toast.success('Order services successfully!');
     navigate(`/employer/services/order-success/${res.data.order.code}`);
     yield put(clearCart());
@@ -129,7 +129,7 @@ export function* adminGetOrderedServicesSaga(): any {
   try {
     const res = yield call(adminServices.getOrderedServices);
     yield put(adminGetOrderedServicesSuccess(res.data.orders));
-    console.log('Admin get ordered services: ', res.data.orders);
+    // console.log('Admin get ordered services: ', res.data.orders);
   } catch (err) {
     console.log(err);
   }

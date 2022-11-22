@@ -26,7 +26,7 @@ const EmployerOrderSuccess = (props: Props) => {
       <Button
         variant='contained'
         onClick={() => {
-          navigate('/employer/hr/order/active');
+          navigate('/employer/hr/services/order');
         }}
       >
         View your order

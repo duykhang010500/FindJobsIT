@@ -50,12 +50,12 @@ const sidebarData = [
     children: [
       {
         title: `Ordered services`,
-        path: '/employer/hr/order/active',
+        path: '/employer/hr/services/order',
       },
-      // {
-      //   title: `Expire services`,
-      //   path: '/employer/hr/order/expire',
-      // },
+      {
+        title: `Active services`,
+        path: '/employer/hr/services/active',
+      },
     ],
   },
   {

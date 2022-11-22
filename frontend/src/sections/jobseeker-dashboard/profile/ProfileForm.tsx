@@ -170,7 +170,7 @@ const ProfileForm = (props: Props) => {
       // rexp_current_end: ,
       rexp_description: cv?.rexp_description || '',
 
-      skills: cv?.skills.split(', ') || [],
+      skills: cv?.skills?.split(', ') || [],
 
       edu_school: cv?.edu_school || '',
       edu_certify: cv?.edu_certify || '',

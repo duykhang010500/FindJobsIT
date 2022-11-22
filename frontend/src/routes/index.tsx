@@ -60,6 +60,7 @@ import JobsReject from '../pages/admin/Jobs/JobsReject';
 import EmployerClosedJobs from '../pages/employer/jobs/EmployerClosedJobs';
 import EmployerDraftJobs from '../pages/employer/jobs/EmployerDraftJobs';
 import EmployerCandidatesByJob from '../pages/employer/candidates/EmployerCandidatesByJob';
+import EmployerActiveServices from '../pages/employer/services/EmployerActiveServices';
 
 type Props = {};
 
@@ -140,7 +141,8 @@ const Router = (props: Props) => {
         { path: 'candidates/job/:id', element: <EmployerCandidatesByJob /> },
 
         //services
-        { path: 'order/active', element: <EmployerServices /> },
+        { path: 'services/order', element: <EmployerServices /> },
+        { path: 'services/active', element: <EmployerActiveServices /> },
       ],
     },
     {

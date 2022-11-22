@@ -104,7 +104,7 @@ const ServicesList = (props: ServicesListProps) => {
           >
             <TableRow>
               <TableCell>Title</TableCell>
-              {/* <TableCell>Day(s)</TableCell> */}
+              <TableCell align='center'>Day(s)</TableCell>
               {/* <TableCell>Quantity</TableCell> */}
 
               {/* <TableCell>Discount</TableCell> */}
@@ -123,9 +123,9 @@ const ServicesList = (props: ServicesListProps) => {
                     {item.note}
                   </Typography>
                 </TableCell>
-                {/* <TableCell>
+                <TableCell align='center'>
                   <Typography>{item?.days}</Typography>
-                </TableCell> */}
+                </TableCell>
                 {/* <TableCell>
                   <QuantityControl
                     onDecrease={() => handleDecrease(item)}

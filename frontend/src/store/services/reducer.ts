@@ -1,4 +1,5 @@
 import uniqBy from 'lodash/uniqBy';
+import dayjs from 'dayjs';
 
 import { ServicesState, ServicesActions } from './types';
 import {
@@ -38,6 +39,7 @@ import {
   EMPLOYER_GET_ACTIVE_SERVICES,
   CLEAR_CART,
 } from './actionTypes';
+import { array } from 'yup';
 
 const initialState: ServicesState = {
   isLoading: false,
@@ -271,13 +273,15 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
     case EMPLOYER_GET_ACTIVE_SERVICES: {
       const orders = action.payload;
 
-      const getServicesActive = (arr: any) => {
+      const getActiveServices = (arr: any) => {
         let Arr: any = [];
         arr.forEach((item: any) => {
           item.order_detail.forEach((detailItem: any) => {
             Arr.push({
               id: detailItem.service_id,
               title: detailItem.name,
+              createdAt: item.created_at,
+              days: detailItem.days,
             });
           });
         });
@@ -286,7 +290,81 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
 
       let processedOrders = orders.filter((item: any) => item.status === 2);
 
-      const ActiveServices = uniqBy(getServicesActive(processedOrders), 'id');
+      let activeServices = getActiveServices(processedOrders);
+
+      activeServices = activeServices.sort((a: any, b: any) => a.id - b.id);
+
+      console.log('Active services: ', activeServices);
+
+      let buyNew: any = [];
+      let extend: any = [];
+
+      for (let i = 0; i < activeServices.length; i++) {
+        if (activeServices[i + 1] !== undefined) {
+          if (activeServices[i].id === activeServices[i + 1].id) {
+            if (
+              dayjs(activeServices[i].created_at).isAfter(
+                dayjs(
+                  dayjs(activeServices[i + 1].created_at).add(
+                    activeServices[i + 1],
+                    'day'
+                  )
+                )
+              )
+            ) {
+              console.log('Vào đây nè!');
+              buyNew.push(activeServices[i]);
+            } else {
+              if (!extend.includes(activeServices[i])) {
+                extend = extend.concat(
+                  activeServices.filter(
+                    (item: any) => item.id === activeServices[i].id
+                  )
+                );
+              }
+            }
+          } else {
+            console.log('Vô đây nè!');
+            if (!extend.includes(activeServices[i])) {
+              buyNew.push(activeServices[i]);
+            }
+          }
+        } else {
+          console.log('Undefined nên vô đây nè!');
+          if (!extend.includes(activeServices[i])) {
+            buyNew.push(activeServices[i]);
+          }
+        }
+      }
+
+      let counts: any = {};
+
+      console.log('buy new: ', buyNew);
+      console.log('extend: ', extend);
+
+      const mergeArray = buyNew.concat(extend);
+
+      mergeArray.forEach((item: any) => {
+        counts[item.id] = (counts[item.id] || 0) + 1;
+      });
+
+      console.log('count: ', counts);
+      console.log('merge services: ', mergeArray);
+
+      const activeServicesWithExpireDate = mergeArray.map((item: any) => ({
+        ...item,
+        expireDate: dayjs(item.created_at).add(
+          counts[item.id] * item.days,
+          'day'
+        ),
+      }));
+
+      console.log('active with expire date', activeServicesWithExpireDate);
+
+      const ActiveServices = uniqBy(
+        activeServicesWithExpireDate.reverse(),
+        'id'
+      );
 
       return {
         ...state,

@@ -32,8 +32,14 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
 import { createJob, updateJob } from '../../../store/jobs/actions';
 
-import { degreeTypes, jobLevel, jobTypes } from '../../../utils/defaultValues';
+import {
+  degreeTypes,
+  jobLevel,
+  jobTypes,
+  skills,
+} from '../../../utils/defaultValues';
 import { LoadingButton } from '@mui/lab';
+import { convertArrStringToString } from '../../../utils/convert';
 
 type Props = {
   isEdit?: boolean;
@@ -56,6 +62,8 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const [isSaveDraft, setIsSaveDraft] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -149,7 +157,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
       .min(15, 'Age to must be 15 year old or older')
       .max(60, 'Age to must be less than 60')
       .moreThan(yup.ref('age_from'), 'Age to must be greater than age from'),
-    unskill_job: yup.string().required('Skill is require'),
+    unskill_job: yup.array().min(1, 'Skill is require'),
     job_benefits: yup.string().required('Benefits is require'),
     end_date: yup
       .date()
@@ -179,7 +187,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
       gender: job?.gender || '0',
       age_from: job?.age_from || 0,
       age_to: job?.age_to || 0,
-      unskill_job: job?.unskill_job || '',
+      unskill_job: job?.unskill_job.split(', ') || [],
       job_benefits: job?.job_benefits || '',
       end_date: job?.end_date || '',
       job_description: job?.job_description || '',
@@ -206,23 +214,42 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
   }, [reset, job, defaultValues, isEdit]);
 
   const onSubmit = async (data: any) => {
-    setIsLoading(true);
-    const newFormValues = {
-      ...data,
-      industries: convertArrayObjToString(data.industries),
-      locations: convertArrayObjToString(data.locations),
-      end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
-    };
+    if (isSaveDraft) {
+      console.log('save draft');
+      setIsLoading(true);
+      const newFormValues = {
+        ...data,
+        industries: convertArrayObjToString(data.industries),
+        locations: convertArrayObjToString(data.locations),
+        end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
+        unskill_job: convertArrStringToString(data.unskill_job),
+        status: 0,
+      };
 
-    if (isEdit) {
-      await dispatch(updateJob(job.id, newFormValues, navigate));
+      if (isEdit) {
+        await dispatch(updateJob(job.id, newFormValues, navigate));
+      } else {
+        await dispatch(createJob(newFormValues, navigate));
+      }
+      setIsLoading(false);
     } else {
-      await dispatch(createJob(newFormValues, navigate));
-    }
-    setIsLoading(false);
-  };
+      setIsLoading(true);
+      const newFormValues = {
+        ...data,
+        industries: convertArrayObjToString(data.industries),
+        locations: convertArrayObjToString(data.locations),
+        end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
+        unskill_job: convertArrStringToString(data.unskill_job),
+      };
 
-  const handleSaveDraft = () => {};
+      if (isEdit) {
+        await dispatch(updateJob(job.id, newFormValues, navigate));
+      } else {
+        await dispatch(createJob(newFormValues, navigate));
+      }
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Box sx={{ mt: 6 }}>
@@ -456,8 +483,8 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 helperText={error?.message}
                 onChange={(e) => {
                   if (e.target.value === 'Negotiate') {
-                    setValue('salary_to', '');
-                    setValue('salary_from', '');
+                    setValue('salary_to', 0);
+                    setValue('salary_from', 0);
                   }
                   setShowSalary(e.target.value);
                   setValue('salary', e.target.value);
@@ -532,12 +559,20 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             control={control}
             name='unskill_job'
             render={({ field, fieldState: { error } }) => (
-              <TextField
+              <Autocomplete
                 {...field}
-                size='small'
-                label='Skill *'
-                error={!!error}
-                helperText={error?.message}
+                multiple
+                freeSolo
+                options={skills}
+                onChange={(_, values) => field.onChange(values)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label='SKill *'
+                    error={!!error}
+                    helperText={error?.message}
+                  />
+                )}
               />
             )}
           />
@@ -691,18 +726,22 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               variant='contained'
               loading={isLoading}
               startIcon={<SaveIcon />}
+              onClick={() => setIsSaveDraft(false)}
             >
               Save
             </LoadingButton>
-            <LoadingButton
-              size='large'
-              color='info'
-              variant='outlined'
-              loading={isLoading}
-              onClick={handleSaveDraft}
-            >
-              Save Draft
-            </LoadingButton>
+            {!isEdit && (
+              <LoadingButton
+                type='submit'
+                size='large'
+                color='info'
+                variant='outlined'
+                loading={isLoading}
+                onClick={() => setIsSaveDraft(true)}
+              >
+                Save Draft
+              </LoadingButton>
+            )}
           </Stack>
         </Stack>
       </form>

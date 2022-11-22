@@ -89,3 +89,13 @@ export const convertJobStatus = (status: number) => {
     }
   }
 };
+
+export const getIDFromArray = (str: string, arr: any) => {
+  let id;
+  arr.forEach((item: any) => {
+    if (item.name.trim() === str) {
+      id = item.id;
+    }
+  });
+  return id;
+};

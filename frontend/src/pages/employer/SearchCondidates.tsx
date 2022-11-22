@@ -18,6 +18,8 @@ import { employerGetOrderedServices } from '../../store/services/actions';
 type Props = {};
 
 const SearchCandidates = (props: Props) => {
+  const dispatch = useDispatch();
+
   const { list, isLoading } = useSelector(
     (state: AppState) => state.candidates
   );
@@ -70,8 +72,6 @@ const SearchCandidates = (props: Props) => {
     []
   );
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(searchCandidate(defaultValues));
     dispatch(employerGetOrderedServices());
@@ -116,7 +116,7 @@ const SearchCandidates = (props: Props) => {
               <Typography variant='body1' gutterBottom>
                 {list?.length} candidates founded
               </Typography>
-              {}
+
               {list?.map((item: any) => {
                 return <CandidateCard key={item.id} candidate={item} />;
               })}

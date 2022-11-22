@@ -60,14 +60,14 @@ const EmployerCandidateHistorySentMail = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {mails.map((item: any) => {
+            {mails?.map((item: any) => {
               return (
-                <TableRow key={item.id}>
+                <TableRow key={item?.id}>
                   <TableCell>
-                    {dayjs(item.created_at).format('DD/MM/YYYY h:mm:ss A')}
+                    {dayjs(item?.created_at).format('DD/MM/YYYY h:mm:ss A')}
                   </TableCell>
-                  <TableCell>{item.member.fullname}</TableCell>
-                  <TableCell>{item.title}</TableCell>
+                  <TableCell>{item?.member?.fullname}</TableCell>
+                  <TableCell>{item?.title}</TableCell>
                   <TableCell>
                     <Tooltip placement='top' title='View Detail'>
                       <IconButton

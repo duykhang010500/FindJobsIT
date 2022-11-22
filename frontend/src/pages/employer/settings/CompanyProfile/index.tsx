@@ -277,15 +277,15 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Location *'
                   fullWidth
+                  label='Location *'
                   {...field}
                   error={!!error}
                   helperText={error?.message}
                 >
                   {locations.map((location: any) => {
                     return (
-                      <MenuItem key={location.id} value={location.name}>
+                      <MenuItem key={location.id} value={location.name.trim()}>
                         {location.name}
                       </MenuItem>
                     );

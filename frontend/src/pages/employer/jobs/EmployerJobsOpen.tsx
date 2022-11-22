@@ -167,7 +167,7 @@ const EmployerJobsOpen = (props: Props) => {
                     </TableCell>
                     <TableCell align='center'>
                       <Stack>
-                        <Typography variant='h6'>
+                        <Typography variant='body2'>
                           {dayjs(job.created_at).format('DD/MM/YYYY')}
                         </Typography>
                       </Stack>
@@ -180,6 +180,7 @@ const EmployerJobsOpen = (props: Props) => {
                     </TableCell>
                     <TableCell align='center'>
                       <JobMoreMenu
+                        status={job.status}
                         onEdit={() => handleEdit(job.id)}
                         onClose={() => handleClose(job.id)}
                         onViewApplications={() => handleViewApplications()}
