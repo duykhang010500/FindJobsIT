@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import { Button, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -110,7 +110,12 @@ const ProfileForm = (props: Props) => {
     // rexp_date_end: yup.string().required('Time start is required'),
     rexp_description: yup.string().required('Description is required'),
 
-    skills: yup.array().min(1, 'Skills is is require'),
+    skills: yup.array().of(
+      yup.object().shape({
+        name: yup.string().required('Skill name is require!'),
+        // skills_name: yup.number().required('Point is require!'),
+      })
+    ),
 
     edu_school: yup.string().required('School is required'),
     edu_certify: yup.string().required('Certificate is required'),
@@ -170,7 +175,7 @@ const ProfileForm = (props: Props) => {
       // rexp_current_end: ,
       rexp_description: cv?.rexp_description || '',
 
-      skills: cv?.skills?.split(', ') || [],
+      skills: cv?.skills || [],
 
       edu_school: cv?.edu_school || '',
       edu_certify: cv?.edu_certify || '',
@@ -183,6 +188,8 @@ const ProfileForm = (props: Props) => {
         : '',
       edu_description: cv?.edu_description || '',
       resume_file: 'resume_file.docx',
+
+      resume_status: cv?.resume_status,
     }),
     [cv, currentUser, locations]
   );
@@ -191,6 +198,11 @@ const ProfileForm = (props: Props) => {
     defaultValues,
     resolver: yupResolver(profileSchema),
     mode: 'onChange',
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'skills',
   });
 
   useEffect(() => {
@@ -203,6 +215,8 @@ const ProfileForm = (props: Props) => {
       if (formValues.avatar !== 'none') {
         avatar = await uploadSingleFile(formValues.avatar);
       }
+
+      console.log(formValues);
 
       const formatValues = {
         ...formValues,
@@ -220,13 +234,44 @@ const ProfileForm = (props: Props) => {
         industries: getIdFromArr(formValues.industries),
         locations: getIdFromArr(formValues.locations),
         avatar: avatar,
-        skills: convertArrStringToString(formValues.skills),
+        skills: convertSkills(formValues.skills),
+        skills_level: convertSkillLevel(formValues.skills),
+        resume_status: formValues.resume_status ? 1 : 0,
       };
-      console.log(formatValues);
+
+      console.log('submit form: ', formatValues);
       dispatch(updateMyCv(formatValues));
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const convertSkills = (arr: any) => {
+    let str: string = '';
+    arr.forEach((item: any, index: number) => {
+      if (item.name) {
+        if (index === 0) {
+          str += `${item.name}`;
+        } else {
+          str += `,${item.name}`;
+        }
+      }
+    });
+    return str;
+  };
+
+  const convertSkillLevel = (arr: any) => {
+    let str: string = '';
+    arr.forEach((item: any, index: number) => {
+      if (item.skills_level) {
+        if (index === 0) {
+          str += `${item.skills_level}`;
+        } else {
+          str += `,${item.skills_level}`;
+        }
+      }
+    });
+    return str;
   };
 
   return (
@@ -239,7 +284,12 @@ const ProfileForm = (props: Props) => {
         />
         <CareerInformation control={control} setValue={setValue} />
         <ExperienceInformation control={control} />
-        <SkillsInformation control={control} />
+        <SkillsInformation
+          control={control}
+          fields={fields}
+          append={append}
+          remove={remove}
+        />
         <EducationInformation control={control} />
         <Stack direction='row' spacing={2}>
           <Button

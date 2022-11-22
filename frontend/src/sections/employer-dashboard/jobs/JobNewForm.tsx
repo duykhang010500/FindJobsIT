@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 
 import {
@@ -62,6 +62,8 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const { pathname } = useLocation();
 
   const [isSaveDraft, setIsSaveDraft] = useState<boolean>(false);
 
@@ -196,7 +198,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
         job?.company_name || currentUser?.info?.info_company?.name || '',
       contact_name: job?.contact_name || currentUser?.info?.fullname || '',
       contact_emails: job?.contact_emails || currentUser?.info?.email || '',
-      status: 1,
+      status: job?.status,
     }),
     [job, currentUser]
   );
@@ -215,7 +217,6 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
 
   const onSubmit = async (data: any) => {
     if (isSaveDraft) {
-      console.log('save draft');
       setIsLoading(true);
       const newFormValues = {
         ...data,
@@ -225,6 +226,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
         unskill_job: convertArrStringToString(data.unskill_job),
         status: 0,
       };
+      console.log('save draft', newFormValues);
 
       if (isEdit) {
         await dispatch(updateJob(job.id, newFormValues, navigate));

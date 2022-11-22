@@ -1,3 +1,4 @@
+import { TrySharp } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { call, takeEvery, put } from 'redux-saga/effects';
 import adminServices from '../../services/admin';
@@ -5,6 +6,7 @@ import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
 import {
   adminGetCandidatesListSuccess,
+  employerGetCandidateByJobSuccess,
   employerGetSentListMailSuccess,
   employerSendMailFailure,
   employerSendMailSuccess,
@@ -17,6 +19,7 @@ import {
 import {
   ADMIN_GET_CANDIDATES_LIST,
   DELETE_SAVED_CANDIDATE,
+  EMPLOYER_GET_CANDIDATES_BY_JOB,
   EMPLOYER_GET_SENT_MAIL_LIST,
   EMPLOYER_SEND_MAIL,
   GET_DETAIL_CANDIDATE,
@@ -122,6 +125,18 @@ function* employerGetSentMailListSaga(): any {
   }
 }
 
+function* employerGetCandidatesByJobSaga({ payload }: any): any {
+  try {
+    const res = yield call(employerServices.getCandidatesByJob, payload);
+    yield put(
+      employerGetCandidateByJobSuccess(res.data.candidate_by_job.reverse())
+    );
+    console.log('Candidates by job: ', res);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* candidatesSaga() {
   yield takeEvery(
     GET_LIST_CANDIDATES_FOR_EMPLOYER,
@@ -137,6 +152,10 @@ function* candidatesSaga() {
   yield takeEvery(DELETE_SAVED_CANDIDATE, deleteSavedCandidateSaga);
   yield takeEvery(EMPLOYER_SEND_MAIL, sendMailSaga);
   yield takeEvery(EMPLOYER_GET_SENT_MAIL_LIST, employerGetSentMailListSaga);
+  yield takeEvery(
+    EMPLOYER_GET_CANDIDATES_BY_JOB,
+    employerGetCandidatesByJobSaga
+  );
 }
 
 export default candidatesSaga;

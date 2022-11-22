@@ -6,8 +6,9 @@ type Props = {
   id?: string;
   error?: any;
   value?: string;
-  onChange: () => void;
+  onChange?: () => void;
   helperText?: React.ReactNode;
+  isReadOnly?: boolean;
 };
 
 const EditorWrapper = styled(Box)({
@@ -32,6 +33,7 @@ const Editor = (props: Props) => {
         }}
       >
         <ReactQuill
+          readOnly={props?.isReadOnly || false}
           theme='snow'
           id={props.id}
           value={props.value}

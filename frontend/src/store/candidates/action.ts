@@ -3,6 +3,9 @@ import {
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
   DELETE_SAVED_CANDIDATE,
+  EMPLOYER_GET_CANDIDATES_BY_JOB,
+  EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
+  EMPLOYER_GET_CANDIDATES_BY_JOB_SUCCESS,
   EMPLOYER_GET_SENT_MAIL_LIST,
   EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
   EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS,
@@ -193,5 +196,20 @@ export const employerGetSentListMailSuccess = (mails: any) => ({
 
 export const employerGetSentListMailFailure = (err: any) => ({
   type: EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
+  payload: err,
+});
+
+export const employerGetCandidateByJob = (jobID: any) => ({
+  type: EMPLOYER_GET_CANDIDATES_BY_JOB,
+  payload: jobID,
+});
+
+export const employerGetCandidateByJobSuccess = (candidates: any) => ({
+  type: EMPLOYER_GET_CANDIDATES_BY_JOB_SUCCESS,
+  payload: candidates,
+});
+
+export const employerGetCandidateByJobFailure = (err: any) => ({
+  type: EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
   payload: err,
 });

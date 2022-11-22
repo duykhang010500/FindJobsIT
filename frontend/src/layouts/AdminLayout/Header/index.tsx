@@ -23,7 +23,7 @@ const Header = (props: Props) => {
       >
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction='row' spacing={2}>
-          <HeaderLangues />
+          {/* <HeaderLangues /> */}
           <HeaderAccount />
         </Stack>
       </Toolbar>

@@ -45,7 +45,7 @@ const Statistics = (props: Props) => {
         <CardStyle>
           <Box>
             <Typography variant='h1' gutterBottom sx={{ color: '#40a9ff' }}>
-              {data?.totalCandidates}
+              {data?.totalCandidates || 0}
             </Typography>
             <Typography variant='body1' color='#8c8c8c'>
               Candidates
@@ -80,7 +80,7 @@ const Statistics = (props: Props) => {
                   Active
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
-                  {data?.totalJobsActive}
+                  {data?.totalJobsActive || 0}
                 </Typography>
               </Stack>
 
@@ -93,7 +93,7 @@ const Statistics = (props: Props) => {
                   Pending
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
-                  {data?.totalJobsPending}
+                  {data?.totalJobsPending || 0}
                 </Typography>
               </Stack>
 
@@ -106,7 +106,7 @@ const Statistics = (props: Props) => {
                   Closed
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
-                  {data?.totalJobsStopPosting}
+                  {data?.totalJobsStopPosting || 0}
                 </Typography>
               </Stack>
 
@@ -119,7 +119,7 @@ const Statistics = (props: Props) => {
                   Expired
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
-                  {data?.totalJobsExpired}
+                  {data?.totalJobsExpired || 0}
                 </Typography>
               </Stack>
             </Stack>

@@ -29,6 +29,7 @@ import JobFilter from '../../../sections/employer-dashboard/jobs/JobFilter';
 import {
   employerDeleteJob,
   employerGetJobs,
+  employerUpdateJobStatus,
 } from '../../../store/jobs/actions';
 import { AppState } from '../../../store/reducer';
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
@@ -59,7 +60,9 @@ const EmployerDraftJob = (props: Props) => {
     navigate(`/employer/hr/job/${id}/edit`);
   };
 
-  const handlePost = () => {};
+  const handlePost = (jobID: number, status: number) => {
+    dispatch(employerUpdateJobStatus(jobID, status));
+  };
 
   const handleDelete = (id: number) => {
     dispatch(employerDeleteJob(id));
@@ -168,6 +171,7 @@ const EmployerDraftJob = (props: Props) => {
                       <JobMoreMenu
                         onEdit={() => handleEdit(job.id)}
                         onDelete={() => handleDelete(job.id)}
+                        onPost={() => handlePost(job.id, 2)}
                       />
                     </TableCell>
                   </TableRow>

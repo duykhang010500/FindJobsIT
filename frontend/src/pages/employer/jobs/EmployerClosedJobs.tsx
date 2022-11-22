@@ -31,6 +31,7 @@ import JobMoreMenu from '../../../sections/employer-dashboard/jobs/JobMoreMenu';
 import {
   employerGetJobs,
   employerDeleteJob,
+  employerUpdateJobStatus,
 } from '../../../store/jobs/actions';
 
 import { AppState } from '../../../store/reducer';
@@ -63,7 +64,9 @@ const EmployerClosedJob = (props: Props) => {
 
   const handleViewApplications = () => {};
 
-  const handleRepost = (id: number) => {};
+  const handleRepost = (jobID: number, status: number) => {
+    dispatch(employerUpdateJobStatus(jobID, status));
+  };
 
   if (isLoading) {
     return (
@@ -168,7 +171,7 @@ const EmployerClosedJob = (props: Props) => {
                       <JobMoreMenu
                         onEdit={() => handleEdit(job.id)}
                         onViewApplications={() => handleViewApplications()}
-                        onRepost={() => handleRepost(job.id)}
+                        onRepost={() => handleRepost(job.id, 1)}
                       />
                     </TableCell>
                   </TableRow>

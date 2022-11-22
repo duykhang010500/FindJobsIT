@@ -29,6 +29,14 @@ const sidebarData = [
         path: '/employer/hr/jobs/closed',
       },
       {
+        title: `Pending Jobs`,
+        path: `/employer/hr/jobs/pending`,
+      },
+      {
+        title: `Rejected Jobs`,
+        path: `/employer/hr/jobs/rejected`,
+      },
+      {
         title: `Draft Jobs`,
         path: `/employer/hr/jobs/draft`,
       },

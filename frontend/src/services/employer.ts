@@ -41,6 +41,11 @@ const employerServices = {
   deleteJob: (id: any) => {
     return axiosInstance.delete('/employer/hr/job/' + id);
   },
+  updateJobStatus: (jobID: number, status: number) => {
+    return axiosInstance.patch(`/employer/hr/job/${jobID}/update-status`, {
+      status,
+    });
+  },
 
   //candidates
   getCandidates: () => {
@@ -60,6 +65,9 @@ const employerServices = {
   },
   getSentMailList: () => {
     return axiosInstance.get('/employer/hr/mail-candidates');
+  },
+  getCandidatesByJob: (jobID: number) => {
+    return axiosInstance.get(`/employer/hr/job/candidates/${jobID}`);
   },
 
   //services

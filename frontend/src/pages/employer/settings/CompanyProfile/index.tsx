@@ -114,7 +114,7 @@ const CompanyProfile = (props: Props) => {
     const values = getValues();
 
     await dispatch(employerUpdateCompany(values));
-
+    console.log(values);
     setLoading(false);
   };
 

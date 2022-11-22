@@ -39,7 +39,7 @@ import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
 
 type Props = {};
 
-const EmployerJobsOpen = (props: Props) => {
+const EmployerPendingJob = (props: Props) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -84,22 +84,6 @@ const EmployerJobsOpen = (props: Props) => {
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' sx={{ mb: 2 }}>
-        <Tooltip
-          placement='top'
-          title={canPostJob < 0 ? 'Please buy this service!' : ''}
-        >
-          <div>
-            <Button
-              component={Link}
-              to={`/employer/hr/job/create`}
-              variant='contained'
-              startIcon={<AddIcon />}
-              disabled={canPostJob < 0}
-            >
-              Post a job
-            </Button>
-          </div>
-        </Tooltip>
         {/* <Button
           variant='contained'
           color='info'
@@ -128,7 +112,7 @@ const EmployerJobsOpen = (props: Props) => {
           </TableHead>
           <TableBody>
             {jobs?.map((job: any) => {
-              if (job.status === 1) {
+              if (job.status === 2) {
                 return (
                   <TableRow key={job.id}>
                     {/* <TableCell padding='checkbox'>
@@ -216,4 +200,4 @@ const EmployerJobsOpen = (props: Props) => {
   );
 };
 
-export default EmployerJobsOpen;
+export default EmployerPendingJob;

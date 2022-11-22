@@ -11,6 +11,7 @@ import {
   EMPLOYER_DELETE_JOB_SUCCESS,
   EMPLOYER_GET_JOBS,
   EMPLOYER_GET_JOBS_SUCCESS,
+  EMPLOYER_UPDATE_STATUS_JOB,
   GET_ACTIVE_JOBS,
   GET_ACTIVE_JOBS_FAILURE,
   GET_ACTIVE_JOBS_SUCCESS,
@@ -242,4 +243,12 @@ export const GetRejectedJobsSuccess = (jobs: any) => ({
 export const GetRejectedJobsFailure = (err: any) => ({
   type: GET_REJECTED_JOBS_FAILURE,
   payload: err,
+});
+
+export const employerUpdateJobStatus = (jobID: number, status: number) => ({
+  type: EMPLOYER_UPDATE_STATUS_JOB,
+  payload: {
+    jobID,
+    status,
+  },
 });

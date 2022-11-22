@@ -61,6 +61,8 @@ import EmployerClosedJobs from '../pages/employer/jobs/EmployerClosedJobs';
 import EmployerDraftJobs from '../pages/employer/jobs/EmployerDraftJobs';
 import EmployerCandidatesByJob from '../pages/employer/candidates/EmployerCandidatesByJob';
 import EmployerActiveServices from '../pages/employer/services/EmployerActiveServices';
+import EmployerPendingJob from '../pages/employer/jobs/EmployerPendingJob';
+import EmployerRejectedJob from '../pages/employer/jobs/EmployerRejectedJob';
 
 type Props = {};
 
@@ -129,6 +131,8 @@ const Router = (props: Props) => {
         { path: 'jobs/active', element: <EmployerJobsOpen /> },
         { path: 'jobs/closed', element: <EmployerClosedJobs /> },
         { path: 'jobs/draft', element: <EmployerDraftJobs /> },
+        { path: 'jobs/pending', element: <EmployerPendingJob /> },
+        { path: 'jobs/rejected', element: <EmployerRejectedJob /> },
 
         //candidates
         { path: 'candidates/:id', element: <DetailCandidate /> },

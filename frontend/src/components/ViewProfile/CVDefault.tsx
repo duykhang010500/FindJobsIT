@@ -214,7 +214,7 @@ const CVDefault = ({ resume }: Props) => {
               Skills
             </Typography>
           </HeadingStyle>
-          <Typography>{resume?.skills}</Typography>
+          {/* <Typography>{resume?.skills}</Typography> */}
         </Box>
 
         <Box>

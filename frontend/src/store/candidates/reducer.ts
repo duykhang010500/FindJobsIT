@@ -17,6 +17,9 @@ import {
   EMPLOYER_SEND_MAIL_FAILURE,
   EMPLOYER_GET_SENT_MAIL_LIST,
   EMPLOYER_GET_SENT_MAIL_LIST_SUCCESS,
+  EMPLOYER_GET_CANDIDATES_BY_JOB,
+  EMPLOYER_GET_CANDIDATES_BY_JOB_SUCCESS,
+  EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
   // EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
 } from './actionTypes';
 import { ICandidatesState, CandidatesActions } from './types';
@@ -29,6 +32,7 @@ const initialState: ICandidatesState = {
   savedCandidates: [],
   isSendMail: false,
   mails: [],
+  candidates: null,
 };
 
 const candidatesReducer = (state = initialState, action: CandidatesActions) => {
@@ -128,6 +132,22 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         ...state,
         isLoading: false,
         mails: action.payload,
+      };
+    case EMPLOYER_GET_CANDIDATES_BY_JOB:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EMPLOYER_GET_CANDIDATES_BY_JOB_SUCCESS:
+      return {
+        ...state,
+        candidates: action.payload,
+        isLoading: false,
+      };
+    case EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     // case EMPLOYER_GET_SENT_MAIL_LIST_FAILURE:
     //   return {

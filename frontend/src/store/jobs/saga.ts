@@ -16,6 +16,7 @@ import {
   APPROVE_JOBS,
   GET_ACTIVE_JOBS,
   GET_REJECTED_JOBS,
+  EMPLOYER_UPDATE_STATUS_JOB,
 } from './actionTypes';
 
 import {
@@ -173,6 +174,17 @@ function* getRejectedJobsSaga(): any {
   } catch (error) {}
 }
 
+function* employerUpdateJobStatusSaga({ payload }: any): any {
+  try {
+    console.log('Update job status: ', payload);
+    yield call(employerServices.updateJobStatus, payload.jobID, payload.status);
+    yield put(employerGetJobs());
+    toast.success('Update successfully!');
+  } catch (err) {
+    toast.error('Update failure!');
+  }
+}
+
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
   yield takeEvery(GET_JOBS, getJobsSaga);
@@ -187,6 +199,7 @@ function* jobsSaga() {
   yield takeEvery(APPROVE_JOBS, approveJobSaga);
   yield takeEvery(GET_ACTIVE_JOBS, getActiveJobsSagas);
   yield takeEvery(GET_REJECTED_JOBS, getRejectedJobsSaga);
+  yield takeEvery(EMPLOYER_UPDATE_STATUS_JOB, employerUpdateJobStatusSaga);
 }
 
 export default jobsSaga;

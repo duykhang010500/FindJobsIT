@@ -25,6 +25,7 @@ import {
 } from '@mui/material';
 
 import Visibility from '@mui/icons-material/Visibility';
+import Editor from '../../../components/Editor';
 
 type Props = {};
 
@@ -116,13 +117,14 @@ const EmployerCandidateHistorySentMail = (props: Props) => {
               value={selectedMail?.member?.email}
             />
             <TextField label='Title *' value={selectedMail?.title} />
-            <TextField
+            {/* <TextField
               label='Content *'
               multiline
               minRows={5}
               maxRows={10}
               value={selectedMail?.content}
-            />
+            /> */}
+            <Editor value={selectedMail?.content} isReadOnly />
           </Stack>
         </DialogContent>
         <DialogActions>

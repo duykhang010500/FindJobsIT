@@ -32,7 +32,7 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import PersonIcon from '@mui/icons-material/Person';
 
 import { AppState } from '../../../store/reducer';
-import { logoutEmployer } from '../../../store/auth/action';
+import { logout, logoutEmployer } from '../../../store/auth/action';
 
 type Props = {};
 
@@ -249,6 +249,7 @@ const Header: FC<Props> = () => {
                   component={RouterLink}
                   color='success'
                   to={pathname.includes('/employer') ? `/` : '/employer'}
+                  onClick={() => dispatch(logout())}
                   startIcon={
                     pathname.includes('/employer') ? (
                       <BusinessCenterIcon />

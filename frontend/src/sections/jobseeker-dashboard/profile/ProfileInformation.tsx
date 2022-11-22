@@ -2,10 +2,15 @@ import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 
 import {
-  Alert,
+  styled,
+  Box,
   Card,
-  Stack,
+  Alert,
   Radio,
+  Stack,
+  Switch,
+  Avatar,
+  Tooltip,
   Collapse,
   MenuItem,
   FormLabel,
@@ -16,9 +21,6 @@ import {
   Autocomplete,
   FormHelperText,
   FormControlLabel,
-  styled,
-  Tooltip,
-  Avatar,
 } from '@mui/material';
 
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -122,18 +124,24 @@ const ProfileInformation = ({ control, setValue, getValues }: Props) => {
         onClick={() => setOpen(!open)}
         sx={{ cursor: 'pointer' }}
       >
-        <Typography variant='h3' color='primary'>
+        <Typography variant='h3' color='#172642'>
           Profile
         </Typography>
         {open ? (
-          <ExpandMoreIcon sx={{ color: '#FA541C' }} />
+          <ExpandMoreIcon sx={{ color: '#172642' }} />
         ) : (
-          <ExpandLessIcon sx={{ color: '#FA541C' }} />
+          <ExpandLessIcon sx={{ color: '#172642' }} />
         )}
       </Stack>
       <Collapse in={open}>
         <Stack spacing={4} sx={{ mt: 3 }}>
-          <div>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
             <AvatarUploadWrapper>
               <input
                 id='upload'
@@ -166,7 +174,22 @@ const ProfileInformation = ({ control, setValue, getValues }: Props) => {
               <br />
               {`File size < 1MB`}
             </Typography>
-          </div>
+            <FormControlLabel
+              sx={{
+                color: '#595959',
+              }}
+              control={
+                <Controller
+                  control={control}
+                  name='resume_status'
+                  render={({ field }) => (
+                    <Switch {...field} checked={field.value === 1} />
+                  )}
+                />
+              }
+              label='Public profile'
+            />
+          </Box>
           {errorAvt && <Alert severity='error'>{errorAvt}</Alert>}
 
           <Stack direction='row' spacing={4}>

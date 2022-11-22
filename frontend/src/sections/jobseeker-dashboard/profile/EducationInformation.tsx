@@ -25,13 +25,13 @@ const EducationInformation = ({ control }: Props) => {
         onClick={() => setOpen(!open)}
         sx={{ cursor: 'pointer' }}
       >
-        <Typography variant='h3' color='primary'>
+        <Typography variant='h3' color='#172642'>
           Education
         </Typography>
         {open ? (
-          <ExpandMoreIcon sx={{ color: '#FA541C' }} />
+          <ExpandMoreIcon sx={{ color: '#172642' }} />
         ) : (
-          <ExpandLessIcon sx={{ color: '#FA541C' }} />
+          <ExpandLessIcon sx={{ color: '#172642' }} />
         )}
       </Stack>
       <Collapse in={open}>

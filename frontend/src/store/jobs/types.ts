@@ -1,3 +1,4 @@
+import { NumberSchema } from 'yup';
 import SearchJobs from '../../pages/SearchJobs';
 import {
   APPLY_JOB,
@@ -34,6 +35,7 @@ import {
   GET_REJECTED_JOBS,
   GET_REJECTED_JOBS_SUCCESS,
   GET_REJECTED_JOBS_FAILURE,
+  EMPLOYER_UPDATE_STATUS_JOB,
 } from './actionTypes';
 
 export interface IJobsState {
@@ -208,6 +210,14 @@ export type GetRejectedJobsFailure = {
   payload: any;
 };
 
+export type EmployerUpdateJobStatus = {
+  type: typeof EMPLOYER_UPDATE_STATUS_JOB;
+  payload: {
+    jobID: number;
+    status: number;
+  };
+};
+
 export type JobsAction =
   | CreateJob
   | CreateJobSuccess
@@ -242,4 +252,5 @@ export type JobsAction =
   | GetActiveJobsFailure
   | GetRejectedJobs
   | GetRejectedJobsSuccess
-  | GetRejectedJobsFailure;
+  | GetRejectedJobsFailure
+  | EmployerUpdateJobStatus;
