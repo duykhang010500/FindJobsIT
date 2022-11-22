@@ -9,22 +9,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Skill extends Authenticatable
+class Education extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'skills';
-
     protected $fillable = [
-        'priority', 'status','name'
+        'edu_school', 'edu_certify', 'edu_date_start', 'edu_date_end', 'edu_current_end'
+        , 'edu_description', 'resume_id'
     ];
 
-    public function jobs(){
-        return $this->belongsToMany(Job::class);
+    public function resume()
+    {
+        return $this->belongsTo(Resume::class,'resume_id');
     }
-
-    public function resumes(){
-        return $this->belongsToMany(Resume::class);
-    }
-
 }
