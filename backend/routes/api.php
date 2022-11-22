@@ -179,6 +179,7 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::post('/hr/job/{id}', [HrController::class, 'job']);
         Route::patch('/hr/job/{id}', [HrController::class, 'updateJob']);
         Route::delete('/hr/job/{id}', [HrController::class, 'deleteJob']);
+        Route::patch('/hr/job/{id}/update-status', [HrController::class, 'updateJobStatus']);
 
         // orders
         Route::get('/hr/orders/active', [OrderController::class, 'orders']);

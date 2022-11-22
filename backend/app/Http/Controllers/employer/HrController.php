@@ -190,6 +190,18 @@ class HrController extends Controller
         ]);
     }
 
+    public function updateJobStatus(Request $request, $id){
+        try{
+            Job::find($id) -> update(['status' => $request -> status]);
+            return response()->json(['message' => 'Update status successfully!']);
+        }catch(\Throwable $th){
+            return response()->json([
+                'message' => 'Occur error!',
+
+            ], 500);
+        }
+    }
+
     public function deleteJob(Request $request,$id){
         $job = Job::where('id',$id)->first();
         $job->industries()->detach();
