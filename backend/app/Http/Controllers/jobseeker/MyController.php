@@ -82,7 +82,17 @@ class MyController extends Controller
             }
 
             $resume = auth()->user()->resume;
+            if(!empty($request->skills) && !empty($request->skills_level)){
 
+                $skills = explode(',', $request->skills);
+                $skills_level = explode(',', $request->skills_level);
+                foreach ($skills as $key => $skill) {
+                        $arr_skill[] = [
+                            'name' => $skill,
+                            'level' => $skills_level[$key]
+                        ];
+                }
+            }
             if($resume != NULL){
                 if(!empty($request->industries)){
                     $resume->industries()->detach();
@@ -107,7 +117,7 @@ class MyController extends Controller
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
                     'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
                     'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,'resume_status' => $request->resume_status,
-                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type, 'skills' => $request -> skills,
+                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type, 'skills' => $arr_skill,
                     ]
                 ));
             }else{
@@ -116,7 +126,7 @@ class MyController extends Controller
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
                     'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
                     'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,'resume_status' => $request->resume_status,
-                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type,
+                    'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type, 'skills' => $arr_skill,
                     ]
                 ));
                 $member->resume_id = $resume->id;
