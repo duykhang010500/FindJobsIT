@@ -93,6 +93,7 @@ class MyController extends Controller
                         ];
                 }
             }
+            // dd($arr_skill);
             if($resume != NULL){
                 if(!empty($request->industries)){
                     $resume->industries()->detach();

@@ -16,6 +16,7 @@ class Resume extends Authenticatable
     const   STATUS_CLOSED = 0,
             STATUS_PUBLISHED = 1;
 
+    protected $casts  = [ 'skills' => 'array'];
     protected $fillable = [
         'resume_file','resume_title','summary', 'salary_unit', 'experiences', 'educations',
          'skills', 'references', 'file_link','resume_title','edu_description','edu_current_end','edu_date_end',
