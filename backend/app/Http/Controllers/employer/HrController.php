@@ -263,6 +263,7 @@ class HrController extends Controller
          'email' => $request->email,'location_id' => $request->location_id,
          'content' => $request->content,'logo' => $request->logo,
          'banners' => $request->banners,'keywords' => $request->keywords,
+         'location' => $request->location
         ]
     ));
         return response()->json([
