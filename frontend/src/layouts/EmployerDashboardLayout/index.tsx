@@ -12,8 +12,8 @@ const EmployerDashboardLayout = (props: Props) => {
   return (
     <Fragment>
       <Header />
-      <Container sx={{ mt: 15 }}>
-        <Grid container spacing={4}>
+      <Container sx={{ mt: 15, width: '90vw !important' }} disableGutters>
+        <Grid container spacing={2}>
           <Grid item md={3.5}>
             <Sidebar />
           </Grid>

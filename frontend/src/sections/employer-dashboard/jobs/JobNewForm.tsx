@@ -44,6 +44,7 @@ import { convertArrStringToString } from '../../../utils/convert';
 type Props = {
   isEdit?: boolean;
   job?: any;
+  readonly?: boolean;
 };
 
 const convertArrayObjToString = (arr: any[]) => {
@@ -58,7 +59,7 @@ const convertArrayObjToString = (arr: any[]) => {
   return str;
 };
 
-const JobNewForm = ({ isEdit = false, job }: Props) => {
+const JobNewForm = ({ isEdit = false, job, readonly }: Props) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -227,12 +228,12 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
         status: 0,
       };
       console.log('save draft', newFormValues);
+      await dispatch(createJob(newFormValues, navigate));
 
-      if (isEdit) {
-        await dispatch(updateJob(job.id, newFormValues, navigate));
-      } else {
-        await dispatch(createJob(newFormValues, navigate));
-      }
+      // if (isEdit) {
+      //   await dispatch(updateJob(job.id, newFormValues, navigate));
+      // } else {
+      // }
       setIsLoading(false);
     } else {
       setIsLoading(true);
@@ -242,6 +243,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
         locations: convertArrayObjToString(data.locations),
         end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
         unskill_job: convertArrStringToString(data.unskill_job),
+        status: 2,
       };
 
       if (isEdit) {
@@ -268,6 +270,9 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 label='Job title *'
                 error={!!error}
                 helperText={error?.message}
+                inputProps={{
+                  readOnly: readonly ? true : false,
+                }}
               />
             )}
           />
@@ -282,6 +287,9 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 select
                 error={!!error}
                 helperText={error?.message}
+                inputProps={{
+                  readOnly: readonly ? true : false,
+                }}
               >
                 {jobTypes.map((item: any) => {
                   return (
@@ -304,6 +312,9 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 select
                 error={!!error}
                 helperText={error?.message}
+                inputProps={{
+                  readOnly: readonly ? true : false,
+                }}
               >
                 {jobLevel.map((item: any) => {
                   return (
@@ -321,6 +332,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             render={({ field, fieldState: { error } }) => (
               <Autocomplete
                 {...field}
+                readOnly={readonly ? true : false}
                 id='industry'
                 multiple
                 options={industries}
@@ -353,6 +365,9 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputProps={{
+                  readOnly: readonly,
+                }}
               >
                 {degreeTypes.map((degree) => {
                   return (
@@ -371,6 +386,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             render={({ field, fieldState: { error } }) => (
               <Autocomplete
                 {...field}
+                readOnly={readonly}
                 id='location'
                 multiple
                 options={locations}
@@ -406,6 +422,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                   setShowExperience(e.target.value);
                   setValue('exp', e.target.value);
                 }}
+                InputProps={{ readOnly: readonly }}
               >
                 <MenuItem value='Not require'>Not require</MenuItem>
                 <MenuItem value='Year'>Year</MenuItem>
@@ -424,6 +441,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 helperText={error?.message}
                 disabled={showExperience === 'Not require'}
+                InputProps={{ readOnly: readonly }}
               />
             )}
           />
@@ -439,6 +457,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 helperText={error?.message}
                 disabled={showExperience === 'Not require'}
+                InputProps={{ readOnly: readonly }}
               />
             )}
           />
@@ -448,7 +467,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             control={control}
             render={({ field }) => {
               return (
-                <FormControl fullWidth>
+                <FormControl fullWidth disabled={readonly}>
                   <FormLabel>Gender</FormLabel>
                   <RadioGroup {...field} row>
                     <FormControlLabel
@@ -491,6 +510,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                   setShowSalary(e.target.value);
                   setValue('salary', e.target.value);
                 }}
+                InputProps={{ readOnly: readonly }}
               >
                 <MenuItem value='Negotiate'>Negotiate</MenuItem>
                 <MenuItem value='VND'>VND</MenuItem>
@@ -510,6 +530,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 helperText={error?.message}
                 disabled={showSalary === 'Negotiate'}
+                InputProps={{ readOnly: readonly }}
               />
             )}
           />
@@ -525,6 +546,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 helperText={error?.message}
                 disabled={showSalary === 'Negotiate'}
+                InputProps={{ readOnly: readonly }}
               />
             )}
           />
@@ -540,6 +562,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 type='number'
                 error={!!error}
                 helperText={error?.message}
+                InputProps={{ readOnly: readonly }}
               />
             )}
           />
@@ -554,6 +577,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 type='number'
                 error={!!error}
                 helperText={error?.message}
+                InputProps={{ readOnly: readonly }}
               />
             )}
           />
@@ -563,6 +587,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             render={({ field, fieldState: { error } }) => (
               <Autocomplete
                 {...field}
+                readOnly={readonly}
                 multiple
                 freeSolo
                 options={skills}
@@ -584,6 +609,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
             render={({ field, fieldState: { error } }) => {
               return (
                 <DesktopDatePicker
+                  readOnly={readonly}
                   {...field}
                   label='End date *'
                   inputFormat='DD/MM/YYYY'
@@ -612,6 +638,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <Editor
+                  isReadOnly={readonly}
                   id='job_benefits'
                   value={field.value}
                   onChange={field.onChange}
@@ -637,6 +664,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <Editor
+                  isReadOnly={readonly}
                   id='job_description'
                   value={field.value}
                   onChange={field.onChange}
@@ -661,6 +689,7 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <Editor
+                  isReadOnly={readonly}
                   id='job_requirement'
                   value={field.value}
                   onChange={field.onChange}
@@ -691,6 +720,9 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 label='Company name *'
                 helperText={error?.message}
+                InputProps={{
+                  readOnly: readonly,
+                }}
               />
             )}
           />
@@ -704,6 +736,9 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 label='Contact name *'
                 helperText={error?.message}
+                InputProps={{
+                  readOnly: readonly,
+                }}
               />
             )}
           />
@@ -717,34 +752,38 @@ const JobNewForm = ({ isEdit = false, job }: Props) => {
                 error={!!error}
                 label='Contact email *'
                 helperText={error?.message}
+                InputProps={{
+                  readOnly: readonly,
+                }}
               />
             )}
           />
-
-          <Stack direction='row' spacing={2}>
-            <LoadingButton
-              type='submit'
-              size='large'
-              variant='contained'
-              loading={isLoading}
-              startIcon={<SaveIcon />}
-              onClick={() => setIsSaveDraft(false)}
-            >
-              Save
-            </LoadingButton>
-            {!isEdit && (
+          {!readonly && (
+            <Stack direction='row' spacing={2}>
               <LoadingButton
                 type='submit'
                 size='large'
-                color='info'
-                variant='outlined'
+                variant='contained'
                 loading={isLoading}
-                onClick={() => setIsSaveDraft(true)}
+                startIcon={<SaveIcon />}
+                onClick={() => setIsSaveDraft(false)}
               >
-                Save Draft
+                Save
               </LoadingButton>
-            )}
-          </Stack>
+              {!isEdit && (
+                <LoadingButton
+                  type='submit'
+                  size='large'
+                  color='info'
+                  variant='outlined'
+                  loading={isLoading}
+                  onClick={() => setIsSaveDraft(true)}
+                >
+                  Save Draft
+                </LoadingButton>
+              )}
+            </Stack>
+          )}
         </Stack>
       </form>
     </Box>

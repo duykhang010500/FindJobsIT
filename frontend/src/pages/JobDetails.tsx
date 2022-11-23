@@ -33,6 +33,8 @@ const JobDescription: FC<Props> = () => {
 
   const dispatch = useDispatch();
 
+  const [hasDetail, setHasDetail] = useState<boolean>(false);
+
   const [tabActive, setTabActive] = useState('1');
 
   const { isLoading, job } = useSelector((state: AppState) => state.jobs);
@@ -44,6 +46,14 @@ const JobDescription: FC<Props> = () => {
 
   if (isLoading) {
     return <DetailJobSkeleton />;
+  }
+
+  if (!job) {
+    return (
+      <Container sx={{ mt: 15 }}>
+        <p>Page not found</p>
+      </Container>
+    );
   }
 
   const handleChangeTab = (e: SyntheticEvent, newValue: string) => {

@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 import {
   Box,
   Typography,
@@ -64,12 +67,22 @@ const DetailCandidate = (props: Props) => {
   //   pdfExportComponent.current.save();
   // };
 
-  const handleExportWithFunction = () => {
-    savePDF(contentArea.current, {
-      paperSize: 'auto',
-      margin: 20,
+  // const handleExportWithFunction = () => {
+  //   savePDF(contentArea.current, {
+  //     paperSize: 'auto',
+  //     margin: 20,
+  //   });
+  // };
+
+  function exportPDF() {
+    const elm: any = document.getElementById('content');
+    html2canvas(elm, { logging: true, useCORS: true }).then((canvas) => {
+      const data: any = canvas.toDataURL('image/png', 1.0);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(data, 'JPEG', 0, 0, 210, 297);
+      pdf.save(`CV_${resume?.member?.fullname}.pdf`);
     });
-  };
+  }
 
   if (candidate?.resume_online === 0) {
     return (
@@ -118,17 +131,14 @@ const DetailCandidate = (props: Props) => {
           <Button
             variant='contained'
             sx={{ mb: 3 }}
-            onClick={handleExportWithFunction}
+            onClick={exportPDF}
             startIcon={<DownloadIcon />}
           >
             Download
           </Button>
         </Box>
-        <PDFExport ref={pdfExportComponent} paperSize='auto' margin={20}>
-          <div ref={contentArea}>
-            <ViewProfile resume={resume} />
-          </div>
-        </PDFExport>
+
+        <ViewProfile type={resume?.cv_type} resume={resume} />
       </>
     );
   }

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -12,6 +12,7 @@ import {
   TableBody,
   TableHead,
   TableCell,
+  Dialog,
   Typography,
   IconButton,
   Breadcrumbs,
@@ -24,19 +25,34 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import { Visibility } from '@mui/icons-material';
 
 import { AppState } from '../../../store/reducer';
-import { approveJob, getPendingJobs } from '../../../store/jobs/actions';
+import {
+  adminGetDetailJob,
+  approveJob,
+  getPendingJobs,
+} from '../../../store/jobs/actions';
 import Image from '../../../components/Image';
+import DetailDialog from '../../../sections/admin-dasboard/job-management/DetailDialog';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
 const JobsPending = (props: Props) => {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
+  const [open, setOpen] = useState<boolean>(false);
+
   useEffect(() => {
     dispatch(getPendingJobs());
   }, [dispatch]);
 
   const { pendingJobs } = useSelector((state: AppState) => state.jobs);
+
+  const handleViewDetail = (jobID: number) => {
+    // dispatch(adminGetDetailJob(jobID));
+    navigate(`/admin/job/${jobID}`);
+  };
 
   return (
     <>
@@ -89,7 +105,7 @@ const JobsPending = (props: Props) => {
                       justifyContent='center'
                     >
                       <Tooltip placement='top' title='View Detail'>
-                        <IconButton>
+                        <IconButton onClick={() => handleViewDetail(job.id)}>
                           <Visibility sx={{ color: '#4096ff' }} />
                         </IconButton>
                       </Tooltip>

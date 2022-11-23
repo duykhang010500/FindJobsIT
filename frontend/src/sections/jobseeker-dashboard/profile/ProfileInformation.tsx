@@ -183,7 +183,7 @@ const ProfileInformation = ({ control, setValue, getValues }: Props) => {
                   control={control}
                   name='resume_status'
                   render={({ field }) => (
-                    <Switch {...field} checked={field.value === 1} />
+                    <Switch {...field} checked={field.value ? true : false} />
                   )}
                 />
               }

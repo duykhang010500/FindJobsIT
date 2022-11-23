@@ -168,6 +168,7 @@ const EmployerCandidatesByJob = (props: Props) => {
         startIcon={<UploadRoundedIcon />}
         sx={{ mt: 3 }}
         // onClick={handleExportCSV}
+        disabled={data.length < 1}
       >
         <CSVLink
           data={data}

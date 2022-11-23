@@ -62,7 +62,7 @@ const EmployerViewProfileCandidate = (props: Props) => {
           </Button>
         </Stack> */}
       </Stack>
-      <ViewProfile resume={resume} />
+      <ViewProfile type={resume?.cv_type} resume={resume} />
     </Box>
   );
 };

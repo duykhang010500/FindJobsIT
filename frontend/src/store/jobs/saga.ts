@@ -17,6 +17,7 @@ import {
   GET_ACTIVE_JOBS,
   GET_REJECTED_JOBS,
   EMPLOYER_UPDATE_STATUS_JOB,
+  ADMIN_GET_DETAIL_JOB,
 } from './actionTypes';
 
 import {
@@ -37,6 +38,7 @@ import {
   GetActiveJobsSuccess,
   GetActiveJobs,
   GetRejectedJobs,
+  adminGetDetailJobSuccess,
 } from './actions';
 
 import guestServices from '../../services/guest';
@@ -141,7 +143,7 @@ function* getJobsAppliedSaga(): any {
 function* getPendingJobsSaga(): any {
   try {
     const res = yield call(adminServices.getJobs, 'all');
-    yield put(getPendingJobsSuccess(res.data.JobsPendings));
+    yield put(getPendingJobsSuccess(res.data.JobsPendings.reverse()));
   } catch (err) {
     console.log(err);
   }
@@ -185,6 +187,16 @@ function* employerUpdateJobStatusSaga({ payload }: any): any {
   }
 }
 
+function* adminGetDetailJobSaga({ payload }: any): any {
+  try {
+    const res = yield call(adminServices.getDetailJob, payload);
+    console.log('ADMIN GET DETAIL JOB: ', res);
+    yield put(adminGetDetailJobSuccess(res.data.job));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
   yield takeEvery(GET_JOBS, getJobsSaga);
@@ -200,6 +212,7 @@ function* jobsSaga() {
   yield takeEvery(GET_ACTIVE_JOBS, getActiveJobsSagas);
   yield takeEvery(GET_REJECTED_JOBS, getRejectedJobsSaga);
   yield takeEvery(EMPLOYER_UPDATE_STATUS_JOB, employerUpdateJobStatusSaga);
+  yield takeEvery(ADMIN_GET_DETAIL_JOB, adminGetDetailJobSaga);
 }
 
 export default jobsSaga;

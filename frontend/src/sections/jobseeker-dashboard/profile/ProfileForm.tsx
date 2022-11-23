@@ -112,7 +112,7 @@ const ProfileForm = (props: Props) => {
 
     skills: yup.array().of(
       yup.object().shape({
-        name: yup.string().required('Skill name is require!'),
+        name: yup.string().required('Skill name is require!').nullable(),
         // skills_name: yup.number().required('Point is require!'),
       })
     ),
@@ -175,7 +175,7 @@ const ProfileForm = (props: Props) => {
       // rexp_current_end: ,
       rexp_description: cv?.rexp_description || '',
 
-      skills: cv?.skills || [],
+      skills: cv?.skills || [{ name: '', skills_level: 1 }],
 
       edu_school: cv?.edu_school || '',
       edu_certify: cv?.edu_certify || '',
@@ -190,6 +190,7 @@ const ProfileForm = (props: Props) => {
       resume_file: 'resume_file.docx',
 
       resume_status: cv?.resume_status,
+      cv_type: cv?.cv_type || 0,
     }),
     [cv, currentUser, locations]
   );

@@ -1,4 +1,6 @@
 import {
+  ADMIN_GET_DETAIL_JOB,
+  ADMIN_GET_DETAIL_JOB_SUCCESS,
   APPLY_JOB,
   APPLY_JOB_FAILURE,
   APPLY_JOB_SUCCESS,
@@ -251,4 +253,14 @@ export const employerUpdateJobStatus = (jobID: number, status: number) => ({
     jobID,
     status,
   },
+});
+
+export const adminGetDetailJob = (jobID: number) => ({
+  type: ADMIN_GET_DETAIL_JOB,
+  payload: jobID,
+});
+
+export const adminGetDetailJobSuccess = (job: any) => ({
+  type: ADMIN_GET_DETAIL_JOB_SUCCESS,
+  payload: job,
 });

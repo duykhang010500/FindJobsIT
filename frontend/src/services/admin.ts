@@ -25,6 +25,9 @@ const adminServices = {
       status,
     });
   },
+  getDetailJob: (jobID: number) => {
+    return axiosInstance.get(`/admin/job/${jobID}`);
+  },
 
   //companies
   getCompaniesList: () => {

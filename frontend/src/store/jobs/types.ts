@@ -36,6 +36,8 @@ import {
   GET_REJECTED_JOBS_SUCCESS,
   GET_REJECTED_JOBS_FAILURE,
   EMPLOYER_UPDATE_STATUS_JOB,
+  ADMIN_GET_DETAIL_JOB,
+  ADMIN_GET_DETAIL_JOB_SUCCESS,
 } from './actionTypes';
 
 export interface IJobsState {
@@ -47,6 +49,7 @@ export interface IJobsState {
   pendingJobs: any;
   activeJobs: any;
   rejectedJobs: any;
+  isLoadingDetailJob: boolean;
 }
 
 export type CreateJob = {
@@ -218,6 +221,16 @@ export type EmployerUpdateJobStatus = {
   };
 };
 
+export type AdminGetDetailJob = {
+  type: typeof ADMIN_GET_DETAIL_JOB;
+  payload: number;
+};
+
+export type AdminGetDetailJobSuccess = {
+  type: typeof ADMIN_GET_DETAIL_JOB_SUCCESS;
+  payload: any;
+};
+
 export type JobsAction =
   | CreateJob
   | CreateJobSuccess
@@ -253,4 +266,6 @@ export type JobsAction =
   | GetRejectedJobs
   | GetRejectedJobsSuccess
   | GetRejectedJobsFailure
-  | EmployerUpdateJobStatus;
+  | EmployerUpdateJobStatus
+  | AdminGetDetailJob
+  | AdminGetDetailJobSuccess;

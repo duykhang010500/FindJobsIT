@@ -1,6 +1,14 @@
 import dayjs from 'dayjs';
 
-import { styled, Typography, Box, Stack, Avatar, Grid } from '@mui/material';
+import {
+  styled,
+  Typography,
+  Box,
+  Stack,
+  Avatar,
+  Grid,
+  Rating,
+} from '@mui/material';
 
 import WcRoundedIcon from '@mui/icons-material/WcRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
@@ -226,8 +234,23 @@ const CV2 = ({ resume }: Props) => {
 
           {/* Skills  */}
           <Box>
-            <HeadingSection>Skills</HeadingSection>
-            <Typography>{resume?.skills}</Typography>
+            <HeadingSection sx={{ mb: 2 }}>Skills</HeadingSection>
+            {resume?.skills?.map((skill: any) => (
+              <Stack spacing={2} direction='row' alignItems='center'>
+                <Typography
+                  component='span'
+                  sx={{ minWidth: '100px' }}
+                  gutterBottom
+                >
+                  {skill?.name}
+                </Typography>
+                <Rating
+                  readOnly
+                  size='small'
+                  defaultValue={skill?.skills_level}
+                />
+              </Stack>
+            ))}
           </Box>
         </Grid>
         <Grid item md={6}>

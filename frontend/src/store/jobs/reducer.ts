@@ -1,4 +1,6 @@
 import {
+  ADMIN_GET_DETAIL_JOB,
+  ADMIN_GET_DETAIL_JOB_SUCCESS,
   APPLY_JOB,
   // APPLY_JOB_FAILURE,
   APPLY_JOB_SUCCESS,
@@ -38,6 +40,7 @@ const initialState: IJobsState = {
   pendingJobs: [],
   activeJobs: [],
   rejectedJobs: [],
+  isLoadingDetailJob: false,
 };
 
 const JobsReducer = (state = initialState, action: JobsAction) => {
@@ -184,6 +187,17 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
       return {
         ...state,
         rejectedJobs: action.payload,
+      };
+    case ADMIN_GET_DETAIL_JOB:
+      return {
+        ...state,
+        isLoadingDetailJob: true,
+      };
+    case ADMIN_GET_DETAIL_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoadingDetailJob: false,
+        job: action.payload,
       };
 
     default:

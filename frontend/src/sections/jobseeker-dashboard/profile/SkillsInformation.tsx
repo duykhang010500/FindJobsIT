@@ -86,16 +86,18 @@ const SkillsInformation = ({ control, fields, append, remove }: Props) => {
                 defaultValue={skill.skills_level}
                 render={({ field }) => <Rating {...field} />}
               />
-              <IconButton onClick={() => remove(index)}>
-                <DeleteIcon sx={{ color: '#ff4d4f' }} />
-              </IconButton>
+              {fields.length > 1 && (
+                <IconButton onClick={() => remove(index)}>
+                  <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                </IconButton>
+              )}
             </Stack>
           ))}
 
           <Button
             variant='outlined'
             startIcon={<AddIcon />}
-            onClick={() => append({ name: '', skills_level: 0 })}
+            onClick={() => append({ name: '', skills_level: 1 })}
           >
             Add skill
           </Button>

@@ -44,6 +44,8 @@ export interface ICandidatesState {
   isSendMail: boolean;
   mails: any;
   candidates: any;
+  isLoadingDetail: boolean;
+  job: any;
 }
 
 export type GetListCandidatesForEmployer = {

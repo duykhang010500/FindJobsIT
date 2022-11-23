@@ -38,6 +38,10 @@ const JobMoreMenu = ({
 
   const isClosedPage = pathname.includes('closed');
 
+  const isPendingPage = pathname.includes('pending');
+
+  const isRejectedPage = pathname.includes('rejected');
+
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   return (
@@ -95,6 +99,24 @@ const JobMoreMenu = ({
                 <UploadIcon sx={{ mr: 2, color: '#52c41a' }} />
                 Post
               </MenuItem>
+              <Divider sx={{ my: 1 }} />
+              <MenuItem onClick={onDelete}>
+                <DeleteIcon sx={{ mr: 2, color: '#ff4d4f' }} /> Delete
+              </MenuItem>
+            </>
+          )}
+
+          {isPendingPage && (
+            <>
+              <Divider sx={{ my: 1 }} />
+              <MenuItem onClick={onDelete}>
+                <DeleteIcon sx={{ mr: 2, color: '#ff4d4f' }} /> Delete
+              </MenuItem>
+            </>
+          )}
+
+          {isRejectedPage && (
+            <>
               <Divider sx={{ my: 1 }} />
               <MenuItem onClick={onDelete}>
                 <DeleteIcon sx={{ mr: 2, color: '#ff4d4f' }} /> Delete

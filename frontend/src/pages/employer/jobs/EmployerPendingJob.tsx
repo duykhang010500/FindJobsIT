@@ -30,6 +30,7 @@ import JobMoreMenu from '../../../sections/employer-dashboard/jobs/JobMoreMenu';
 
 import { AppState } from '../../../store/reducer';
 import {
+  employerDeleteJob,
   employerGetJobs,
   employerUpdateJobStatus,
 } from '../../../store/jobs/actions';
@@ -63,6 +64,10 @@ const EmployerPendingJob = (props: Props) => {
 
   const handleViewApplications = (jobID: number) => {
     navigate(`/employer/hr/candidates/job/${jobID}`);
+  };
+
+  const handleDelete = (id: number) => {
+    dispatch(employerDeleteJob(id));
   };
 
   const handleClose = (jobID: number, status: number) => {
@@ -177,6 +182,7 @@ const EmployerPendingJob = (props: Props) => {
                         onViewApplications={() =>
                           handleViewApplications(job.id)
                         }
+                        onDelete={() => handleDelete(job.id)}
                       />
                     </TableCell>
                   </TableRow>

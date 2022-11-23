@@ -1,5 +1,13 @@
 import dayjs from 'dayjs';
-import { styled, Grid, Box, Stack, Typography, Avatar } from '@mui/material';
+import {
+  styled,
+  Grid,
+  Box,
+  Stack,
+  Typography,
+  Avatar,
+  Rating,
+} from '@mui/material';
 
 import CoverCV1 from '../../assets/images/CoverCV1.webp';
 
@@ -182,8 +190,23 @@ const CV1 = ({ resume }: Props) => {
 
             {/* skills */}
             <Box>
-              <HeadingStyled>Skills</HeadingStyled>
-              <Typography sx={{ mt: 2 }}>{resume?.skills}</Typography>
+              <HeadingStyled sx={{ mb: 2 }}>Skills</HeadingStyled>
+              {resume?.skills?.map((skill: any) => (
+                <Stack spacing={2} direction='row' alignItems='center'>
+                  <Typography
+                    component='span'
+                    sx={{ minWidth: '100px' }}
+                    gutterBottom
+                  >
+                    {skill?.name}
+                  </Typography>
+                  <Rating
+                    readOnly
+                    size='small'
+                    defaultValue={skill?.skills_level}
+                  />
+                </Stack>
+              ))}
             </Box>
           </Stack>
         </Grid>

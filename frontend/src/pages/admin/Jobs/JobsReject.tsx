@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -30,6 +31,8 @@ type Props = {};
 
 const JobsReject = (props: Props) => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(GetRejectedJobs());
@@ -84,7 +87,9 @@ const JobsReject = (props: Props) => {
                   <TableCell align='center'>
                     <Stack direction='row' spacing={1} justifyContent='center'>
                       <Tooltip placement='top' title='View Detail'>
-                        <IconButton>
+                        <IconButton
+                          onClick={() => navigate(`/admin/job/${job.id}`)}
+                        >
                           <Visibility sx={{ color: '#4096ff' }} />
                         </IconButton>
                       </Tooltip>
