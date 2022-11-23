@@ -89,7 +89,7 @@ class MyController extends Controller
                 foreach ($skills as $key => $skill) {
                         $arr_skill[] = [
                             'name' => $skill,
-                            'level' => $skills_level[$key]
+                            'skills_level' => $skills_level[$key]
                         ];
                 }
             }

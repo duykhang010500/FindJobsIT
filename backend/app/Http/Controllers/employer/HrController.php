@@ -101,7 +101,7 @@ class HrController extends Controller
 
         $job = Job::create(array_merge(
             $validator->validated(),
-            ['comp_id' => auth()->user()->company->id,'status' => Job::STATUS_PENDING,
+            ['comp_id' => auth()->user()->company->id,'status' => $request -> status,
             'exp' => $request->exp,
             'exp_from' => $request->exp_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
             'salary_from' => $request->salary_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
