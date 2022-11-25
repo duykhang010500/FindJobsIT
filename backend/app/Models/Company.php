@@ -11,10 +11,15 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Company extends Authenticatable
 {
+    const   STATUS_PENDING = 0,
+            STATUS_PUBLISHED = 1,
+            STATUS_CLOSED = 2,
+            STATUS_REJECTED = 3;
+
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'logo', 'name', 'address', 'website', 'email', 'phone', 'fax', 'tax', 'industry_id', 'location', 'contact_name'
+        'logo', 'name', 'address', 'website', 'email', 'phone', 'fax', 'tax', 'industry_id', 'location', 'contact_name','status'
         , 'video', 'images', 'content', 'banners', 'company_size', 'hirings', 'followed', 'viewed', 'group_rating', 'keywords'
     ];
 

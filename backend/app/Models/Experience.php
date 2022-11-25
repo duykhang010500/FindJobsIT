@@ -13,6 +13,7 @@ class Experience extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'experiences';
     protected $fillable = [
         'rexp_title', 'rexp_company', 'rexp_date_start', 'rexp_date_end', 'rexp_current_end'
         , 'rexp_description', 'resume_id'

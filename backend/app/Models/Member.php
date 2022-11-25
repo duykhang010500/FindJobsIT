@@ -10,6 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Member extends Authenticatable implements MustVerifyEmail
 {
+    const   STATUS_PENDING = 0,
+            STATUS_PUBLISHED = 1,
+            STATUS_CLOSED = 2,
+            STATUS_REJECTED = 3;
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**

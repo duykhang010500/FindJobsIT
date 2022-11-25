@@ -104,6 +104,8 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
         //companies
         Route::get('/companies', [CompanyController::class, 'index']);
         Route::post('/company', [CompanyController::class, 'store']);
+        Route::get('/jobs/pendings', [JobaController::class, 'job_pendings']);
+        Route::post('/company/pending/{id}', [CompanyController::class, 'company_status']);
 
         //services
         Route::get('/services', [ServiceController::class, 'index']);

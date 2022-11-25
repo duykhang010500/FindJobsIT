@@ -13,6 +13,7 @@ class Education extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'educations';
     protected $fillable = [
         'edu_school', 'edu_certify', 'edu_date_start', 'edu_date_end', 'edu_current_end'
         , 'edu_description', 'resume_id'

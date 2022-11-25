@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens, DB;
 
 class Resume extends Authenticatable
 {
@@ -46,8 +46,12 @@ class Resume extends Authenticatable
         return $this->belongsToMany(Location::class);
     }
 
-    public function skills(){
-        return $this->belongsToMany(Skill::class);
+    public function educations(){
+        return $this->hasMany(Education::class);
+    }
+
+    public function experiences(){
+        return $this->hasMany(Experience::class);
     }
 
     private $Auto_increment = null;

@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\Candidate;
 use App\Models\Company;
+use App\Models\Education;
+use App\Models\Experience;
 use App\Models\Resume;
 use App\Models\JobSave;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class MyController extends Controller
     public function getResume(Request $request)
     {
         if(!empty(auth()->user()->resume->id)){
-            $resume = Resume::with('locations','industries','member')->where('id',auth()->user()->resume->id)->first();
+            $resume = Resume::with('locations','industries','member','educations','experiences')->where('id',auth()->user()->resume->id)->first();
             return response()->json([
                 'resume' => $resume,
             ]);
@@ -56,18 +58,18 @@ class MyController extends Controller
                 'working_type'  => 'required',
                 // 'languages'  => 'required',
                 'summary'  => 'required',
-                'rexp_title'  => 'required',
-                'rexp_company'  => 'required',
-                'rexp_date_start'  => 'required',
+                // 'rexp_title'  => 'required',
+                // 'rexp_company'  => 'required',
+                // 'rexp_date_start'  => 'required',
                 // 'rexp_date_end'  => 'required',
                 // 'rexp_current_end'  => 'required',
-                'rexp_description'  => 'required',
-                'edu_school'  => 'required',
-                'edu_certify'  => 'required',
-                'edu_date_start'  => 'required',
+                // 'rexp_description'  => 'required',
+                // 'edu_school'  => 'required',
+                // 'edu_certify'  => 'required',
+                // 'edu_date_start'  => 'required',
                 // 'edu_date_end'  => 'required',
                 // 'edu_current_end'  => 'required',
-                'edu_description'  => 'required',
+                // 'edu_description'  => 'required',
                 'resume_file'  => 'required',
             ]);
 
@@ -93,6 +95,9 @@ class MyController extends Controller
                         ];
                 }
             }
+
+            // $data =  $request->json()->all();
+
             // dd($arr_skill);
             if($resume != NULL){
                 if(!empty($request->industries)){
@@ -113,11 +118,51 @@ class MyController extends Controller
                         $resume->save();
                     }
                 }
+
+                if($request['educations'] && $request['educations'][0]){   // educations
+                    $resume->educations()->delete();
+                    foreach($request['educations'] as $key => $education){
+                        $edu = new Education;
+                        $edu->edu_school = $education['edu_school'];
+                        $edu->edu_certify = $education['edu_certify'];
+                        $edu->edu_date_start = $education['edu_date_start'];
+                        $edu->edu_date_end = $education['edu_date_end'];
+                        $edu->edu_current_end = $education['edu_current_end'];
+                        $edu->edu_description = $education['edu_description'];
+                        $edu->resume_id = $resume->id;
+                        $edu->save();
+                    }
+                }else{
+                    return response([
+                        'status' => 400,
+                        'message' => 'Education required'
+                    ], 400);
+                }
+
+                if($request['experiences'] && $request['experiences'][0]){   // educations
+                    $resume->experiences()->delete();
+                    foreach($request['experiences'] as $key => $experience){
+                        $exp = new Experience;
+                        $exp->rexp_title = $experience['rexp_title'];
+                        $exp->rexp_company = $experience['rexp_company'];
+                        $exp->rexp_date_start = $experience['rexp_date_start'];
+                        $exp->rexp_date_end = $experience['rexp_date_end'];
+                        $exp->rexp_current_end = $experience['rexp_current_end'];
+                        $exp->rexp_description = $experience['rexp_description'];
+                        $exp->resume_id = $resume->id;
+                        $exp->save();
+                    }
+                }else{
+                    return response([
+                        'status' => 400,
+                        'message' => 'Experience required'
+                    ], 400);
+                }
+
                 $resume->update(array_merge($fields_resume->validated(),
                     ['current_position' => $request->current_position,'current_company' => $request->current_company,
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
-                    'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
-                    'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,'resume_status' => $request->resume_status,
+                    'rexp_current_end' => $request->rexp_current_end,'degree' => $request->degree,'resume_status' => $request->resume_status,
                     'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type, 'skills' => $arr_skill,
                     ]
                 ));
@@ -125,11 +170,49 @@ class MyController extends Controller
                 $resume = Resume::create(array_merge($fields_resume->validated(),
                     ['current_position' => $request->current_position,'current_company' => $request->current_company,
                     'languages' => $request->languages,'rexp_date_end' => $request->rexp_date_end,
-                    'rexp_current_end' => $request->rexp_current_end,'edu_date_end' => $request->edu_date_end,
-                    'edu_current_end' => $request->edu_current_end,'degree' => $request->degree,'resume_status' => $request->resume_status,
+                    'rexp_current_end' => $request->rexp_current_end,'degree' => $request->degree,'resume_status' => $request->resume_status,
                     'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'cv_type' => $request->cv_type, 'skills' => $arr_skill,
                     ]
                 ));
+
+                if($request['educations'] && $request['educations'][0]){   // educations
+                    foreach($request['educations'] as $key => $education){
+                        $edu = new Education;
+                        if($education['edu_school']) $edu->edu_school = $education['edu_school'];
+                        if($education['edu_certify']) $edu->edu_certify = $education['edu_certify'];
+                        if($education['edu_date_start']) $edu->edu_date_start = $education['edu_date_start'];
+                        if($education['edu_date_end']) $edu->edu_date_end = $education['edu_date_end'];
+                        if($education['edu_current_end']) $edu->edu_current_end = $education['edu_current_end'];
+                        if($education['edu_description']) $edu->edu_description = $education['edu_description'];
+                        $edu->resume_id = $resume->id;
+                        $edu->save();
+                    }
+                }else{
+                    return response([
+                        'status' => 400,
+                        'message' => 'Education required'
+                    ], 400);
+                }
+
+                if($request['experiences'] && $request['experiences'][0]){   // educations
+                    foreach($request['experiences'] as $key => $experience){
+                        $exp = new Experience;
+                        $exp->rexp_title = $experience['rexp_title'];
+                        $exp->rexp_company = $experience['rexp_company'];
+                        $exp->rexp_date_start = $experience['rexp_date_start'];
+                        $exp->rexp_date_end = $experience['rexp_date_end'];
+                        $exp->rexp_current_end = $experience['rexp_current_end'];
+                        $exp->rexp_description = $experience['rexp_description'];
+                        $exp->resume_id = $resume->id;
+                        $exp->save();
+                    }
+                }else{
+                    return response([
+                        'status' => 400,
+                        'message' => 'Experience required'
+                    ], 400);
+                }
+
                 $member->resume_id = $resume->id;
                 $member->save();
 

@@ -60,7 +60,7 @@ class EmployerController extends Controller
                 $employer->save();
 
                 $token = \Str::random(64);
-  
+
                 EmployerVerify::create([
                     'emp_id' => $employer->id,
                     'token' => $token
@@ -107,6 +107,13 @@ class EmployerController extends Controller
                     'status' => false,
                     'message' => 'Password does not match with our record.',
                 ], 401);
+
+            if($Employer->status == 0){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Your company information is being verified by admin.',
+                ], 401);
+            }
 
             // if (!Auth::guard('web')->attempt($validator->validated())) {
             //     return response()->json(['error' => 'Unauthorized'], 401);
