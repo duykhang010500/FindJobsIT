@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employer;
 use App\Models\EmployerFolder;
 use App\Models\Company;
+use App\Models\Office;
 use App\Models\Job;
 use App\Models\Member;
 use App\Models\Candidate;
@@ -249,8 +250,7 @@ class HrController extends Controller
     }
 
     public function getCompany(Request $request){
-        $id = auth()->user()->company->id;
-        $company = Company::where('id',$id)->first();
+        $company = Company::where('id',auth()->user()->company->id)->first();
         return response()->json([
             'company' => $company
         ]);
@@ -262,20 +262,19 @@ class HrController extends Controller
         $fields_company = Validator::make($request->all(), [
             'name' => 'required|string|unique:companies,name,'.$id,
             'company_size' => 'required',
-            'industry_id' => 'required',
+            'industry_name' => 'required',
+            'location_name' => 'required',
             ]);
         if ($fields_company->fails()) {
             return response()->json($fields_company->errors(), 422);
         }
         $model->update(array_merge($fields_company->validated(),
         ['address' => $request->address,'tax' => $request->tax,
-         'address' => $request->address,
          'phone' => $request->phone,'company_size' => $request->company_size,
          'fax' => $request->fax,'website' => $request->website,
-         'email' => $request->email,'location_id' => $request->location_id,
+         'email' => $request->email,
          'content' => $request->content,'logo' => $request->logo,
          'banners' => $request->banners,'keywords' => $request->keywords,
-         'location' => $request->location
         ]
     ));
         return response()->json([
@@ -283,6 +282,52 @@ class HrController extends Controller
             'message' => 'Update company successfully'
         ]);
 
+    }
+
+    public function offices(Request $request){
+        return response()->json([
+            'offices' => Office::with('company')->where('company_id',auth()->user()->company->id)->orderBy('priority','desc')->get()
+        ]);
+    }
+
+    public function office(Request $request, $id){
+        $model = Office::with('company')->where('id',$id)->where('company_id',auth()->user()->company->id)->first();
+
+        if ($request->isMethod('get')) {
+            return response()->json([
+                'office' => $model
+            ]);
+        };
+        if ($request->isMethod('delete')) {
+            if($model != null){
+                $model->delete();
+                $message = 'Office deleted successfully';
+            }else{
+                $message = 'Office not exist';
+            }
+            return response()->json([
+                'message' => $message
+            ]);
+        };
+        if ($request->isMethod('post') || $request->isMethod('patch')) {
+            $fields = Validator::make($request->all(), [
+                'name' => 'required|string|between:2,100',
+                'phone' => 'required',
+                'priority' => 'required',
+                'address' => 'required',
+            ]);
+        };
+        if ($fields->fails()) {
+            return response()->json($fields->errors(), 422);
+        }
+        ($model != null) ? $model->update(array_merge($fields->validated()))
+                         : $model = Office::create(array_merge($fields->validated(),
+                            ['company_id' => auth()->user()->company->id]));
+
+        return response()->json([
+            'message' => 'Update successfully.',
+            'office' => $model
+        ]);
     }
 
     public function getProfile(Request $request){

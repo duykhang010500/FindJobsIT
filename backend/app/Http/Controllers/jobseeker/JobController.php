@@ -317,4 +317,11 @@ class JobController extends Controller
         ]);
     }
 
+    public function company(Request $request, $id)
+    {
+        return response()->json([
+            'company' => Company::with('offices')->where('id',$id)->first()
+        ]);
+    }
+
 }

@@ -9,15 +9,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Degree extends Authenticatable
+class Office extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'priority', 'name', 'active', 'status'
+        'priority', 'name', 'address', 'phone','company_id'
     ];
 
-    public function member(){
-        return $this->belongsTo(Member::class);
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 }

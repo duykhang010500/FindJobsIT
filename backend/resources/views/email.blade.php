@@ -1,1 +1,1 @@
-<p>{{ $data['content'] }}</p>
+{!! $data['content'] !!}

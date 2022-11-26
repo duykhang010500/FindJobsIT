@@ -54,12 +54,12 @@ class Resume extends Authenticatable
         return $this->hasMany(Experience::class);
     }
 
-    private $Auto_increment = null;
-    public function getNextId()
-    {
-        $statement = DB::select("show table status like 'resumes'");
+    // private $Auto_increment = null;
+    // public function getNextId()
+    // {
+    //     $statement = DB::select("show table status like 'resumes'");
 
-        return $statement[0]->Auto_increment;
-    }
+    //     return $statement[0]->Auto_increment;
+    // }
 
 }

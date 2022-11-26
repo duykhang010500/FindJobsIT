@@ -35,7 +35,7 @@ class Candidate extends Authenticatable
 
     public function resume()
     {
-        return $this->belongsTo(Resume::class);
+        return $this->belongsTo(Resume::class,'resume_id');
     }
 
     public function company()

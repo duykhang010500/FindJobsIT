@@ -70,6 +70,14 @@ class CompanyController extends Controller
         ]);
     }
 
+    public function detail(Request $request, $id)
+    {
+        $company = Company::with(['employer'])->where('id', $id)->first();
+        return response()->json([
+            'company' => $company,
+        ]);
+    }
+
     public function store(Request $request)
     {
         //

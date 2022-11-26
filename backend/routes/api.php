@@ -55,7 +55,7 @@ Route::get('/job-relevant/{id}', [JobController::class, 'job_relevant_comp']);
 
 //companies
 Route::get('/companies', [JobController::class, 'companies']);
-
+Route::get('/company/{id}', [JobController::class, 'company']);
 //quickupload
 Route::post('/quickupload', [MemberController::class, 'quickupload']);
 
@@ -106,6 +106,7 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
         Route::post('/company', [CompanyController::class, 'store']);
         Route::get('/jobs/pendings', [JobaController::class, 'job_pendings']);
         Route::post('/company/pending/{id}', [CompanyController::class, 'company_status']);
+        Route::get('/company/detail/{id}', [CompanyController::class, 'detail']);
 
         //services
         Route::get('/services', [ServiceController::class, 'index']);
@@ -197,6 +198,13 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         // setting account
         Route::post('/hr/company', [HrController::class, 'company']);
         Route::get('/hr/company', [HrController::class, 'getCompany']);
+
+        //offices
+        Route::get('/hr/offices', [HrController::class, 'offices']);
+        Route::get('/hr/office/{id}', [HrController::class, 'office']);
+        Route::post('/hr/office/{id}', [HrController::class, 'office']);
+        Route::patch('/hr/office/{id}', [HrController::class, 'office']);
+        Route::delete('/hr/office/{id}', [HrController::class, 'office']);
 
         //profile
         Route::get('/hr/profile', [HrController::class, 'getProfile']);

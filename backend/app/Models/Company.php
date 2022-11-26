@@ -19,7 +19,7 @@ class Company extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'logo', 'name', 'address', 'website', 'email', 'phone', 'fax', 'tax', 'industry_id', 'location', 'contact_name','status'
+        'logo', 'name', 'address', 'website', 'email', 'phone', 'fax', 'tax', 'industry_name', 'location_name', 'contact_name','status'
         , 'video', 'images', 'content', 'banners', 'company_size', 'hirings', 'followed', 'viewed', 'group_rating', 'keywords'
     ];
 
@@ -29,6 +29,10 @@ class Company extends Authenticatable
 
     public function jobs(){
         return $this->hasMany(Job::class);
+    }
+
+    public function offices(){
+        return $this->hasMany(Office::class);
     }
 
     public function candidates(){
