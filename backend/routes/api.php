@@ -8,6 +8,7 @@ use App\Http\Controllers\jobseeker\MemberController;
 use App\Http\Controllers\jobseeker\MyController;
 use App\Http\Controllers\jobseeker\VerificationController;
 use App\Http\Controllers\jobseeker\ResetPasswordController;
+use App\Http\Controllers\jobseeker\SocialiteController;
 // employer
 use App\Http\Controllers\employer\EmployerController;
 use App\Http\Controllers\employer\HrController;
@@ -37,6 +38,10 @@ use App\Http\Controllers\admin\DashboardController;
 */
 
 // public
+
+// google login jsk
+Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 
 //reset password member
 Route::post('reset-password', [ResetPasswordController::class, 'sendMail']);

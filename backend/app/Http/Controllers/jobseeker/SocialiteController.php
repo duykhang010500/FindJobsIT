@@ -4,42 +4,53 @@ namespace App\Http\Controllers\jobseeker;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Socialite;
+use Exception;
+use App\Models\Member;
+use Auth;
+use Illuminate\Http\Response;
 class SocialiteController extends Controller
 {
     //
-    public function handleProviderCallback(Request $request)
+    public function redirectToGoogle()
     {
-        $validator = Validator::make($request->only('provider', 'access_provider_token'), [
-            'provider' => ['required', 'string'],
-            'access_provider_token' => ['required', 'string']
-        ]);
-        if ($validator->fails())
-            return response()->json($validator->errors(), 400);
-        $provider = $request->provider;
-        $validated = $this->validateProvider($provider);
-        if (!is_null($validated))
-            return $validated;
-        $providerUser = Socialite::driver($provider)->userFromToken($request->access_provider_token);
-        $user = Member::firstOrCreate(
-            [
-                'email' => $providerUser->getEmail()
-            ],
-            [
-                'name' => $providerUser->getName(),
-            ]
-        );
-        $data =  [
-            'token' => $user->createToken('Sanctom+Socialite')->plainTextToken,
-            'user' => $user,
-        ];
-        return response()->json($data, 200);
+        try {
+            $url = Socialite::driver('google')->stateless()
+                ->redirect()->getTargetUrl();
+            return response()->json([
+                'url' => $url,
+            ])->setStatusCode(Response::HTTP_OK);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 
-    protected function validateProvider($provider)
+    public function handleGoogleCallback()
     {
-        if (!in_array($provider, ['google'])) {
-            return response()->json(["message" => 'You can only login via google account'], 400);
+        try {
+
+            $user = Socialite::driver('google')->user();
+
+            $finduser = Member::where('google_id', $user->id)->first();
+
+            if($finduser){
+
+                Auth::login($finduser);
+
+                return redirect()->intended('dashboard');
+
+            }else{
+                $newUser = Member::updateOrCreate(['email' => $user->email],[
+                        'name' => $user->name,
+                        'google_id'=> $user->id,
+                        'password' => encrypt('123456')
+                    ]);
+                Auth::login($newUser);
+
+                return redirect(url(env('GOOGLE_REDIRECT_URI')));
+            }
+        } catch (Exception $e) {
+            dd($e->getMessage());
         }
     }
 }
