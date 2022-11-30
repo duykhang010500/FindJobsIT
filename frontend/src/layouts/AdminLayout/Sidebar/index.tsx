@@ -9,6 +9,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import BusinessIcon from '@mui/icons-material/Business';
 
 import SettingsIcon from '@mui/icons-material/Settings';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
 
@@ -20,20 +21,24 @@ const sidebarData = [
     icon: <DashboardIcon />,
     path: '/admin/dashboard',
   },
-  // {
-  //   title: `Employers management`,
-  //   icon: <BusinessIcon />,
-  //   children: [
-  //     {
-  //       title: `Companies`,
-  //       path: '/admin/companies',
-  //     },
-  //   {
-  //     title: `Jobs`,
-  //     path: '/admin/companies/jobs',
-  //   },
-  //   ],
-  // },
+  {
+    title: `Employers management`,
+    icon: <ApartmentIcon />,
+    children: [
+      {
+        title: `Requested Employer`,
+        path: '/admin/employers/requested',
+      },
+      {
+        title: `Active Employer`,
+        path: '/admin/employers/active',
+      },
+      {
+        title: `Rejected Employer`,
+        path: '/admin/employers/rejected',
+      },
+    ],
+  },
   // {
   //   title: `Candidates Management`,
   //   icon: <PeopleIcon />,

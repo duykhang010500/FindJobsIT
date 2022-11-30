@@ -13,6 +13,7 @@ import {
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { GiStairsGoal } from 'react-icons/gi';
 
 import { Controller } from 'react-hook-form';
 import { AppState } from '../../../store/reducer';
@@ -22,6 +23,8 @@ import {
   jobTypes,
   languages,
 } from '../../../utils/defaultValues';
+
+import { GiAchievement } from 'react-icons/gi';
 
 type Props = {
   control: any;
@@ -57,9 +60,14 @@ const CareerInformation = ({ control, setValue }: Props) => {
         onClick={() => setOpen(!open)}
         sx={{ cursor: 'pointer' }}
       >
-        <Typography variant='h3' color='#172642'>
-          Career information
-        </Typography>
+        <Stack direction='row' alignItems='center'>
+          <GiStairsGoal
+            style={{ marginRight: '20px', fontSize: '50px', color: '#69b1ff' }}
+          />
+          <Typography variant='h3' color='#172642' fontWeight={700}>
+            Career Information <span style={{ color: 'red' }}>*</span>
+          </Typography>
+        </Stack>
         {open ? (
           <ExpandMoreIcon sx={{ color: '#172642' }} />
         ) : (
@@ -155,7 +163,7 @@ const CareerInformation = ({ control, setValue }: Props) => {
                 <TextField
                   {...field}
                   select
-                  label='Level *'
+                  label='Expected level *'
                   fullWidth
                   error={!!error}
                   helperText={error?.message}

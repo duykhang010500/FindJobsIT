@@ -87,6 +87,7 @@ const RegisterForm = () => {
       company_size: '',
     },
     resolver: yupResolver(registerSchema),
+    mode: 'onChange',
   });
 
   const onSubmit = (data: any) => {

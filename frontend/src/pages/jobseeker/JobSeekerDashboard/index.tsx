@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Breadcrumbs, Typography } from '@mui/material';
+import { Grid, Breadcrumbs, Typography, Card } from '@mui/material';
 
 import WorkIcon from '@mui/icons-material/Work';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -39,7 +39,9 @@ const JobSeekerDashboardPage = (props: Props) => {
           />
         </Grid>
       </Grid>
-      <LineChart />
+      <Card>
+        <LineChart />
+      </Card>
     </>
   );
 };

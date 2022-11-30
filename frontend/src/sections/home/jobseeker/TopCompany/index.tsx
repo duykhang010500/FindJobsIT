@@ -26,7 +26,7 @@ const TopCompany: React.FC = (props: Props) => {
           <Typography
             variant='h2'
             fontWeight={700}
-            color='rgb(255,153,0)'
+            // color='rgb(255,153,0)'
             sx={{
               textAlign: 'center',
               textTransform: 'uppercase',
@@ -37,7 +37,7 @@ const TopCompany: React.FC = (props: Props) => {
           >
             Top company
           </Typography>
-          <Link variant='h5' component={RouterLink} to={`/`}>
+          <Link variant='h5' component={RouterLink} to={`/companies`}>
             See all
           </Link>
         </Stack>

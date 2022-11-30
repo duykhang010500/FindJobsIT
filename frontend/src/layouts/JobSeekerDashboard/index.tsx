@@ -7,8 +7,8 @@ type Props = {};
 
 const JobSeekerDashboardLayout = (props: Props) => {
   return (
-    <Box sx={{ backgroundColor: '#fff' }}>
-      <Container sx={{ mt: 11 }}>
+    <Box sx={{ backgroundColor: '#f8f9ff' }}>
+      <Container sx={{ pt: 15, pb: 10 }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <Card sx={{ p: 3, position: 'sticky', top: '86px' }}>

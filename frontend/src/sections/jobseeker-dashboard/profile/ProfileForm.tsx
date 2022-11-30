@@ -1,35 +1,35 @@
-import { useEffect, useMemo } from 'react';
-
-import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useForm, useFieldArray } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, Stack } from '@mui/material';
 
 import SaveIcon from '@mui/icons-material/Save';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, useFieldArray } from 'react-hook-form';
 
 import CareerInformation from './CareerInformation';
+import SkillsInformation from './SkillsInformation';
 import ProfileInformation from './ProfileInformation';
 import EducationInformation from './EducationInformation';
+import ExperienceInformation from './ExperienceInformation';
+
 import {
-  convertArrStringToString,
+  getIdFromArr,
   findIndexByName,
   findIndexByName1,
-  getIdFromArr,
 } from '../../../utils/convert';
-import { useDispatch } from 'react-redux';
-import { getMyCV, updateMyCv } from '../../../store/cv/actions';
-import { useSelector } from 'react-redux';
+
 import { AppState } from '../../../store/reducer';
-import { Nationalities } from '../../../utils/defaultValues';
 import { phoneRegExp } from '../../../utils/validate';
-import ExperienceInformation from './ExperienceInformation';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { uploadSingleFile } from '../../../utils/upload';
-import SkillsInformation from './SkillsInformation';
+import { Nationalities, skills } from '../../../utils/defaultValues';
+import { getMyCV, updateMyCv } from '../../../store/cv/actions';
 
 type Props = {};
 
@@ -97,18 +97,43 @@ const ProfileForm = (props: Props) => {
     languages: yup.string().required('Language is required'),
     summary: yup.string().required('Summary is required'),
 
-    rexp_title: yup.string().required('Position title is required'),
-    rexp_company: yup.string().required('Companies is required'),
+    experiences: yup.array().of(
+      yup.object().shape({
+        rexp_title: yup.string().required('Position title is required'),
+        rexp_company: yup.string().required('Companies is required'),
+        rexp_date_start: yup
+          .date()
+          .max(new Date(), 'Date start is before today')
+          .nullable()
+          .transform((curr, orig) => (orig === '' ? null : curr))
+          .required('Date start is required'),
+        rexp_date_end: yup
+          .date()
+          .min(yup.ref('rexp_date_start'), 'End date must be after start date')
+          .nullable(),
+        rexp_description: yup.string().required('Description is required'),
+      })
+    ),
 
-    rexp_date_start: yup
-      .date()
-      .max(new Date(), 'Date start is before today')
-      .nullable()
-      .transform((curr, orig) => (orig === '' ? null : curr))
-      .required('Date start is required'),
-
-    // rexp_date_end: yup.string().required('Time start is required'),
-    rexp_description: yup.string().required('Description is required'),
+    educations: yup.array().of(
+      yup.object().shape({
+        edu_school: yup.string().required('School is required'),
+        edu_certify: yup.string().required('Certificate/Degree is required'),
+        edu_description: yup
+          .string()
+          .required('Education description is required'),
+        edu_date_start: yup
+          .date()
+          .max(new Date(), 'Time start is before today')
+          .nullable()
+          .transform((curr, orig) => (orig === '' ? null : curr))
+          .required('Time start is required'),
+        edu_date_end: yup
+          .date()
+          .min(yup.ref('edu_date_start'), 'End date must be after start date')
+          .nullable(),
+      })
+    ),
 
     skills: yup.array().of(
       yup.object().shape({
@@ -116,17 +141,6 @@ const ProfileForm = (props: Props) => {
         // skills_name: yup.number().required('Point is require!'),
       })
     ),
-
-    edu_school: yup.string().required('School is required'),
-    edu_certify: yup.string().required('Certificate is required'),
-    edu_description: yup.string().required('Education description is required'),
-    edu_date_start: yup
-      .date()
-      .max(new Date(), 'Time start is before today')
-      .nullable()
-      .transform((curr, orig) => (orig === '' ? null : curr))
-      .required('Time start is required'),
-    // edu_date_end: yup.string().required('Time end is required'),
 
     yearofexperience: yup.number().min(0, 'Year must be >= 0'),
   });
@@ -164,32 +178,34 @@ const ProfileForm = (props: Props) => {
       languages: cv?.languages || '',
       summary: cv?.summary || '',
 
-      rexp_title: cv?.rexp_title || '',
-      rexp_company: cv?.rexp_company || '',
-      rexp_date_start: cv
-        ? dayjs(cv?.rexp_date_start).format('MM/DD/YYYY')
-        : '',
-      rexp_date_end: cv?.rexp_date_end
-        ? dayjs(cv?.rexp_date_end).format('MM/DD/YYYY')
-        : null,
-      // rexp_current_end: ,
-      rexp_description: cv?.rexp_description || '',
+      experiences: cv?.experiences || [
+        {
+          rexp_title: '',
+          rexp_company: '',
+          rexp_date_start: '',
+          rexp_date_end: null,
+          rexp_description: '',
+          rexp_current_end: null,
+        },
+      ],
+
+      educations: cv?.educations || [
+        {
+          edu_school: '',
+          edu_certify: '',
+          edu_date_start: '',
+          edu_date_end: null,
+          edu_current_end: null,
+          edu_description: '',
+        },
+      ],
 
       skills: cv?.skills || [{ name: '', skills_level: 1 }],
 
-      edu_school: cv?.edu_school || '',
-      edu_certify: cv?.edu_certify || '',
-      edu_date_start: cv ? dayjs(cv?.edu_date_start).format('MM/DD/YYYY') : '',
-      edu_date_end: cv?.edu_date_end
-        ? dayjs(cv?.edu_date_end).format('MM/DD/YYYY')
-        : null,
-      edu_current_end: cv
-        ? dayjs(cv?.edu_current_end).format('MM/DD/YYYY')
-        : '',
-      edu_description: cv?.edu_description || '',
       resume_file: 'resume_file.docx',
 
       resume_status: cv?.resume_status,
+
       cv_type: cv?.cv_type || 0,
     }),
     [cv, currentUser, locations]
@@ -201,7 +217,29 @@ const ProfileForm = (props: Props) => {
     mode: 'onChange',
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: ExpField,
+    append: appendExp,
+    remove: removeExp,
+  } = useFieldArray({
+    control,
+    name: 'experiences',
+  });
+
+  const {
+    fields: EduField,
+    append: appendEdu,
+    remove: removeEdu,
+  } = useFieldArray({
+    control,
+    name: 'educations',
+  });
+
+  const {
+    fields: skillsField,
+    append: skillAppend,
+    remove: skillRemove,
+  } = useFieldArray({
     control,
     name: 'skills',
   });
@@ -210,40 +248,46 @@ const ProfileForm = (props: Props) => {
     reset(defaultValues);
   }, [defaultValues, reset, cv]);
 
+  const convertDate = (date: any) => {
+    return date ? dayjs(date).format('YYYY/MM/DD') : '';
+  };
+
   const onSubmit = async (formValues: any) => {
     try {
       let avatar = formValues.avatar;
-      if (formValues.avatar !== 'none') {
+
+      if (formValues.avatar !== cv?.member?.avatar) {
         avatar = await uploadSingleFile(formValues.avatar);
       }
-
-      console.log(formValues);
 
       const formatValues = {
         ...formValues,
         city: formValues?.city?.name?.trim(),
         nationality: formValues?.nationality?.name?.trim(),
         birthday: dayjs(formValues.birthday).format('YYYY/MM/DD'),
-        edu_date_start: dayjs(formValues.edu_date_start).format('YYYY/MM/DD'),
-        edu_date_end: formValues.edu_date_end
-          ? dayjs(formValues.edu_date_end).format('YYYY/MM/DD')
-          : null,
-        rexp_date_start: dayjs(formValues.rexp_date_start).format('YYYY/MM/DD'),
-        rexp_date_end: formValues.rexp_date_end
-          ? dayjs(formValues.rexp_date_end).format('YYYY/MM/DD')
-          : null,
         industries: getIdFromArr(formValues.industries),
         locations: getIdFromArr(formValues.locations),
         avatar: avatar,
+        experiences: formValues.experiences.map((exp: any) => ({
+          ...exp,
+          rexp_date_start: convertDate(exp.rexp_date_start),
+          rexp_date_end: convertDate(exp.rexp_date_end),
+        })),
+        educations: formValues.educations.map((edu: any) => ({
+          ...edu,
+          edu_date_start: convertDate(edu.edu_date_start),
+          edu_date_end: convertDate(edu.edu_date_end),
+        })),
         skills: convertSkills(formValues.skills),
         skills_level: convertSkillLevel(formValues.skills),
         resume_status: formValues.resume_status ? 1 : 0,
       };
 
-      console.log('submit form: ', formatValues);
+      console.log('Profile form values: ', formatValues);
+
       dispatch(updateMyCv(formatValues));
     } catch (err) {
-      console.log(err);
+      console.log('Update profile failure: ', err);
     }
   };
 
@@ -284,14 +328,24 @@ const ProfileForm = (props: Props) => {
           getValues={getValues}
         />
         <CareerInformation control={control} setValue={setValue} />
-        <ExperienceInformation control={control} />
+        <ExperienceInformation
+          control={control}
+          fields={ExpField}
+          append={appendExp}
+          remove={removeExp}
+        />
+        <EducationInformation
+          control={control}
+          fields={EduField}
+          append={appendEdu}
+          remove={removeEdu}
+        />
         <SkillsInformation
           control={control}
-          fields={fields}
-          append={append}
-          remove={remove}
+          fields={skillsField}
+          append={skillAppend}
+          remove={skillRemove}
         />
-        <EducationInformation control={control} />
         <Stack direction='row' spacing={2}>
           <Button
             variant='outlined'

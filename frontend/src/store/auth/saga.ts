@@ -91,7 +91,7 @@ function* employerRegister({ payload: { formData, navigate } }: any): any {
     const res = yield call(employerServices.register, formData);
     if (res.status === 200) {
       yield put(registerEmployerSuccess());
-      toast.success('Register successfully!');
+      toast.success('Please check email to verify your account!');
       navigate('/employer/login');
     }
   } catch (err) {

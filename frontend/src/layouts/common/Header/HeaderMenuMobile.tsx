@@ -82,7 +82,7 @@ const HeaderMenuMobile: FC<Props> = () => {
             component={RouterLink}
             size='large'
             to={pathname.includes('/employer') ? `/employer/login` : '/login'}
-            variant='contained'
+            variant='outlined'
           >
             Log In
           </Button>

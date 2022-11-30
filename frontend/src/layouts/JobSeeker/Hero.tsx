@@ -18,6 +18,17 @@ const Hero = (props: Props) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        '&::before': {
+          position: 'absolute',
+          content: '" "',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'black',
+          opacity: 0.45,
+          zIndex: -1,
+        },
       }}
     >
       <Box
@@ -33,7 +44,9 @@ const Hero = (props: Props) => {
         }}
         flexDirection='column'
       >
-        <SearchBar />
+        <Box sx={{ zIndex: 2, position: 'relative' }}>
+          <SearchBar />
+        </Box>
       </Box>
     </Box>
   );
