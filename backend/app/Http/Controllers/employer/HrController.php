@@ -235,13 +235,16 @@ class HrController extends Controller
     }
 
     public function candidateStatus(Request $request,$id){
-        $candidate = Candidate::where('id', $id)->firstOrFail();
+        $candidate = Candidate::find($id);
         // $candidate->update(['status', $request->status]);
         $request->validate([
             'status' => 'required',
         ]);
 
-        $candidate->update($request->all());
+        $candidate->status = $request->status;
+        $candidate->timestamps = false;
+        $candidate->updated_at = now();
+        $candidate->touch();
         return response()->json([
             'candidate' => $candidate,
             'message' => 'update candidate status'

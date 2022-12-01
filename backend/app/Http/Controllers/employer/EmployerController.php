@@ -156,9 +156,9 @@ class EmployerController extends Controller
     public function verifyAccount($token)
     {
         $verifyUser = EmployerVerify::where('token', $token)->first();
-  
+
         $message = 'Sorry your email cannot be identified.';
-  
+
         if(!is_null($verifyUser) ){
             $user = $verifyUser->employer;
             if(!$user->email_verified_at) {
@@ -169,7 +169,7 @@ class EmployerController extends Controller
                 $message = "Your e-mail is already verified. You can now login.";
             }
         }
-  
+
         return redirect(url(env('FRONT_END_URL').'/employer/login'));
     }
 }
