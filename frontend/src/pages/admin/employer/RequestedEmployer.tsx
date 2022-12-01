@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { Breadcrumbs, Typography, Link, Card, Box } from '@mui/material';
+import { Box, Link, Card, Typography, Breadcrumbs } from '@mui/material';
+
 import { useDispatch } from 'react-redux';
 import { adminGetCompaniesPending } from '../../../store/companies/action';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store/reducer';
+import CompanyList from './CompanyList';
 
 type Props = {};
 
@@ -13,6 +17,8 @@ const RequestedEmployer = (props: Props) => {
     dispatch(adminGetCompaniesPending());
   }, [dispatch]);
 
+  const { list } = useSelector((state: AppState) => state.companies);
+
   return (
     <Box>
       <Breadcrumbs>
@@ -20,6 +26,9 @@ const RequestedEmployer = (props: Props) => {
         <Link>Employer</Link>
         <Typography>Requested</Typography>
       </Breadcrumbs>
+      <Card sx={{ p: 3, mt: 5 }}>
+        <CompanyList companies={list} />
+      </Card>
     </Box>
   );
 };

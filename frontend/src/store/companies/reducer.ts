@@ -1,7 +1,10 @@
 import {
+  ADMIN_GET_COMPANIES_ACTIVE_SUCCESS,
   ADMIN_GET_COMPANIES_LIST,
   ADMIN_GET_COMPANIES_LIST_SUCCESS,
   ADMIN_GET_COMPANIES_PENDING_SUCCESS,
+  ADMIN_GET_COMPANIES_REJECTED_SUCCESS,
+  ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
   GET_COMPANIES,
   GET_COMPANIES_SUCCESS,
   GET_COMPANY_SUCCESS,
@@ -41,6 +44,16 @@ const companiesReducer = (state = initialState, action: CompaniesAction) => {
       return {
         ...state,
         list: action.payload,
+      };
+    case ADMIN_GET_COMPANIES_ACTIVE_SUCCESS:
+      return {
+        ...state,
+        list: action.payload,
+      };
+    case ADMIN_UPDATE_COMPANY_STATUS_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter((item: any) => item.id !== action.payload.id),
       };
     default:
       return state;

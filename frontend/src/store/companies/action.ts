@@ -1,8 +1,14 @@
 import {
+  ADMIN_GET_COMPANIES_ACTIVE,
+  ADMIN_GET_COMPANIES_ACTIVE_SUCCESS,
   ADMIN_GET_COMPANIES_LIST,
   ADMIN_GET_COMPANIES_LIST_SUCCESS,
   ADMIN_GET_COMPANIES_PENDING,
   ADMIN_GET_COMPANIES_PENDING_SUCCESS,
+  ADMIN_GET_COMPANIES_REJECTED,
+  ADMIN_GET_COMPANIES_REJECTED_SUCCESS,
+  ADMIN_UPDATE_COMPANY_STATUS,
+  ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
   EMPLOYER_UPDATE_COMPANY,
   GET_COMPANIES,
   GET_COMPANIES_SUCCESS,
@@ -50,4 +56,41 @@ export const adminGetCompaniesPending = () => ({
 export const adminGetCompaniesPendingSuccess = (companies: any) => ({
   type: ADMIN_GET_COMPANIES_PENDING_SUCCESS,
   payload: companies,
+});
+
+export const adminGetCompaniesActive = () => ({
+  type: ADMIN_GET_COMPANIES_ACTIVE,
+});
+
+export const adminGetCompaniesActiveSuccess = (companies: any) => ({
+  type: ADMIN_GET_COMPANIES_ACTIVE_SUCCESS,
+  payload: companies,
+});
+
+export const adminGetCompaniesRejected = () => ({
+  type: ADMIN_GET_COMPANIES_REJECTED,
+});
+
+export const adminGetCompaniesRejectedSuccess = (companies: any) => ({
+  type: ADMIN_GET_COMPANIES_REJECTED_SUCCESS,
+  payload: companies,
+});
+
+export const adminUpdateCompanyStatus = (id: number, status: number) => ({
+  type: ADMIN_UPDATE_COMPANY_STATUS,
+  payload: {
+    id,
+    status,
+  },
+});
+
+export const adminUpdateCompanyStatusSuccess = (
+  id: number,
+  status: number
+) => ({
+  type: ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
+  payload: {
+    id,
+    status,
+  },
 });

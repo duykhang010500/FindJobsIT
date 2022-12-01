@@ -33,6 +33,11 @@ const adminServices = {
   getCompaniesList: (params: any) => {
     return axiosInstance.get(`/admin/companies?filter=${params}`);
   },
+  updateCompanyStatus: (id: number, status: number) => {
+    return axiosInstance.post('/admin/company/pending/' + id, {
+      status,
+    });
+  },
 
   //candidates
   getCandidatesList: () => {
