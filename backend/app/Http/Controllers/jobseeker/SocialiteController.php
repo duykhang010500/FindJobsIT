@@ -28,25 +28,28 @@ class SocialiteController extends Controller
     public function handleGoogleCallback()
     {
         try {
-
-            $user = Socialite::driver('google')->user();
+            $user = Socialite::driver('google')->stateless()->user();
 
             $finduser = Member::where('google_id', $user->id)->first();
-
+            // dd($finduser);
             if($finduser){
-
-                Auth::login($finduser);
-
-                return redirect()->intended('dashboard');
-
+                $token =  $finduser->createToken($user->email, ['member'])->plainTextToken;
+                return response()->json([
+                    'status' => __('google sign in successful'),
+                    'token' => $token
+                ], Response::HTTP_CREATED);
             }else{
                 $newUser = Member::updateOrCreate(['email' => $user->email],[
-                        'name' => $user->name,
+                        'fullname' => $user->name,
                         'google_id'=> $user->id,
-                        'password' => encrypt('123456')
+                        'status' => 1,
+                        // 'password' => encrypt('123456')
                     ]);
-                Auth::login($newUser);
-
+                $token =  $newUser->createToken($user->email, ['member'])->plainTextToken;
+                return response()->json([
+                    'status' => __('google sign in successful'),
+                    'token' => $token
+                ], Response::HTTP_CREATED);
                 return redirect(url(env('GOOGLE_REDIRECT_URI')));
             }
         } catch (Exception $e) {
