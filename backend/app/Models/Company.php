@@ -24,7 +24,7 @@ class Company extends Authenticatable
     ];
 
     public function employer(){
-        return $this->belongsTo(Employer::class);
+        return $this->hasOne(Employer::class,'comp_id','id');
     }
 
     public function jobs(){
