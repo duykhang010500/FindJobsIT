@@ -162,7 +162,7 @@ const EmployerCandidatesList = (props: Props) => {
                     </Box>
                   </TableCell>
                   <TableCell align='center'>
-                    {dayjs(item?.created_at).format('DD/MM/YYYY h:mm A')}
+                    {dayjs(item?.created_at).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
                     <TextField

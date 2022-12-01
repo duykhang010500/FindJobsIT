@@ -33,6 +33,10 @@ import { getMyCV, updateMyCv } from '../../../store/cv/actions';
 
 type Props = {};
 
+const checkKeyDown = (e: any) => {
+  if (e.code === 'Enter') e.preventDefault();
+};
+
 const ProfileForm = (props: Props) => {
   const dispatch = useDispatch();
 
@@ -320,7 +324,7 @@ const ProfileForm = (props: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} onKeyDown={(e) => checkKeyDown(e)}>
       <Stack spacing={4}>
         <ProfileInformation
           control={control}

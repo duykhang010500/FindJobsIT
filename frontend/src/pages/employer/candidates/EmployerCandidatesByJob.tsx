@@ -1,4 +1,8 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,6 +16,7 @@ import {
   Dialog,
   Button,
   Tooltip,
+  Collapse,
   MenuItem,
   TableRow,
   TableCell,
@@ -30,6 +35,7 @@ import {
 import { LoadingButton } from '@mui/lab';
 
 import EmailIcon from '@mui/icons-material/Email';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import UploadRoundedIcon from '@mui/icons-material/UploadRounded';
 
@@ -46,8 +52,13 @@ import {
 import { AppState } from '../../../store/reducer';
 
 import Editor from '../../../components/Editor';
+import FilterBar from '../../../sections/employer-dashboard/candidates/candidates-by-job/FilterBar';
 
 type Props = {};
+
+dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 const EmployerCandidatesByJob = (props: Props) => {
   const { id } = useParams();
@@ -57,6 +68,16 @@ const EmployerCandidatesByJob = (props: Props) => {
   const navigate = useNavigate();
 
   const [data, setData] = useState<any>([]);
+
+  const [searchStr, setSearchStr] = useState<string>('');
+
+  const [dateStart, setDateStart] = useState<Dayjs | null>(null);
+
+  const [dateEnd, setDateEnd] = useState<Dayjs | null>(null);
+
+  const [status, setStatus] = useState<string>('All');
+
+  const [showFilterBar, setShowFilterBar] = useState<boolean>(true);
 
   const [openDialogMail, setOpenDialogMail] = useState<boolean>(false);
 
@@ -75,6 +96,8 @@ const EmployerCandidatesByJob = (props: Props) => {
   useEffect(() => {
     dispatch(employerGetCandidateByJob(Number(id)));
   }, [dispatch, id]);
+
+  useEffect(() => {}, []);
 
   const validate = yup.object({
     title: yup
@@ -102,12 +125,6 @@ const EmployerCandidatesByJob = (props: Props) => {
     console.log(formData);
     dispatch(employerSendMail(formData));
   };
-
-  // const headers = [
-  //   { label: 'First Name', key: 'firstname' },
-  //   { label: 'Last Name', key: 'lastname' },
-  //   { label: 'Email', key: 'email' },
-  // ];
 
   useEffect(() => {
     setData(formatData(candidates));
@@ -145,13 +162,40 @@ const EmployerCandidatesByJob = (props: Props) => {
     dispatch(updateStatus(id, { status }));
   };
 
-  const handleExportCSV = () => {
-    console.log('Export!');
-  };
-
   if (isLoading) {
     return null;
   }
+
+  const handleChangeSearchString = (e: any) => {
+    setSearchStr(e.target.value);
+  };
+
+  const handleChangeDateStart = (e: any) => {
+    setDateStart(e ? dayjs(e) : null);
+  };
+
+  const handleChangeDateEnd = (e: any) => {
+    setDateEnd(e ? dayjs(e) : null);
+  };
+
+  const handleChangeStatus = (e: any) => {
+    setStatus(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchStr('');
+    setDateStart(null);
+    setDateEnd(null);
+    setStatus('All');
+  };
+
+  const filteredCandidates = filterCandidates(
+    candidates,
+    searchStr,
+    dateStart,
+    dateEnd,
+    status
+  );
 
   return (
     <div>
@@ -163,20 +207,43 @@ const EmployerCandidatesByJob = (props: Props) => {
         <Typography>Candidates</Typography>
       </Breadcrumbs>
 
-      <Button
-        variant='contained'
-        startIcon={<UploadRoundedIcon />}
-        sx={{ mt: 3 }}
-        // onClick={handleExportCSV}
-        disabled={data.length < 1}
-      >
-        <CSVLink
-          data={data}
-          style={{ color: 'inherit', textDecoration: 'none' }}
+      <Stack direction='row' justifyContent='space-between' alignItems='center'>
+        <Button
+          variant='contained'
+          startIcon={<UploadRoundedIcon />}
+          sx={{ mt: 3 }}
+          disabled={data.length < 1}
         >
-          Export
-        </CSVLink>
-      </Button>
+          <CSVLink
+            data={data}
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            Export
+          </CSVLink>
+        </Button>
+        <Button
+          startIcon={<FilterAltIcon />}
+          variant='contained'
+          color='info'
+          onClick={() => setShowFilterBar(!showFilterBar)}
+        >
+          Filter
+        </Button>
+      </Stack>
+
+      <Collapse in={showFilterBar}>
+        <FilterBar
+          onChangeSearch={(e: any) => handleChangeSearchString(e)}
+          searchValue={searchStr}
+          onChangeDateStart={(e: any) => handleChangeDateStart(e)}
+          dateStart={dateStart}
+          onChangeDateEnd={(e: any) => handleChangeDateEnd(e)}
+          dateEnd={dateEnd}
+          onChangeStatus={(e: any) => handleChangeStatus(e)}
+          statusValue={status}
+          onReset={handleReset}
+        />
+      </Collapse>
 
       <TableContainer sx={{ mt: 3 }}>
         <Table>
@@ -190,7 +257,7 @@ const EmployerCandidatesByJob = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {candidates?.map((candidate: any) => (
+            {filteredCandidates?.map((candidate: any) => (
               <TableRow key={candidate.id}>
                 <TableCell>{candidate.id}</TableCell>
                 <TableCell>{candidate.member.fullname}</TableCell>
@@ -338,6 +405,41 @@ const EmployerCandidatesByJob = (props: Props) => {
       </Dialog>
     </div>
   );
+};
+
+export const filterCandidates = (
+  candidates: any,
+  searchStr: string,
+  dateStart: any = null,
+  dateEnd: any = null,
+  status: string = 'All'
+) => {
+  if (searchStr) {
+    candidates = candidates.filter((candidate: any) =>
+      candidate.member.fullname
+        .toLowerCase()
+        .includes(searchStr.toLowerCase().trim())
+    );
+  }
+  if (dateStart) {
+    candidates = candidates.filter((candidate: any) =>
+      dayjs(candidate.created_at).isSameOrAfter(dayjs(dateStart), 'day')
+    );
+  }
+
+  if (dateEnd) {
+    candidates = candidates.filter((candidate: any) =>
+      dayjs(candidate.created_at).isSameOrBefore(dayjs(dateEnd), 'day')
+    );
+  }
+
+  if (status !== 'All') {
+    candidates = candidates.filter(
+      (candidates: any) => candidates.status === status
+    );
+  }
+
+  return candidates;
 };
 
 export default EmployerCandidatesByJob;

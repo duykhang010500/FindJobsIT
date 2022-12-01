@@ -21,7 +21,7 @@ import { useEffect } from 'react';
 
 type Props = {};
 
-const EmployerActiveServices = (props: Props) => {
+const EmployerExpireServices = (props: Props) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const EmployerActiveServices = (props: Props) => {
         </TableHead>
         <TableBody>
           {activeServices.map((service: any, index: number) => {
-            if (dayjs().isBefore(dayjs(service.expireDate))) {
+            if (dayjs().isAfter(dayjs(service.expireDate))) {
               return (
                 <TableRow key={index}>
                   <TableCell>{service.title}</TableCell>
@@ -90,4 +90,4 @@ const EmployerActiveServices = (props: Props) => {
   );
 };
 
-export default EmployerActiveServices;
+export default EmployerExpireServices;

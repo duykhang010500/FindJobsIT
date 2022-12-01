@@ -72,6 +72,7 @@ const SkillsInformation = ({ control, fields, append, remove }: Props) => {
                   return (
                     <Autocomplete
                       {...field}
+                      freeSolo
                       fullWidth
                       options={skills}
                       renderInput={(params) => (
@@ -87,6 +88,7 @@ const SkillsInformation = ({ control, fields, append, remove }: Props) => {
                   );
                 }}
               />
+
               <Controller
                 control={control}
                 name={`skills[${index}].skills_level`}

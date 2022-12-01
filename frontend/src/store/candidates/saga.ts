@@ -15,6 +15,7 @@ import {
   getDetailResumeCandidateSuccess,
   getListCandidatesForEmployerSuccess,
   searchCandidateSuccess,
+  updateStatusSuccess,
 } from './action';
 import {
   ADMIN_GET_CANDIDATES_LIST,
@@ -58,6 +59,9 @@ function* updateStatusSaga({ payload: { id, formData } }: any): any {
     console.log(id, formData);
     yield call(employerServices.updateStatus, id, formData);
     toast.success('Update status successfully!');
+
+    //===== handle state at here
+    yield put(updateStatusSuccess(id, formData.status));
   } catch (err) {
     toast.error('Update status failure!');
   }

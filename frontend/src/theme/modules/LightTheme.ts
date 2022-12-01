@@ -76,7 +76,7 @@ const LightTheme = createTheme({
   palette: {
     mode: 'light',
     background: {
-      default: '#f8f9ff',
+      default: '#fff',
     },
     primary: {
       main: '#FA541C',

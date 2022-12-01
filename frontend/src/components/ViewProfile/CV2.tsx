@@ -58,7 +58,7 @@ const HeadingSection = styled('span')({
 
 const CV2 = ({ resume }: Props) => {
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, backgroundColor: '#fff' }}>
       {/* Header CV*/}
       <Box>
         <Stack

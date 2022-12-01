@@ -69,6 +69,7 @@ import Companies from '../pages/Companies';
 import RequestedEmployer from '../pages/admin/employer/RequestedEmployer';
 import ActiveEmployer from '../pages/admin/employer/ActiveEmployer';
 import RejectedEmployer from '../pages/admin/employer/RejectedEmployer';
+import EmployerExpireServices from '../pages/employer/services/EmployerExpireServices';
 
 type Props = {};
 
@@ -155,6 +156,7 @@ const Router = (props: Props) => {
         //services
         { path: 'services/order', element: <EmployerServices /> },
         { path: 'services/active', element: <EmployerActiveServices /> },
+        { path: 'services/expire', element: <EmployerExpireServices /> },
       ],
     },
     {
