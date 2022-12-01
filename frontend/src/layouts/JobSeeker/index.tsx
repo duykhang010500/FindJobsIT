@@ -11,9 +11,7 @@ const JobSeekerLayout = (props: Props) => {
   return (
     <Fragment>
       <Header />
-
       <Outlet />
-
       <Footer />
     </Fragment>
   );

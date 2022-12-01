@@ -19,7 +19,7 @@ class Employer extends Authenticatable implements MustVerifyEmail
 
     public function company()
     {
-        return $this->hasOne(Company::class,'id','comp_id');
+        return $this->belongsTo(Company::class,'comp_id','id');
     }
     protected $casts = [
         'email_verified_at' => 'datetime',

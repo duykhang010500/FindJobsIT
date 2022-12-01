@@ -33,7 +33,7 @@ const HeadingStyle = styled(Box)({
 
 const CVDefault = ({ resume }: Props) => {
   return (
-    <Box sx={{ p: 1 }}>
+    <Box sx={{ p: 1, backgroundColor: '#fff' }}>
       <Stack spacing={6}>
         <Box>
           <HeadingStyle>

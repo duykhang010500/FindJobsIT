@@ -32,6 +32,13 @@ const guestServices = {
       },
     });
   },
+
+  getAllCompany: () => {
+    return axiosInstance.get('/companies');
+  },
+  getCompany: (id: number) => {
+    return axiosInstance.get(`company/${id}`);
+  },
 };
 
 export default guestServices;

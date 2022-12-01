@@ -24,15 +24,15 @@ class Company extends Authenticatable
     ];
 
     public function employer(){
-        return $this->belongsTo(Employer::class);
+        return $this->hasOne(Employer::class,'comp_id','id');
     }
 
     public function jobs(){
-        return $this->hasMany(Job::class);
+        return $this->hasMany(Job::class,'comp_id','id');
     }
 
     public function offices(){
-        return $this->hasMany(Office::class);
+        return $this->hasMany(Office::class,'comp_id','id');
     }
 
     public function candidates(){

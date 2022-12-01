@@ -64,6 +64,12 @@ import EmployerActiveServices from '../pages/employer/services/EmployerActiveSer
 import EmployerPendingJob from '../pages/employer/jobs/EmployerPendingJob';
 import EmployerRejectedJob from '../pages/employer/jobs/EmployerRejectedJob';
 import DetailJob from '../pages/admin/Jobs/DetailJob';
+import DetailCompany from '../pages/DetailCompany';
+import Companies from '../pages/Companies';
+import RequestedEmployer from '../pages/admin/employer/RequestedEmployer';
+import ActiveEmployer from '../pages/admin/employer/ActiveEmployer';
+import RejectedEmployer from '../pages/admin/employer/RejectedEmployer';
+import EmployerExpireServices from '../pages/employer/services/EmployerExpireServices';
 
 type Props = {};
 
@@ -78,14 +84,16 @@ const Router = (props: Props) => {
         { path: 'register', element: <JobSeekerRegister /> },
         { path: 'login', element: <JobSeekerLogin /> },
         { path: 'job/:id', element: <JobDescription /> },
-        { path: 'company/:id' },
+        { path: 'company/:id', element: <DetailCompany /> },
+        { path: '/companies', element: <Companies /> },
         { path: 'reset-password', element: <ResetPassword /> },
         { path: 'forgot-password', element: <ForgotPassword /> },
         {
           path: 'my',
           element: <JobSeekerDashboardLayout />,
           children: [
-            { path: 'jobs', element: <JobSeekerJobs /> },
+            { path: 'cv', element: <></> },
+            { path: 'jobs/applied', element: <JobSeekerJobs /> },
             { path: 'jobs/saved', element: <JobSaved /> },
             { path: 'profile', element: <JobSeekerProfile /> },
             { path: 'settings', element: <JobSeekerSettings /> },
@@ -148,6 +156,7 @@ const Router = (props: Props) => {
         //services
         { path: 'services/order', element: <EmployerServices /> },
         { path: 'services/active', element: <EmployerActiveServices /> },
+        { path: 'services/expire', element: <EmployerExpireServices /> },
       ],
     },
     {
@@ -180,6 +189,11 @@ const Router = (props: Props) => {
         { path: 'settings/industries', element: <IndustriesPage /> },
         { path: 'settings/degree', element: <DegreesPage /> },
         { path: 'settings/level', element: <LevelPage /> },
+
+        //employers
+        { path: 'employers/requested', element: <RequestedEmployer /> },
+        { path: 'employers/active', element: <ActiveEmployer /> },
+        { path: 'employers/rejected', element: <RejectedEmployer /> },
       ],
     },
     {

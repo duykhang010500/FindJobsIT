@@ -13,6 +13,7 @@ type Props = {
   img?: string;
   title?: string;
   job?: number;
+  id: number;
 };
 
 const CompanyCardWrapper = styled(Card)(({ theme }) => ({
@@ -28,12 +29,16 @@ const CompanyCardWrapper = styled(Card)(({ theme }) => ({
   borderRadius: '12px',
 }));
 
-const CompanyCard: React.FC<Props> = ({ img, title, job }) => {
+const CompanyCard: React.FC<Props> = ({ img, title, job, id }) => {
   return (
     <CompanyCardWrapper>
       <CardMedia
         component='img'
-        image={`${img}`}
+        image={`${
+          img
+            ? img
+            : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM7cc1hYELgMuLrly1P-C6RJhqcnRAppKIQA&usqp=CAU`
+        }`}
         alt='company-logo'
         sx={{
           width: '60px',
@@ -43,12 +48,11 @@ const CompanyCard: React.FC<Props> = ({ img, title, job }) => {
         }}
       />
       <CardContent>
-        <Link component={RouterLink} to={`/`}>
+        <Link component={RouterLink} to={`/company/${id}`}>
           <Typography variant='body2' fontWeight={700}>
             {title}
           </Typography>
         </Link>
-        <Typography variant='caption'>{job} Job</Typography>
       </CardContent>
     </CompanyCardWrapper>
   );

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Controller } from 'react-hook-form';
 
 import {
@@ -22,19 +23,19 @@ import {
   FormHelperText,
   FormControlLabel,
 } from '@mui/material';
-
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
+import Image from '../../../components/Image';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { useSelector } from 'react-redux';
-import { AppState } from '../../../store/reducer';
-import { Nationalities } from '../../../utils/defaultValues';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+
 import { Gender } from '../../../models/gender';
 import { Marital } from '../../../models/marital';
-import Image from '../../../components/Image';
-
-import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import { AppState } from '../../../store/reducer';
+import { Nationalities } from '../../../utils/defaultValues';
 
 type Props = {
   control: any;
@@ -124,9 +125,14 @@ const ProfileInformation = ({ control, setValue, getValues }: Props) => {
         onClick={() => setOpen(!open)}
         sx={{ cursor: 'pointer' }}
       >
-        <Typography variant='h3' color='#172642'>
-          Profile
-        </Typography>
+        <Stack direction='row' alignItems='center'>
+          <PermIdentityOutlinedIcon
+            sx={{ mr: 2, fontSize: '50px', color: '#4096ff' }}
+          />
+          <Typography variant='h3' color='#172642' fontWeight={700}>
+            Personal Information <span style={{ color: 'red' }}>*</span>
+          </Typography>
+        </Stack>
         {open ? (
           <ExpandMoreIcon sx={{ color: '#172642' }} />
         ) : (

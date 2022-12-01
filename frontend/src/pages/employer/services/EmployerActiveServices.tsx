@@ -56,31 +56,33 @@ const EmployerActiveServices = (props: Props) => {
         </TableHead>
         <TableBody>
           {activeServices.map((service: any, index: number) => {
-            return (
-              <TableRow key={index}>
-                <TableCell>{service.title}</TableCell>
-                <TableCell align='center'>
-                  {dayjs(service.createdAt).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell align='center'>
-                  {dayjs(service.expireDate).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell align='center'>
-                  <Button
-                    variant='contained'
-                    // disabled={
-                    //   dayjs(service.expireDate).diff(
-                    //     dayjs(service.createdAt),
-                    //     'day'
-                    //   ) > 2
-                    // }
-                    onClick={() => handleRenewService(service.id)}
-                  >
-                    Renew
-                  </Button>
-                </TableCell>
-              </TableRow>
-            );
+            if (dayjs().isBefore(dayjs(service.expireDate))) {
+              return (
+                <TableRow key={index}>
+                  <TableCell>{service.title}</TableCell>
+                  <TableCell align='center'>
+                    {dayjs(service.createdAt).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell align='center'>
+                    {dayjs(service.expireDate).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell align='center'>
+                    <Button
+                      variant='contained'
+                      // disabled={
+                      //   dayjs(service.expireDate).diff(
+                      //     dayjs(service.createdAt),
+                      //     'day'
+                      //   ) > 2
+                      // }
+                      onClick={() => handleRenewService(service.id)}
+                    >
+                      Renew
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            }
           })}
         </TableBody>
       </Table>

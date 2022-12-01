@@ -17,7 +17,7 @@ type Props = {
 
 const CV3 = ({ resume }: Props) => {
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 2, backgroundColor: '#fff' }}>
       <Grid container spacing={3}>
         <Grid item md={5}>
           {/* Avatar  */}

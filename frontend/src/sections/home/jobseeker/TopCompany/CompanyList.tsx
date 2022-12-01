@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Box, styled, Container } from '@mui/material';
 
 import { companyData } from '../../../../mock/companyData';
 import CompanyCard from '../../../../components/CompanyCard';
+import { AppState } from '../../../../store/reducer';
 
 type Props = {};
 
@@ -14,6 +16,8 @@ const CompanyListWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const CompanyList: React.FC = (props: Props) => {
+  const { list } = useSelector((state: AppState) => state.companies);
+
   return (
     <Container>
       <CompanyListWrapper>
@@ -34,13 +38,14 @@ const CompanyList: React.FC = (props: Props) => {
           loop={true}
           autoplay={{ delay: 3000, disableOnInteraction: true }}
         >
-          {companyData.map((company) => {
+          {list?.map((company: any) => {
             return (
               <SwiperSlide key={company.title}>
                 <CompanyCard
-                  title={company.title}
-                  img={company.img}
-                  job={company.job}
+                  title={company.name}
+                  img={company.logo}
+                  id={company.id}
+                  // job={company.job}
                 />
               </SwiperSlide>
             );

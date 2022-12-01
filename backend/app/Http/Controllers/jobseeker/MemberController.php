@@ -245,7 +245,6 @@ class MemberController extends Controller
                     return response()->json($fields_resume->errors(), 422);
                 }
                 $member->update($fields_member->validated());
-                
 
                 if(!empty(auth()->user()->resume)){
                     $resume = auth()->user()->resume;

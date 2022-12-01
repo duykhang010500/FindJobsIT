@@ -25,7 +25,7 @@ class Member extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'fullname',
         'email',
-        'password',
+        'password','google_id',
         'followed', 'gender', 'have_resume', 'status','resume_id','city',
         'last_login', 'ratings', 'marital', 'is_labor', 'is_blacklist','edu_current_end',
         'phone','address', 'lastname', 'firstname', 'birthday', 'nationality', 'identity', 'avatar',

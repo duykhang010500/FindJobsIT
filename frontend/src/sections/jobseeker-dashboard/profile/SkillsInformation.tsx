@@ -6,6 +6,7 @@ import {
   Stack,
   Button,
   Rating,
+  Tooltip,
   Collapse,
   TextField,
   Typography,
@@ -17,6 +18,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { GiSkills } from 'react-icons/gi';
 
 import { skills } from '../../../utils/defaultValues';
 
@@ -36,12 +38,17 @@ const SkillsInformation = ({ control, fields, append, remove }: Props) => {
         direction='row'
         alignItems='center'
         justifyContent='space-between'
-        sx={{ cursor: 'pointer', ...(open && { mb: 2 }) }}
+        sx={{ cursor: 'pointer' }}
         onClick={() => setOpen(!open)}
       >
-        <Typography variant='h3' color='#172642'>
-          Skills
-        </Typography>
+        <Stack direction='row' alignItems='center'>
+          <GiSkills
+            style={{ marginRight: '20px', fontSize: '50px', color: '#69b1ff' }}
+          />
+          <Typography variant='h3' color='#172642' fontWeight={700}>
+            Skills <span style={{ color: 'red' }}>*</span>
+          </Typography>
+        </Stack>
         {open ? (
           <ExpandMoreIcon sx={{ color: '#172642' }} />
         ) : (
@@ -49,7 +56,7 @@ const SkillsInformation = ({ control, fields, append, remove }: Props) => {
         )}
       </Stack>
       <Collapse in={open}>
-        <Stack spacing={3}>
+        <Stack spacing={3} sx={{ mt: 5 }}>
           {fields.map((skill: any, index: number) => (
             <Stack
               direction='row'
@@ -65,12 +72,13 @@ const SkillsInformation = ({ control, fields, append, remove }: Props) => {
                   return (
                     <Autocomplete
                       {...field}
+                      freeSolo
                       fullWidth
                       options={skills}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Skill name *'
+                          label='Name *'
                           error={Boolean(error)}
                           helperText={error?.message}
                         />
@@ -80,10 +88,11 @@ const SkillsInformation = ({ control, fields, append, remove }: Props) => {
                   );
                 }}
               />
+
               <Controller
                 control={control}
                 name={`skills[${index}].skills_level`}
-                defaultValue={skill.skills_level}
+                defaultValue={Number(skill.skills_level)}
                 render={({ field }) => <Rating {...field} />}
               />
               {fields.length > 1 && (

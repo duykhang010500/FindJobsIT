@@ -1,3 +1,4 @@
+import { act } from 'react-dom/test-utils';
 import {
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
@@ -20,6 +21,7 @@ import {
   EMPLOYER_GET_CANDIDATES_BY_JOB,
   EMPLOYER_GET_CANDIDATES_BY_JOB_SUCCESS,
   EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
+  UPDATE_STATUS_SUCCESS,
 
   // EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
 } from './actionTypes';
@@ -152,6 +154,18 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         ...state,
         isLoading: false,
       };
+    case UPDATE_STATUS_SUCCESS: {
+      console.log('payload: ', action.payload);
+      return {
+        ...state,
+        candidates: state.candidates.map((candidate: any) =>
+          candidate.id === action.payload.id
+            ? { ...candidate, status: action.payload.status }
+            : candidate
+        ),
+      };
+    }
+
     // case EMPLOYER_GET_SENT_MAIL_LIST_FAILURE:
     //   return {
     //     ...state,

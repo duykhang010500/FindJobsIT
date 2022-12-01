@@ -28,6 +28,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import GridViewIcon from '@mui/icons-material/GridView';
 import PersonIcon from '@mui/icons-material/Person';
 
@@ -81,18 +82,12 @@ const Header: FC<Props> = () => {
 
   return (
     <AppBar
+      position='fixed'
       sx={{
         zIndex: 999,
         boxShadow: 'none',
-        ...(pathname !== '/' && {
-          borderBottom: '1px solid #f0f0f0',
-        }),
-        backgroundColor: 'transparent',
-        ...(isScrollBottom && {
-          backgroundColor: 'rgba(255,255,255, 0.8) !important',
-          color: 'black',
-          backdropFilter: 'blur(6px)',
-        }),
+        backgroundColor: '#fff',
+        borderBottom: '2px solid rgb(243, 243, 244)',
       }}
     >
       <Toolbar
@@ -100,7 +95,7 @@ const Header: FC<Props> = () => {
         sx={{
           ...(pathname === '/'
             ? {
-                height: 86,
+                height: 75,
               }
             : {
                 height: 70,
@@ -221,8 +216,9 @@ const Header: FC<Props> = () => {
                 ) : (
                   <>
                     <Button
-                      variant='text'
+                      variant='outlined'
                       component={RouterLink}
+                      startIcon={<AccountCircleRoundedIcon />}
                       to={
                         pathname.includes('/employer')
                           ? `/employer/login`

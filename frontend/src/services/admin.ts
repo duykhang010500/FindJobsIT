@@ -30,8 +30,8 @@ const adminServices = {
   },
 
   //companies
-  getCompaniesList: () => {
-    return axiosInstance.get('/admin/companies');
+  getCompaniesList: (params: any) => {
+    return axiosInstance.get(`/admin/companies?filter=${params}`);
   },
 
   //candidates

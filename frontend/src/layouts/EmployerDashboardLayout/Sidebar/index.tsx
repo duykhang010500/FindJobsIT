@@ -64,6 +64,10 @@ const sidebarData = [
         title: `Active services`,
         path: '/employer/hr/services/active',
       },
+      {
+        title: `Expire services`,
+        path: '/employer/hr/services/expire',
+      },
     ],
   },
   {

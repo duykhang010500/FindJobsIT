@@ -68,9 +68,13 @@ export const updateStatus = (id: any, formData: any) => {
   };
 };
 
-export const updateStatusSuccess = () => {
+export const updateStatusSuccess = (id: number, status: string) => {
   return {
     type: UPDATE_STATUS_SUCCESS,
+    payload: {
+      id,
+      status,
+    },
   };
 };
 

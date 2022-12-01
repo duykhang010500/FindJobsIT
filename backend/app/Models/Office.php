@@ -14,11 +14,11 @@ class Office extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'priority', 'name', 'address', 'phone','company_id'
+        'priority', 'name', 'address', 'phone','comp_id'
     ];
 
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class,'comp_id','id');
     }
 }

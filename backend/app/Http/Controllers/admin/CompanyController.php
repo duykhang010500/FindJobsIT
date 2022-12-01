@@ -52,7 +52,11 @@ class CompanyController extends Controller
         if($company){
             if($request->status == Company::STATUS_PUBLISHED || $request->status == Company::STATUS_REJECTED || $request->status == Company::STATUS_CLOSED){
                 $company->update($fields->validated());
-                if($company->status == Company::STATUS_PUBLISHED) $message = 'Accept company information.';
+                if($company->status == Company::STATUS_PUBLISHED){
+                    $company->employer->status = 1;
+                    $company->employer->save();
+                    $message = 'Accept company information.';
+                }
                 if($company->status == Company::STATUS_CLOSED) $message = 'Inactive company.';
                 if($company->status == Company::STATUS_REJECTED) $message = 'Reject company.';
                 return response()->json([

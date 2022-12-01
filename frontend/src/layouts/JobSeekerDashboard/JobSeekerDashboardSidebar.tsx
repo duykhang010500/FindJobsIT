@@ -3,7 +3,8 @@ import SidebarContent from '../common/SidebarContent/SidebarContent';
 
 import WorkIcon from '@mui/icons-material/Work';
 import PersonIcon from '@mui/icons-material/Person';
-import SettingsIcon from '@mui/icons-material/Settings';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import BadgeIcon from '@mui/icons-material/Badge';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
 type Props = {};
@@ -11,18 +12,13 @@ type Props = {};
 const menu = [
   { title: 'Dashboard', icon: <DashboardIcon />, path: '/my/dashboard' },
   { title: 'Profile', icon: <PersonIcon />, path: '/my/profile' },
+  { title: 'My CV', icon: <BadgeIcon />, path: '/my/cv' },
   {
-    title: 'My jobs',
+    title: 'Applied Jobs',
     icon: <WorkIcon />,
-    children: [
-      {
-        title: 'Applied',
-        path: '/my/jobs',
-      },
-      { title: 'Saved', path: '/my/jobs/saved' },
-    ],
+    path: '/my/jobs/applied',
   },
-  // { title: 'Settings', icon: <SettingsIcon />, path: '/my/settings' },
+  { title: 'Saved Jobs', icon: <FavoriteIcon />, path: '/my/jobs/saved' },
 ];
 
 const JobSeekerDashboardSidebar = (props: Props) => {

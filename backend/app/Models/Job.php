@@ -41,9 +41,8 @@ class Job extends Authenticatable
         return $this->belongsToMany(Location::class);
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class,'comp_id');
+    public function company(){
+        return $this->belongsTo(Company::class,'comp_id','id');
     }
 
     public function candidate()
