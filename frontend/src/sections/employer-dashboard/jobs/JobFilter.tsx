@@ -1,23 +1,40 @@
-import React from 'react';
-import { Box, Button, TextField, Stack } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, TextField, Stack, Button, InputAdornment } from '@mui/material';
 
-type Props = {};
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 
-const JobFilter = (props: Props) => {
+type Props = {
+  onSearch: (e: any) => void;
+  searchValue: string;
+  onReset: () => void;
+};
+
+const JobFilter = ({ searchValue, onSearch, onReset }: Props) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', my: 3 }}>
-      <Stack direction='row' spacing={2}>
-        <TextField label='Job title' fullWidth />
+    <Stack direction='row' spacing={2} sx={{ my: 3 }} alignItems='center'>
+      <TextField
+        fullWidth
+        label='Job title'
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <SearchOutlinedIcon />
+            </InputAdornment>
+          ),
+        }}
+        value={searchValue}
+        onChange={onSearch}
+      />
+      {searchValue && (
         <Button
-          variant='contained'
-          startIcon={<SearchIcon />}
-          sx={{ backgroundColor: '#faad14' }}
+          variant='text'
+          startIcon={<DeleteForeverOutlinedIcon />}
+          onClick={onReset}
         >
-          Search
+          Clear
         </Button>
-      </Stack>
-    </Box>
+      )}
+    </Stack>
   );
 };
 

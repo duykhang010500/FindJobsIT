@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Container, Grid, Card } from '@mui/material';
+import { Container, Grid, Card, Box } from '@mui/material';
 
 import Sidebar from './Sidebar';
 import Footer from '../common/Footer';
@@ -10,9 +10,9 @@ type Props = {};
 
 const EmployerDashboardLayout = (props: Props) => {
   return (
-    <Fragment>
+    <Box sx={{ backgroundColor: '#f8f9ff' }}>
       <Header />
-      <Container sx={{ mt: 13, backgroundColor: '#f8f9ff' }} disableGutters>
+      <Container sx={{ pt: 13 }} disableGutters>
         <Grid container spacing={2}>
           <Grid item md={3.5}>
             <Sidebar />
@@ -25,7 +25,7 @@ const EmployerDashboardLayout = (props: Props) => {
         </Grid>
       </Container>
       <Footer />
-    </Fragment>
+    </Box>
   );
 };
 

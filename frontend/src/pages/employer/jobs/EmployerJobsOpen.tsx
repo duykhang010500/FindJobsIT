@@ -24,7 +24,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import BadgeStatus from '../../../components/Badge';
 
-// import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import JobFilter from '../../../sections/employer-dashboard/jobs/JobFilter';
 import JobMoreMenu from '../../../sections/employer-dashboard/jobs/JobMoreMenu';
 
@@ -36,6 +36,7 @@ import {
 import { employerGetOrderedServices } from '../../../store/services/actions';
 
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
+import JobNewForm from '../../../sections/employer-dashboard/jobs/JobNewForm';
 
 type Props = {};
 
@@ -44,7 +45,9 @@ const EmployerJobsOpen = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [showFilter, setShowFilter] = useState<boolean>(true);
+
+  const [searchValue, setSearchValue] = useState<string>('');
 
   const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
 
@@ -53,8 +56,8 @@ const EmployerJobsOpen = (props: Props) => {
   const canPostJob = activeServices.findIndex((item: any) => item.id === 12);
 
   useEffect(() => {
-    dispatch(employerGetOrderedServices());
     dispatch(employerGetJobs());
+    dispatch(employerGetOrderedServices());
   }, [dispatch]);
 
   const handleEdit = (id?: string) => {
@@ -69,6 +72,15 @@ const EmployerJobsOpen = (props: Props) => {
     dispatch(employerUpdateJobStatus(jobID, status));
   };
 
+  const handleSearch = (e: any) => {
+    console.log('Search: ', e.target.value);
+    setSearchValue(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchValue('');
+  };
+
   if (isLoading) {
     return (
       <Stack spacing={3}>
@@ -80,6 +92,8 @@ const EmployerJobsOpen = (props: Props) => {
       </Stack>
     );
   }
+
+  const filteredJobs = filterJob(jobs, searchValue);
 
   return (
     <Box>
@@ -94,40 +108,47 @@ const EmployerJobsOpen = (props: Props) => {
               to={`/employer/hr/job/create`}
               variant='contained'
               startIcon={<AddIcon />}
-              // disabled={canPostJob < 0}
+              disabled={canPostJob < 0}
             >
               Post a job
             </Button>
           </div>
         </Tooltip>
-        {/* <Button
+        <Button
           variant='contained'
           color='info'
           startIcon={<FilterAltIcon />}
           onClick={() => setShowFilter(!showFilter)}
         >
           Filter
-        </Button> */}
+        </Button>
       </Stack>
       <Collapse in={showFilter}>
-        <JobFilter />
+        <JobFilter
+          searchValue={searchValue}
+          onSearch={(e: any) => handleSearch(e)}
+          onReset={handleReset}
+        />
       </Collapse>
       <TableContainer>
-        <Table sx={{ minWidth: 600 }}>
+        <Table>
           <TableHead>
             <TableRow>
               {/* <TableCell padding='checkbox'>
                 <Checkbox />
               </TableCell> */}
               <TableCell>Job title</TableCell>
-              <TableCell align='center'>Date create</TableCell>
+              <TableCell align='center' sx={{ width: '25%' }}>
+                Date create
+              </TableCell>
+              <TableCell align='center'>Expire at</TableCell>
               <TableCell align='center'>Applied</TableCell>
               <TableCell align='center'>Status</TableCell>
               <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs?.map((job: any) => {
+            {filteredJobs?.map((job: any) => {
               if (job.status === 1) {
                 return (
                   <TableRow key={job.id}>
@@ -179,6 +200,13 @@ const EmployerJobsOpen = (props: Props) => {
                         </Typography>
                       </Stack>
                     </TableCell>
+                    <TableCell align='center'>
+                      <Stack>
+                        <Typography variant='body2'>
+                          {dayjs(job.end_date).format('DD/MM/YYYY')}
+                        </Typography>
+                      </Stack>
+                    </TableCell>
                     <TableCell align='center'>{job.applied}</TableCell>
                     <TableCell align='center'>
                       <BadgeStatus status={job.status}>
@@ -214,6 +242,15 @@ const EmployerJobsOpen = (props: Props) => {
       />
     </Box>
   );
+};
+
+export const filterJob = (jobs: any, str: string) => {
+  if (str) {
+    jobs = jobs.filter((job: any) =>
+      job.title.toLowerCase().includes(str.toLowerCase())
+    );
+  }
+  return jobs;
 };
 
 export default EmployerJobsOpen;

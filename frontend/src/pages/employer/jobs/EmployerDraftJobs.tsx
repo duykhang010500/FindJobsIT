@@ -23,7 +23,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 
 import JobMoreMenu from '../../../sections/employer-dashboard/jobs/JobMoreMenu';
-// import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import JobFilter from '../../../sections/employer-dashboard/jobs/JobFilter';
 
 import {
@@ -35,6 +35,7 @@ import { AppState } from '../../../store/reducer';
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
 import { employerGetOrderedServices } from '../../../store/services/actions';
 import BadgeStatus from '../../../components/Badge';
+import { filterJob } from './EmployerJobsOpen';
 
 type Props = {};
 
@@ -43,7 +44,9 @@ const EmployerDraftJob = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [showFilter, setShowFilter] = useState<boolean>(true);
+
+  const [searchValue, setSearchValue] = useState<string>('');
 
   const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
 
@@ -68,6 +71,17 @@ const EmployerDraftJob = (props: Props) => {
     dispatch(employerDeleteJob(id));
   };
 
+  const handleSearch = (e: any) => {
+    console.log('Search: ', e.target.value);
+    setSearchValue(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchValue('');
+  };
+
+  const filteredJobs = filterJob(jobs, searchValue);
+
   if (isLoading) {
     return (
       <Stack spacing={3}>
@@ -82,17 +96,37 @@ const EmployerDraftJob = (props: Props) => {
   return (
     <Box>
       <Stack direction='row' justifyContent='space-between' sx={{ mb: 2 }}>
-        {/* <Button
+        <Tooltip
+          placement='top'
+          title={canPostJob < 0 ? 'Please buy this service!' : ''}
+        >
+          <div>
+            <Button
+              component={Link}
+              to={`/employer/hr/job/create`}
+              variant='contained'
+              startIcon={<AddIcon />}
+              disabled={canPostJob < 0}
+            >
+              Post a job
+            </Button>
+          </div>
+        </Tooltip>
+        <Button
           variant='contained'
           color='info'
           startIcon={<FilterAltIcon />}
           onClick={() => setShowFilter(!showFilter)}
         >
           Filter
-        </Button> */}
+        </Button>
       </Stack>
       <Collapse in={showFilter}>
-        <JobFilter />
+        <JobFilter
+          searchValue={searchValue}
+          onSearch={(e: any) => handleSearch(e)}
+          onReset={handleReset}
+        />
       </Collapse>
       <TableContainer>
         <Table sx={{ minWidth: 600 }}>
@@ -109,7 +143,7 @@ const EmployerDraftJob = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs?.map((job: any) => {
+            {filteredJobs?.map((job: any) => {
               if (job.status === 0) {
                 return (
                   <TableRow key={job.id}>
