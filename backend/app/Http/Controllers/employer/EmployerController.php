@@ -115,6 +115,13 @@ class EmployerController extends Controller
                 ], 401);
             }
 
+            if($Employer->status == 3){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Your company has been block by admin.',
+                ], 401);
+            }
+
             // if (!Auth::guard('web')->attempt($validator->validated())) {
             //     return response()->json(['error' => 'Unauthorized'], 401);
             // }

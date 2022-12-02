@@ -57,8 +57,16 @@ class CompanyController extends Controller
                     $company->employer->save();
                     $message = 'Accept company information.';
                 }
-                if($company->status == Company::STATUS_CLOSED) $message = 'Inactive company.';
-                if($company->status == Company::STATUS_REJECTED) $message = 'Reject company.';
+                if($company->status == Company::STATUS_CLOSED){
+                    $company->employer->status = 1;
+                    $company->employer->save();
+                    $message = 'Inactive company.';
+                } 
+                if($company->status == Company::STATUS_REJECTED){
+                    $company->employer->status = 3;
+                    $company->employer->save();
+                    $message = 'Reject company.';
+                }
                 return response()->json([
                     'company' => $company,
                     'message' => $message
