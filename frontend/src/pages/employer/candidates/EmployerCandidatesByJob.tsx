@@ -106,7 +106,7 @@ const EmployerCandidatesByJob = (props: Props) => {
       .required('Title is required'),
     content: yup
       .string()
-      .max(200, 'Content allow maximum 200 character')
+      .max(500, 'Content allow maximum 200 character')
       .required('Content is required'),
   });
 

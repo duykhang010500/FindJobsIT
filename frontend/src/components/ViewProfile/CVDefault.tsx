@@ -159,55 +159,65 @@ const CVDefault = ({ resume }: Props) => {
           </HeadingStyle>
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <Stack spacing={1.5}>
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      School
-                    </Typography>
-                    <Typography variant='h5'>{resume?.edu_school}</Typography>
-                  </Stack>
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Major
-                    </Typography>
-                    <Typography variant='h5'>{resume?.edu_certify}</Typography>
-                  </Stack>
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Date start
-                    </Typography>
-                    <Typography variant='h5'>
-                      {dayjs(resume?.edu_date_start).format('DD/MM/YYYY')}
-                      {!resume?.edu_date_end && <> - Current</>}
-                    </Typography>
-                  </Stack>
-                  {resume?.edu_date_end && (
-                    <Stack direction='row'>
-                      <Typography gutterBottom sx={{ width: '200px' }}>
-                        Date end
-                      </Typography>
-                      <Typography variant='h5'>
-                        {dayjs(resume?.edu_date_end).format('DD/MM/YYYY')}
-                      </Typography>
-                    </Stack>
-                  )}
-                </Stack>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Stack>
-                  <Typography sx={{ width: '200px' }}>
-                    Education description:
-                  </Typography>
-                  <Typography variant='body1' component='div'>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: resume?.edu_description,
-                      }}
-                    />
-                  </Typography>
-                </Stack>
-              </Grid>
+              {resume?.educations?.map((edu: any) => {
+                return (
+                  <>
+                    <Grid item xs={12} md={6}>
+                      <Stack spacing={1.5} sx={{ my: 2 }}>
+                        <Stack direction='row'>
+                          <Typography gutterBottom sx={{ width: '200px' }}>
+                            School
+                          </Typography>
+                          <Typography variant='h5'>
+                            {edu?.edu_school}
+                          </Typography>
+                        </Stack>
+                        <Stack direction='row'>
+                          <Typography gutterBottom sx={{ width: '200px' }}>
+                            Major
+                          </Typography>
+                          <Typography variant='h5'>
+                            {edu?.edu_certify}
+                          </Typography>
+                        </Stack>
+                        <Stack direction='row'>
+                          <Typography gutterBottom sx={{ width: '200px' }}>
+                            Date start
+                          </Typography>
+                          <Typography variant='h5'>
+                            {dayjs(edu?.edu_date_start).format('DD/MM/YYYY')}
+                            {!edu?.edu_date_end && <> - Current</>}
+                          </Typography>
+                        </Stack>
+                        {edu?.edu_date_end && (
+                          <Stack direction='row'>
+                            <Typography gutterBottom sx={{ width: '200px' }}>
+                              Date end
+                            </Typography>
+                            <Typography variant='h5'>
+                              {dayjs(edu?.edu_date_end).format('DD/MM/YYYY')}
+                            </Typography>
+                          </Stack>
+                        )}
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Stack>
+                        <Typography sx={{ width: '200px' }}>
+                          Education description:
+                        </Typography>
+                        <Typography variant='body1' component='div'>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: resume?.edu_description,
+                            }}
+                          />
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  </>
+                );
+              })}
             </Grid>
           </Box>
         </Box>
@@ -252,65 +262,69 @@ const CVDefault = ({ resume }: Props) => {
           </HeadingStyle>
           <Box>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <Stack spacing={1.5}>
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Position
-                    </Typography>
-                    <Typography variant='h5'>
-                      {resume?.rexp_title ? <>{resume?.rexp_title}</> : 'None'}
-                    </Typography>
-                  </Stack>
+              {resume?.experiences?.map((exp: any) => (
+                <>
+                  <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                    <Stack spacing={1.5}>
+                      <Stack direction='row'>
+                        <Typography gutterBottom sx={{ width: '200px' }}>
+                          Position
+                        </Typography>
+                        <Typography variant='h5'>
+                          {exp?.rexp_title ? <>{exp?.rexp_title}</> : 'None'}
+                        </Typography>
+                      </Stack>
 
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Company
-                    </Typography>
-                    <Typography variant='h5'>
-                      {resume?.rexp_company ? resume?.rexp_company : 'None'}
-                    </Typography>
-                  </Stack>
+                      <Stack direction='row'>
+                        <Typography gutterBottom sx={{ width: '200px' }}>
+                          Company
+                        </Typography>
+                        <Typography variant='h5'>
+                          {exp?.rexp_company ? exp?.rexp_company : 'None'}
+                        </Typography>
+                      </Stack>
 
-                  <Stack direction='row'>
-                    <Typography gutterBottom sx={{ width: '200px' }}>
-                      Date start
-                    </Typography>
-                    <Typography variant='h5'>
-                      {dayjs(resume?.rexp_date_start).format('DD/MM/YYYY')}
-                      {!resume?.rexp_date_end && <> - Current</>}
-                    </Typography>
-                  </Stack>
+                      <Stack direction='row'>
+                        <Typography gutterBottom sx={{ width: '200px' }}>
+                          Date start
+                        </Typography>
+                        <Typography variant='h5'>
+                          {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')}
+                          {!exp?.rexp_date_end && <> - Current</>}
+                        </Typography>
+                      </Stack>
 
-                  {resume?.rexp_date_end && (
-                    <Stack direction='row'>
-                      <Typography gutterBottom sx={{ width: '200px' }}>
-                        Date end
-                      </Typography>
-                      <Typography variant='h5'>
-                        {dayjs(resume?.rexp_date_end).format('DD/MM/YYYY')}
-                      </Typography>
+                      {exp?.rexp_date_end && (
+                        <Stack direction='row'>
+                          <Typography gutterBottom sx={{ width: '200px' }}>
+                            Date end
+                          </Typography>
+                          <Typography variant='h5'>
+                            {dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')}
+                          </Typography>
+                        </Stack>
+                      )}
                     </Stack>
-                  )}
-                </Stack>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Stack spacing={1.5}>
-                  <Stack>
-                    <Typography sx={{ width: '200px' }}>
-                      Experience description:
-                    </Typography>
-                    <Typography variant='h5' component={'div'}>
-                      <div
-                        style={{ fontSize: 'inherit' }}
-                        dangerouslySetInnerHTML={{
-                          __html: resume?.rexp_description,
-                        }}
-                      />
-                    </Typography>
-                  </Stack>
-                </Stack>
-              </Grid>
+                  </Grid>
+                  <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                    <Stack spacing={1.5}>
+                      <Stack>
+                        <Typography sx={{ width: '200px' }}>
+                          Experience description:
+                        </Typography>
+                        <Typography variant='h5' component={'div'}>
+                          <div
+                            style={{ fontSize: 'inherit' }}
+                            dangerouslySetInnerHTML={{
+                              __html: resume?.rexp_description,
+                            }}
+                          />
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </Grid>
+                </>
+              ))}
             </Grid>
           </Box>
         </Box>

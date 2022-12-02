@@ -35,17 +35,17 @@ const CompanyList: React.FC = (props: Props) => {
           }}
           spaceBetween={20}
           modules={[Autoplay]}
-          loop={true}
+          // loop={true}
           autoplay={{ delay: 3000, disableOnInteraction: true }}
         >
-          {list?.map((company: any) => {
+          {companyData?.map((company: any) => {
             return (
               <SwiperSlide key={company.title}>
                 <CompanyCard
-                  title={company.name}
-                  img={company.logo}
-                  id={company.id}
-                  // job={company.job}
+                  title={company.title}
+                  img={company.img}
+                  id={company.title}
+                  job={company.job}
                 />
               </SwiperSlide>
             );

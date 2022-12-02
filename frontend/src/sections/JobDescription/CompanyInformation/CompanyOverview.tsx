@@ -84,7 +84,7 @@ const CompanyOverview = (props: Props) => {
               disableGutters
               secondaryAction={
                 <Typography sx={{ verticalAlign: 'middle' }} variant='body2'>
-                  {job?.company?.location}
+                  {job?.company?.location_name}
                 </Typography>
               }
             >

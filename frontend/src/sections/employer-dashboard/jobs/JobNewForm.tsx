@@ -66,6 +66,12 @@ const JobNewForm = ({ isEdit = false, job, readonly }: Props) => {
 
   const { pathname } = useLocation();
 
+  const isOpen = pathname.includes('active');
+  const isClose = pathname.includes('closed');
+  const isPending = pathname.includes('pending');
+  const isRejected = pathname.includes('rejected');
+  const isDraft = pathname.includes('draft');
+
   const [isSaveDraft, setIsSaveDraft] = useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -243,13 +249,15 @@ const JobNewForm = ({ isEdit = false, job, readonly }: Props) => {
         locations: convertArrayObjToString(data.locations),
         end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
         unskill_job: convertArrStringToString(data.unskill_job),
-        status: 2,
+        // status: isOpen && 1,
       };
 
       if (isEdit) {
+        console.log('edit: ', newFormValues);
         await dispatch(updateJob(job.id, newFormValues, navigate));
       } else {
         await dispatch(createJob(newFormValues, navigate));
+        console.log('create new: ', newFormValues);
       }
       setIsLoading(false);
     }

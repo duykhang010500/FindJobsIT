@@ -10,13 +10,13 @@ const DetailCompanyListJobs = (props: Props) => {
   return (
     <Box sx={{ mt: 2 }}>
       <Typography>List</Typography>
-      <Button
+      {/* <Button
         variant='outlined'
         sx={{ mx: 'auto', mt: 3, display: 'flex' }}
         endIcon={<MoreHorizRoundedIcon />}
       >
         View more
-      </Button>
+      </Button> */}
     </Box>
   );
 };

@@ -73,7 +73,7 @@ const CompanyList = ({ companies }: Props) => {
           {companies?.map((company: any) => (
             <TableRow key={company.id}>
               <TableCell>
-                <Avatar variant='rounded' />
+                <Avatar variant='rounded' src={company?.logo} />
               </TableCell>
 
               <TableCell>

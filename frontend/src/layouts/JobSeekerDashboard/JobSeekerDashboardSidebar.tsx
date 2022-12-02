@@ -12,7 +12,7 @@ type Props = {};
 const menu = [
   { title: 'Dashboard', icon: <DashboardIcon />, path: '/my/dashboard' },
   { title: 'Profile', icon: <PersonIcon />, path: '/my/profile' },
-  { title: 'My CV', icon: <BadgeIcon />, path: '/my/cv' },
+  // { title: 'My CV', icon: <BadgeIcon />, path: '/my/cv' },
   {
     title: 'Applied Jobs',
     icon: <WorkIcon />,

@@ -31,8 +31,8 @@ type FormValues = {
   tax?: number;
   website?: number;
   email?: string;
-  location?: string;
-  industry_id?: number;
+  location_name?: string;
+  industry_name?: number;
   content?: string;
 };
 
@@ -66,8 +66,8 @@ const CompanyProfile = (props: Props) => {
       .string()
       .email('Email must be valid email')
       .required('Email is required'),
-    location: yup.string().required('Location is required'),
-    industry_id: yup.string().required('Industry is required'),
+    location_name: yup.string().required('Location is required'),
+    industry_name: yup.string().required('Industry is required'),
     content: yup.string().required('Summary is required'),
   });
 
@@ -82,8 +82,8 @@ const CompanyProfile = (props: Props) => {
       tax: info_company?.tax || '',
       website: info_company?.website || '',
       email: info_company?.email || '',
-      location: info_company?.location || '',
-      industry_id: info_company?.industry_id || '',
+      location_name: info_company?.location_name || '',
+      industry_name: info_company?.industry_name || '',
       content: info_company?.content || '',
     };
   }, [info_company]);
@@ -272,7 +272,7 @@ const CompanyProfile = (props: Props) => {
           </Stack>
           <Stack direction='row' spacing={2} sx={{ width: '100% important' }}>
             <Controller
-              name='location'
+              name='location_name'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
@@ -294,7 +294,7 @@ const CompanyProfile = (props: Props) => {
               )}
             />
             <Controller
-              name='industry_id'
+              name='industry_name'
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
@@ -307,7 +307,7 @@ const CompanyProfile = (props: Props) => {
                 >
                   {industries.map((industry: IIndustry) => {
                     return (
-                      <MenuItem key={industry.id} value={industry.id}>
+                      <MenuItem key={industry.id} value={industry.name}>
                         {industry.name}
                       </MenuItem>
                     );

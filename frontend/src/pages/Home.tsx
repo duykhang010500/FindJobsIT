@@ -32,7 +32,7 @@ const Home: React.FC = (props: Props) => {
     <>
       <Hero />
       <TopCompany />
-      <TopCategories />
+      {/* <TopCategories /> */}
       <Container>{isLoading ? <></> : <NewJobs />}</Container>
     </>
   );

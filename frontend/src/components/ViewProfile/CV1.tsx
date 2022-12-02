@@ -61,39 +61,47 @@ const CV1 = ({ resume }: Props) => {
           {/* Experience  */}
           <Stack direction='column' alignItems='flex-end' spacing={2}>
             <HeadingStyled>Experience</HeadingStyled>
-            <Stack sx={{ my: 2 }} alignItems='flex-end'>
-              <Typography variant='h5' component='div' gutterBottom>
-                {resume?.rexp_title} |{' '}
-                {dayjs(resume?.rexp_date_start).format('DD/MM/YYYY')} - {''}
-                {resume?.rexp_date_end
-                  ? dayjs(resume?.rexp_date_end).format('DD/MM/YYYY')
-                  : 'Current'}
-              </Typography>
-              <Typography variant='h4'>{resume?.rexp_company}</Typography>
-              <Typography variant='body1' component='div'>
-                <div
-                  dangerouslySetInnerHTML={{ __html: resume?.rexp_description }}
-                />
-              </Typography>
-            </Stack>
+            {resume?.experiences?.map((exp: any) => (
+              <Stack sx={{ my: 2 }} alignItems='flex-end'>
+                <Typography variant='h5' component='div' gutterBottom>
+                  {exp?.rexp_title} |{' '}
+                  {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')} - {''}
+                  {exp?.rexp_date_end
+                    ? dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')
+                    : 'Current'}
+                </Typography>
+                <Typography variant='h4'>{exp?.rexp_company}</Typography>
+                <Typography variant='body1' component='div'>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: exp?.rexp_description,
+                    }}
+                  />
+                </Typography>
+              </Stack>
+            ))}
 
             {/* Education */}
             <HeadingStyled>Education</HeadingStyled>
-            <Stack sx={{ my: 2 }} alignItems='flex-end'>
-              <Typography variant='h5' component='div' gutterBottom>
-                {resume?.edu_certify} |{' '}
-                {dayjs(resume?.edu_date_start).format('DD/MM/YYYY')} - {''}
-                {resume?.edu_date_end
-                  ? dayjs(resume?.edu_date_end).format('DD/MM/YYYY')
-                  : 'Current'}
-              </Typography>
-              <Typography variant='h4'>{resume?.edu_school}</Typography>
-              <Typography variant='body1' component='div'>
-                <div
-                  dangerouslySetInnerHTML={{ __html: resume?.edu_description }}
-                />
-              </Typography>
-            </Stack>
+            {resume?.educations?.map((edu: any) => (
+              <Stack sx={{ my: 2 }} alignItems='flex-end'>
+                <Typography variant='h5' component='div' gutterBottom>
+                  {edu?.edu_certify} |{' '}
+                  {dayjs(edu?.edu_date_start).format('DD/MM/YYYY')} - {''}
+                  {edu?.edu_date_end
+                    ? dayjs(edu?.edu_date_end).format('DD/MM/YYYY')
+                    : 'Current'}
+                </Typography>
+                <Typography variant='h4'>{edu?.edu_school}</Typography>
+                <Typography variant='body1' component='div'>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: edu?.edu_description,
+                    }}
+                  />
+                </Typography>
+              </Stack>
+            ))}
 
             {/* Career information */}
             <HeadingStyled>Career information</HeadingStyled>

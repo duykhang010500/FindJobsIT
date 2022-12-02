@@ -69,12 +69,12 @@ const EmployerActiveServices = (props: Props) => {
                   <TableCell align='center'>
                     <Button
                       variant='contained'
-                      // disabled={
-                      //   dayjs(service.expireDate).diff(
-                      //     dayjs(service.createdAt),
-                      //     'day'
-                      //   ) > 2
-                      // }
+                      disabled={
+                        dayjs(service.expireDate).diff(
+                          dayjs(service.createdAt),
+                          'day'
+                        ) > 2
+                      }
                       onClick={() => handleRenewService(service.id)}
                     >
                       Renew

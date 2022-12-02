@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  Card,
   Link,
   Table,
   Stack,
@@ -53,75 +54,77 @@ const JobSaved = (props: Props) => {
   };
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Job</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {list?.map((job: any) => {
-            return (
-              <TableRow>
-                <TableCell sx={{ width: '90%' }}>
-                  <Stack direction='row' spacing={2}>
-                    <Image
-                      alt='logo'
-                      src={job?.job?.company?.logo}
-                      sx={{
-                        width: 80,
-                        height: 80,
-                        border: '1px solid #d9d9d9',
-                        padding: '4px',
-                        borderRadius: '8px',
-                      }}
-                    />
-                    <Stack>
-                      <Link
-                        color='#1890ff'
-                        component={RouterLink}
-                        to={`/job/${job?.job_id}`}
-                        sx={{ fontSize: '18px', fontWeight: 500, mb: 1 }}
-                      >
-                        {job?.job?.title}
-                      </Link>
-                      <Typography typography='h5' gutterBottom>
-                        {job?.job?.company?.name}
-                      </Typography>
-                      <Typography typography='body1'>
-                        {job?.job?.salary !== 'Negotiate' ? (
-                          <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
-                        ) : (
-                          <>{job?.job?.salary}</>
-                        )}
-                      </Typography>
+    <Card sx={{ p: 1 }}>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Job</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {list?.map((job: any) => {
+              return (
+                <TableRow>
+                  <TableCell sx={{ width: '90%' }}>
+                    <Stack direction='row' spacing={2}>
+                      <Image
+                        alt='logo'
+                        src={job?.job?.company?.logo}
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          border: '1px solid #d9d9d9',
+                          padding: '4px',
+                          borderRadius: '8px',
+                        }}
+                      />
+                      <Stack>
+                        <Link
+                          color='#1890ff'
+                          component={RouterLink}
+                          to={`/job/${job?.job_id}`}
+                          sx={{ fontSize: '18px', fontWeight: 500, mb: 1 }}
+                        >
+                          {job?.job?.title}
+                        </Link>
+                        <Typography typography='h5' gutterBottom>
+                          {job?.job?.company?.name}
+                        </Typography>
+                        <Typography typography='body1'>
+                          {job?.job?.salary !== 'Negotiate' ? (
+                            <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
+                          ) : (
+                            <>{job?.job?.salary}</>
+                          )}
+                        </Typography>
+                      </Stack>
                     </Stack>
-                  </Stack>
-                </TableCell>
-                <TableCell>
-                  <Tooltip title='Remove' placement='top'>
-                    <IconButton onClick={() => handleDelete(job?.job_id)}>
-                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component='div'
-        count={10}
-        rowsPerPage={10}
-        page={1}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
-      />
-    </TableContainer>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title='Remove' placement='top'>
+                      <IconButton onClick={() => handleDelete(job?.job_id)}>
+                        <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component='div'
+          count={10}
+          rowsPerPage={10}
+          page={1}
+          onPageChange={() => {}}
+          onRowsPerPageChange={() => {}}
+        />
+      </TableContainer>
+    </Card>
   );
 };
 

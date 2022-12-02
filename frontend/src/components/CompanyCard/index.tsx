@@ -52,6 +52,7 @@ const CompanyCard: React.FC<Props> = ({ img, title, job, id }) => {
           <Typography variant='body2' fontWeight={700}>
             {title}
           </Typography>
+          <Typography variant='caption'>{job}</Typography>
         </Link>
       </CardContent>
     </CompanyCardWrapper>

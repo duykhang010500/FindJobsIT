@@ -30,7 +30,7 @@ const DetailCompany = (props: Props) => {
         <Stack spacing={8}>
           <DetailCompanyHeading />
           <DetailCompanyJobs />
-          <DetailCompanyOffices />
+          {/* <DetailCompanyOffices /> */}
           <DetailCompanyContent />
         </Stack>
       </Container>

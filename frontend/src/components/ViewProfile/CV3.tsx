@@ -184,30 +184,32 @@ const CV3 = ({ resume }: Props) => {
               >
                 Education
               </Typography>
-              <Stack sx={{ my: 2 }}>
-                <Typography
-                  variant='h5'
-                  component='div'
-                  gutterBottom
-                  fontWeight={400}
-                >
-                  {dayjs(resume?.edu_date_start).format('DD/MM/YYYY')} - {''}
-                  {resume?.edu_date_end
-                    ? dayjs(resume?.edu_date_end).format('DD/MM/YYYY')
-                    : 'Current'}
-                </Typography>
-                <Typography variant='h4'>
-                  {' '}
-                  {resume?.edu_certify} | {resume?.edu_school}
-                </Typography>
-                <Typography variant='body1' component='div'>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: resume?.edu_description,
-                    }}
-                  />
-                </Typography>
-              </Stack>
+              {resume?.educations?.map((edu: any) => (
+                <Stack sx={{ my: 2 }}>
+                  <Typography
+                    variant='h5'
+                    component='div'
+                    gutterBottom
+                    fontWeight={400}
+                  >
+                    {dayjs(edu?.edu_date_start).format('DD/MM/YYYY')} - {''}
+                    {edu?.edu_date_end
+                      ? dayjs(edu?.edu_date_end).format('DD/MM/YYYY')
+                      : 'Current'}
+                  </Typography>
+                  <Typography variant='h4'>
+                    {' '}
+                    {edu?.edu_certify} | {edu?.edu_school}
+                  </Typography>
+                  <Typography variant='body1' component='div'>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: edu?.edu_description,
+                      }}
+                    />
+                  </Typography>
+                </Stack>
+              ))}
             </Box>
 
             {/* Exp  */}
@@ -232,29 +234,31 @@ const CV3 = ({ resume }: Props) => {
               >
                 Experience
               </Typography>
-              <Stack sx={{ my: 2 }}>
-                <Typography
-                  variant='h5'
-                  component='div'
-                  gutterBottom
-                  fontWeight={400}
-                >
-                  {dayjs(resume?.rexp_date_start).format('DD/MM/YYYY')} - {''}
-                  {resume?.rexp_date_end
-                    ? dayjs(resume?.rexp_date_end).format('DD/MM/YYYY')
-                    : 'Current'}
-                </Typography>
-                <Typography variant='h4'>
-                  {resume?.rexp_title} | {resume?.rexp_company}
-                </Typography>
-                <Typography variant='body1' component='div'>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: resume?.rexp_description,
-                    }}
-                  />
-                </Typography>
-              </Stack>
+              {resume?.experiences?.map((exp: any) => (
+                <Stack sx={{ my: 2 }}>
+                  <Typography
+                    variant='h5'
+                    component='div'
+                    gutterBottom
+                    fontWeight={400}
+                  >
+                    {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')} - {''}
+                    {exp?.rexp_date_end
+                      ? dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')
+                      : 'Current'}
+                  </Typography>
+                  <Typography variant='h4'>
+                    {exp?.rexp_title} | {exp?.rexp_company}
+                  </Typography>
+                  <Typography variant='body1' component='div'>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: exp?.rexp_description,
+                      }}
+                    />
+                  </Typography>
+                </Stack>
+              ))}
             </Box>
 
             {/* Career information  */}

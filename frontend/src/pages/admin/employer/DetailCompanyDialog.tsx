@@ -24,7 +24,11 @@ const DetailCompanyDialog = (props: Props) => {
       {/* <DialogTitle>Detail</DialogTitle> */}
       <DialogContent>
         <Stack sx={{ mb: 2 }} direction='row' justifyContent='center'>
-          <Avatar sx={{ width: 100, height: 100 }} variant='rounded' />
+          <Avatar
+            sx={{ width: 100, height: 100 }}
+            variant='rounded'
+            src={props?.company?.logo}
+          />
         </Stack>
         <Grid container spacing={3}>
           <Grid item md={6}>
