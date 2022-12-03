@@ -1,16 +1,26 @@
 import { FC, useEffect, useState } from 'react';
 
 import {
-  useSearchParams,
   useNavigate,
+  useSearchParams,
   createSearchParams,
 } from 'react-router-dom';
 
-import { Grid, Button, useTheme, TextField, Autocomplete } from '@mui/material';
+import {
+  Grid,
+  Button,
+  useTheme,
+  TextField,
+  Autocomplete,
+  InputAdornment,
+} from '@mui/material';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+import KeyRoundedIcon from '@mui/icons-material/KeyRounded';
+import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 
 import { Search } from '@mui/icons-material';
+import WorkIcon from '@mui/icons-material/Work';
 
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
@@ -102,10 +112,18 @@ const SearchBar: FC<Props> = () => {
       <Grid item xs={12} md={3}>
         <TextField
           fullWidth
-          label='Job title'
+          label='Keyword'
+          // placeholder='Job/Company'
           size={smOnly ? 'small' : 'medium'}
           onChange={handleChangeKeyword}
           value={keywords}
+          //  InputProps={{
+          //     startAdornment: (
+          //       <InputAdornment position='start'>
+          //         <KeyRoundedIcon />
+          //       </InputAdornment>
+          //     ),
+          //   }}
         />
       </Grid>
       <Grid item xs={12} md={4}>
@@ -123,6 +141,13 @@ const SearchBar: FC<Props> = () => {
               {...params}
               label='City'
               size={smOnly ? 'small' : 'medium'}
+              // InputProps={{
+              //   startAdornment: (
+              //     <InputAdornment position='start'>
+              //       <FmdGoodRoundedIcon />
+              //     </InputAdornment>
+              //   ),
+              // }}
             />
           )}
         />
@@ -132,6 +157,7 @@ const SearchBar: FC<Props> = () => {
           id='industry'
           multiple
           disableListWrap
+          popupIcon={false}
           options={industries}
           getOptionLabel={(option: any) => option.name}
           value={industriesDefault || []}
@@ -142,6 +168,14 @@ const SearchBar: FC<Props> = () => {
               label='Industry'
               size={smOnly ? 'small' : 'medium'}
               fullWidth
+              // InputProps={{
+              //   ...params.InputProps,
+              //   startAdornment: (
+              //     <InputAdornment position='start'>
+              //       <WorkIcon />
+              //     </InputAdornment>
+              //   ),
+              // }}
             />
           )}
         />

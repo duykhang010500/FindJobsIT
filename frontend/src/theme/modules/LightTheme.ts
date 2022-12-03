@@ -109,6 +109,7 @@ const LightTheme = createTheme({
           '&:hover': {
             boxShadow: 'none',
           },
+          fontWeight: 600,
         },
         contained: {
           boxShadow: 'none',

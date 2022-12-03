@@ -63,7 +63,7 @@ const CompanyOverview = (props: Props) => {
               }
             >
               <ListItemIcon>
-                <BusinessOutlinedIcon />
+                <BusinessOutlinedIcon sx={{ color: '#faad14' }} />
               </ListItemIcon>
               <ListItemText>Company Size:</ListItemText>
             </ListItem>
@@ -76,7 +76,7 @@ const CompanyOverview = (props: Props) => {
               }
             >
               <ListItemIcon>
-                <PublicOutlinedIcon />
+                <PublicOutlinedIcon sx={{ color: '#1677ff' }} />
               </ListItemIcon>
               <ListItemText>Website:</ListItemText>
             </ListItem>
@@ -89,7 +89,7 @@ const CompanyOverview = (props: Props) => {
               }
             >
               <ListItemIcon>
-                <PlaceOutlinedIcon />
+                <PlaceOutlinedIcon sx={{ color: '#ff4d4f' }} />
               </ListItemIcon>
               <ListItemText>Location:</ListItemText>
             </ListItem>

@@ -26,6 +26,7 @@ import HeaderMenu from './HeaderMenu';
 import HeaderMenuMobile from './HeaderMenuMobile';
 import LogoutIcon from '@mui/icons-material/Logout';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
@@ -102,7 +103,7 @@ const Header: FC<Props> = () => {
               }),
           transition: 'all ease 0.3s',
           ...(isScrollBottom && {
-            height: 60,
+            height: 50,
           }),
         }}
       >
@@ -216,7 +217,7 @@ const Header: FC<Props> = () => {
                 ) : (
                   <>
                     <Button
-                      variant='outlined'
+                      // variant='outlined'
                       component={RouterLink}
                       startIcon={<AccountCircleRoundedIcon />}
                       to={
@@ -228,13 +229,14 @@ const Header: FC<Props> = () => {
                       Log In
                     </Button>
                     <Button
-                      variant='contained'
+                      // variant='contained'
                       component={RouterLink}
                       to={
                         pathname.includes('/employer')
                           ? `/employer/register`
                           : '/register'
                       }
+                      startIcon={<DriveFileRenameOutlineOutlinedIcon />}
                     >
                       Sign Up
                     </Button>

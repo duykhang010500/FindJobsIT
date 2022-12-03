@@ -26,8 +26,8 @@ const Hero = (props: Props) => {
           width: '100%',
           height: '100%',
           backgroundColor: 'black',
-          opacity: 0.45,
-          zIndex: -1,
+          opacity: 0.2,
+          // zIndex: 1,
         },
       }}
     >

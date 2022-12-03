@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Container } from '@mui/material';
 
@@ -9,9 +9,8 @@ import NewJobs from '../sections/home/jobseeker/NewJobs';
 import TopCompany from '../sections/home/jobseeker/TopCompany';
 import TopCategories from '../sections/home/jobseeker/TopCategories';
 
-import { getJobs } from '../store/jobs/actions';
-import { useSelector } from 'react-redux';
 import { AppState } from '../store/reducer';
+import { getJobs } from '../store/jobs/actions';
 import { getCompanies } from '../store/companies/action';
 
 type Props = {};
@@ -32,8 +31,8 @@ const Home: React.FC = (props: Props) => {
     <>
       <Hero />
       <TopCompany />
-      {/* <TopCategories /> */}
-      <Container>{isLoading ? <></> : <NewJobs />}</Container>
+      <TopCategories />
+      {isLoading ? <></> : <NewJobs />}
     </>
   );
 };

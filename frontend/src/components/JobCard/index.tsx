@@ -15,6 +15,7 @@ import {
 import UpdateIcon from '@mui/icons-material/Update';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
+import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 
@@ -51,12 +52,12 @@ const JobCardWrapper = styled(Card)({
   display: 'flex',
   flexDirection: 'column',
   padding: '20px',
-  border: '2px solid transparent',
-  height: '100%',
-  borderRadius: '18px',
-  boxShadow: '-12px 12px 48px -4px rgba(145, 158, 171, 0.12)',
+  boxShadow: 'none',
+  border: '1px solid #efefef',
+  // height: '100%',
+  borderRadius: '12px',
   '&:hover': {
-    boxShadow: '-24px 24px 72px -8px rgba(145, 158, 171, 0.24)',
+    boxShadow: '4px 4px 16px 0px rgba(245, 34, 45,0.2)',
   },
 });
 
@@ -134,84 +135,72 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
   } else {
     return (
       <JobCardWrapper>
-        <Stack
-          direction='row'
-          justifyContent='space-between'
-          alignItems='center'
-        >
+        <Stack direction='row' alignItems='center'>
           {job?.company?.logo ? (
             <img
-              style={{ width: '60px', height: '60px' }}
+              style={{ width: '40px', height: '40px' }}
               src={job?.company?.logo}
               alt='company-logo'
             />
           ) : (
             <ApartmentIcon />
           )}
-
-          {/* <Tooltip placement='top' title='Save job'>
-            <IconWrapper>
-              <RiHeart3Line
-                style={{
-                  color: '#434343',
-                  fontSize: '1.2rem',
-                  cursor: 'pointer',
-                }}
-              />
-            </IconWrapper>
-          </Tooltip> */}
-          {/* <IconWrapper>
-            <RiHeart3Fill
-              style={{
-                color: `${theme.palette.primary.main}`,
-                fontSize: '1.2rem',
-                cursor: 'pointer',
-              }}
-            />
-          </IconWrapper> */}
-        </Stack>
-        <Stack>
-          <Link component={RouterLink} to={`/job/${job.id}`}>
+          <Link
+            component={RouterLink}
+            to={`/job/${job.id}`}
+            sx={{
+              '&:hover': {
+                color: '#faad14',
+              },
+            }}
+          >
             <Typography
-              variant='body1'
-              fontWeight={500}
-              fontSize={20}
-              sx={{ mt: 2 }}
+              variant='h4'
+              sx={{ ml: 2, fontWeight: 700, color: 'inherit' }}
             >
               {job?.title}
             </Typography>
           </Link>
-          <Typography
-            variant='body2'
-            fontWeight={500}
-            color='rgb(34, 184, 207)'
-            mt={1}
-          >
+        </Stack>
+        <Stack>
+          <Typography variant='h4' color='rgb(34, 184, 207)' mt={2}>
             {job?.company_name}
           </Typography>
 
-          <Typography fontWeight={500} mt={1} variant='body2'>
-            <HiOutlineLocationMarker
-              style={{
-                marginRight: 2,
-                fontSize: '1.2rem',
-                // verticalAlign: 'middle',
-              }}
-            />
-            {job &&
-              job?.locations?.map((item: any, index: number) => {
-                if (index === 0) {
-                  return <>{item?.name}</>;
-                } else {
-                  return <>{` - ${item.name}`}</>;
-                }
-              })}
-          </Typography>
+          <Stack direction='row' justifyContent='space-between'>
+            <Typography fontWeight={500} mt={1} variant='body2'>
+              <LocalAtmOutlinedIcon
+                style={{
+                  marginRight: '7px',
+                  fontSize: '1.2rem',
+                  color: '#52c41a',
+                  verticalAlign: 'bottom',
+                }}
+              />
+              {job?.salary}
+            </Typography>
+            <Typography fontWeight={500} mt={1} variant='body2'>
+              <HiOutlineLocationMarker
+                style={{
+                  marginRight: '7px',
+                  fontSize: '1.2rem',
+                  color: '#ff4d4f',
+                }}
+              />
+              {job &&
+                job?.locations?.map((item: any, index: number) => {
+                  if (index === 0) {
+                    return <>{item?.name}</>;
+                  } else {
+                    return <>{` - ${item.name}`}</>;
+                  }
+                })}
+            </Typography>
+          </Stack>
 
-          <Typography variant='caption' mt={1} color='#8c8c8c'>
+          {/* <Typography variant='caption' mt={1}>
             Posted date: {dayjs(job?.created_at).format('DD/MM/YYYY')}
-          </Typography>
-          <Divider sx={{ margin: '15px 0px', borderStyle: 'dashed' }} />
+          </Typography> */}
           {/* <Stack direction='row' spacing={2}>
             {job.skill.map((skill) => {
               return (

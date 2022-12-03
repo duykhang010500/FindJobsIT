@@ -19,7 +19,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 type Props = {};
 
 const FooterWrapper = styled(Box)({
-  marginTop: '70px',
+  marginTop: '50px',
   padding: '30px 0px 30px 0px',
   backgroundImage: `url(${BgFooter})`,
   backgroundSize: 'cover',

@@ -11,7 +11,9 @@ const JobSeekerLayout = (props: Props) => {
   return (
     <Fragment>
       <Header />
-      <Outlet />
+      <Box sx={{ backgroundColor: '#f8f9ff' }}>
+        <Outlet />
+      </Box>
       <Footer />
     </Fragment>
   );

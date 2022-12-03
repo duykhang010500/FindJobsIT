@@ -6,12 +6,12 @@ type Props = {};
 
 const DetailJobSkeleton = (props: Props) => {
   return (
-    <Container sx={{ mt: 15 }}>
+    <Container sx={{ p: 12 }}>
       <Stack spacing={3}>
         <Skeleton
           variant='text'
           animation='pulse'
-          sx={{ fontSize: '3rem', width: 150 }}
+          sx={{ fontSize: '3rem', width: 250, height: 60 }}
         />
         <Skeleton
           variant='rounded'

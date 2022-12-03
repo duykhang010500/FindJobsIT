@@ -7,7 +7,8 @@ type Props = {};
 
 const TopCategoriesWrapper = styled(Box)({
   marginTop: '50px',
-  backgroundColor: '#fff',
+  // backgroundColor: '#f5f7fb',
+  padding: '30px',
 });
 
 const TopCategories = (props: Props) => {
@@ -19,9 +20,9 @@ const TopCategories = (props: Props) => {
           fontWeight={700}
           align='center'
           textTransform='uppercase'
-          color='rgb(255,153,0)'
+          color='#273167'
         >
-          top categories
+          Popular industries
         </Typography>
         <CategoriesList />
       </Container>

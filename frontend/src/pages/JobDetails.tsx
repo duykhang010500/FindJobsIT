@@ -3,6 +3,7 @@ import { Link as RouterLink, useParams } from 'react-router-dom';
 import { FC, Fragment, useState, useEffect, SyntheticEvent } from 'react';
 
 import {
+  Box,
   Tab,
   Card,
   Grid,
@@ -62,22 +63,28 @@ const JobDescription: FC<Props> = () => {
 
   return (
     <Fragment>
-      <Container sx={{ mt: 15 }}>
-        <Breadcrumbs
-          sx={{ mb: 5, mt: 5, '&.MuiTypography-root': { fontWeight: 600 } }}
-          separator='›'
-          aria-label='breadcrumb'
+      <Container sx={{ p: 12 }}>
+        <Card
+          sx={{ my: 2, p: 2, backgroundColor: '#fff', display: 'inline-block' }}
         >
-          <Link component={RouterLink} to={`/`}>
-            Home
-          </Link>
-          <Link component={RouterLink} to={`/`}>
-            Job
-          </Link>
-          <Typography>{job?.title}</Typography>
-        </Breadcrumbs>
+          <Breadcrumbs
+            sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+            separator='›'
+            aria-label='breadcrumb'
+          >
+            <Link component={RouterLink} to={`/`}>
+              Home
+            </Link>
+            <Link component={RouterLink} to={`/jobs`}>
+              Jobs
+            </Link>
+            <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+              {job?.title}
+            </Typography>
+          </Breadcrumbs>
+        </Card>
         <JobDescriptionHeader />
-        <Grid container spacing={4} sx={{ mt: 3 }}>
+        <Grid container spacing={4} sx={{ mt: 2 }}>
           <Grid item xs={12} sm={12} md={8}>
             <Card>
               <TabContext value={tabActive}>

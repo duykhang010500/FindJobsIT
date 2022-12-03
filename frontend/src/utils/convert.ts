@@ -90,6 +90,13 @@ export const convertJobStatus = (status: number) => {
   }
 };
 
+export const getJobType: any = {
+  1: 'Permanent',
+  2: 'Full time',
+  3: 'Part time',
+  4: 'Shift',
+};
+
 export const getIDFromArray = (str: string, arr: any) => {
   let id;
   arr.forEach((item: any) => {

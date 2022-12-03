@@ -33,6 +33,7 @@ dayjs.extend(isSameOrBefore);
 type Props = {};
 
 const RootStyle = styled(Card)({
+  marginTop: '10px',
   padding: '30px 10px',
   borderRadius: '8px',
   boxShadow:
@@ -107,14 +108,22 @@ const JobDescriptionHeader = (props: Props) => {
         </Grid>
         <Grid item xs={12} sm={9} md={6}>
           <Stack spacing={1}>
-            <Typography variant='h2' fontWeight={600} color='primary' noWrap>
+            <Typography variant='h2' fontWeight={600} noWrap>
               {job?.title}
             </Typography>
-            <Link component={RouterLink} to={`/`}>
-              <Typography variant='h4'>{job?.company.name}</Typography>
+            <Link
+              component={RouterLink}
+              to={`/company/${job?.company?.id}`}
+              sx={{ color: '#4096ff' }}
+            >
+              <Typography variant='h4' color='inherit'>
+                {job?.company.name}
+              </Typography>
             </Link>
-            <Typography variant='body2' color='rgb(99, 115, 129)'>
-              <UpdateIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+            <Typography variant='body2'>
+              <UpdateIcon
+                sx={{ verticalAlign: 'middle', mr: 1, color: '#ff4d4f' }}
+              />
               {!canApply ? (
                 <>Expires</>
               ) : (

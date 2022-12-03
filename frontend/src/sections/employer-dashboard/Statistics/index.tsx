@@ -75,9 +75,9 @@ const Statistics = (props: Props) => {
                 <Typography
                   variant='body1'
                   gutterBottom
-                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                  sx={{ color: '#8c8c8c', minWidth: '96px' }}
                 >
-                  Active
+                  Jobs Active
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
                   {data?.totalJobsActive || 0}
@@ -88,9 +88,9 @@ const Statistics = (props: Props) => {
                 <Typography
                   variant='body1'
                   gutterBottom
-                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                  sx={{ color: '#8c8c8c', minWidth: '96px' }}
                 >
-                  Pending
+                  Jobs Pending
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
                   {data?.totalJobsPending || 0}
@@ -101,9 +101,9 @@ const Statistics = (props: Props) => {
                 <Typography
                   variant='body1'
                   gutterBottom
-                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                  sx={{ color: '#8c8c8c', minWidth: '96px' }}
                 >
-                  Closed
+                  Jobs Closed
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
                   {data?.totalJobsStopPosting || 0}
@@ -114,9 +114,9 @@ const Statistics = (props: Props) => {
                 <Typography
                   variant='body1'
                   gutterBottom
-                  sx={{ color: '#8c8c8c', minWidth: '75px' }}
+                  sx={{ color: '#8c8c8c', minWidth: '96px' }}
                 >
-                  Expired
+                  Jobs Expired
                 </Typography>
                 <Typography variant='h3' gutterBottom sx={{ color: '#ffc53d' }}>
                   {data?.totalJobsExpired || 0}

@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography, Stack } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store/reducer';
 

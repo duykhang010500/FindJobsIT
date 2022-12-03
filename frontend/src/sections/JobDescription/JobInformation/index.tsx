@@ -11,9 +11,9 @@ const JobInformation = (props: Props) => {
   return (
     <Stack spacing={3}>
       <JobOverview />
-      <JobBenefit />
       <JobDescription />
       <JobRequirement />
+      <JobBenefit />
     </Stack>
   );
 };
