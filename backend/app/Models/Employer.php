@@ -17,10 +17,6 @@ class Employer extends Authenticatable implements MustVerifyEmail
         'comp_id', 'fullname', 'lastname', 'firstname', 'phone', 'email', 'password', 'status', 'last_login', 'avatar'
     ];
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class,'comp_id','id');
-    }
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -33,4 +29,13 @@ class Employer extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'comp_id','id');
+    }
+
+    public function folder(){
+        return $this->hasOne(EmployerSaved::class);
+    }
 }

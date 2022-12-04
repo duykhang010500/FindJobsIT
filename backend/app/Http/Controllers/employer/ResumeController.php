@@ -237,8 +237,10 @@ class ResumeController extends Controller
     public function getResumeSaved()
     {
         //
-        $wishlists = EmployerSaved::with('resume','company','folder')->where("comp_id", "=", auth()->user()->company->id)->orderby('id', 'desc')->paginate(10);
-        return ($wishlists);
+        $wishlists = EmployerSaved::with('resume','company','EmployerFolders')->where("comp_id", "=", auth()->user()->company->id)->orderby('id', 'desc')->get();
+        return response()->json([
+            'wishlists' => $wishlists,
+        ]);
     }
 
     public function saveResume(Request $request){

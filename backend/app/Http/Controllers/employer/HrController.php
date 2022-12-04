@@ -230,7 +230,7 @@ class HrController extends Controller
 
     public function candidate(Request $request,$id){
         return response()->json([
-            'candidate' => Candidate::with(['resume','job','company','member','resume.industries','resume.locations'])->where('id',$id)->first()
+            'candidate' => Candidate::with(['resume','job','company','member','resume.industries','resume.locations','resume.educations','resume.experiences'])->where('id',$id)->first()
         ]);
 
     }
