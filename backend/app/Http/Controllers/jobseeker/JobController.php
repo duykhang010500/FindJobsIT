@@ -315,16 +315,19 @@ class JobController extends Controller
     public function companies()
     {
         //
-        $companies = Company::orderBy('id','desc')->get();
+        $companies = Company::where('status', Company::STATUS_PUBLISHED)->orderBy('id','desc')->get();
         return response()->json([
-            'companies' => $companies
+            'companies' => $companies,
         ]);
     }
 
     public function company(Request $request, $id)
     {
         return response()->json([
-            'company' => Company::with('offices','jobs')->where('id',$id)->first()
+            'company' => Company::with(['offices','jobs','jobs.industries','jobs.locations','jobs.status'])
+            ->where('id',$id)->orWhereHas('jobs', function ($q) {
+                $q->where('status',1);
+            })->first()
         ]);
     }
 

@@ -291,12 +291,12 @@ class HrController extends Controller
 
     public function offices(Request $request){
         return response()->json([
-            'offices' => Office::with('company')->where('company_id',auth()->user()->company->id)->orderBy('priority','desc')->get()
+            'offices' => Office::with('company')->where('comp_id',auth()->user()->company->id)->orderBy('priority','desc')->get()
         ]);
     }
 
     public function office(Request $request, $id){
-        $model = Office::with('company')->where('id',$id)->where('company_id',auth()->user()->company->id)->first();
+        $model = Office::with('company')->where('id',$id)->where('comp_id',auth()->user()->company->id)->first();
 
         if ($request->isMethod('get')) {
             return response()->json([
@@ -327,7 +327,7 @@ class HrController extends Controller
         }
         ($model != null) ? $model->update(array_merge($fields->validated()))
                          : $model = Office::create(array_merge($fields->validated(),
-                            ['company_id' => auth()->user()->company->id]));
+                            ['comp_id' => auth()->user()->company->id]));
 
         return response()->json([
             'message' => 'Update successfully.',
