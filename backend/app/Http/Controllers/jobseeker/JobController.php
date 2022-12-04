@@ -51,7 +51,11 @@ class JobController extends Controller
             $result = Job::query();
 
             if (!empty($params['keywords'])) {
-                $result = $result->where('title', 'like', '%'.$params['keywords'].'%');
+                $search_str = $params['keywords'];
+                $result = $result->where('title', 'like', '%'.$params['keywords'].'%')
+                                ->with('company:name')->orWhereHas('company', function ($q) use ($search_str) {
+                                    $q->where('name', 'LIKE', "%{$search_str}%");
+                                });
             }
             if (!empty($params['locations'])) {
 
