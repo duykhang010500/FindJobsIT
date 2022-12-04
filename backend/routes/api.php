@@ -240,6 +240,11 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::post('my/jobsaved', [MyController::class, 'saved']);
     Route::delete('my/jobsaved/{id}', [MyController::class, 'remove_on_wishlist']);
 
+    //following company
+    Route::get('my/companysaves', [MyController::class, 'companySaves']);
+    Route::post('my/companysaved', [MyController::class, 'companySaved']);
+    Route::delete('my/companysaved/{id}', [MyController::class, 'remove_on_following_company']);
+
     //apply
     Route::post('/apply/{id}', [JobController::class, 'apply']);
 

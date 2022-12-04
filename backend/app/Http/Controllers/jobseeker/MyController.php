@@ -9,6 +9,7 @@ use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Resume;
 use App\Models\JobSave;
+use App\Models\MemberFollow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -344,6 +345,64 @@ class MyController extends Controller
             return response()->json([
                 'message' => 'Occur error!'
             ], 500);
+        }
+    }
+
+    public function companySaves()
+    {
+        //
+        $wishlists = MemberFollow::with(['company'])->orderby('id', 'desc')->get();
+        return ($wishlists);
+    }
+
+    public function companySaved(Request $request){
+
+        $fields = Validator::make($request->all(), [
+          'comp_id' =>'required',
+          ]);
+
+        if ($fields->fails()) {
+            return response()->json($fields->errors(), 422);
+        }
+
+        $status=MemberFollow::where('member_id',auth()->user()->id)
+                          ->where('comp_id',$request->comp_id)
+          ->first();
+
+        if(isset($status->member_id) and isset($request->comp_id))
+        {
+            return response([
+                'message' => 'This company is already in your following!',
+            ], 400);
+        }
+        else
+        {
+        $wishlist = new MemberFollow();
+        $wishlist->member_id = auth()->user()->id;
+        $wishlist->comp_id = $request->comp_id;
+        $wishlist->save();
+
+        return response([
+            'message' => 'Added company to your following.',
+            'data' => ($wishlist)
+        ], 201);
+        }
+
+    }
+
+    public function remove_on_following_company(Request $request,$comp_id)
+    {
+        //
+        $wishlist = MemberFollow::where('member_id',auth()->user()->id)->where('comp_id',$comp_id)->first();
+        if($wishlist){
+            $wishlist->destroy($wishlist->id);
+            return response([
+                'message' => 'Remove company on following'
+            ], 200);
+        }else{
+            return response([
+                'message' => 'This company does not exist in following'
+            ], 400);
         }
     }
 
