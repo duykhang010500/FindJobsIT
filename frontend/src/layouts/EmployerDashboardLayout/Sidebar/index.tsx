@@ -49,6 +49,8 @@ const sidebarData = [
     children: [
       { title: 'Candidates application', path: '/employer/hr/candidates' },
       // { title: 'Saved candidates', path: '/employer/hr/saved-candidates' },
+      { title: 'Saved candidates', path: '/employer/hr/candidates/saved' },
+
       { title: 'History sent mail', path: '/employer/hr/mails' },
     ],
   },
@@ -75,12 +77,16 @@ const sidebarData = [
     icon: <SettingsIcon />,
     children: [
       {
-        title: 'My profile',
+        title: 'Profile',
         path: '/employer/hr/my',
       },
       {
-        title: 'My Company',
+        title: 'Company',
         path: '/employer/hr/company',
+      },
+      {
+        title: 'Work locations',
+        path: '/employer/hr/offices',
       },
     ],
   },

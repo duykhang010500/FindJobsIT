@@ -11,6 +11,7 @@ import candidatesReducer from './candidates/reducer';
 import industriesReducer from './industries/reducer';
 import jobsSavedReducer from './jobsSaved/reducer';
 import dashboardReducer from './dashboard/reducer';
+import officesReducer from './offices/reducer';
 
 const rootReducer = combineReducers({
   cv: cvReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   industries: industriesReducer,
   jobsSaved: jobsSavedReducer,
   dashboard: dashboardReducer,
+  offices: officesReducer,
 });
 
 export type AppDispatch = typeof store.dispatch;

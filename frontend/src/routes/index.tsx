@@ -70,6 +70,7 @@ import RequestedEmployer from '../pages/admin/employer/RequestedEmployer';
 import ActiveEmployer from '../pages/admin/employer/ActiveEmployer';
 import RejectedEmployer from '../pages/admin/employer/RejectedEmployer';
 import EmployerExpireServices from '../pages/employer/services/EmployerExpireServices';
+import Offices from '../pages/employer/settings/Offices';
 
 type Props = {};
 
@@ -133,6 +134,7 @@ const Router = (props: Props) => {
         { path: 'my', element: <MyProfile /> },
         { path: 'dashboard', element: <Statistics /> },
         { path: 'company', element: <CompanyProfile /> },
+        { path: 'offices', element: <Offices /> },
 
         //jobs
         { path: 'job/create', element: <EmployerCreateJob /> },

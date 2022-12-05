@@ -13,6 +13,7 @@ import {
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 import LanguageRoundedIcon from '@mui/icons-material/LanguageRounded';
 import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
+import PeopleIcon from '@mui/icons-material/People';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
 
@@ -38,23 +39,36 @@ const DetailCompanyHeading = (props: Props) => {
             >
               {company?.name}
             </Typography>
-            <Typography gutterBottom>
-              <PlaceRoundedIcon
-                sx={{ verticalAlign: 'middle', mr: 2, color: '#ff4d4f' }}
-              />
-              {company?.location_name}
-            </Typography>
-            <Typography gutterBottom>
-              <LanguageRoundedIcon
-                sx={{ verticalAlign: 'middle', mr: 2, color: '#69b1ff' }}
-              />
-              {company?.website}
-            </Typography>
+            <Grid container spacing={3}>
+              <Grid item md={4}>
+                <Typography gutterBottom>
+                  <PlaceRoundedIcon
+                    sx={{ verticalAlign: 'middle', mr: 2, color: '#ff4d4f' }}
+                  />
+                  {company?.location_name}
+                </Typography>
+                <Typography gutterBottom>
+                  <PeopleIcon
+                    sx={{ verticalAlign: 'middle', mr: 2, color: '#8c8c8c' }}
+                  />
+                  {company?.company_size}
+                </Typography>
+              </Grid>
+              <Grid item md={4}>
+                <Typography gutterBottom>
+                  <LanguageRoundedIcon
+                    sx={{ verticalAlign: 'middle', mr: 2, color: '#69b1ff' }}
+                  />
+                  {company?.website}
+                </Typography>
+              </Grid>
+              <Grid item md={4}></Grid>
+            </Grid>
           </Grid>
           <Grid item md={2}>
-            {/* <Button variant='contained' startIcon={<BookmarkRoundedIcon />}>
+            <Button variant='contained' startIcon={<BookmarkRoundedIcon />}>
               Follow
-            </Button> */}
+            </Button>
           </Grid>
         </Grid>
       </Card>

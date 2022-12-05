@@ -44,7 +44,7 @@ const CompanyList: React.FC = (props: Props) => {
               <CompanyCard
                 title={company.name}
                 img={company.logo}
-                id={company.title}
+                id={company.id}
                 // job={company.job}
               />
             </SwiperSlide>

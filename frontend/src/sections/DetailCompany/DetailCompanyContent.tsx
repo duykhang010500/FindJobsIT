@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, Card } from '@mui/material';
 
 type Props = {};
 
@@ -17,14 +17,9 @@ const DetailCompanyContent = (props: Props) => {
       >
         Introduce
       </Typography>
-      <Grid container spacing={3}>
-        <Grid item md={6}>
-          <Typography>Cover image</Typography>
-        </Grid>
-        <Grid item md={6}>
-          <Typography>This is best company</Typography>
-        </Grid>
-      </Grid>
+      <Card sx={{ p: 3, mt: 4 }}>
+        <Typography>Gioi thieu ne</Typography>
+      </Card>
     </Box>
   );
 };

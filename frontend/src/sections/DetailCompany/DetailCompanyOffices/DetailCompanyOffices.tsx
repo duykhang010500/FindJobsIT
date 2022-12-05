@@ -7,12 +7,9 @@ type Props = {};
 
 const DetailCompanyOffices = (props: Props) => {
   return (
-    <Grid container spacing={3}>
-      <Grid item md={4}>
-        <DetailCompanyOfficesAddress />
-      </Grid>
-      <Grid item md={8}></Grid>
-    </Grid>
+    <>
+      <DetailCompanyOfficesAddress />
+    </>
   );
 };
 

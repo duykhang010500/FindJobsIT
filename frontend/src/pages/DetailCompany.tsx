@@ -11,6 +11,7 @@ import DetailCompanyJobs from '../sections/DetailCompany/DetailCompanyJobs/Detai
 import DetailCompanyOffices from '../sections/DetailCompany/DetailCompanyOffices/DetailCompanyOffices';
 import DetailCompanyContent from '../sections/DetailCompany/DetailCompanyContent';
 import DetailCompanyCoverPicture from '../sections/DetailCompany/DetailCompanyCoverPicture';
+import DetailCompanyImages from '../sections/DetailCompany/DetailCompanyImages';
 
 type Props = {};
 
@@ -30,8 +31,9 @@ const DetailCompany = (props: Props) => {
         <Stack spacing={8}>
           <DetailCompanyHeading />
           <DetailCompanyJobs />
-          {/* <DetailCompanyOffices /> */}
+          <DetailCompanyOffices />
           <DetailCompanyContent />
+          <DetailCompanyImages />
         </Stack>
       </Container>
     </Box>

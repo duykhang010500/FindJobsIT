@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Card } from '@mui/material';
 
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 
@@ -19,12 +19,14 @@ const DetailCompanyOfficesAddress = (props: Props) => {
       >
         Office locations
       </Typography>
-      <Typography>
-        <PlaceRoundedIcon
-          sx={{ color: '#ff4d4f', verticalAlign: 'middle', mr: 2 }}
-        />
-        So 1 vo van ngan
-      </Typography>
+      <Card sx={{ backgroundColor: '#fff', p: 3, borderRadius: 2, mt: 3 }}>
+        <Typography>
+          <PlaceRoundedIcon
+            sx={{ color: '#ff4d4f', verticalAlign: 'middle', mr: 2 }}
+          />
+          So 1 vo van ngan
+        </Typography>
+      </Card>
     </Box>
   );
 };

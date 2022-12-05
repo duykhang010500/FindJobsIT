@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 type Props = {};
 
 const Companies = (props: Props) => {
-  return <Container sx={{ mt: 15 }}>Companies</Container>;
+  return <Container sx={{ py: 15 }}>Companies</Container>;
 };
 
 export default Companies;

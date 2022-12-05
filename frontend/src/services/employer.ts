@@ -1,4 +1,5 @@
 import { IUserLogin } from '../store/auth/types';
+import { Office } from '../store/offices/types';
 import axiosInstance from './axiosInstance';
 
 const employerServices = {
@@ -88,6 +89,19 @@ const employerServices = {
   getDashboard: () => {
     return axiosInstance.get('/employer/hr/dashboard');
   },
+
+  //offices
+  createOffice: (formData: Office) => {
+    return axiosInstance.post('/employer/hr/office/0', formData);
+  },
+  getOffices: () => {
+    return axiosInstance.get('/employer/hr/offices');
+  },
+  getOffice: (id: number) => axiosInstance.get(`/employer/hr/office/${id}`),
+  updateOffice: (id: number, formData: Office) =>
+    axiosInstance.patch(`/employer/hr/office/${id}`, formData),
+  deleteOffice: (id: number) =>
+    axiosInstance.delete(`/employer/hr/office/${id}`),
 };
 
 export default employerServices;

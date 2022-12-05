@@ -6,11 +6,7 @@ type Props = {};
 
 const TableSkeleton = (props: Props) => {
   return (
-    <Stack
-      spacing={2}
-      sx={{ mt: 2, width: '1475% !important' }}
-      component={'tr'}
-    >
+    <Stack spacing={2}>
       {[...Array(3)].map((_, idx: number) => (
         <Skeleton
           key={idx}

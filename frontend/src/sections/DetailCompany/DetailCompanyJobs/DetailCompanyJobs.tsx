@@ -16,7 +16,7 @@ const DetailCompanyJobs = (props: Props) => {
         textTransform='uppercase'
         sx={{ color: '#001d66' }}
       >
-        Jobs
+        Jobs active
       </Typography>
       <DetailCompanyListJobs />
     </Box>
