@@ -15,9 +15,29 @@ class MemberaController extends Controller
     public function index()
     {
         //
-        $members = Member::with('degree','location','resume','level')->orderBy('id','desc')->get();
+        $members = Member::with(['candidate','resume'])->orderBy('id','desc')->get();
         return response()->json([
             'data' => $members,
+        ]);
+    }
+
+    public function memberStatus(Request $request,$id){
+        $member = Member::where('id', $id)->first();
+        if(!empty($member)){
+            $fields = Validator::make($request->all(), [
+                'status' => 'required'
+            ]);
+            if ($fields->fails()) {
+                return response()->json($fields->errors(), 422);
+            }
+            $member->update(['status' => $request->status]);
+            return response()->json([
+                'member' => $member,
+                'message' => 'Update member status.'
+            ]);
+        }
+        return response()->json([
+            'message' => 'Member is not exist.'
         ]);
     }
 

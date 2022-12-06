@@ -105,6 +105,7 @@ Route::middleware(['auth:sanctum','ability:admin'])->group(function () {
 
         // members
         Route::get('/members', [MemberaController::class, 'index']);
+        Route::post('/member/status/{id}', [MemberaController::class, 'memberStatus']);
 
         //companies
         Route::get('/companies', [CompanyController::class, 'index']);
