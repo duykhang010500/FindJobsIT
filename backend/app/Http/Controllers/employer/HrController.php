@@ -280,6 +280,7 @@ class HrController extends Controller
          'email' => $request->email,
          'content' => $request->content,'logo' => $request->logo,
          'banners' => $request->banners,'keywords' => $request->keywords,
+         'images' => $request->images
         ]
     ));
         return response()->json([
