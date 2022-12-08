@@ -25,7 +25,7 @@ const DetailCompany = (props: Props) => {
   }, [id, dispatch]);
 
   return (
-    <Box sx={{ mt: 9 }}>
+    <Box sx={{ py: 9 }}>
       <DetailCompanyCoverPicture />
       <Container>
         <Stack spacing={8}>

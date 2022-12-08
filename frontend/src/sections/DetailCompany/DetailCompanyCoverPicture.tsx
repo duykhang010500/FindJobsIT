@@ -1,12 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store/reducer';
 
 type Props = {};
 
 const DetailCompanyCoverPicture = (props: Props) => {
+  const { company } = useSelector((state: AppState) => state.companies);
   return (
     <div
       style={{
-        backgroundImage: `url(https://hr1tech.com/htdocs/images/owners/hr1tech/banner/202211/banner-bg.png)`,
+        backgroundImage: `url(${company?.banners})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

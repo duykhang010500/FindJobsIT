@@ -71,20 +71,20 @@ const CompanyList = ({ companies }: Props) => {
         </TableHead>
         <TableBody>
           {companies?.map((company: any) => (
-            <TableRow key={company.id}>
+            <TableRow key={company?.id}>
               <TableCell>
                 <Avatar variant='rounded' src={company?.logo} />
               </TableCell>
 
               <TableCell>
-                {dayjs(company.created_at).format('DD/MM/YYYY')}
+                {dayjs(company?.created_at).format('DD/MM/YYYY')}
               </TableCell>
-              <TableCell>{company.name}</TableCell>
-              <TableCell align='left'>{company.employer.email}</TableCell>
-              <TableCell align='left'>{company.employer.fullname}</TableCell>
+              <TableCell>{company?.name}</TableCell>
+              <TableCell align='left'>{company?.employer?.email}</TableCell>
+              <TableCell align='left'>{company?.employer?.fullname}</TableCell>
               <TableCell align='left'>
                 <Switch
-                  defaultChecked={company.status === 1}
+                  defaultChecked={company?.status === 1}
                   onChange={() => handleChangeStatus(company.id)}
                 />
               </TableCell>

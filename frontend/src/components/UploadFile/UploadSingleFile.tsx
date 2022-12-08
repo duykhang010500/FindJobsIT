@@ -34,16 +34,8 @@ const UploadSingleFile = (props: Props) => {
     accept: {
       'image/*': [],
     },
+    multiple: false,
     onDrop: props.onDrop,
-    // onDrop: (acceptedFiles) => {
-    //   setFile(
-    //     acceptedFiles.map((file) =>
-    //       Object.assign(file, {
-    //         preview: URL.createObjectURL(file),
-    //       })
-    //     )
-    //   );
-    // },
   });
 
   const thumbs = props.file.map((file: any) => (
@@ -56,7 +48,7 @@ const UploadSingleFile = (props: Props) => {
         zIndex: 2,
       }}
     >
-      <Image alt='banner' src={file.preview} />
+      <Image alt='banner' src={file?.preview || file} />
     </Box>
   ));
 

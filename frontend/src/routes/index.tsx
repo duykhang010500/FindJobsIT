@@ -72,6 +72,7 @@ import RejectedEmployer from '../pages/admin/employer/RejectedEmployer';
 import EmployerExpireServices from '../pages/employer/services/EmployerExpireServices';
 import Offices from '../pages/employer/settings/Offices';
 import EmployerCandidateFolders from '../pages/employer/candidates/EmployerCandidateFolders';
+import JobSeekerSavedCompanies from '../pages/jobseeker/JobSeekerSavedCompanies';
 
 type Props = {};
 
@@ -100,6 +101,7 @@ const Router = (props: Props) => {
             { path: 'profile', element: <JobSeekerProfile /> },
             { path: 'settings', element: <JobSeekerSettings /> },
             { path: 'dashboard', element: <JobSeekerDashboardPage /> },
+            { path: 'companies/saved', element: <JobSeekerSavedCompanies /> },
           ],
         },
         { path: 'search', element: <SearchJobs /> },

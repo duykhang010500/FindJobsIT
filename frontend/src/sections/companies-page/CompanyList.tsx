@@ -20,7 +20,7 @@ const CompanyList = (props: Props) => {
               name={item.name}
               industry_name={item.industry_name}
               logo={item.logo}
-              banner={item.banner}
+              banner={item.banners}
             />
           </Grid>
         ))}

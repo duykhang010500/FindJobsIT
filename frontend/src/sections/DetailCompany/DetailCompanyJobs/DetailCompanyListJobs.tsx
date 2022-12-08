@@ -22,9 +22,9 @@ const DetailCompanyListJobs = (props: Props) => {
           </Grid>
         ))}
       </Grid>
-      <Button variant='outlined' sx={{ mx: 'auto', mt: 3, display: 'flex' }}>
+      {/* <Button variant='outlined' sx={{ mx: 'auto', mt: 3, display: 'flex' }}>
         View more
-      </Button>
+      </Button> */}
     </Box>
   );
 };

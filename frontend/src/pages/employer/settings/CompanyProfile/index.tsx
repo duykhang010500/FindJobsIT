@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 
-import { uploadSingleFile } from '../../../../utils/upload';
+import { uploadMultipleFile, uploadSingleFile } from '../../../../utils/upload';
 import {
   styled,
   Box,
@@ -11,6 +11,8 @@ import {
   MenuItem,
   FormHelperText,
   FormControlLabel,
+  Grid,
+  IconButton,
 } from '@mui/material';
 
 import * as yup from 'yup';
@@ -27,6 +29,9 @@ import { companySize } from '../../../../utils/defaultValues';
 import { IIndustry } from '../../../../store/industries/types';
 import UploadSingleFile from '../../../../components/UploadFile/UploadSingleFile';
 import UploadMultiFiles from '../../../../components/UploadFile/UploadMultiFiles';
+import Image from '../../../../components/Image';
+
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 type Props = {};
 
@@ -43,6 +48,8 @@ type FormValues = {
   location_name?: string;
   industry_name?: number;
   content?: string;
+  banners?: string;
+  images?: string;
 };
 
 const LabelStyle = styled('span')({
@@ -116,6 +123,15 @@ const CompanyProfile = (props: Props) => {
     reset(defaultValues);
   }, [currentUser, reset, defaultValues]);
 
+  useEffect(() => {
+    setBanner([currentUser?.info?.info_company?.banners]);
+    setImages(
+      currentUser?.info?.info_company?.images
+        ? currentUser?.info?.info_company?.images.split(',')
+        : []
+    );
+  }, [currentUser?.info?.info_company]);
+
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     if (!info_company?.logo) {
       if (!avt) {
@@ -129,11 +145,38 @@ const CompanyProfile = (props: Props) => {
       const logo = await uploadSingleFile(avt);
       setValue('logo', logo);
     }
+
+    if (typeof banner[0] === 'object') {
+      console.log('Có thay đổi hình');
+      const url = await uploadSingleFile(banner[0]);
+      setValue('banners', url);
+    } else {
+      setValue('banners', banner[0]);
+    }
+
+    const oldImages = images.filter((img: any) => typeof img === 'string');
+    const newImages = images.filter((img: any) => typeof img !== 'string');
+
+    const urlNewImages = await uploadMultipleFile(newImages);
+    const imagesUrlAfterUpload = oldImages.concat(urlNewImages);
+    console.log('Img after upload: ', imagesUrlAfterUpload);
+
+    let str = imagesUrlAfterUpload.join(',');
+
+    console.log('str: ', str);
+
+    setValue('images', str);
+
+    // console.log('old images: ', oldImages);
+    // console.log('new image: ', newImages);
+
     const values = getValues();
 
-    // await dispatch(employerUpdateCompany(values));
-    console.log('Company info: ', values);
-    console.log('Banner: ', banner);
+    console.log('form values: ', values);
+
+    await dispatch(employerUpdateCompany(values));
+
+    console.log('Images: ', images);
 
     setLoading(false);
   };
@@ -164,8 +207,22 @@ const CompanyProfile = (props: Props) => {
     );
   }, []);
 
+  const handleDropImages = useCallback(
+    (acceptedFile: any) => {
+      console.log('img: ', images);
+      setImages(images.concat(acceptedFile));
+    },
+    [images]
+  );
+
   const handleRemoveBanner = () => {
     setBanner([]);
+  };
+
+  const deleteImages = (index: number) => {
+    const newArr = [...images];
+    newArr.splice(index, 1);
+    setImages(newArr);
   };
 
   return (
@@ -375,14 +432,52 @@ const CompanyProfile = (props: Props) => {
             )}
           />
 
+          {/* === */}
           <LabelStyle>Banner</LabelStyle>
           <UploadSingleFile
             onDrop={handleDrop}
             file={banner}
             remove={handleRemoveBanner}
           />
+
+          {/* ===  */}
+
           <LabelStyle>Images</LabelStyle>
-          <UploadMultiFiles />
+          <UploadMultiFiles onDrop={handleDropImages} />
+          <Grid container>
+            {images.length > 0 &&
+              images?.map((item: any, idx: number) => {
+                if (item !== null) {
+                  return (
+                    <Grid item md={2} key={idx}>
+                      <Box position={'relative'}>
+                        <Image
+                          src={
+                            typeof item === 'object'
+                              ? URL.createObjectURL(item)
+                              : item
+                          }
+                          alt={'áhjdj'}
+                          sx={{
+                            width: 100,
+                            height: 100,
+                            border: '1px solid silver',
+                            padding: '10px',
+                            borderRadius: '8px',
+                          }}
+                        />
+                        <IconButton
+                          sx={{ position: 'absolute', top: -5, right: 15 }}
+                          onClick={() => deleteImages(idx)}
+                        >
+                          <HighlightOffIcon sx={{ color: '#ff4d4f' }} />
+                        </IconButton>
+                      </Box>
+                    </Grid>
+                  );
+                }
+              })}
+          </Grid>
 
           <Stack alignItems='flex-end'>
             <LoadingButton

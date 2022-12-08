@@ -32,6 +32,7 @@ const UploadMultiFiles = (props: Props) => {
     accept: {
       'image/*': [],
     },
+    multiple: true,
     onDrop: props.onDrop,
   });
 

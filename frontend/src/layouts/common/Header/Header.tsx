@@ -32,6 +32,7 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import GridViewIcon from '@mui/icons-material/GridView';
 import PersonIcon from '@mui/icons-material/Person';
+import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
 
 import { AppState } from '../../../store/reducer';
 import { logout, logoutEmployer } from '../../../store/auth/action';
@@ -161,7 +162,7 @@ const Header: FC<Props> = () => {
                       {isJobSeeker ? (
                         <>
                           <Divider />
-                          <MenuItem
+                          {/* <MenuItem
                             sx={{ color: '#637381' }}
                             onClick={() => {
                               navigate('/my/dashboard');
@@ -170,7 +171,7 @@ const Header: FC<Props> = () => {
                           >
                             <GridViewIcon sx={{ mr: 3 }} />
                             {`Dashboard`}
-                          </MenuItem>
+                          </MenuItem> */}
                           <MenuItem
                             sx={{ color: '#637381' }}
                             onClick={() => {
@@ -180,6 +181,16 @@ const Header: FC<Props> = () => {
                           >
                             <PersonIcon sx={{ mr: 3 }} />
                             {`Profile`}
+                          </MenuItem>
+                          <MenuItem
+                            sx={{ color: '#637381' }}
+                            onClick={() => {
+                              navigate('/my/jobs/applied');
+                              closeAnchorEl();
+                            }}
+                          >
+                            <WorkRoundedIcon sx={{ mr: 3 }} />
+                            {`My Jobs`}
                           </MenuItem>
                           <Divider />
                         </>
