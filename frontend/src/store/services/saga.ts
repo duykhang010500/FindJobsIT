@@ -92,7 +92,6 @@ export function* employerOrderServicesSaga({
 }: any): any {
   try {
     const res = yield call(employerServices.orderServices, formData);
-    // console.log('emp order services :', res);
     toast.success('Order services successfully!');
     navigate(`/employer/services/order-success/${res.data.order.code}`);
     yield put(clearCart());
@@ -105,9 +104,8 @@ export function* employerOrderServicesSaga({
 export function* employerGetOrderedServicesSaga(): any {
   try {
     const res = yield call(employerServices.getOrderedServices);
-    console.log('emp get ordered services: ', res);
     yield put(employerGetOrderedServicesSuccess(res.data.orders));
-    console.log(res.data.orders);
+    // console.log(res.data.orders);s
     yield put(employerActiveServices(res.data.orders));
   } catch (err) {
     console.log(err);
@@ -117,7 +115,6 @@ export function* employerGetOrderedServicesSaga(): any {
 export function* employerGetDetailOrderedServiceSaga({ payload }: any): any {
   try {
     const res = yield call(employerServices.getDetailOrderedService, payload);
-    console.log('emp get detail ordered services: ', res);
   } catch (err) {
     console.log(err);
   }
@@ -129,7 +126,6 @@ export function* adminGetOrderedServicesSaga(): any {
   try {
     const res = yield call(adminServices.getOrderedServices);
     yield put(adminGetOrderedServicesSuccess(res.data.orders));
-    // console.log('Admin get ordered services: ', res.data.orders);
   } catch (err) {
     console.log(err);
   }
@@ -140,7 +136,6 @@ export function* adminUpdateOrderedServicesStatusSaga({
 }: any): any {
   try {
     const res = yield call(adminServices.changeStatusOrder, orderID, status);
-    console.log('res update ordered status: ', res);
     yield put(adminGetOrderedServices());
     toast.success('Update status order successfully!');
   } catch (err) {}

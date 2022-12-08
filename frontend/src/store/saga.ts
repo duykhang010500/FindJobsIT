@@ -11,6 +11,7 @@ import industriesSaga from './industries/saga';
 import jobsSavedSaga from './jobsSaved/store';
 import { dashboardSaga } from './dashboard/saga';
 import officesSaga from './offices/saga';
+import foldersSaga from './folders/saga';
 
 function* rootSaga() {
   yield all([
@@ -18,6 +19,7 @@ function* rootSaga() {
     fork(authSaga),
     fork(jobsSaga),
     fork(officesSaga),
+    fork(foldersSaga),
     fork(locationSaga),
     fork(servicesSaga),
     fork(companiesSaga),

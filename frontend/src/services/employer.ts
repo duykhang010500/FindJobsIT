@@ -1,4 +1,5 @@
 import { IUserLogin } from '../store/auth/types';
+import { Folder } from '../store/folders/types';
 import { Office } from '../store/offices/types';
 import axiosInstance from './axiosInstance';
 
@@ -70,6 +71,21 @@ const employerServices = {
   getCandidatesByJob: (jobID: number) => {
     return axiosInstance.get(`/employer/hr/job/candidates/${jobID}`);
   },
+  savedCandidates: (resumeID: number, folderID: number) => {
+    return axiosInstance.post('/employer/hr/resume/saved', {
+      resume_id: resumeID,
+      employer_folder_id: folderID,
+    });
+  },
+  getAllSavedCandidates: () => {
+    return axiosInstance.get('/employer/hr/resume/saved');
+  },
+  getCandidatesByFolder: (folder_id: number) => {
+    return axiosInstance.get('/employer/hr/folder/' + folder_id);
+  },
+  deleteSavedCandidate: (id: number) => {
+    return axiosInstance.delete(`/employer/hr/resume/saved/${id}`);
+  },
 
   //services
   getListServices: () => {
@@ -102,6 +118,17 @@ const employerServices = {
     axiosInstance.patch(`/employer/hr/office/${id}`, formData),
   deleteOffice: (id: number) =>
     axiosInstance.delete(`/employer/hr/office/${id}`),
+
+  //folders
+  createFolder: (folder: Folder) =>
+    axiosInstance.post('/employer/hr/folder/0', folder),
+  getFolders: () => axiosInstance.get('/employer/hr/folders'),
+  getFolder: (id: Partial<Folder>) =>
+    axiosInstance.get(`/employer/hr/folder/${id}`),
+  updateFolder: (id: Partial<Folder>, folder: Partial<Folder>) =>
+    axiosInstance.patch(`/employer/hr/folder/${id}`, folder),
+  deleteFolder: (id: Partial<Folder>) =>
+    axiosInstance.delete(`/employer/hr/folder/${id}`),
 };
 
 export default employerServices;

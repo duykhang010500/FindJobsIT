@@ -6,6 +6,7 @@ import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
 import {
   adminGetCandidatesListSuccess,
+  closeSaveCandidateModal,
   employerGetCandidateByJobSuccess,
   employerGetSentListMailSuccess,
   employerSendMailFailure,
@@ -14,6 +15,8 @@ import {
   getDetailCandidateSuccess,
   getDetailResumeCandidateSuccess,
   getListCandidatesForEmployerSuccess,
+  getSavedCandidateByFolderSuccess,
+  getSavedCandidatesSuccess,
   searchCandidateSuccess,
   updateStatusSuccess,
 } from './action';
@@ -27,6 +30,7 @@ import {
   GET_DETAIL_RESUME_CANDIDATE,
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_SAVED_CANDIDATES,
+  GET_SAVED_CANDIDATES_BY_FOLDER,
   SAVE_CANDIDATE,
   SEARCH_CANDIDATES,
   UPDATE_STATUS,
@@ -94,18 +98,48 @@ function* getDetailResumeCandidateSaga({ payload }: any): any {
 
 function* saveCandidateSaga({ payload }: any): any {
   try {
-  } catch (err) {}
+    console.log('payload: ', payload);
+    yield call(
+      employerServices.savedCandidates,
+      payload.resumeID,
+      payload.folderID.employer_folder_id
+    );
+    yield put(closeSaveCandidateModal());
+    toast.success('Save candidate successfully!');
+  } catch (err: any) {
+    toast.error(err?.message);
+    yield put(closeSaveCandidateModal());
+  }
 }
 
 function* getSavedCandidatesSaga(): any {
   try {
-  } catch (err) {}
+    const res = yield call(employerServices.getAllSavedCandidates);
+    yield put(getSavedCandidatesSuccess(res.data.wishlists));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* getSavedCandidatesByFolderSaga({ payload }: any): any {
+  try {
+    const res = yield call(employerServices.getCandidatesByFolder, payload);
+    yield put(getSavedCandidateByFolderSuccess(res.data.folder.employer_saved));
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 function* deleteSavedCandidateSaga({ payload }: any): any {
   try {
-  } catch (err) {}
+    const res = yield call(employerServices.deleteSavedCandidate, payload);
+    toast.success('Delete successfully!');
+  } catch (err) {
+    toast.error('Delete failure!');
+  }
 }
+
+//mails
 
 function* sendMailSaga({ payload }: any): any {
   try {
@@ -151,14 +185,18 @@ function* candidatesSaga() {
   yield takeEvery(GET_DETAIL_CANDIDATE, getCandidateSaga);
   yield takeEvery(SEARCH_CANDIDATES, searchCandidatesSaga);
   yield takeEvery(GET_DETAIL_RESUME_CANDIDATE, getDetailResumeCandidateSaga);
-  yield takeEvery(SAVE_CANDIDATE, saveCandidateSaga);
-  yield takeEvery(GET_SAVED_CANDIDATES, getSavedCandidatesSaga);
-  yield takeEvery(DELETE_SAVED_CANDIDATE, deleteSavedCandidateSaga);
   yield takeEvery(EMPLOYER_SEND_MAIL, sendMailSaga);
   yield takeEvery(EMPLOYER_GET_SENT_MAIL_LIST, employerGetSentMailListSaga);
   yield takeEvery(
     EMPLOYER_GET_CANDIDATES_BY_JOB,
     employerGetCandidatesByJobSaga
+  );
+  yield takeEvery(SAVE_CANDIDATE, saveCandidateSaga);
+  yield takeEvery(GET_SAVED_CANDIDATES, getSavedCandidatesSaga);
+  yield takeEvery(DELETE_SAVED_CANDIDATE, deleteSavedCandidateSaga);
+  yield takeEvery(
+    GET_SAVED_CANDIDATES_BY_FOLDER,
+    getSavedCandidatesByFolderSaga
   );
 }
 

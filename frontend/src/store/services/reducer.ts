@@ -294,7 +294,7 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
 
       activeServices = activeServices.sort((a: any, b: any) => a.id - b.id);
 
-      console.log('Active services: ', activeServices);
+      // console.log('Active services: ', activeServices);
 
       let buyNew: any = [];
       let extend: any = [];
@@ -312,7 +312,7 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
                 )
               )
             ) {
-              console.log('Vào đây nè!');
+              // console.log('Vào đây nè!');
               buyNew.push(activeServices[i]);
             } else {
               if (!extend.includes(activeServices[i])) {
@@ -324,13 +324,13 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
               }
             }
           } else {
-            console.log('Vô đây nè!');
+            // console.log('Vô đây nè!');
             if (!extend.includes(activeServices[i])) {
               buyNew.push(activeServices[i]);
             }
           }
         } else {
-          console.log('Undefined nên vô đây nè!');
+          // console.log('Undefined nên vô đây nè!');
           if (!extend.includes(activeServices[i])) {
             buyNew.push(activeServices[i]);
           }
@@ -339,8 +339,8 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
 
       let counts: any = {};
 
-      console.log('buy new: ', buyNew);
-      console.log('extend: ', extend);
+      // console.log('buy new: ', buyNew);
+      // console.log('extend: ', extend);
 
       const mergeArray = buyNew.concat(extend);
 
@@ -348,8 +348,8 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
         counts[item.id] = (counts[item.id] || 0) + 1;
       });
 
-      console.log('count: ', counts);
-      console.log('merge services: ', mergeArray);
+      // console.log('count: ', counts);
+      // console.log('merge services: ', mergeArray);
 
       const activeServicesWithExpireDate = mergeArray.map((item: any) => ({
         ...item,
@@ -359,7 +359,7 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
         ),
       }));
 
-      console.log('active with expire date', activeServicesWithExpireDate);
+      // console.log('active with expire date', activeServicesWithExpireDate);
 
       const ActiveServices = uniqBy(
         activeServicesWithExpireDate.reverse(),

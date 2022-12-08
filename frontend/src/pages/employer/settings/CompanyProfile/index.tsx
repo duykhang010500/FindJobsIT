@@ -1,13 +1,21 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { LoadingButton } from '@mui/lab';
-import { uploadSingleFile } from '../../../../utils/upload';
-import { Box, TextField, Stack, MenuItem, FormHelperText } from '@mui/material';
 
-import { Controller, useForm, SubmitHandler } from 'react-hook-form';
+import { uploadSingleFile } from '../../../../utils/upload';
+import {
+  styled,
+  Box,
+  TextField,
+  Stack,
+  MenuItem,
+  FormHelperText,
+  FormControlLabel,
+} from '@mui/material';
+
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 
@@ -17,7 +25,8 @@ import { employerUpdateCompany } from '../../../../store/companies/action';
 import UploadAvatar from '../../../../components/UploadAvatar';
 import { companySize } from '../../../../utils/defaultValues';
 import { IIndustry } from '../../../../store/industries/types';
-import { YouTube } from '@mui/icons-material';
+import UploadSingleFile from '../../../../components/UploadFile/UploadSingleFile';
+import UploadMultiFiles from '../../../../components/UploadFile/UploadMultiFiles';
 
 type Props = {};
 
@@ -36,10 +45,19 @@ type FormValues = {
   content?: string;
 };
 
+const LabelStyle = styled('span')({
+  color: 'rgba(0, 0, 0, 0.6)',
+  fontWeight: 500,
+});
+
 const CompanyProfile = (props: Props) => {
   const dispatch = useDispatch();
 
   const [avt, setAvt] = useState<any>();
+
+  const [banner, setBanner] = useState<any>([]);
+
+  const [images, setImages] = useState<any>([]);
 
   const [errLogo, setErrLogo] = useState<string | null>('');
 
@@ -113,13 +131,14 @@ const CompanyProfile = (props: Props) => {
     }
     const values = getValues();
 
-    await dispatch(employerUpdateCompany(values));
-    console.log(values);
+    // await dispatch(employerUpdateCompany(values));
+    console.log('Company info: ', values);
+    console.log('Banner: ', banner);
+
     setLoading(false);
   };
 
   const handleChangeFile = (e: any) => {
-    console.log('onchange', e.target.files[0]);
     if (e.target.files[0].type == 'image/png' || 'image/jpeg' || 'image/jpg') {
       console.log('Right');
       if (e.target.files[0].size > 2 * 1024 * 1024) {
@@ -133,6 +152,20 @@ const CompanyProfile = (props: Props) => {
       setAvt(null);
       return;
     }
+  };
+
+  const handleDrop = useCallback((acceptedFile: any) => {
+    setBanner(
+      acceptedFile.map((file: any) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      )
+    );
+  }, []);
+
+  const handleRemoveBanner = () => {
+    setBanner([]);
   };
 
   return (
@@ -154,7 +187,8 @@ const CompanyProfile = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Company name *'
+                label='Company name'
+                required
                 error={!!error}
                 helperText={error?.message}
               />
@@ -165,7 +199,8 @@ const CompanyProfile = (props: Props) => {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
-                label='Address *'
+                label='Address'
+                required
                 {...field}
                 error={!!error}
                 helperText={error?.message}
@@ -179,7 +214,8 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Phone *'
+                  label='Phone'
+                  required
                   type='number'
                   fullWidth
                   {...field}
@@ -193,7 +229,8 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Fax *'
+                  label='Fax'
+                  required
                   type='number'
                   fullWidth
                   {...field}
@@ -211,7 +248,8 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Company size *'
+                  label='Company size'
+                  required
                   fullWidth
                   {...field}
                   error={!!error}
@@ -232,8 +270,9 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Tax *'
+                  label='Tax'
                   type='number'
+                  required
                   fullWidth
                   {...field}
                   error={!!error}
@@ -248,7 +287,8 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Website *'
+                  label='Website'
+                  required
                   fullWidth
                   {...field}
                   error={!!error}
@@ -261,7 +301,8 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Email *'
+                  label='Email'
+                  required
                   fullWidth
                   {...field}
                   error={!!error}
@@ -278,7 +319,8 @@ const CompanyProfile = (props: Props) => {
                 <TextField
                   select
                   fullWidth
-                  label='Location *'
+                  label='Location'
+                  required
                   {...field}
                   error={!!error}
                   helperText={error?.message}
@@ -299,7 +341,8 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Industry *'
+                  label='Industry'
+                  required
                   fullWidth
                   {...field}
                   error={!!error}
@@ -321,7 +364,8 @@ const CompanyProfile = (props: Props) => {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
-                label='Description *'
+                label='Description'
+                required
                 {...field}
                 minRows={5}
                 multiline
@@ -330,6 +374,16 @@ const CompanyProfile = (props: Props) => {
               />
             )}
           />
+
+          <LabelStyle>Banner</LabelStyle>
+          <UploadSingleFile
+            onDrop={handleDrop}
+            file={banner}
+            remove={handleRemoveBanner}
+          />
+          <LabelStyle>Images</LabelStyle>
+          <UploadMultiFiles />
+
           <Stack alignItems='flex-end'>
             <LoadingButton
               type='submit'
@@ -339,10 +393,6 @@ const CompanyProfile = (props: Props) => {
               onClick={() => {
                 if (!info_company?.logo) {
                   setErrLogo('Please upload logo');
-                  // if (!avt) {
-                  //   setErrLogo('Please upload logo');
-                  //   return;
-                  // }
                 }
               }}
             >

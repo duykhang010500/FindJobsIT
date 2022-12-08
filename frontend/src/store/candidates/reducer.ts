@@ -22,6 +22,10 @@ import {
   EMPLOYER_GET_CANDIDATES_BY_JOB_SUCCESS,
   EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
   UPDATE_STATUS_SUCCESS,
+  OPEN_SAVE,
+  CLOSE_SAVE,
+  GET_SAVED_CANDIDATES_SUCCESS,
+  GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
 
   // EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
 } from './actionTypes';
@@ -38,6 +42,7 @@ const initialState: ICandidatesState = {
   candidates: null,
   isLoadingDetail: false,
   job: null,
+  isOpenSaveModal: false,
 };
 
 const candidatesReducer = (state = initialState, action: CandidatesActions) => {
@@ -165,13 +170,26 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         ),
       };
     }
-
-    // case EMPLOYER_GET_SENT_MAIL_LIST_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //   };
-
+    case OPEN_SAVE:
+      return {
+        ...state,
+        isOpenSaveModal: true,
+      };
+    case CLOSE_SAVE:
+      return {
+        ...state,
+        isOpenSaveModal: false,
+      };
+    case GET_SAVED_CANDIDATES_SUCCESS:
+      return {
+        ...state,
+        savedCandidates: action.payload,
+      };
+    case GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS:
+      return {
+        ...state,
+        savedCandidates: action.payload,
+      };
     default:
       return state;
   }

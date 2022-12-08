@@ -224,6 +224,7 @@ const MyProfile = (props: Props) => {
               <TextField
                 {...field}
                 label='Full name'
+                required
                 error={!!error}
                 helperText={error?.message}
               />
@@ -233,7 +234,7 @@ const MyProfile = (props: Props) => {
             name='email'
             control={control}
             render={({ field }) => (
-              <TextField {...field} label='Email' disabled />
+              <TextField {...field} label='Email' required disabled />
             )}
           />
           <Controller

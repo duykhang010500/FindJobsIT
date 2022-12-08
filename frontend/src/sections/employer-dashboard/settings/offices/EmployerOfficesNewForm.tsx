@@ -102,7 +102,8 @@ const EmployerOfficesNewForm = ({}: Props) => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Office name *'
+                  required
+                  label='Office name'
                   error={Boolean(error)}
                   helperText={error?.message}
                 />
@@ -115,7 +116,8 @@ const EmployerOfficesNewForm = ({}: Props) => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Address *'
+                  label='Address'
+                  required
                   error={Boolean(error)}
                   helperText={error?.message}
                 />
@@ -128,7 +130,8 @@ const EmployerOfficesNewForm = ({}: Props) => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Phone *'
+                  label='Phone'
+                  required
                   value={getValues('phone') === 0 ? '' : getValues('phone')}
                   error={Boolean(error)}
                   helperText={error?.message}

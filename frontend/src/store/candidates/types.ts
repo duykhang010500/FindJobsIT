@@ -2,6 +2,7 @@ import {
   ADMIN_GET_CANDIDATES_LIST,
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
+  CLOSE_SAVE,
   DELETE_SAVED_CANDIDATE,
   DELETE_SAVED_CANDIDATE_FAILURE,
   DELETE_SAVED_CANDIDATE_SUCCESS,
@@ -23,8 +24,11 @@ import {
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
   GET_SAVED_CANDIDATES,
+  GET_SAVED_CANDIDATES_BY_FOLDER,
+  GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
   GET_SAVED_CANDIDATES_FAILURE,
   GET_SAVED_CANDIDATES_SUCCESS,
+  OPEN_SAVE,
   SAVE_CANDIDATE,
   SAVE_CANDIDATE_FAILURE,
   SAVE_CANDIDATE_SUCCESS,
@@ -46,6 +50,7 @@ export interface ICandidatesState {
   candidates: any;
   isLoadingDetail: boolean;
   job: any;
+  isOpenSaveModal: boolean;
 }
 
 export type GetListCandidatesForEmployer = {
@@ -213,6 +218,24 @@ export type EmployerGetCandidateByJobFailure = {
   payload?: any;
 };
 
+export type OpenSave = {
+  type: typeof OPEN_SAVE;
+};
+
+export type CloseSave = {
+  type: typeof CLOSE_SAVE;
+};
+
+export type GetSavedCandidatesByFolder = {
+  type: typeof GET_SAVED_CANDIDATES_BY_FOLDER;
+  payload: number;
+};
+
+export type GetSavedCandidatesByFolderSuccess = {
+  type: typeof GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS;
+  payload: any;
+};
+
 export type CandidatesActions =
   | GetListCandidatesForEmployer
   | GetListCandidatesForEmployerSuccess
@@ -230,9 +253,6 @@ export type CandidatesActions =
   | GetDetailResumeCandidate
   | GetDetailResumeCandidateSuccess
   | GetDetailResumeCandidateFailure
-  | SaveCandidate
-  | SaveCandidateSuccess
-  | SaveCandidateFailure
   | GetSavedCandidates
   | GetSavedCandidatesSuccess
   | GetSavedCandidatesFailure
@@ -247,4 +267,12 @@ export type CandidatesActions =
   | EmployerGetSentMailListFailure
   | EmployerGetCandidatesByJob
   | EmployerGetCandidatesByJobSuccess
-  | EmployerGetCandidateByJobFailure;
+  | EmployerGetCandidateByJobFailure
+  | OpenSave
+  | CloseSave
+  | SaveCandidate
+  | SaveCandidateSuccess
+  | SaveCandidateFailure
+  | GetSavedCandidates
+  | GetSavedCandidatesByFolder
+  | GetSavedCandidatesByFolderSuccess;

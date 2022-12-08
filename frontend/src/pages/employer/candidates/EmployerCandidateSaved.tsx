@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,84 +17,154 @@ import {
   Link,
   IconButton,
   Tooltip,
+  Button,
+  MenuItem,
+  TextField,
+  Breadcrumbs,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 
-import { AppState } from '../../../store/reducer';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 
-import Image from '../../../components/Image';
+import { AppState } from '../../../store/reducer';
+import {
+  deleteSavedCandidate,
+  getSavedCandidates,
+  getSavedCandidatesByFolder,
+} from '../../../store/candidates/action';
+import { Folder } from '../../../store/folders/types';
+import { getFolders } from '../../../store/folders/action';
 
 type Props = {};
 
 const EmployerCandidateSaved = (props: Props) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [dispatch]);
+  const [selectedCandidate, setSelectedCandidate] = useState<null | any>(null);
 
-  const handleDelete = (id: any) => {};
+  const [getCandidates, setGetCandidates] = useState('all');
+
+  const [openDel, setOpenDel] = useState(false);
+
+  const { folders } = useSelector((state: AppState) => state.folders);
+
+  const { savedCandidates } = useSelector(
+    (state: AppState) => state.candidates
+  );
+
+  useEffect(() => {
+    dispatch(getFolders());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (getCandidates === 'all') {
+      dispatch(getSavedCandidates());
+    } else {
+      dispatch(getSavedCandidatesByFolder(Number(getCandidates)));
+    }
+  }, [dispatch, getCandidates]);
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Candidate</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {/* {list?.map((job: any) => {
-            return (
+    <Stack spacing={5}>
+      <Breadcrumbs>
+        <Link>Dashboard</Link>
+        <Link>Candidates</Link>
+        <Typography>Saved</Typography>
+      </Breadcrumbs>
+      <Stack direction='row' justifyContent='space-between' alignItems='center'>
+        <TextField
+          select
+          label='Folder'
+          defaultValue='all'
+          sx={{ minWidth: '260px' }}
+          onChange={(e) => setGetCandidates(e.target.value)}
+        >
+          <MenuItem value='all'>All</MenuItem>
+          {folders.map((folder: Folder) => (
+            <MenuItem key={folder.id} value={folder.id}>
+              {folder.name}
+            </MenuItem>
+          ))}
+        </TextField>
+        <RouterLink
+          to='/employer/hr/folders'
+          style={{ textDecoration: 'unset' }}
+        >
+          <Button variant='contained'>Manage folder</Button>
+        </RouterLink>
+      </Stack>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {savedCandidates.map((candidate: any) => (
               <TableRow>
-                <TableCell sx={{ width: '90%' }}>
-                  <Stack direction='row' spacing={1} alignItems='center'>
-                    <Image
-                      alt='logo'
-                      src={job?.company?.logo}
-                      sx={{
-                        width: 80,
-                        height: 80,
-                        border: '1px solid #d9d9d9',
-                        padding: '4px',
-                        borderRadius: '8px',
-                      }}
-                    />
-                    <Stack>
-                      <Link
-                        color='#1890ff'
-                        component={RouterLink}
-                        to={`/job/${job?.job_id}`}
-                        sx={{ fontSize: '18px', fontWeight: 500 }}
-                      >
-                        {job?.job?.title}
-                      </Link>
-                      <Typography typography='h5'>
-                        {job?.company?.name}
-                      </Typography>
-                    </Stack>
-                  </Stack>
-                </TableCell>
+                <TableCell>{candidate.id}</TableCell>
                 <TableCell>
-                  <Tooltip title='Remove' placement='top'>
-                    <IconButton onClick={() => handleDelete(job?.id)}>
-                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                  <Tooltip placement='top' title='View'>
+                    <IconButton>
+                      <RemoveRedEyeRoundedIcon sx={{ color: '#4096ff' }} />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip placement='top' title='delete'>
+                    <IconButton
+                      onClick={() => {
+                        setSelectedCandidate(candidate);
+                        setOpenDel(true);
+                      }}
+                    >
+                      <DeleteRoundedIcon sx={{ color: '#ff4d4f' }} />
                     </IconButton>
                   </Tooltip>
                 </TableCell>
               </TableRow>
-            );
-          })} */}
-        </TableBody>
-      </Table>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component='div'
-        count={10}
-        rowsPerPage={10}
-        page={1}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
-      />
-    </TableContainer>
+            ))}
+          </TableBody>
+        </Table>
+        <TablePagination
+          page={0}
+          count={10}
+          component='div'
+          rowsPerPage={10}
+          onPageChange={() => {}}
+          onRowsPerPageChange={() => {}}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      </TableContainer>
+      <Dialog open={openDel}>
+        <DialogTitle>Delete</DialogTitle>
+        <DialogContent>Are you sure???</DialogContent>
+        <DialogActions>
+          <Stack direction='row' spacing={2}>
+            <Button
+              onClick={() => {
+                setOpenDel(false);
+              }}
+            >
+              Close
+            </Button>
+            <Button
+              variant='contained'
+              onClick={() => {
+                dispatch(deleteSavedCandidate(selectedCandidate?.id));
+                setOpenDel(false);
+              }}
+            >
+              Delete
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
+    </Stack>
   );
 };
 

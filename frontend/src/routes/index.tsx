@@ -71,6 +71,7 @@ import ActiveEmployer from '../pages/admin/employer/ActiveEmployer';
 import RejectedEmployer from '../pages/admin/employer/RejectedEmployer';
 import EmployerExpireServices from '../pages/employer/services/EmployerExpireServices';
 import Offices from '../pages/employer/settings/Offices';
+import EmployerCandidateFolders from '../pages/employer/candidates/EmployerCandidateFolders';
 
 type Props = {};
 
@@ -148,12 +149,13 @@ const Router = (props: Props) => {
         //candidates
         { path: 'candidates/:id', element: <DetailCandidate /> },
         { path: 'candidates', element: <EmployerCandidatesList /> },
-        { path: 'saved-candidates', element: <EmployerCandidateSaved /> },
+        { path: 'candidates/saved', element: <EmployerCandidateSaved /> },
         {
           path: 'mails',
           element: <EmployerCandidateHistorySentMail />,
         },
         { path: 'candidates/job/:id', element: <EmployerCandidatesByJob /> },
+        { path: 'folders', element: <EmployerCandidateFolders /> },
 
         //services
         { path: 'services/order', element: <EmployerServices /> },

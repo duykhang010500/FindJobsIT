@@ -2,6 +2,7 @@ import {
   ADMIN_GET_CANDIDATES_LIST,
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
+  CLOSE_SAVE,
   DELETE_SAVED_CANDIDATE,
   EMPLOYER_GET_CANDIDATES_BY_JOB,
   EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
@@ -21,7 +22,10 @@ import {
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
   GET_SAVED_CANDIDATES,
+  GET_SAVED_CANDIDATES_BY_FOLDER,
+  GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
   GET_SAVED_CANDIDATES_SUCCESS,
+  OPEN_SAVE,
   SAVE_CANDIDATE,
   SEARCH_CANDIDATES,
   SEARCH_CANDIDATES_SUCCESS,
@@ -141,12 +145,25 @@ export const getDetailResumeCandidateFailure = (err: any) => {
   };
 };
 
-export const saveCandidate = (id: any) => {
+export const openSaveCandidateModal = () => ({
+  type: OPEN_SAVE,
+});
+
+export const closeSaveCandidateModal = () => ({
+  type: CLOSE_SAVE,
+});
+
+export const saveCandidate = (resumeID: number, folderID: number) => {
   return {
     type: SAVE_CANDIDATE,
-    payload: id,
+    payload: {
+      resumeID,
+      folderID,
+    },
   };
 };
+
+//saved
 
 export const getSavedCandidates = () => {
   return {
@@ -175,6 +192,21 @@ export const employerSendMail = (formData: any) => {
   };
 };
 
+export const getSavedCandidatesByFolder = (folderID: number) => {
+  return {
+    type: GET_SAVED_CANDIDATES_BY_FOLDER,
+    payload: folderID,
+  };
+};
+
+export const getSavedCandidateByFolderSuccess = (candidates: any) => {
+  return {
+    type: GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
+    payload: candidates,
+  };
+};
+
+//mails
 export const employerSendMailSuccess = (data: any) => {
   return {
     type: EMPLOYER_SEND_MAIL_SUCCESS,
