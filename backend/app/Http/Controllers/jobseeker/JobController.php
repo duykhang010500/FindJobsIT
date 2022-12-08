@@ -324,10 +324,8 @@ class JobController extends Controller
     public function company(Request $request, $id)
     {
         return response()->json([
-            'company' => Company::with(['offices','jobs','jobs.industries','jobs.locations','jobs.status'])
-            ->where('id',$id)->orWhereHas('jobs', function ($q) {
-                $q->where('status',1);
-            })->first()
+            'company' => Company::with(['offices','jobs','jobs.industries','jobs.locations'])
+            ->where('id',$id)->where('status', Company::STATUS_PUBLISHED)->first()
         ]);
     }
 

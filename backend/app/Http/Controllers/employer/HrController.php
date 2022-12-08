@@ -366,7 +366,7 @@ class HrController extends Controller
 
     public function actionFolders(Request $request){
         return response()->json([
-            'folders' => EmployerFolder::orderBy('id','desc')->get()
+            'folders' => EmployerFolder::where('comp_id',auth()->user()->company->id)->orderBy('id','desc')->get()
         ]);
     }
 
