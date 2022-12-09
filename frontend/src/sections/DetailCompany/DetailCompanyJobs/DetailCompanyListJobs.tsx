@@ -16,11 +16,15 @@ const DetailCompanyListJobs = (props: Props) => {
   return (
     <Box sx={{ mt: 4 }}>
       <Grid container spacing={3}>
-        {company?.jobs?.slice(0, 6)?.map((job: any, index: number) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <JobCard job={job} />
-          </Grid>
-        ))}
+        {company?.jobs?.slice(0, 6)?.map((job: any, index: number) => {
+          if (job?.status === 1) {
+            return (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <JobCard job={job} />
+              </Grid>
+            );
+          }
+        })}
       </Grid>
       {/* <Button variant='outlined' sx={{ mx: 'auto', mt: 3, display: 'flex' }}>
         View more

@@ -84,7 +84,7 @@ const EmployerViewProfileCandidate = (props: Props) => {
           alignItems='center'
           sx={{ minWidth: '210mm', margin: 'auto' }}
         >
-          <Button variant='outlined' startIcon={<DownloadIcon />}>
+          {/* <Button variant='outlined' startIcon={<DownloadIcon />}>
             Download
           </Button>
           <Button
@@ -93,7 +93,7 @@ const EmployerViewProfileCandidate = (props: Props) => {
             onClick={() => dispatch(openSaveCandidateModal())}
           >
             Save resume
-          </Button>
+          </Button> */}
         </Stack>
       </Stack>
       <ViewProfile type={resume?.cv_type} resume={resume} />

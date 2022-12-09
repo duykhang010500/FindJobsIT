@@ -20,11 +20,11 @@ const menu = [
     path: '/my/jobs/applied',
   },
   { title: 'Saved Jobs', icon: <FavoriteIcon />, path: '/my/jobs/saved' },
-  {
-    title: 'Favorite companies',
-    icon: <ApartmentRoundedIcon />,
-    path: '/my/companies/saved',
-  },
+  // {
+  //   title: 'Favorite companies',
+  //   icon: <ApartmentRoundedIcon />,
+  //   path: '/my/companies/saved',
+  // },
 ];
 
 const JobSeekerDashboardSidebar = (props: Props) => {

@@ -250,6 +250,7 @@ const JobNewForm = ({ isEdit = false, job, readonly }: Props) => {
         end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
         unskill_job: convertArrStringToString(data.unskill_job),
         // status: isOpen && 1,
+        status: 2,
       };
 
       if (isEdit) {

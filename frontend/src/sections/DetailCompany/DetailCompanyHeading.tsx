@@ -66,9 +66,9 @@ const DetailCompanyHeading = (props: Props) => {
             </Grid>
           </Grid>
           <Grid item md={2}>
-            <Button variant='contained' startIcon={<BookmarkRoundedIcon />}>
+            {/* <Button variant='contained' startIcon={<BookmarkRoundedIcon />}>
               Follow
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
       </Card>

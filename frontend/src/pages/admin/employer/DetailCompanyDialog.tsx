@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 import {
   Dialog,
@@ -11,6 +12,8 @@ import {
   Stack,
   Avatar,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { adminUpdateCompanyStatus } from '../../../store/companies/action';
 
 type Props = {
   company?: any;
@@ -19,6 +22,16 @@ type Props = {
 };
 
 const DetailCompanyDialog = (props: Props) => {
+  const location = useLocation();
+
+  const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
+
+  const isActive = pathname.includes('active');
+  const isRejected = pathname.includes('rejected');
+  const isRequested = pathname.includes('requested');
+
   return (
     <Dialog open={props.onOpen}>
       {/* <DialogTitle>Detail</DialogTitle> */}
@@ -147,6 +160,50 @@ const DetailCompanyDialog = (props: Props) => {
         </Grid>
       </DialogContent>
       <DialogActions>
+        {isActive && (
+          <Button
+            variant='contained'
+            color='error'
+            onClick={() =>
+              dispatch(adminUpdateCompanyStatus(props?.company?.id, 3))
+            }
+          >
+            Reject
+          </Button>
+        )}
+        {isRejected && (
+          <Button
+            variant='contained'
+            color='success'
+            onClick={() =>
+              dispatch(adminUpdateCompanyStatus(props?.company?.id, 1))
+            }
+          >
+            Accept
+          </Button>
+        )}
+        {isRequested && (
+          <>
+            <Button
+              variant='contained'
+              color='error'
+              onClick={() =>
+                dispatch(adminUpdateCompanyStatus(props?.company?.id, 3))
+              }
+            >
+              Reject
+            </Button>
+            <Button
+              variant='contained'
+              color='success'
+              onClick={() =>
+                dispatch(adminUpdateCompanyStatus(props?.company?.id, 1))
+              }
+            >
+              Accept
+            </Button>
+          </>
+        )}
         <Button variant='outlined' onClick={props.onClose}>
           Close
         </Button>

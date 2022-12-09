@@ -5,14 +5,15 @@ import CompanyCard from './CompanyCard';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
 
-type Props = {};
+type Props = {
+  list: any;
+};
 
-const CompanyList = (props: Props) => {
-  const { list } = useSelector((state: AppState) => state.companies);
+const CompanyList = ({ list }: Props) => {
+  // const { list } = useSelector((state: AppState) => state.companies);
   return (
     <Box sx={{ mt: 5 }}>
       <Grid container spacing={4}>
-        {}
         {list?.map((item: any, idx: number) => (
           <Grid item md={4} key={idx}>
             <CompanyCard
