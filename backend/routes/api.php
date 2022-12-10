@@ -216,6 +216,8 @@ Route::middleware(['auth:sanctum','ability:emp'])->group(function () {
         Route::get('/hr/profile', [HrController::class, 'getProfile']);
         Route::post('/hr/profile', [HrController::class, 'profile']);
 
+        //following company
+        Route::get('/hr/company/follows', [HrController::class, 'followCompanyList']);
 
     });
 
@@ -242,7 +244,7 @@ Route::middleware(['auth:sanctum','ability:member'])->group(function () {
     Route::delete('my/jobsaved/{id}', [MyController::class, 'remove_on_wishlist']);
 
     //following company
-    Route::get('my/companysaves', [MyController::class, 'companySaves']);
+    Route::get('my/companysaves', [MyController::class, 'followCompanyList']);
     Route::post('my/companysaved', [MyController::class, 'companySaved']);
     Route::delete('my/companysaved/{id}', [MyController::class, 'remove_on_following_company']);
 

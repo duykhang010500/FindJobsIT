@@ -348,10 +348,10 @@ class MyController extends Controller
         }
     }
 
-    public function companySaves()
+    public function followCompanyList(Request $request)
     {
         //
-        $wishlists = MemberFollow::with(['company'])->orderby('id', 'desc')->get();
+        $wishlists = MemberFollow::with(['company'])->where('member_id',auth()->user()->id)->get();
         return ($wishlists);
     }
 

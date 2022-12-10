@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employer;
 use App\Models\EmployerFolder;
 use App\Models\Company;
+use App\Models\MemberFollow;
 use App\Models\Office;
 use App\Models\Job;
 use App\Models\Member;
@@ -410,6 +411,13 @@ class HrController extends Controller
             'folder' => $model,
         ]);
 
+    }
+
+    public function followCompanyList(Request $request)
+    {
+        //
+        $followCompanyList = MemberFollow::with(['company','member'])->where('comp_id',auth()->user()->company->id)->get();
+        return $followCompanyList;
     }
 
 

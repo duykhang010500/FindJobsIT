@@ -56,5 +56,9 @@ class Member extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Resume::class,'resume_id');
     }
 
+    public function MemberFollow(){
+        return $this->hasMany(MemberFollow::class);
+    }
+
 
 }

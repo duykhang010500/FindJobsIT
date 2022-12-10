@@ -42,4 +42,8 @@ class Company extends Authenticatable
     public function orders(){
         return $this->hasMany(Order::class);
     }
+
+    public function MemberFollow(){
+        return $this->hasMany(MemberFollow::class);
+    }
 }
