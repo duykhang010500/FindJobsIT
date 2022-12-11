@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,39 +19,85 @@ import {
   TablePagination,
 } from '@mui/material';
 
-import Image from '../../../components/Image';
-
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { AppState } from '../../../store/reducer';
-import { deleteJobSaved, getJobsSaved } from '../../../store/jobsSaved/action';
+import {
+  getFollowingCompanies,
+  unFollowCompany,
+} from '../../../store/companies/action';
+import Avatar from '@mui/material/Avatar';
+import DeleteDialog from '../../../components/DeleteDialog';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
 const JobSeekerSavedCompanies = (props: Props) => {
   const dispatch = useDispatch();
 
-  const { isLoading, list } = useSelector((state: AppState) => state.jobsSaved);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const [selectedCompany, setSelectedCompany] = useState<any>(null);
+
+  const { isLoading, followingCompany } = useSelector(
+    (state: AppState) => state.companies
+  );
 
   useEffect(() => {
-    dispatch(getJobsSaved());
+    dispatch(getFollowingCompanies());
   }, [dispatch]);
+
+  const handleDelete = () => {
+    console.log('Unfollow company: ', selectedCompany);
+    dispatch(unFollowCompany(selectedCompany.id));
+    handleCancel();
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+    setSelectedCompany(null);
+  };
 
   if (isLoading) {
     return (
-      <Stack spacing={2}>
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-      </Stack>
+      <Card sx={{ p: 1 }}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Company</TableCell>
+                <TableCell align='center'>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+          <Stack spacing={2} mt={2}>
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+          </Stack>
+        </TableContainer>
+      </Card>
     );
   }
 
-  const handleDelete = (id: any) => {
-    console.log(id);
-    dispatch(deleteJobSaved(id));
-  };
+  if (followingCompany.length === 0) {
+    return (
+      <Card sx={{ p: 1 }}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Company</TableCell>
+                <TableCell align='center'>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+          <Nodata />
+        </TableContainer>
+      </Card>
+    );
+  }
 
   return (
     <Card sx={{ p: 1 }}>
@@ -60,58 +106,52 @@ const JobSeekerSavedCompanies = (props: Props) => {
           <TableHead>
             <TableRow>
               <TableCell>Company</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {list?.map((job: any) => {
-              return (
-                <TableRow>
-                  <TableCell sx={{ width: '90%' }}>
-                    <Stack direction='row' spacing={2}>
-                      <Image
-                        alt='logo'
-                        src={job?.job?.company?.logo}
-                        sx={{
-                          width: 80,
-                          height: 80,
-                          border: '1px solid #d9d9d9',
-                          padding: '4px',
-                          borderRadius: '8px',
-                        }}
-                      />
-                      <Stack>
-                        <Link
-                          color='#1890ff'
-                          component={RouterLink}
-                          to={`/job/${job?.job_id}`}
-                          sx={{ fontSize: '18px', fontWeight: 500, mb: 1 }}
-                        >
-                          {job?.job?.title}
-                        </Link>
-                        <Typography typography='h5' gutterBottom>
-                          {job?.job?.company?.name}
-                        </Typography>
-                        <Typography typography='body1'>
-                          {job?.job?.salary !== 'Negotiate' ? (
-                            <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
-                          ) : (
-                            <>{job?.job?.salary}</>
-                          )}
-                        </Typography>
-                      </Stack>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <Tooltip title='Remove' placement='top'>
-                      <IconButton onClick={() => handleDelete(job?.job_id)}>
-                        <DeleteIcon sx={{ color: '#ff4d4f' }} />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {followingCompany.map((company: any, idx: number) => (
+              <TableRow key={idx}>
+                <TableCell>
+                  <Stack direction='row' alignItems='center' spacing={3}>
+                    <Avatar
+                      variant='rounded'
+                      src={company.company.logo}
+                      sx={{
+                        width: 80,
+                        height: 80,
+                        border: '1px solid #d9d9d9',
+                        padding: '4px',
+                        backgroundColor: '#fff',
+                      }}
+                    />
+                    <Link
+                      component={RouterLink}
+                      to={`/company/${company.company.id}`}
+                      sx={{
+                        fontWeight: 600,
+                        fontSize: 18,
+                        color: '#1890ff',
+                      }}
+                    >
+                      {company.company.name}
+                    </Link>
+                  </Stack>
+                </TableCell>
+                <TableCell align='center'>
+                  <Tooltip title='Remove' placement='top'>
+                    <IconButton
+                      onClick={() => {
+                        setSelectedCompany(company.company);
+                        setOpen(true);
+                      }}
+                    >
+                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
         <TablePagination
@@ -124,6 +164,12 @@ const JobSeekerSavedCompanies = (props: Props) => {
           onRowsPerPageChange={() => {}}
         />
       </TableContainer>
+      <DeleteDialog
+        isOpen={open}
+        content={`Are you sure unfollow this company?`}
+        onCancel={handleCancel}
+        onDoAction={handleDelete}
+      />
     </Card>
   );
 };

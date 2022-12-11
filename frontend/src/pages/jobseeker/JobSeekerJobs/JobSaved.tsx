@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -19,17 +19,25 @@ import {
   TablePagination,
 } from '@mui/material';
 
+import LocalAtmRoundedIcon from '@mui/icons-material/LocalAtmRounded';
+
 import Image from '../../../components/Image';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { AppState } from '../../../store/reducer';
 import { deleteJobSaved, getJobsSaved } from '../../../store/jobsSaved/action';
+import DeleteDialog from '../../../components/DeleteDialog';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
 const JobSaved = (props: Props) => {
   const dispatch = useDispatch();
+
+  const [open, setOpen] = useState<boolean>(false);
+
+  const [selectedJob, setSelectedJob] = useState<any>(null);
 
   const { isLoading, list } = useSelector((state: AppState) => state.jobsSaved);
 
@@ -37,21 +45,56 @@ const JobSaved = (props: Props) => {
     dispatch(getJobsSaved());
   }, [dispatch]);
 
+  const handleDelete = () => {
+    dispatch(deleteJobSaved(selectedJob?.id));
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+    setSelectedJob(null);
+  };
+
   if (isLoading) {
     return (
-      <Stack spacing={2}>
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-        <Skeleton variant='rounded' width={'100%'} height={60} />
-      </Stack>
+      <Card sx={{ p: 1 }}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Job</TableCell>
+                <TableCell align='center'>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+          <Stack spacing={2} mt={2}>
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+            <Skeleton variant='rounded' width={'100%'} height={60} />
+          </Stack>
+        </TableContainer>
+      </Card>
     );
   }
 
-  const handleDelete = (id: any) => {
-    console.log(id);
-    dispatch(deleteJobSaved(id));
-  };
+  if (list.length === 0) {
+    return (
+      <Card sx={{ p: 1 }}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Job</TableCell>
+                <TableCell align='center'>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+          <Nodata />
+        </TableContainer>
+      </Card>
+    );
+  }
 
   return (
     <Card sx={{ p: 1 }}>
@@ -60,15 +103,15 @@ const JobSaved = (props: Props) => {
           <TableHead>
             <TableRow>
               <TableCell>Job</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {list?.map((job: any) => {
+            {list?.map((job: any, idx: number) => {
               return (
-                <TableRow>
+                <TableRow key={idx}>
                   <TableCell sx={{ width: '90%' }}>
-                    <Stack direction='row' spacing={2}>
+                    <Stack direction='row' spacing={2} alignItems='center'>
                       <Image
                         alt='logo'
                         src={job?.job?.company?.logo}
@@ -78,33 +121,47 @@ const JobSaved = (props: Props) => {
                           border: '1px solid #d9d9d9',
                           padding: '4px',
                           borderRadius: '8px',
+                          backgroundColor: '#fff',
                         }}
                       />
-                      <Stack>
+                      <Stack spacing={1}>
                         <Link
                           color='#1890ff'
                           component={RouterLink}
                           to={`/job/${job?.job_id}`}
-                          sx={{ fontSize: '18px', fontWeight: 500, mb: 1 }}
+                          sx={{ fontSize: '18px', fontWeight: 600 }}
                         >
                           {job?.job?.title}
                         </Link>
-                        <Typography typography='h5' gutterBottom>
+                        <Link
+                          color='#434343'
+                          component={RouterLink}
+                          to={`/job/${job?.job?.company?.id}`}
+                          sx={{ fontSize: '16px', fontWeight: 600 }}
+                        >
                           {job?.job?.company?.name}
-                        </Typography>
-                        <Typography typography='body1'>
-                          {job?.job?.salary !== 'Negotiate' ? (
-                            <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
-                          ) : (
-                            <>{job?.job?.salary}</>
-                          )}
-                        </Typography>
+                        </Link>
+                        <Stack alignItems='center' spacing={1} direction='row'>
+                          <LocalAtmRoundedIcon sx={{ color: '#52c41a' }} />
+                          <Typography typography='body1'>
+                            {job?.job?.salary !== 'Negotiate' ? (
+                              <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
+                            ) : (
+                              <>{job?.job?.salary}</>
+                            )}
+                          </Typography>
+                        </Stack>
                       </Stack>
                     </Stack>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align='center'>
                     <Tooltip title='Remove' placement='top'>
-                      <IconButton onClick={() => handleDelete(job?.job_id)}>
+                      <IconButton
+                        onClick={() => {
+                          setSelectedJob(job?.job);
+                          setOpen(true);
+                        }}
+                      >
                         <DeleteIcon sx={{ color: '#ff4d4f' }} />
                       </IconButton>
                     </Tooltip>
@@ -124,6 +181,12 @@ const JobSaved = (props: Props) => {
           onRowsPerPageChange={() => {}}
         />
       </TableContainer>
+      <DeleteDialog
+        isOpen={open}
+        content={`Are you sure remove "${selectedJob?.title}" from the list?`}
+        onCancel={handleCancel}
+        onDoAction={handleDelete}
+      />
     </Card>
   );
 };

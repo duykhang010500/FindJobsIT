@@ -17,12 +17,17 @@ import {
   ADMIN_GET_COMPANIES_REJECTED_SUCCESS,
   ADMIN_UPDATE_COMPANY_STATUS,
   ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
+  FOLLOW_COMPANY,
+  GET_FOLLOWING_COMPANIES,
+  GET_FOLLOWING_COMPANIES_SUCCESS,
+  UN_FOLLOW_COMPANY,
 } from './actionTypes';
 
 export interface ICompaniesState {
   isLoading: boolean;
   list: [];
   company: any;
+  followingCompany: [];
 }
 
 export type AdminGetCompaniesList = {
@@ -109,6 +114,25 @@ export type AdminUpdateCompanyStatusSuccess = {
   payload: any;
 };
 
+export type FollowCompany = {
+  type: typeof FOLLOW_COMPANY;
+  payload: number;
+};
+
+export type GetFollowingCompanies = {
+  type: typeof GET_FOLLOWING_COMPANIES;
+};
+
+export type GetFollowingCompaniesSuccess = {
+  type: typeof GET_FOLLOWING_COMPANIES_SUCCESS;
+  payload: any;
+};
+
+export type UnFollowCompany = {
+  type: typeof UN_FOLLOW_COMPANY;
+  payload: number;
+};
+
 export type CompaniesAction =
   | AdminGetCompaniesList
   | AdminGetCompaniesListSuccess
@@ -127,4 +151,8 @@ export type CompaniesAction =
   | AdminGetCompaniesRejected
   | AdminGetCompaniesRejectedSuccess
   | AdminUpdateCompanyStatus
-  | AdminUpdateCompanyStatusSuccess;
+  | AdminUpdateCompanyStatusSuccess
+  | FollowCompany
+  | GetFollowingCompanies
+  | GetFollowingCompaniesSuccess
+  | UnFollowCompany;

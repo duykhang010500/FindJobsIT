@@ -27,9 +27,11 @@ import HeaderMenuMobile from './HeaderMenuMobile';
 import LogoutIcon from '@mui/icons-material/Logout';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+import ApartmentRoundedIcon from '@mui/icons-material/ApartmentRounded';
 import GridViewIcon from '@mui/icons-material/GridView';
 import PersonIcon from '@mui/icons-material/Person';
 import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
@@ -191,6 +193,26 @@ const Header: FC<Props> = () => {
                           >
                             <WorkRoundedIcon sx={{ mr: 3 }} />
                             {`My Jobs`}
+                          </MenuItem>
+                          <MenuItem
+                            sx={{ color: '#637381' }}
+                            onClick={() => {
+                              navigate('/my/jobs/saved');
+                              closeAnchorEl();
+                            }}
+                          >
+                            <FavoriteRoundedIcon sx={{ mr: 3 }} />
+                            {`Saved Jobs`}
+                          </MenuItem>
+                          <MenuItem
+                            sx={{ color: '#637381' }}
+                            onClick={() => {
+                              navigate('my/companies/saved');
+                              closeAnchorEl();
+                            }}
+                          >
+                            <ApartmentRoundedIcon sx={{ mr: 3 }} />
+                            {`Following Companies`}
                           </MenuItem>
                           <Divider />
                         </>

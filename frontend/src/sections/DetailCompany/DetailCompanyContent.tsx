@@ -21,7 +21,9 @@ const DetailCompanyContent = (props: Props) => {
         Introduce
       </Typography>
       <Card sx={{ p: 3, mt: 4 }}>
-        <Typography>{company?.content}</Typography>
+        <Typography variant='body2' textAlign='justify'>
+          {company?.content}
+        </Typography>
       </Card>
     </Box>
   );

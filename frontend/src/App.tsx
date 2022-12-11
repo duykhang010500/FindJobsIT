@@ -20,6 +20,7 @@ import { getLocations } from './store/location/actions';
 import { getIndustries } from './store/industries/actions';
 import { getMyCV } from './store/cv/actions';
 import { employerGetOrderedServices } from './store/services/actions';
+import { getFollowingCompanies } from './store/companies/action';
 export interface IAppProps {}
 
 export default function App(props: IAppProps) {
@@ -41,6 +42,7 @@ export default function App(props: IAppProps) {
     }
     if (localStorage.getItem('role') === '1') {
       dispatch(getCurrentJobSeeker());
+      dispatch(getFollowingCompanies());
     }
     if (localStorage.getItem('role') === '0') {
       dispatch(getInfoAdmin());

@@ -10,10 +10,14 @@ import {
   ADMIN_UPDATE_COMPANY_STATUS,
   ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
   EMPLOYER_UPDATE_COMPANY,
+  FOLLOW_COMPANY,
   GET_COMPANIES,
   GET_COMPANIES_SUCCESS,
   GET_COMPANY,
   GET_COMPANY_SUCCESS,
+  GET_FOLLOWING_COMPANIES,
+  GET_FOLLOWING_COMPANIES_SUCCESS,
+  UN_FOLLOW_COMPANY,
 } from './actionTypes';
 
 export const adminGetCompaniesList = () => ({
@@ -93,4 +97,25 @@ export const adminUpdateCompanyStatusSuccess = (
     id,
     status,
   },
+});
+
+export const followCompany = (id: number) => {
+  return {
+    type: FOLLOW_COMPANY,
+    payload: id,
+  };
+};
+
+export const getFollowingCompanies = () => ({
+  type: GET_FOLLOWING_COMPANIES,
+});
+
+export const getFollowingCompaniesSusses = (companies: any) => ({
+  type: GET_FOLLOWING_COMPANIES_SUCCESS,
+  payload: companies,
+});
+
+export const unFollowCompany = (id: number) => ({
+  type: UN_FOLLOW_COMPANY,
+  payload: id,
 });

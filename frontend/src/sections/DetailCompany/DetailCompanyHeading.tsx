@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useParams } from 'react-router-dom';
+
 import {
   Box,
   Typography,
@@ -16,10 +18,16 @@ import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
 import PeopleIcon from '@mui/icons-material/People';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
+import { useDispatch } from 'react-redux';
+import { followCompany } from '../../store/companies/action';
 
 type Props = {};
 
 const DetailCompanyHeading = (props: Props) => {
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+
   const { company } = useSelector((state: AppState) => state.companies);
 
   return (
@@ -66,9 +74,13 @@ const DetailCompanyHeading = (props: Props) => {
             </Grid>
           </Grid>
           <Grid item md={2}>
-            {/* <Button variant='contained' startIcon={<BookmarkRoundedIcon />}>
+            <Button
+              variant='contained'
+              startIcon={<BookmarkRoundedIcon />}
+              onClick={() => dispatch(followCompany(Number(id)))}
+            >
               Follow
-            </Button> */}
+            </Button>
           </Grid>
         </Grid>
       </Card>

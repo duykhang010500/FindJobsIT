@@ -9,6 +9,9 @@ import {
   ADMIN_GET_COMPANIES_ACTIVE,
   ADMIN_GET_COMPANIES_REJECTED,
   ADMIN_UPDATE_COMPANY_STATUS,
+  FOLLOW_COMPANY,
+  GET_FOLLOWING_COMPANIES,
+  UN_FOLLOW_COMPANY,
 } from './actionTypes';
 
 import { call, put, takeEvery } from 'redux-saga/effects';
@@ -22,10 +25,13 @@ import {
   getCompanies,
   getCompaniesSuccess,
   getCompanySuccess,
+  getFollowingCompanies,
+  getFollowingCompaniesSusses,
 } from './action';
 
 import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
+import jobSeekerServices from '../../services/jobSeeker';
 
 export function* adminGetCompaniesListSaga(): any {
   try {
@@ -109,6 +115,34 @@ export function* adminUpdateCompanyStatusSaga({ payload }: any): any {
   }
 }
 
+export function* followCompanySaga({ payload }: any): any {
+  try {
+    yield call(jobSeekerServices.followCompany, payload);
+    toast.success('Follow company successfully!');
+  } catch (err: any) {
+    toast.error(err?.message);
+  }
+}
+
+export function* getFollowingCompanySaga(): any {
+  try {
+    const res = yield call(jobSeekerServices.getFollowingCompanies);
+    console.log('Following companies: ', res.data);
+
+    yield put(getFollowingCompaniesSusses(res.data));
+  } catch (err) {}
+}
+
+export function* unFollowCompanySaga({ payload }: any): any {
+  try {
+    yield call(jobSeekerServices.unFollowCompany, payload);
+    toast.success('Unfollow company successfully!');
+    yield put(getFollowingCompanies());
+  } catch (err) {
+    toast.error('Unfollow company failure!');
+  }
+}
+
 export default function* companiesSaga() {
   yield takeEvery(ADMIN_GET_COMPANIES_LIST, adminGetCompaniesListSaga);
   yield takeEvery(EMPLOYER_UPDATE_COMPANY, employerUpdateCompanySaga);
@@ -118,4 +152,7 @@ export default function* companiesSaga() {
   yield takeEvery(ADMIN_GET_COMPANIES_ACTIVE, adminGetCompaniesActiveSaga);
   yield takeEvery(ADMIN_GET_COMPANIES_REJECTED, adminGetCompaniesRejectedSaga);
   yield takeEvery(ADMIN_UPDATE_COMPANY_STATUS, adminUpdateCompanyStatusSaga);
+  yield takeEvery(FOLLOW_COMPANY, followCompanySaga);
+  yield takeEvery(GET_FOLLOWING_COMPANIES, getFollowingCompanySaga);
+  yield takeEvery(UN_FOLLOW_COMPANY, unFollowCompanySaga);
 }

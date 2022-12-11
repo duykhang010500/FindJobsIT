@@ -63,7 +63,7 @@ const ViewResume = (props: Props) => {
   }
 
   return (
-    <Container sx={{ mt: 15 }}>
+    <Container sx={{ py: 15 }}>
       {isLoading ? (
         <Box sx={{ width: '210mm', height: '290mm', margin: '0 auto' }}>
           <Skeleton variant='rounded' width={'100%'} height={'100%'} />

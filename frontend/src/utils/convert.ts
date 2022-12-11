@@ -106,3 +106,20 @@ export const getIDFromArray = (str: string, arr: any) => {
   });
   return id;
 };
+
+export const convertAppliedJobStatusToNum = (status: string) => {
+  switch (status) {
+    case 'New':
+      return 0;
+    case 'Short listed':
+      return 1;
+    case 'Interview':
+      return 2;
+    case 'Offered':
+      return 3;
+    case 'Hire':
+      return 4;
+    default:
+      return 4;
+  }
+};

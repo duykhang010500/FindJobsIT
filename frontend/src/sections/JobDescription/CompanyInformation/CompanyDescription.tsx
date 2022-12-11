@@ -6,7 +6,11 @@ type Props = {};
 
 const CompanyDescription = (props: Props) => {
   const { job } = useSelector((state: AppState) => state.jobs);
-  return <Typography variant='body2'>{job?.company?.content}</Typography>;
+  return (
+    <Typography variant='body2' textAlign='justify'>
+      {job?.company?.content}
+    </Typography>
+  );
 };
 
 export default CompanyDescription;

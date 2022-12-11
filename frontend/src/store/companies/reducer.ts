@@ -8,6 +8,8 @@ import {
   GET_COMPANIES,
   GET_COMPANIES_SUCCESS,
   GET_COMPANY_SUCCESS,
+  GET_FOLLOWING_COMPANIES,
+  GET_FOLLOWING_COMPANIES_SUCCESS,
 } from './actionTypes';
 import { ICompaniesState, CompaniesAction } from './types';
 
@@ -15,6 +17,7 @@ const initialState: ICompaniesState = {
   isLoading: false,
   list: [],
   company: null,
+  followingCompany: [],
 };
 
 const companiesReducer = (state = initialState, action: CompaniesAction) => {
@@ -55,6 +58,18 @@ const companiesReducer = (state = initialState, action: CompaniesAction) => {
         ...state,
         list: state.list.filter((item: any) => item.id !== action.payload.id),
       };
+    case GET_FOLLOWING_COMPANIES:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_FOLLOWING_COMPANIES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        followingCompany: action.payload,
+      };
+
     default:
       return state;
   }
