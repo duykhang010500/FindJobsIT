@@ -35,12 +35,12 @@ export default function App(props: IAppProps) {
   useEffect(() => {
     dispatch(getLocations());
     dispatch(getIndustries());
-    dispatch(getMyCV());
     if (localStorage.getItem('role') === '2') {
       dispatch(getInfoEmployer());
       dispatch(employerGetOrderedServices());
     }
     if (localStorage.getItem('role') === '1') {
+      dispatch(getMyCV());
       dispatch(getCurrentJobSeeker());
       dispatch(getFollowingCompanies());
     }

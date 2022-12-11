@@ -47,9 +47,7 @@ const LocationList = (props: Props) => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Date created</TableCell>
-              <TableCell>Date updated</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell align='center'>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -59,13 +57,7 @@ const LocationList = (props: Props) => {
                 <TableRow key={id}>
                   <TableCell>{id}</TableCell>
                   <TableCell>{name}</TableCell>
-                  <TableCell>
-                    {dayjs(created_at).format('DD/MM/YYYY')}
-                  </TableCell>
-                  <TableCell>
-                    {dayjs(updated_at).format('DD/MM/YYYY')}
-                  </TableCell>
-                  <TableCell>
+                  <TableCell align='center'>
                     <IconButton onClick={() => handleEdit(id)}>
                       <SaveAsIcon sx={{ color: '#096dd9' }} />
                     </IconButton>

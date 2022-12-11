@@ -2,6 +2,8 @@ import {
   ADMIN_GET_CANDIDATES_LIST,
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
+  ADMIN_UPDATE_STATUS_CANDIDATE,
+  ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS,
   CLOSE_SAVE,
   DELETE_SAVED_CANDIDATE,
   DELETE_SAVED_CANDIDATE_FAILURE,
@@ -236,6 +238,16 @@ export type GetSavedCandidatesByFolderSuccess = {
   payload: any;
 };
 
+export type AdminUpdateStatusCandidate = {
+  type: typeof ADMIN_UPDATE_STATUS_CANDIDATE;
+  payload: any;
+};
+
+export type AdminUpdateStatusCandidateSuccess = {
+  type: typeof ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS;
+  payload: any;
+};
+
 export type CandidatesActions =
   | GetListCandidatesForEmployer
   | GetListCandidatesForEmployerSuccess
@@ -275,4 +287,6 @@ export type CandidatesActions =
   | SaveCandidateFailure
   | GetSavedCandidates
   | GetSavedCandidatesByFolder
-  | GetSavedCandidatesByFolderSuccess;
+  | GetSavedCandidatesByFolderSuccess
+  | AdminUpdateStatusCandidate
+  | AdminUpdateStatusCandidateSuccess;

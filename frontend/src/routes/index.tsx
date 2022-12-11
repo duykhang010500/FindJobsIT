@@ -183,6 +183,7 @@ const Router = (props: Props) => {
 
         //candidates
         { path: 'candidates/list', element: <AdminCandidatesPage /> },
+        { path: 'candidates/:id', element: <></> },
 
         //services
         { path: 'services/orders', element: <OrdersPage /> },

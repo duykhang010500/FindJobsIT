@@ -2,6 +2,8 @@ import {
   ADMIN_GET_CANDIDATES_LIST,
   ADMIN_GET_CANDIDATES_LIST_FAILURE,
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
+  ADMIN_UPDATE_STATUS_CANDIDATE,
+  ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS,
   CLOSE_SAVE,
   DELETE_SAVED_CANDIDATE,
   EMPLOYER_GET_CANDIDATES_BY_JOB,
@@ -249,3 +251,27 @@ export const employerGetCandidateByJobFailure = (err: any) => ({
   type: EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
   payload: err,
 });
+
+export const adminUpdateStatusCandidate = (
+  candidateID: number,
+  status: number
+) => ({
+  type: ADMIN_UPDATE_STATUS_CANDIDATE,
+  payload: {
+    candidateID,
+    status,
+  },
+});
+
+export const adminUpdateStatusCandidateSuccess = (
+  candidateID: number,
+  status: number
+) => {
+  return {
+    type: ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS,
+    payload: {
+      candidateID,
+      status,
+    },
+  };
+};

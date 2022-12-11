@@ -6,6 +6,7 @@ import employerServices from '../../services/employer';
 import guestServices from '../../services/guest';
 import {
   adminGetCandidatesListSuccess,
+  adminUpdateStatusCandidateSuccess,
   closeSaveCandidateModal,
   employerGetCandidateByJobSuccess,
   employerGetSentListMailSuccess,
@@ -22,6 +23,7 @@ import {
 } from './action';
 import {
   ADMIN_GET_CANDIDATES_LIST,
+  ADMIN_UPDATE_STATUS_CANDIDATE,
   DELETE_SAVED_CANDIDATE,
   EMPLOYER_GET_CANDIDATES_BY_JOB,
   EMPLOYER_GET_SENT_MAIL_LIST,
@@ -175,6 +177,20 @@ function* employerGetCandidatesByJobSaga({ payload }: any): any {
   }
 }
 
+function* adminUpdateStatusCandidateSaga({ payload }: any): any {
+  try {
+    yield call(
+      adminServices.updateStatusCandidate,
+      payload.candidateID,
+      payload.status
+    );
+    toast.success('Update successfully!');
+    yield put(
+      adminUpdateStatusCandidateSuccess(payload.candidateID, payload.status)
+    );
+  } catch (err) {}
+}
+
 function* candidatesSaga() {
   yield takeEvery(
     GET_LIST_CANDIDATES_FOR_EMPLOYER,
@@ -197,6 +213,10 @@ function* candidatesSaga() {
   yield takeEvery(
     GET_SAVED_CANDIDATES_BY_FOLDER,
     getSavedCandidatesByFolderSaga
+  );
+  yield takeEvery(
+    ADMIN_UPDATE_STATUS_CANDIDATE,
+    adminUpdateStatusCandidateSaga
   );
 }
 

@@ -49,10 +49,10 @@ const IndustriesList = (props: Props) => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Created at</TableCell>
-              <TableCell>Updated at</TableCell>
-              <TableCell align='center'>Status</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell align='center'>Created at</TableCell>
+              <TableCell align='center'>Updated at</TableCell>
+              {/* <TableCell align='center'>Status</TableCell> */}
+              <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -60,16 +60,16 @@ const IndustriesList = (props: Props) => {
               <TableRow key={industry.id}>
                 <TableCell>{industry.id}</TableCell>
                 <TableCell>{industry.name}</TableCell>
-                <TableCell>
+                <TableCell align='center'>
                   {dayjs(industry.created_at).format('DD/MM/YYYY')}
                 </TableCell>
-                <TableCell>
+                <TableCell align='center'>
                   {dayjs(industry.updated_at).format('DD/MM/YYYY')}
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <StatusBadge />
-                </TableCell>
-                <TableCell>
+                </TableCell> */}
+                <TableCell align='center'>
                   <IconButton onClick={() => handleEdit(industry.id)}>
                     <SaveAsIcon sx={{ color: '#096dd9' }} />
                   </IconButton>

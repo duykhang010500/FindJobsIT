@@ -26,6 +26,7 @@ import {
   CLOSE_SAVE,
   GET_SAVED_CANDIDATES_SUCCESS,
   GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
+  ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS,
 
   // EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
 } from './actionTypes';
@@ -189,6 +190,15 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
       return {
         ...state,
         savedCandidates: action.payload,
+      };
+    case ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS:
+      return {
+        ...state,
+        list: state.list.map((candidate: any) =>
+          candidate.id === action.payload.candidateID
+            ? { ...candidate, status: action.payload.status }
+            : candidate
+        ),
       };
     default:
       return state;

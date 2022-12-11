@@ -39,12 +39,12 @@ const sidebarData = [
       },
     ],
   },
-  // {
-  //   title: `Candidates Management`,
-  //   icon: <PeopleIcon />,
-  //   path: '/admin/candidates',
-  //   children: [{ title: `List`, path: `/admin/candidates/list` }],
-  // },
+  {
+    title: `Candidates Management`,
+    icon: <PeopleIcon />,
+    path: '/admin/candidates',
+    children: [{ title: `List of candidates`, path: `/admin/candidates/list` }],
+  },
   {
     title: `Jobs Management`,
     icon: <WorkIcon />,
@@ -69,7 +69,7 @@ const sidebarData = [
     icon: <SettingsIcon />,
     children: [
       {
-        title: `Locations`,
+        title: `Location`,
         path: '/admin/settings/location',
       },
       {

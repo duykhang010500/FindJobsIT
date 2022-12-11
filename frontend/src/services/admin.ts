@@ -43,6 +43,11 @@ const adminServices = {
   getCandidatesList: () => {
     return axiosInstance.get('/admin/members');
   },
+  updateStatusCandidate: (candidateID: number, status: number) => {
+    return axiosInstance.post(`/admin/member/status/${candidateID}`, {
+      status: status,
+    });
+  },
 
   //services
   createService: (formData: any) => {
