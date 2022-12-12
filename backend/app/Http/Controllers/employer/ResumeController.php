@@ -251,7 +251,6 @@ class ResumeController extends Controller
           if ($fields->fails()) {
               return response()->json($fields->errors(), 422);
           }
-
           $status=EmployerSaved::where('resume_id',$request->resume_id)
                             ->where('comp_id',auth()->user()->company->id)
             ->first();
@@ -265,6 +264,7 @@ class ResumeController extends Controller
           else
           {
           $wishlist = new EmployerSaved();
+          $wishlist->member_id = Resume::find($request->resume_id)->member->id;
           $wishlist->resume_id = $request->resume_id;
           $wishlist->comp_id = auth()->user()->company->id;
           $wishlist->emp_id = auth()->user()->id;

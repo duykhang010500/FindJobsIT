@@ -16,7 +16,7 @@ class EmployerSaved extends Model
     protected $table = 'employer_saved';
 
     protected $fillable = [
-        'resume_id' ,'comp_id' , 'employer_folder_id', 'emp_id'
+        'resume_id' ,'comp_id' , 'employer_folder_id', 'emp_id','member_id'
     ];
 
     public function resume(){
@@ -33,6 +33,10 @@ class EmployerSaved extends Model
 
     public function employer(){
         return $this->belongsTo(Employer::class, 'emp_id');
+    }
+
+    public function member(){
+        return $this->belongsTo(Member::class);
     }
 
 }

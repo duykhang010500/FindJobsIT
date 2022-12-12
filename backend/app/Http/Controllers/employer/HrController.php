@@ -373,7 +373,7 @@ class HrController extends Controller
     }
 
     public function actionFolder(Request $request,$id){
-        $model = EmployerFolder::with(['EmployerSaved','EmployerSaved.resume'])->where('id',$id)->where('comp_id',auth()->user()->company->id)->first();
+        $model = EmployerFolder::with(['EmployerSaved','EmployerSaved.resume','EmployerSaved.member'])->where('id',$id)->where('comp_id',auth()->user()->company->id)->first();
         if ($request->isMethod('get')) {
             return response()->json([
                 'folder' => $model
