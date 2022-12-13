@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Typography, Box, styled, Stack, Link, Container } from '@mui/material';
+import { Typography, Box, styled } from '@mui/material';
 
 import StarIcon from '../../../../assets/images/star.png';
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -10,6 +10,7 @@ import {
   Typography,
   Link,
   Card,
+  Skeleton,
 } from '@mui/material';
 
 import JobNewForm from '../../../sections/employer-dashboard/jobs/JobNewForm';
@@ -38,11 +39,26 @@ const DetailJob = (props: Props) => {
 
   return (
     <Box>
-      <Breadcrumbs>
-        <Typography>Jobs Management</Typography>
-        <Link>{job?.title}</Link>
-      </Breadcrumbs>
-      <Card sx={{ maxWidth: '700px', margin: 'auto', p: 2, mt: 5 }}>
+      <Card
+        sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/admin/dashboard`}>
+            Dashboard
+          </Link>
+          <Link component={RouterLink} to={`/admin/jobs/active`}>
+            Jobs
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            {job?.title}
+          </Typography>
+        </Breadcrumbs>
+      </Card>
+      <Card sx={{ maxWidth: '700px', margin: 'auto', p: 2 }}>
         <JobNewForm job={job} readonly />
         <Stack spacing={2} direction={'row'} sx={{ mt: 3 }}>
           {job?.status === 2 && (

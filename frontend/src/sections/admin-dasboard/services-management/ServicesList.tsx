@@ -56,14 +56,14 @@ const ServicesList = (props: Props) => {
 
   return (
     <>
-      <Card sx={{ mt: 5 }}>
+      <Card sx={{ p: 3 }}>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell align='left'>Name</TableCell>
                 <TableCell align='left'>Description</TableCell>
-                {/* <TableCell align='center'>Day(s)</TableCell> */}
+                <TableCell align='center'>Day(s)</TableCell>
                 <TableCell align='right'>Unit price</TableCell>
                 {/* <TableCell>Discount</TableCell> */}
                 <TableCell align='center'>Created at</TableCell>
@@ -80,7 +80,7 @@ const ServicesList = (props: Props) => {
                   <TableCell align='left' sx={{ width: '30%' }}>
                     {item.note}
                   </TableCell>
-                  {/* <TableCell align='center'>{item.days}</TableCell> */}
+                  <TableCell align='center'>{item.days}</TableCell>
                   <TableCell align='right'>
                     {numberWithCommas(item.price)}
                   </TableCell>

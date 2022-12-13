@@ -88,6 +88,7 @@ const Router = (props: Props) => {
         { path: 'login', element: <JobSeekerLogin /> },
         { path: 'job/:id', element: <JobDescription /> },
         { path: 'company/:id', element: <DetailCompany /> },
+        { path: 'jobs', element: <SearchJobs /> },
         { path: '/companies', element: <Companies /> },
         { path: 'reset-password', element: <ResetPassword /> },
         { path: 'forgot-password', element: <ForgotPassword /> },

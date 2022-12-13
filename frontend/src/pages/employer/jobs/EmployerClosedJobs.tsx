@@ -38,6 +38,7 @@ import { AppState } from '../../../store/reducer';
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
 import { employerGetOrderedServices } from '../../../store/services/actions';
 import { filterJob } from './EmployerJobsOpen';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
@@ -56,6 +57,8 @@ const EmployerClosedJob = (props: Props) => {
 
   const canPostJob = activeServices.findIndex((item: any) => item.id === 12);
 
+  const hasCloseJobs = jobs.filter((job: any) => job.status === 3).length > 0;
+
   useEffect(() => {
     dispatch(employerGetOrderedServices());
     dispatch(employerGetJobs());
@@ -71,6 +74,17 @@ const EmployerClosedJob = (props: Props) => {
     dispatch(employerUpdateJobStatus(jobID, status));
   };
 
+  const handleSearch = (e: any) => {
+    console.log('Search: ', e.target.value);
+    setSearchValue(e.target.value);
+  };
+
+  const handleReset = () => {
+    setSearchValue('');
+  };
+
+  const filteredJobs = filterJob(jobs, searchValue);
+
   if (isLoading) {
     return (
       <Stack spacing={3}>
@@ -82,17 +96,6 @@ const EmployerClosedJob = (props: Props) => {
       </Stack>
     );
   }
-
-  const handleSearch = (e: any) => {
-    console.log('Search: ', e.target.value);
-    setSearchValue(e.target.value);
-  };
-
-  const handleReset = () => {
-    setSearchValue('');
-  };
-
-  const filteredJobs = filterJob(jobs, searchValue);
 
   return (
     <Box>
@@ -133,9 +136,6 @@ const EmployerClosedJob = (props: Props) => {
         <Table sx={{ minWidth: 600 }}>
           <TableHead>
             <TableRow>
-              {/* <TableCell padding='checkbox'>
-                <Checkbox />
-              </TableCell> */}
               <TableCell>Job title</TableCell>
               <TableCell align='center'>Date create</TableCell>
               <TableCell align='center'>Applied</TableCell>
@@ -144,75 +144,80 @@ const EmployerClosedJob = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredJobs?.map((job: any) => {
-              if (job.status === 3) {
-                return (
-                  <TableRow key={job.id}>
-                    {/* <TableCell padding='checkbox'>
-                      <Checkbox />
-                    </TableCell> */}
-                    <TableCell sx={{ width: '40%' }}>
-                      <Stack spacing={1}>
-                        <Typography variant='h4' sx={{ color: '#faad14' }}>
-                          {job.title}
-                        </Typography>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2' noWrap>
-                            Work location: &nbsp;
+            {!hasCloseJobs ? (
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Nodata />
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredJobs?.map((job: any) => {
+                if (job.status === 3) {
+                  return (
+                    <TableRow key={job.id}>
+                      <TableCell sx={{ width: '40%' }}>
+                        <Stack spacing={1}>
+                          <Typography variant='h4' sx={{ color: '#faad14' }}>
+                            {job.title}
                           </Typography>
-                          <Typography variant='body2' fontWeight={500} noWrap>
-                            {getStrFromArr(job.locations)}
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2' noWrap>
+                              Work location: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500} noWrap>
+                              {getStrFromArr(job.locations)}
+                            </Typography>
+                          </Stack>
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2' noWrap>
+                              Industries: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500} noWrap>
+                              {getStrFromArr(job.industries)}
+                            </Typography>
+                          </Stack>
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2'>
+                              Salary: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500}>
+                              {job?.salary !== 'Negotiate' ? (
+                                <>
+                                  {job?.salary_from} - {job?.salary_to} &nbsp;
+                                  {job?.salary}
+                                </>
+                              ) : (
+                                <>Negotiate</>
+                              )}
+                            </Typography>
+                          </Stack>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Stack>
+                          <Typography variant='h6'>
+                            {dayjs(job.created_at).format('DD/MM/YYYY')}
                           </Typography>
                         </Stack>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2' noWrap>
-                            Industries: &nbsp;
-                          </Typography>
-                          <Typography variant='body2' fontWeight={500} noWrap>
-                            {getStrFromArr(job.industries)}
-                          </Typography>
-                        </Stack>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2'>
-                            Salary: &nbsp;
-                          </Typography>
-                          <Typography variant='body2' fontWeight={500}>
-                            {job?.salary !== 'Negotiate' ? (
-                              <>
-                                {job?.salary_from} - {job?.salary_to} &nbsp;
-                                {job?.salary}
-                              </>
-                            ) : (
-                              <>Negotiate</>
-                            )}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <Stack>
-                        <Typography variant='h6'>
-                          {dayjs(job.created_at).format('DD/MM/YYYY')}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align='center'>{job.applied}</TableCell>
-                    <TableCell align='center'>
-                      <BadgeStatus status={job.status}>
-                        {convertJobStatus(job.status)}
-                      </BadgeStatus>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <JobMoreMenu
-                        onEdit={() => handleEdit(job.id)}
-                        onViewApplications={() => handleViewApplications()}
-                        onRepost={() => handleRepost(job.id, 1)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              }
-            })}
+                      </TableCell>
+                      <TableCell align='center'>{job.applied}</TableCell>
+                      <TableCell align='center'>
+                        <BadgeStatus status={job.status}>
+                          {convertJobStatus(job.status)}
+                        </BadgeStatus>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <JobMoreMenu
+                          onEdit={() => handleEdit(job.id)}
+                          onViewApplications={() => handleViewApplications()}
+                          onRepost={() => handleRepost(job.id, 1)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              })
+            )}
           </TableBody>
         </Table>
       </TableContainer>

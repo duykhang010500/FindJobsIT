@@ -23,8 +23,8 @@ const cvReducer = (state = initialState, action: CVActions) => {
     case GET_MY_CV_SUCCESS:
       return {
         ...state,
-        isLoading: false,
         cv: action.payload,
+        isLoading: false,
       };
     case GET_MY_CV_FAILURE:
       return {

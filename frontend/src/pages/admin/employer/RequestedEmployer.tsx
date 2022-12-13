@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 import { Box, Link, Card, Typography, Breadcrumbs } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
@@ -21,14 +23,27 @@ const RequestedEmployer = (props: Props) => {
 
   return (
     <Box>
-      <Breadcrumbs>
-        <Link href='/admin/dashboard'>Dashboard</Link>
-        <Link>Employer</Link>
-        <Typography>Requested</Typography>
-      </Breadcrumbs>
-      <Card sx={{ p: 3, mt: 5 }}>
-        <CompanyList companies={list} />
+      <Card
+        sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/admin/dashboard`}>
+            Dashboard
+          </Link>
+          <Link component={RouterLink} to={`/admin/employers/requested`}>
+            Employers
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            Requested
+          </Typography>
+        </Breadcrumbs>
       </Card>
+
+      <CompanyList companies={list} />
     </Box>
   );
 };

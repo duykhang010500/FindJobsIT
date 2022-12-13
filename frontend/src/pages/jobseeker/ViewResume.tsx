@@ -1,16 +1,23 @@
 import jsPDF from 'jspdf';
+
 import html2canvas from 'html2canvas';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 
 import {
   Box,
+  Card,
   Stack,
+  Link,
+  Alert,
   Button,
   Drawer,
   Skeleton,
   Container,
+  AlertTitle,
   Typography,
+  Breadcrumbs,
 } from '@mui/material';
 
 import DownloadIcon from '@mui/icons-material/Download';
@@ -62,81 +69,122 @@ const ViewResume = (props: Props) => {
     });
   }
 
-  return (
-    <Container sx={{ py: 15 }}>
-      {isLoading ? (
-        <Box sx={{ width: '210mm', height: '290mm', margin: '0 auto' }}>
-          <Skeleton variant='rounded' width={'100%'} height={'100%'} />
-        </Box>
-      ) : (
-        <>
-          <Box sx={{ width: '210mm', margin: 'auto', mb: 2 }}>
-            <Stack spacing={2} direction='row'>
-              <Button
-                variant='contained'
-                color='info'
-                onClick={() => setOpen(true)}
-                startIcon={<TouchAppRoundedIcon />}
-              >
-                Choose CV
-              </Button>
-              <Button
-                variant='contained'
-                sx={{ mb: 3 }}
-                onClick={exportPDF}
-                startIcon={<DownloadIcon />}
-              >
-                Download
-              </Button>
-              <Button
-                variant='contained'
-                sx={
-                  {
-                    // visibility: 'hidden',
-                  }
-                }
-                startIcon={<SaveRoundedIcon />}
-                color='success'
-                onClick={() => dispatch(updateCVType(Number(selectedCV)))}
-              >
-                Save
-              </Button>
-            </Stack>
-          </Box>
+  if (isLoading) {
+    return (
+      <Box sx={{ py: 15, width: '210mm', height: '290mm', margin: '0 auto' }}>
+        <Skeleton variant='rounded' width={'100%'} height={'100%'} />
+      </Box>
+    );
+  }
 
-          <ViewProfile resume={cv} type={selectedCV} />
-        </>
-      )}
-
-      <Drawer anchor='right' open={open} onClose={() => setOpen(false)}>
-        <Box sx={{ width: '300px', padding: '20px 30px' }}>
-          <Typography align='center' variant='h3' sx={{ mb: 3 }}>
-            CV model
+  if (!cv) {
+    return (
+      <Box sx={{ py: 15, width: '210mm', margin: '0 auto' }}>
+        <Alert severity='error'>
+          <AlertTitle>
+            <Typography gutterBottom variant='h4'>
+              Notification
+            </Typography>
+          </AlertTitle>
+          <Typography gutterBottom>
+            Please update your profile to create CV
           </Typography>
-          {CV.map((item: any) => {
-            return (
-              <Box
-                sx={{
-                  padding: '15px',
-                  border: '1px solid #d9d9d9',
-                  marginBottom: '20px',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  ...(item.value === selectedCV && {
-                    borderColor: '#ff4d4f',
-                    borderWidth: '2px',
-                  }),
-                }}
-                onClick={() => setSelectedCV(item.value)}
+          <RouterLink to='/my/profile' style={{ textDecoration: 'none' }}>
+            <Button variant='contained' sx={{ mt: 2 }}>
+              Update now
+            </Button>
+          </RouterLink>
+        </Alert>
+      </Box>
+    );
+  } else {
+    return (
+      <Container sx={{ py: 15 }}>
+        <Box sx={{ width: '210mm', margin: 'auto', mb: 2 }}>
+          <Card
+            sx={{
+              p: 2,
+              backgroundColor: '#fff',
+              display: 'inline-block',
+            }}
+          >
+            <Breadcrumbs
+              sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+              separator='›'
+              aria-label='breadcrumb'
+            >
+              <Link component={RouterLink} to={`/`}>
+                Home
+              </Link>
+
+              <Typography
+                variant='h5'
+                fontWeight={700}
+                sx={{ color: '#9254de' }}
               >
-                <Image alt={`CV-${item.value}`} src={item.url} />
-              </Box>
-            );
-          })}
+                MyCV
+              </Typography>
+            </Breadcrumbs>
+          </Card>
+          <Stack spacing={2} direction='row' my={3}>
+            <Button
+              variant='contained'
+              color='info'
+              onClick={() => setOpen(true)}
+              startIcon={<TouchAppRoundedIcon />}
+            >
+              Choose CV
+            </Button>
+            <Button
+              variant='contained'
+              onClick={exportPDF}
+              startIcon={<DownloadIcon />}
+            >
+              Download
+            </Button>
+            <Button
+              variant='contained'
+              startIcon={<SaveRoundedIcon />}
+              color='success'
+              onClick={() => dispatch(updateCVType(Number(selectedCV)))}
+            >
+              Save
+            </Button>
+          </Stack>
         </Box>
-      </Drawer>
-    </Container>
-  );
+
+        <ViewProfile resume={cv} type={selectedCV} />
+
+        <Drawer anchor='right' open={open} onClose={() => setOpen(false)}>
+          <Box sx={{ width: '300px', padding: '20px 30px' }}>
+            <Typography align='center' variant='h3' sx={{ mb: 3 }}>
+              CV model
+            </Typography>
+            {CV.map((item: any) => {
+              return (
+                <Box
+                  sx={{
+                    padding: '15px',
+                    border: '1px solid #d9d9d9',
+                    marginBottom: '20px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    ...(item.value === selectedCV && {
+                      borderColor: '#ff4d4f',
+                      borderWidth: '2px',
+                    }),
+                  }}
+                  onClick={() => setSelectedCV(item.value)}
+                >
+                  <Image alt={`CV-${item.value}`} src={item.url} />
+                </Box>
+              );
+            })}
+          </Box>
+        </Drawer>
+      </Container>
+    );
+  }
 };
 
 export default ViewResume;

@@ -13,6 +13,7 @@ import {
   IconButton,
   Tooltip,
   Avatar,
+  Card,
 } from '@mui/material';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -56,60 +57,64 @@ const CompanyList = ({ companies }: Props) => {
   };
 
   return (
-    <TableContainer sx={{ mt: 5 }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell></TableCell>
-            <TableCell>Created at</TableCell>
-            <TableCell>Company name</TableCell>
-            <TableCell align='left'>contact Email</TableCell>
-            <TableCell align='left'>contact name</TableCell>
-            <TableCell align='left'>Status </TableCell>
-            <TableCell align='center'>actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {companies?.map((company: any) => (
-            <TableRow key={company?.id}>
-              <TableCell>
-                <Avatar variant='rounded' src={company?.logo} />
-              </TableCell>
-
-              <TableCell>
-                {dayjs(company?.created_at).format('DD/MM/YYYY')}
-              </TableCell>
-              <TableCell>{company?.name}</TableCell>
-              <TableCell align='left'>{company?.employer?.email}</TableCell>
-              <TableCell align='left'>{company?.employer?.fullname}</TableCell>
-              <TableCell align='left'>
-                <Switch
-                  defaultChecked={company?.status === 1}
-                  onChange={() => handleChangeStatus(company.id)}
-                />
-              </TableCell>
-              <TableCell align='center'>
-                <Tooltip placement='top' title='View detail'>
-                  <IconButton
-                    onClick={() => {
-                      setSelectedCompany(company);
-                      setOpenDetail(true);
-                    }}
-                  >
-                    <VisibilityIcon sx={{ color: '#69b1ff' }} />
-                  </IconButton>
-                </Tooltip>
-              </TableCell>
+    <Card sx={{ p: 3 }}>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>Created at</TableCell>
+              <TableCell>Company name</TableCell>
+              <TableCell align='left'>contact Email</TableCell>
+              <TableCell align='left'>contact name</TableCell>
+              <TableCell align='left'>Status </TableCell>
+              <TableCell align='center'>actions</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <DetailCompanyDialog
-        onOpen={openDetail}
-        onClose={handleClose}
-        company={selectedCompany}
-      />
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {companies?.map((company: any) => (
+              <TableRow key={company?.id}>
+                <TableCell>
+                  <Avatar variant='rounded' src={company?.logo} />
+                </TableCell>
+
+                <TableCell>
+                  {dayjs(company?.created_at).format('DD/MM/YYYY')}
+                </TableCell>
+                <TableCell>{company?.name}</TableCell>
+                <TableCell align='left'>{company?.employer?.email}</TableCell>
+                <TableCell align='left'>
+                  {company?.employer?.fullname}
+                </TableCell>
+                <TableCell align='left'>
+                  <Switch
+                    defaultChecked={company?.status === 1}
+                    onChange={() => handleChangeStatus(company.id)}
+                  />
+                </TableCell>
+                <TableCell align='center'>
+                  <Tooltip placement='top' title='View detail'>
+                    <IconButton
+                      onClick={() => {
+                        setSelectedCompany(company);
+                        setOpenDetail(true);
+                      }}
+                    >
+                      <VisibilityIcon sx={{ color: '#69b1ff' }} />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <DetailCompanyDialog
+          onOpen={openDetail}
+          onClose={handleClose}
+          company={selectedCompany}
+        />
+      </TableContainer>
+    </Card>
   );
 };
 

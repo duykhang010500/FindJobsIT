@@ -38,9 +38,9 @@ const CompanyList: React.FC = (props: Props) => {
         modules={[Autoplay]}
         autoplay={{ delay: 3000, disableOnInteraction: true }}
       >
-        {list?.map((company: any) => {
+        {list?.map((company: any, idx: number) => {
           return (
-            <SwiperSlide key={company.title}>
+            <SwiperSlide key={idx}>
               <CompanyCard
                 title={company.name}
                 img={company.logo}

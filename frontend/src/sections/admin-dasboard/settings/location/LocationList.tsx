@@ -40,7 +40,7 @@ const LocationList = (props: Props) => {
   };
 
   return (
-    <Card sx={{ mt: 5 }}>
+    <Card sx={{ p: 3 }}>
       <TableContainer>
         <Table>
           <TableHead>

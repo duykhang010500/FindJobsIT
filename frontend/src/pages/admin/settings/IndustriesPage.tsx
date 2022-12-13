@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 import {
   Typography,
   Breadcrumbs,
@@ -10,6 +12,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  Card,
 } from '@mui/material';
 
 import {
@@ -51,9 +54,6 @@ const IndustriesPage = (props: Props) => {
 
   return (
     <>
-      <Typography variant='h3' gutterBottom>
-        Industries
-      </Typography>
       <Box
         sx={{
           display: 'flex',
@@ -61,11 +61,25 @@ const IndustriesPage = (props: Props) => {
           justifyContent: 'space-between',
         }}
       >
-        <Breadcrumbs sx={{ mt: 3 }}>
-          <Link>Dashboard</Link>
-          <Typography>Settings</Typography>
-          <Typography>Industries</Typography>
-        </Breadcrumbs>
+        <Card
+          sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+        >
+          <Breadcrumbs
+            sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+            separator='›'
+            aria-label='breadcrumb'
+          >
+            <Link component={RouterLink} to={`/admin/dashboard`}>
+              Dashboard
+            </Link>
+            <Link component={RouterLink} to={`/admin/settings/location`}>
+              Location
+            </Link>
+            <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+              List
+            </Typography>
+          </Breadcrumbs>
+        </Card>
         <Button
           variant='contained'
           startIcon={<AddIcon />}

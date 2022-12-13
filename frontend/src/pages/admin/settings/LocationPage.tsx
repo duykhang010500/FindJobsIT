@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 import {
   Box,
+  Card,
   Link,
   Button,
   Dialog,
@@ -52,9 +55,6 @@ const LocationPage = (props: Props) => {
 
   return (
     <>
-      <Typography variant='h3' gutterBottom>
-        Location
-      </Typography>
       <Box
         sx={{
           display: 'flex',
@@ -62,11 +62,25 @@ const LocationPage = (props: Props) => {
           justifyContent: 'space-between',
         }}
       >
-        <Breadcrumbs sx={{ mt: 3 }}>
-          <Link>Dashboard</Link>
-          <Typography>Settings</Typography>
-          <Typography>Location</Typography>
-        </Breadcrumbs>
+        <Card
+          sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+        >
+          <Breadcrumbs
+            sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+            separator='›'
+            aria-label='breadcrumb'
+          >
+            <Link component={RouterLink} to={`/admin/dashboard`}>
+              Dashboard
+            </Link>
+            <Link component={RouterLink} to={`/admin/settings/location`}>
+              Location
+            </Link>
+            <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+              List
+            </Typography>
+          </Breadcrumbs>
+        </Card>
         <Button
           variant='contained'
           startIcon={<AddIcon />}

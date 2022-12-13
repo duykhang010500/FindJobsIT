@@ -1,5 +1,14 @@
 import { useSelector } from 'react-redux';
-import { Container, Grid, Typography, Card, Stack } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+  Container,
+  Grid,
+  Typography,
+  Card,
+  Stack,
+  Link,
+  Breadcrumbs,
+} from '@mui/material';
 
 import JobCard from '../components/JobCard';
 import SearchBar from '../components/SearchBar';
@@ -16,14 +25,30 @@ const SearchJobs = (props: Props) => {
 
   return (
     <Container sx={{ p: 15 }}>
+      <Card
+        sx={{ my: 2, p: 2, backgroundColor: '#fff', display: 'inline-block' }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/`}>
+            Home
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            Jobs
+          </Typography>
+        </Breadcrumbs>
+      </Card>
       <Card sx={{ p: 5 }}>
         <SearchBar />
       </Card>
       {isLoading ? (
         <Grid container spacing={3} sx={{ mt: 3 }}>
           {[...Array(3)].map((_, idx: number) => (
-            <Grid item md={4}>
-              <JobCardSkeleton key={idx} />
+            <Grid item md={4} key={idx}>
+              <JobCardSkeleton />
             </Grid>
           ))}
         </Grid>

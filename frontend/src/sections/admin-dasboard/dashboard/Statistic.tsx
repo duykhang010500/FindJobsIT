@@ -14,7 +14,7 @@ type Props = {
 
 const Statistic = ({ data }: Props) => {
   return (
-    <Grid container sx={{ mt: 3 }} spacing={3}>
+    <Grid container spacing={3}>
       <Grid item xs={12} sm={6} md={3}>
         <StatisticCard
           icon={<WorkIcon />}

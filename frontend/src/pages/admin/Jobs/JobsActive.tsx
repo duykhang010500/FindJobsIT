@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 
 import {
   Card,
@@ -42,15 +43,27 @@ const JobsPending = (props: Props) => {
 
   return (
     <>
-      <Typography variant='h3' mb={3}>
-        Active Jobs
-      </Typography>
-      <Breadcrumbs>
-        <Typography>Jobs Management</Typography>
-        <Link>Active</Link>
-      </Breadcrumbs>
+      <Card
+        sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/admin/dashboard`}>
+            Dashboard
+          </Link>
+          <Link component={RouterLink} to={`/admin/jobs/active`}>
+            Jobs
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            Active
+          </Typography>
+        </Breadcrumbs>
+      </Card>
 
-      <Card sx={{ mt: 3 }}>
+      <Card sx={{ p: 3 }}>
         <TableContainer>
           <Table>
             <TableHead>

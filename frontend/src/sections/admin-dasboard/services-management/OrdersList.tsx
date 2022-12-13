@@ -54,7 +54,7 @@ const OrdersList = (props: Props) => {
 
   return (
     <>
-      <Card sx={{ mt: 3 }}>
+      <Card sx={{ p: 3 }}>
         <TableContainer>
           <Table>
             <TableHead>

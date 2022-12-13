@@ -98,7 +98,7 @@ const Sidebar = (props: Props) => {
         alignItems: 'center',
         flexDirection: 'column',
         borderRight: '1px dashed rgba(145, 158, 171, 0.24)',
-        minHeight: '100vh',
+        maxHeight: '500px',
       }}
     >
       <Logo />

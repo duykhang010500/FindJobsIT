@@ -89,7 +89,7 @@ const ForgotPassword = (props: Props) => {
     <BoxStyled
       sx={{
         ...(!isEmployer && {
-          mt: 15,
+          py: 15,
         }),
       }}
     >

@@ -165,7 +165,11 @@ export const getJobsAppliedFailure = (err: any) => ({
   payload: err,
 });
 
-export const searchJobs = (keywords: any, locations: any, industries: any) => {
+export const searchJobs = (
+  keywords?: any,
+  locations?: any,
+  industries?: any
+) => {
   return {
     type: SEARCH_JOB,
     payload: {

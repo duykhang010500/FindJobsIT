@@ -75,7 +75,7 @@ const CompanyCard = (props: Props) => {
           >
             {props.name}
           </Typography>
-          <Typography variant='h5' sx={{ color: '#595959' }}>
+          <Typography variant='h4' sx={{ color: '#595959' }}>
             <WorkRoundedIcon
               sx={{ color: '#8c8c8c', mr: 2, verticalAlign: 'bottom' }}
             />
@@ -83,11 +83,11 @@ const CompanyCard = (props: Props) => {
           </Typography>
         </Stack>
       </CardContent>
-      <CardActions>
+      {/* <CardActions>
         <Button variant='outlined' fullWidth>
           Follow
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };

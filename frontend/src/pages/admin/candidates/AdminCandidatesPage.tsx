@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Typography, Breadcrumbs, Link } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Card } from '@mui/material';
 
 import { adminGetCandidatesList } from '../../../store/candidates/action';
 import AdminCandidateList from '../../../sections/admin-dasboard/candidates-management/AdminCandidateList';
@@ -18,15 +18,25 @@ const AdminCandidatesPage = (props: Props) => {
 
   return (
     <>
-      <Typography variant='h3' gutterBottom>
-        Candidates Management
-      </Typography>
-      <Breadcrumbs sx={{ mt: 3, mb: 5 }}>
-        <Link component={RouterLink} to='/admin/dashboard'>
-          Dashboard
-        </Link>
-        <Typography> Candidates Management</Typography>
-      </Breadcrumbs>
+      <Card
+        sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/admin/dashboard`}>
+            Dashboard
+          </Link>
+          <Link component={RouterLink} to={`/admin/candidates/list`}>
+            Candidates
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            List
+          </Typography>
+        </Breadcrumbs>
+      </Card>
       <AdminCandidateList />
     </>
   );

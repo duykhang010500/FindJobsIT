@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Breadcrumbs, Link, Grid, Card } from '@mui/material';
 
@@ -21,13 +22,22 @@ const DashboardAdmin = (props: Props) => {
 
   return (
     <>
-      <Typography variant='h3' gutterBottom>
-        Dashboard
-      </Typography>
-      <Breadcrumbs sx={{ mt: 3 }}>
-        <Link>Dashboard</Link>
-        <Typography>General</Typography>
-      </Breadcrumbs>
+      <Card
+        sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/admin/dashboard`}>
+            Dashboard
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            Statistic
+          </Typography>
+        </Breadcrumbs>
+      </Card>
       <Statistic data={data} />
       <Grid container spacing={3} sx={{ mt: 3 }} justifyContent='center'>
         <Grid item xs={12} md={7}>

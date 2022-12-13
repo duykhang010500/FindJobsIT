@@ -62,7 +62,8 @@ const HeaderAccount = (props: Props) => {
       >
         <MenuItem>
           <Stack>
-            <Typography variant='subtitle1'>{currentUser?.fullname}</Typography>
+            {/* <Typography variant='subtitle1'>{currentUser?.fullname}</Typography> */}
+            <Typography variant='subtitle1'>ADMIN</Typography>
             <Typography variant='caption'>{currentUser?.email}</Typography>
           </Stack>
         </MenuItem>

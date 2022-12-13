@@ -18,6 +18,8 @@ import { RiHeart3Fill, RiHeart3Line } from 'react-icons/ri';
 import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store/reducer';
 
 interface Iprops {
   job: any;
@@ -100,6 +102,8 @@ const SmallJobCardImg = styled('img')({
 const JobCard = ({ job, isSmall = false }: Iprops) => {
   const theme = useTheme();
 
+  const { company } = useSelector((state: AppState) => state.companies);
+
   if (isSmall) {
     return (
       <SmallJobCardWrapper>
@@ -136,10 +140,10 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
     return (
       <JobCardWrapper>
         <Stack direction='row' alignItems='center'>
-          {job?.company?.logo ? (
+          {job?.company?.logo || company?.logo ? (
             <img
               style={{ width: '40px', height: '40px' }}
-              src={job?.company?.logo}
+              src={job?.company?.logo || company?.logo}
               alt='company-logo'
             />
           ) : (
@@ -190,9 +194,9 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
               {job &&
                 job?.locations?.map((item: any, index: number) => {
                   if (index === 0) {
-                    return <>{item?.name}</>;
+                    return <span key={index}>{item?.name}</span>;
                   } else {
-                    return <>{` - ${item.name}`}</>;
+                    return <span key={index}>{` - ${item.name}`}</span>;
                   }
                 })}
             </Typography>

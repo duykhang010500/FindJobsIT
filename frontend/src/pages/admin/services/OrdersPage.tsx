@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Typography, Breadcrumbs, Link } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Card } from '@mui/material';
 import OrdersList from '../../../sections/admin-dasboard/services-management/OrdersList';
 
 type Props = {};
@@ -8,16 +8,25 @@ type Props = {};
 const OrdersPage = (props: Props) => {
   return (
     <>
-      <Typography variant='h3' gutterBottom>
-        Orders
-      </Typography>
-      <Breadcrumbs sx={{ mt: 3 }}>
-        <Link component={RouterLink} to={`/admin/dashboard`}>
-          Dashboard
-        </Link>
-        <Typography>Services Management</Typography>
-        <Typography>Orders</Typography>
-      </Breadcrumbs>
+      <Card
+        sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/admin/dashboard`}>
+            Dashboard
+          </Link>
+          <Link component={RouterLink} to={`/admin/services/orders`}>
+            Services
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            Orders
+          </Typography>
+        </Breadcrumbs>
+      </Card>
       <OrdersList />
     </>
   );

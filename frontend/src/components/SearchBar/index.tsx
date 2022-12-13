@@ -78,8 +78,16 @@ const SearchBar: FC<Props> = () => {
   const locationsTemp = searchParams.get('locationIds');
 
   useEffect(() => {
+    if (industriesTemp) {
+      setIndustryIds(industriesTemp);
+    }
+  }, [industriesTemp]);
+
+  useEffect(() => {
     if (searchTemp || industriesTemp || locationsTemp) {
       dispatch(searchJobs(searchTemp, locationsTemp, industriesTemp));
+    } else {
+      dispatch(searchJobs());
     }
   }, [dispatch, searchTemp, industriesTemp, locationsTemp]);
 
@@ -113,17 +121,9 @@ const SearchBar: FC<Props> = () => {
         <TextField
           fullWidth
           label='Keyword'
-          // placeholder='Job/Company'
           size={smOnly ? 'small' : 'medium'}
           onChange={handleChangeKeyword}
           value={keywords}
-          //  InputProps={{
-          //     startAdornment: (
-          //       <InputAdornment position='start'>
-          //         <KeyRoundedIcon />
-          //       </InputAdornment>
-          //     ),
-          //   }}
         />
       </Grid>
       <Grid item xs={12} md={4}>
@@ -141,13 +141,6 @@ const SearchBar: FC<Props> = () => {
               {...params}
               label='City'
               size={smOnly ? 'small' : 'medium'}
-              // InputProps={{
-              //   startAdornment: (
-              //     <InputAdornment position='start'>
-              //       <FmdGoodRoundedIcon />
-              //     </InputAdornment>
-              //   ),
-              // }}
             />
           )}
         />
@@ -168,14 +161,6 @@ const SearchBar: FC<Props> = () => {
               label='Industry'
               size={smOnly ? 'small' : 'medium'}
               fullWidth
-              // InputProps={{
-              //   ...params.InputProps,
-              //   startAdornment: (
-              //     <InputAdornment position='start'>
-              //       <WorkIcon />
-              //     </InputAdornment>
-              //   ),
-              // }}
             />
           )}
         />

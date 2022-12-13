@@ -89,7 +89,7 @@ const JobSeekerRegisterForm = (props: Props) => {
   };
 
   return (
-    <Card sx={{ p: 10 }}>
+    <Card sx={{ p: 6 }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <Typography variant='h2' align='center'>
@@ -102,7 +102,8 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Email *'
+                required
+                label='Email'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -121,7 +122,8 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Full name *'
+                required
+                label='Full name'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -140,7 +142,8 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Password *'
+                required
+                label='Password'
                 type={showPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}
@@ -173,7 +176,8 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Confirm Password *'
+                required
+                label='Confirm Password'
                 type={showConfirmPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}

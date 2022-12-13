@@ -66,7 +66,7 @@ const AdminCandidateList = (props: Props) => {
   }, [selectedCandidate]);
 
   return (
-    <Card>
+    <Card sx={{ p: 3 }}>
       <TableContainer>
         <Table>
           <TableHead>

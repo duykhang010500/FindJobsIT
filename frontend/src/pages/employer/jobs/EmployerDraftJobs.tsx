@@ -36,6 +36,7 @@ import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
 import { employerGetOrderedServices } from '../../../store/services/actions';
 import BadgeStatus from '../../../components/Badge';
 import { filterJob } from './EmployerJobsOpen';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
@@ -132,9 +133,6 @@ const EmployerDraftJob = (props: Props) => {
         <Table sx={{ minWidth: 600 }}>
           <TableHead>
             <TableRow>
-              {/* <TableCell padding='checkbox'>
-                <Checkbox />
-              </TableCell> */}
               <TableCell>Job title</TableCell>
               <TableCell align='center'>Date create</TableCell>
               <TableCell align='center'>Applied</TableCell>
@@ -143,75 +141,80 @@ const EmployerDraftJob = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredJobs?.map((job: any) => {
-              if (job.status === 0) {
-                return (
-                  <TableRow key={job.id}>
-                    {/* <TableCell padding='checkbox'>
-                      <Checkbox />
-                    </TableCell> */}
-                    <TableCell sx={{ width: '40%' }}>
-                      <Stack spacing={1}>
-                        <Typography variant='h4' sx={{ color: '#faad14' }}>
-                          {job.title}
-                        </Typography>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2' noWrap>
-                            Work location: &nbsp;
+            {jobs.filter((job: any) => job.status === 0).length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Nodata />
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredJobs?.map((job: any) => {
+                if (job.status === 0) {
+                  return (
+                    <TableRow key={job.id}>
+                      <TableCell sx={{ width: '40%' }}>
+                        <Stack spacing={1}>
+                          <Typography variant='h4' sx={{ color: '#faad14' }}>
+                            {job.title}
                           </Typography>
-                          <Typography variant='body2' fontWeight={500} noWrap>
-                            {getStrFromArr(job.locations)}
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2' noWrap>
+                              Work location: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500} noWrap>
+                              {getStrFromArr(job.locations)}
+                            </Typography>
+                          </Stack>
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2' noWrap>
+                              Industries: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500} noWrap>
+                              {getStrFromArr(job.industries)}
+                            </Typography>
+                          </Stack>
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2'>
+                              Salary: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500}>
+                              {job?.salary !== 'Negotiate' ? (
+                                <>
+                                  {job?.salary_from} - {job?.salary_to} &nbsp;
+                                  {job?.salary}
+                                </>
+                              ) : (
+                                <>Negotiate</>
+                              )}
+                            </Typography>
+                          </Stack>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Stack>
+                          <Typography variant='h6'>
+                            {dayjs(job.created_at).format('DD/MM/YYYY')}
                           </Typography>
                         </Stack>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2' noWrap>
-                            Industries: &nbsp;
-                          </Typography>
-                          <Typography variant='body2' fontWeight={500} noWrap>
-                            {getStrFromArr(job.industries)}
-                          </Typography>
-                        </Stack>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2'>
-                            Salary: &nbsp;
-                          </Typography>
-                          <Typography variant='body2' fontWeight={500}>
-                            {job?.salary !== 'Negotiate' ? (
-                              <>
-                                {job?.salary_from} - {job?.salary_to} &nbsp;
-                                {job?.salary}
-                              </>
-                            ) : (
-                              <>Negotiate</>
-                            )}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <Stack>
-                        <Typography variant='h6'>
-                          {dayjs(job.created_at).format('DD/MM/YYYY')}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align='center'>{job.applied}</TableCell>
-                    <TableCell align='center'>
-                      <BadgeStatus status={job.status}>
-                        {convertJobStatus(job.status)}
-                      </BadgeStatus>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <JobMoreMenu
-                        onEdit={() => handleEdit(job.id)}
-                        onDelete={() => handleDelete(job.id)}
-                        onPost={() => handlePost(job.id, 2)}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              }
-            })}
+                      </TableCell>
+                      <TableCell align='center'>{job.applied}</TableCell>
+                      <TableCell align='center'>
+                        <BadgeStatus status={job.status}>
+                          {convertJobStatus(job.status)}
+                        </BadgeStatus>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <JobMoreMenu
+                          onEdit={() => handleEdit(job.id)}
+                          onDelete={() => handleDelete(job.id)}
+                          onPost={() => handlePost(job.id, 2)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              })
+            )}
           </TableBody>
         </Table>
       </TableContainer>

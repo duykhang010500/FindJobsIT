@@ -9,7 +9,7 @@ type Props = {};
 
 const JobSeekerLogin = (props: Props) => {
   return (
-    <Container sx={{ mt: 15 }}>
+    <Container sx={{ py: 15 }}>
       <Grid container spacing={3} alignItems='center'>
         <Grid item xs={12} md={6} display={{ xs: 'none', md: 'block' }}>
           <Image src={HiringImage} alt='img-left' />

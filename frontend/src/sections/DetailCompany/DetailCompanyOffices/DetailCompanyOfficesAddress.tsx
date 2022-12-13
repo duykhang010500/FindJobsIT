@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Typography, Box, Card, Stack } from '@mui/material';
+import { Typography, Box, Card, Stack, Grid } from '@mui/material';
 
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 import LocalPhoneRoundedIcon from '@mui/icons-material/LocalPhoneRounded';
@@ -23,14 +23,32 @@ const DetailCompanyOfficesAddress = (props: Props) => {
       >
         Office locations
       </Typography>
-      <Card sx={{ backgroundColor: '#fff', p: 3, borderRadius: 2, mt: 3 }}>
+      <Card
+        sx={{
+          display: 'flex',
+          // alignItems: 'center',
+          flexDirection: 'column',
+          backgroundColor: '#fff',
+          p: 3,
+          mt: 3,
+          borderRadius: 2,
+        }}
+      >
         {company?.offices?.map((office: any, idx: number) => (
-          <div key={idx}>
+          <Box key={idx}>
             <Typography gutterBottom>
-              <Stack direction='row' alignItems='center'>
-                <Typography style={{ minWidth: '400px' }}>
+              <Stack
+                direction='row'
+                alignItems='center'
+                justifyContent='center'
+              >
+                <Typography>
                   <PlaceRoundedIcon
-                    sx={{ color: '#ff4d4f', verticalAlign: 'middle', mr: 2 }}
+                    sx={{
+                      color: '#ff4d4f',
+                      verticalAlign: 'middle',
+                      mr: 2,
+                    }}
                   />
                   {office?.name} : {office?.address}
                 </Typography>
@@ -47,7 +65,7 @@ const DetailCompanyOfficesAddress = (props: Props) => {
                 </Typography>
               </Stack>
             </Typography>
-          </div>
+          </Box>
         ))}
       </Card>
     </Box>

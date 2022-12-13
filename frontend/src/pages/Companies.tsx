@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
+import { Link as RouterLink } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
 
 import {
+  Box,
+  Grid,
+  Card,
+  Link,
+  Stack,
+  Button,
+  Skeleton,
   Container,
   TextField,
-  Box,
-  InputAdornment,
+  Typography,
   Pagination,
-  Button,
-  Stack,
-  Skeleton,
-  Grid,
+  Breadcrumbs,
+  InputAdornment,
 } from '@mui/material';
 
 import { LoadingButton } from '@mui/lab';
@@ -69,6 +75,23 @@ const Companies = (props: Props) => {
   return (
     <Box sx={{ py: 15 }}>
       <Container>
+        <Card
+          sx={{ my: 2, p: 2, backgroundColor: '#fff', display: 'inline-block' }}
+        >
+          <Breadcrumbs
+            sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+            separator='›'
+            aria-label='breadcrumb'
+          >
+            <Link component={RouterLink} to={`/`}>
+              Home
+            </Link>
+
+            <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+              Companies
+            </Typography>
+          </Breadcrumbs>
+        </Card>
         <TextField
           label='Company name'
           InputProps={{
@@ -79,6 +102,8 @@ const Companies = (props: Props) => {
             ),
           }}
           onChange={(e: any) => handleChange(e)}
+          sx={{ display: 'block', mt: 2 }}
+
           // value={str}
         />
         {isLoading ? (
