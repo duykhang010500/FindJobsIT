@@ -18,6 +18,8 @@ import {
   GET_REJECTED_JOBS,
   EMPLOYER_UPDATE_STATUS_JOB,
   ADMIN_GET_DETAIL_JOB,
+  GET_OTHER_JOBS,
+  APPLY_JOB_SUCCESS,
 } from './actionTypes';
 
 import {
@@ -39,6 +41,10 @@ import {
   GetActiveJobs,
   GetRejectedJobs,
   adminGetDetailJobSuccess,
+  getOtherJobsSuccess,
+  applyJobSuccess,
+  applyJobFailure,
+  getJobsApplied,
 } from './actions';
 
 import guestServices from '../../services/guest';
@@ -70,7 +76,17 @@ function* getJob({ payload: id }: any): any {
     const res = yield call(guestServices.getJob, id);
     yield put(getJobSuccess(res.data.job));
   } catch (err) {
-    throw err;
+    console.log(err);
+  }
+}
+
+function* getOtherJobsSaga({ payload }: any): any {
+  try {
+    const res = yield call(guestServices.getOtherJobs, payload);
+    // console.log('Relevant jobs: ', res);
+    yield put(getOtherJobsSuccess(res.data.result.data));
+  } catch (err) {
+    console.log(err);
   }
 }
 
@@ -79,17 +95,19 @@ function* employerGetJobsSaga(): any {
     const res = yield call(employerServices.getJobs);
     yield put(employerGetJobsSuccess(res.data.job.reverse()));
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 }
 
 function* applyJobSaga({ payload: { id, formData } }: any): any {
   try {
-    console.log('Form data apply job!', formData);
     yield call(jobSeekerServices.applyJob, id, formData);
     toast.success('Apply job success!');
+    yield put(applyJobSuccess());
+    yield put(getJobsApplied());
   } catch (err: any) {
     toast.error(err.message);
+    yield put(applyJobFailure());
   }
 }
 
@@ -213,6 +231,7 @@ function* jobsSaga() {
   yield takeEvery(GET_REJECTED_JOBS, getRejectedJobsSaga);
   yield takeEvery(EMPLOYER_UPDATE_STATUS_JOB, employerUpdateJobStatusSaga);
   yield takeEvery(ADMIN_GET_DETAIL_JOB, adminGetDetailJobSaga);
+  yield takeEvery(GET_OTHER_JOBS, getOtherJobsSaga);
 }
 
 export default jobsSaga;

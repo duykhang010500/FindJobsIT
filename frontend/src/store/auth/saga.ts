@@ -43,6 +43,7 @@ import {
 import adminServices from '../../services/admin';
 import employerServices from '../../services/employer';
 import jobSeekerServices from '../../services/jobSeeker';
+import { getMyCV } from '../cv/actions';
 
 //job seeker
 function* jobSeekerRegisterSaga({ payload: { formData, navigate } }: any): any {
@@ -69,6 +70,7 @@ function* jobSeekerLoginSaga({ payload: { formData, navigate } }: any): any {
       localStorage.setItem('role', '1');
       navigate('/');
       yield put(getCurrentJobSeeker());
+      yield put(getMyCV());
     }
   } catch (err) {
     console.log(err);

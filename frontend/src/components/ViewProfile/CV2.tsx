@@ -396,7 +396,14 @@ const CV2 = ({ resume }: Props) => {
                   Salary :
                 </Typography>
                 <Typography variant='body1' component='span'>
-                  {resume?.resume_title}
+                  {resume?.salary_unit !== 'Negotiate' ? (
+                    <>
+                      {resume?.salary_from} - {resume?.salary_to}{' '}
+                      {resume?.salary_unit}
+                    </>
+                  ) : (
+                    <>{resume?.salary_unit}</>
+                  )}
                 </Typography>
               </Stack>
               <Stack direction='row' spacing={4}>

@@ -38,12 +38,21 @@ import {
   EMPLOYER_UPDATE_STATUS_JOB,
   ADMIN_GET_DETAIL_JOB,
   ADMIN_GET_DETAIL_JOB_SUCCESS,
+  GET_OTHER_JOBS,
+  GET_OTHER_JOBS_SUCCESS,
+  OPEN_APPLY_FORM,
+  CLOSE_APPLY_FORM,
 } from './actionTypes';
 
 export interface IJobsState {
   isLoading: boolean;
+  isFetchingDashboard: boolean;
+  openApplyForm: boolean;
+  isSubmitting: boolean;
   error: any;
   job: any;
+  appliedJobs: any;
+  otherJobs: any;
   jobs: any;
   jobsSearch: any;
   pendingJobs: any;
@@ -83,6 +92,16 @@ export type GetJobSuccess = {
   payload: any;
 };
 
+export type GetOtherJobs = {
+  type: typeof GET_OTHER_JOBS;
+  payload: number;
+};
+
+export type GetOtherJobsSuccess = {
+  type: typeof GET_OTHER_JOBS_SUCCESS;
+  payload: any;
+};
+
 export type EmployerGetJos = {
   type: typeof EMPLOYER_GET_JOBS;
 };
@@ -90,6 +109,14 @@ export type EmployerGetJos = {
 export type EmployerGetJobsSucess = {
   type: typeof EMPLOYER_GET_JOBS_SUCCESS;
   payload: any;
+};
+
+export type OpenApplyForm = {
+  type: typeof OPEN_APPLY_FORM;
+};
+
+export type CloseApplyForm = {
+  type: typeof CLOSE_APPLY_FORM;
 };
 
 export type ApplyJob = {
@@ -239,8 +266,12 @@ export type JobsAction =
   | GetJobsSuccess
   | GetJob
   | GetJobSuccess
+  | GetOtherJobs
+  | GetOtherJobsSuccess
   | EmployerGetJos
   | EmployerGetJobsSucess
+  | OpenApplyForm
+  | CloseApplyForm
   | ApplyJob
   | ApplyJobSuccess
   | ApplyJobFailure

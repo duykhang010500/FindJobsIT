@@ -37,6 +37,10 @@ const JobSeekerSavedCompanies = (props: Props) => {
 
   const [open, setOpen] = useState<boolean>(false);
 
+  const [page, setPage] = useState<number>(0);
+
+  const [rowPerPage, setRowPerPage] = useState<number>(5);
+
   const [selectedCompany, setSelectedCompany] = useState<any>(null);
 
   const { isLoading, followingCompany } = useSelector(
@@ -110,58 +114,60 @@ const JobSeekerSavedCompanies = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {followingCompany.map((company: any, idx: number) => (
-              <TableRow key={idx}>
-                <TableCell>
-                  <Stack direction='row' alignItems='center' spacing={3}>
-                    <Avatar
-                      variant='rounded'
-                      src={company.company.logo}
-                      sx={{
-                        width: 80,
-                        height: 80,
-                        border: '1px solid #d9d9d9',
-                        padding: '4px',
-                        backgroundColor: '#fff',
-                      }}
-                    />
-                    <Link
-                      component={RouterLink}
-                      to={`/company/${company.company.id}`}
-                      sx={{
-                        fontWeight: 600,
-                        fontSize: 18,
-                        color: '#1890ff',
-                      }}
-                    >
-                      {company.company.name}
-                    </Link>
-                  </Stack>
-                </TableCell>
-                <TableCell align='center'>
-                  <Tooltip title='Remove' placement='top'>
-                    <IconButton
-                      onClick={() => {
-                        setSelectedCompany(company.company);
-                        setOpen(true);
-                      }}
-                    >
-                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            ))}
+            {followingCompany
+              ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
+              .map((company: any, idx: number) => (
+                <TableRow key={idx}>
+                  <TableCell>
+                    <Stack direction='row' alignItems='center' spacing={3}>
+                      <Avatar
+                        variant='rounded'
+                        src={company.company.logo}
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          border: '1px solid #d9d9d9',
+                          padding: '4px',
+                          backgroundColor: '#fff',
+                        }}
+                      />
+                      <Link
+                        component={RouterLink}
+                        to={`/company/${company.company.id}`}
+                        sx={{
+                          fontWeight: 600,
+                          fontSize: 18,
+                          color: '#1890ff',
+                        }}
+                      >
+                        {company.company.name}
+                      </Link>
+                    </Stack>
+                  </TableCell>
+                  <TableCell align='center'>
+                    <Tooltip title='Remove' placement='top'>
+                      <IconButton
+                        onClick={() => {
+                          setSelectedCompany(company.company);
+                          setOpen(true);
+                        }}
+                      >
+                        <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component='div'
-          count={10}
-          rowsPerPage={10}
-          page={1}
-          onPageChange={() => {}}
-          onRowsPerPageChange={() => {}}
+          count={followingCompany.length}
+          rowsPerPage={rowPerPage}
+          page={page}
+          onPageChange={(_, value: any) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowPerPage(e.target.value)}
         />
       </TableContainer>
       <DeleteDialog

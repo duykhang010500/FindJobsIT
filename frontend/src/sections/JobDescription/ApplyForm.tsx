@@ -28,7 +28,7 @@ import { AppState } from '../../store/reducer';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { uploadSingleFile } from '../../utils/upload';
 import { useDispatch } from 'react-redux';
-import { applyJob } from '../../store/jobs/actions';
+import { applyJob, closeApplyForm } from '../../store/jobs/actions';
 import { LoadingButton } from '@mui/lab';
 import { toast } from 'react-toastify';
 
@@ -73,7 +73,7 @@ const ApplyOption = styled(Card)({
 const ApplyForm = (props: Props) => {
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [applied, setApplied] = useState<boolean>(false);
 
   const [openUpload, setOpenUpload] = useState<boolean>(false);
 
@@ -85,6 +85,10 @@ const ApplyForm = (props: Props) => {
   const { currentUser } = useSelector((state: AppState) => state.auth);
 
   const { cv } = useSelector((state: AppState) => state.cv);
+
+  const { isSubmitting, openApplyForm } = useSelector(
+    (state: AppState) => state.jobs
+  );
 
   const isValidApplyCv = applyType === 0 && fileUpload;
 
@@ -99,14 +103,12 @@ const ApplyForm = (props: Props) => {
   };
 
   const handleSubmit = async () => {
-    console.log('submit');
-
     if (applyType == 0) {
       if (!fileUpload) {
         toast.error('Please upload file CV!');
         return;
       }
-      setIsLoading(true);
+      console.log('Apply with file pdf!');
 
       const res = await uploadSingleFile(fileUpload);
 
@@ -114,25 +116,25 @@ const ApplyForm = (props: Props) => {
         resume_file: res,
         resume_online: 0,
       };
+
       await dispatch(applyJob(props.job.id, formData));
     } else {
-      setIsLoading(true);
+      console.log('Apply with online profile');
 
       const formData = {
         resume_online: 1,
       };
-      await dispatch(applyJob(props.job.id, formData));
-    }
 
-    setIsLoading(false);
-    props.close();
+      await dispatch(applyJob(props.job.id, formData));
+      setApplied(true);
+    }
   };
 
   return (
     <Dialog
-      open={props.open}
+      open={openApplyForm}
       onClose={() => {
-        props.close();
+        dispatch(closeApplyForm());
         setFileUpload(null);
         setApplyType(null);
         setOpenUpload(false);
@@ -251,7 +253,7 @@ const ApplyForm = (props: Props) => {
         <Button
           variant='outlined'
           onClick={() => {
-            props.close();
+            dispatch(closeApplyForm());
             setApplyType(null);
             setFileUpload(null);
             setOpenUpload(false);
@@ -259,12 +261,13 @@ const ApplyForm = (props: Props) => {
         >
           Back
         </Button>
+
         <LoadingButton
           variant='contained'
           // disabled={!Boolean(fileUpload)}
           disabled={!applyType}
           onClick={handleSubmit}
-          loading={isLoading}
+          loading={isSubmitting}
         >
           Apply
         </LoadingButton>

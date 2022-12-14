@@ -5,6 +5,7 @@ import {
   APPLY_JOB_FAILURE,
   APPLY_JOB_SUCCESS,
   APPROVE_JOBS,
+  CLOSE_APPLY_FORM,
   CREATE_JOB,
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
@@ -24,12 +25,15 @@ import {
   GET_JOBS_SUCCESS,
   GET_JOB_FAILURE,
   GET_JOB_SUCCESS,
+  GET_OTHER_JOBS,
+  GET_OTHER_JOBS_SUCCESS,
   GET_PENDING_JOBS,
   GET_PENDING_JOBS_FAILURE,
   GET_PENDING_JOBS_SUCCESS,
   GET_REJECTED_JOBS,
   GET_REJECTED_JOBS_FAILURE,
   GET_REJECTED_JOBS_SUCCESS,
+  OPEN_APPLY_FORM,
   SEARCH_JOB,
   SEARCH_JOB_FAILURE,
   SEARCH_JOB_SUCCESS,
@@ -38,6 +42,7 @@ import {
   UPDATE_JOB_SUCCESS,
 } from './actionTypes';
 
+//create job
 export const createJob = (formData: any, navigate: any) => ({
   type: CREATE_JOB,
   payload: { formData, navigate },
@@ -52,10 +57,17 @@ export const createJobFailure = (err: any) => ({
   payload: err,
 });
 
+//get jobs
 export const getJobs = () => ({
   type: GET_JOBS,
 });
 
+export const getJobsSuccess = (jobs: any) => ({
+  type: GET_JOBS_SUCCESS,
+  payload: jobs,
+});
+
+//get job
 export const getJob = (id: any) => {
   return {
     type: GET_JOB,
@@ -70,11 +82,20 @@ export const getJobSuccess = (job: any) => {
   };
 };
 
-export const getJobsSuccess = (jobs: any) => ({
-  type: GET_JOBS_SUCCESS,
+//other jobs
+export const getOtherJobs = (id: number) => {
+  return {
+    type: GET_OTHER_JOBS,
+    payload: id,
+  };
+};
+
+export const getOtherJobsSuccess = (jobs: any) => ({
+  type: GET_OTHER_JOBS_SUCCESS,
   payload: jobs,
 });
 
+//emp get jobs
 export const employerGetJobs = () => ({
   type: EMPLOYER_GET_JOBS,
 });
@@ -84,6 +105,7 @@ export const employerGetJobsSuccess = (jobs: any) => ({
   payload: jobs,
 });
 
+//emp update job
 export const updateJob = (id: any, formData: any, navigate: any) => {
   return {
     type: UPDATE_JOB,
@@ -95,7 +117,6 @@ export const updateJob = (id: any, formData: any, navigate: any) => {
   };
 };
 
-//update
 export const updateJobSuccess = () => {
   return {
     type: UPDATE_JOB_SUCCESS,
@@ -109,7 +130,7 @@ export const updateJobFailure = (err: any) => {
   };
 };
 
-//delete
+//emp delete
 export const employerDeleteJob = (id: any) => {
   return {
     type: EMPLOYER_DELETE_JOB,
@@ -131,7 +152,15 @@ export const employerDeleteJobFailure = (err: any) => {
   };
 };
 
-//apply
+//jk apply
+export const openApplyForm = () => ({
+  type: OPEN_APPLY_FORM,
+});
+
+export const closeApplyForm = () => ({
+  type: CLOSE_APPLY_FORM,
+});
+
 export const applyJob = (id: any, formData: any) => ({
   type: APPLY_JOB,
   payload: {
@@ -146,11 +175,12 @@ export const applyJobSuccess = () => {
   };
 };
 
-export const applyJobFailure = (err: any) => ({
+export const applyJobFailure = (err?: any) => ({
   type: APPLY_JOB_FAILURE,
   payload: err,
 });
 
+//jk applied jobs
 export const getJobsApplied = () => ({
   type: GET_JOBS_APPLIED,
 });
@@ -165,6 +195,7 @@ export const getJobsAppliedFailure = (err: any) => ({
   payload: err,
 });
 
+// jk search jobs
 export const searchJobs = (
   keywords?: any,
   locations?: any,

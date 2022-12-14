@@ -1,9 +1,12 @@
+import { openApplyForm } from './actions';
 import {
   ADMIN_GET_DETAIL_JOB,
   ADMIN_GET_DETAIL_JOB_SUCCESS,
   APPLY_JOB,
+  APPLY_JOB_FAILURE,
   // APPLY_JOB_FAILURE,
   APPLY_JOB_SUCCESS,
+  CLOSE_APPLY_FORM,
   CREATE_JOB,
   CREATE_JOB_FAILURE,
   CREATE_JOB_SUCCESS,
@@ -20,10 +23,12 @@ import {
   GET_JOBS_APPLIED_SUCCESS,
   GET_JOBS_SUCCESS,
   GET_JOB_SUCCESS,
+  GET_OTHER_JOBS_SUCCESS,
   GET_PENDING_JOBS,
   GET_PENDING_JOBS_FAILURE,
   GET_PENDING_JOBS_SUCCESS,
   GET_REJECTED_JOBS_SUCCESS,
+  OPEN_APPLY_FORM,
   SEARCH_JOB,
   SEARCH_JOB_SUCCESS,
   UPDATE_JOB_FAILURE,
@@ -33,7 +38,12 @@ import { IJobsState, JobsAction } from './types';
 
 const initialState: IJobsState = {
   job: null,
+  isFetchingDashboard: false,
+  openApplyForm: false,
+  isSubmitting: false,
+  otherJobs: null,
   jobs: [],
+  appliedJobs: [],
   error: null,
   isLoading: false,
   jobsSearch: [],
@@ -114,6 +124,11 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
         isLoading: false,
         job: action.payload,
       };
+    case GET_OTHER_JOBS_SUCCESS:
+      return {
+        ...state,
+        otherJobs: action.payload,
+      };
     case EMPLOYER_GET_JOBS: {
       return {
         ...state,
@@ -126,14 +141,32 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
         isLoading: false,
         jobs: action.payload,
       };
+    case OPEN_APPLY_FORM:
+      return {
+        ...state,
+        openApplyForm: true,
+      };
+    case CLOSE_APPLY_FORM:
+      return {
+        ...state,
+        openApplyForm: false,
+      };
     case APPLY_JOB:
       return {
         ...state,
+        isSubmitting: true,
       };
     case APPLY_JOB_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        isSubmitting: false,
+        openApplyForm: false,
+      };
+    case APPLY_JOB_FAILURE:
+      return {
+        ...state,
+        isSubmitting: false,
+        openApplyForm: false,
       };
     case SEARCH_JOB:
       return {
@@ -149,13 +182,13 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
     case GET_JOBS_APPLIED:
       return {
         ...state,
-        isLoading: true,
+        isFetchingDashboard: true,
       };
     case GET_JOBS_APPLIED_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        jobs: action.payload,
+        isFetchingDashboard: false,
+        appliedJobs: action.payload,
       };
     case GET_JOBS_APPLIED_FAILURE:
       return {

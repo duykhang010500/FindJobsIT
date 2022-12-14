@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -35,13 +35,20 @@ type Props = {};
 
 const JobSeekerJobs = (props: Props) => {
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowPerPage, setRowPerPage] = useState<number>(5);
+
   useEffect(() => {
     dispatch(getJobsApplied());
   }, [dispatch]);
 
-  const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
+  const { appliedJobs, isFetchingDashboard } = useSelector(
+    (state: AppState) => state.jobs
+  );
 
-  if (isLoading) {
+  if (isFetchingDashboard) {
     return (
       <Card sx={{ p: 1 }}>
         <TableContainer>
@@ -64,7 +71,7 @@ const JobSeekerJobs = (props: Props) => {
     );
   }
 
-  if (jobs.length === 0) {
+  if (appliedJobs.length === 0) {
     return (
       <Card sx={{ p: 1 }}>
         <TableContainer>
@@ -94,96 +101,104 @@ const JobSeekerJobs = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs?.map((job: any) => {
-              return (
-                <TableRow key={job?.id}>
-                  <TableCell>
-                    <Stack direction='row' spacing={3} alignItems='center'>
-                      {job?.company?.logo ? (
-                        <Image
-                          alt='logo'
-                          src={job?.company?.logo}
-                          sx={{
-                            width: 80,
-                            height: 80,
-                            border: '1px solid #d9d9d9',
-                            padding: '4px',
-                            borderRadius: '8px',
-                            backgroundColor: '#fff',
-                          }}
-                        />
-                      ) : (
-                        <Avatar
-                          sx={{
-                            width: 80,
-                            height: 80,
-                            border: '1px solid #d9d9d9',
-                            padding: '4px',
-                            borderRadius: '8px',
-                          }}
-                        >
-                          <BusinessIcon />
-                        </Avatar>
-                      )}
-                      <Stack spacing={1}>
-                        <Link
-                          color='#1890ff'
-                          component={RouterLink}
-                          to={`/job/${job?.job_id}`}
-                          sx={{ fontSize: '18px', fontWeight: 600 }}
-                        >
-                          {job?.job?.title}
-                        </Link>
-                        <Link
-                          color='#595959'
-                          component={RouterLink}
-                          to={`/company/${job?.company?.id}`}
-                          sx={{ fontSize: '16px', fontWeight: 600 }}
-                        >
-                          {job?.company?.name}
-                        </Link>
-                        <Stack alignItems='center' spacing={1} direction='row'>
-                          <LocalAtmRoundedIcon sx={{ color: '#52c41a' }} />
-                          <Typography typography='body1'>
-                            {job?.job?.salary !== 'Negotiate' ? (
-                              <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
-                            ) : (
-                              <>{job?.job?.salary}</>
-                            )}
-                          </Typography>
+            {appliedJobs
+              ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
+              .map((job: any) => {
+                return (
+                  <TableRow key={job?.id}>
+                    <TableCell>
+                      <Stack direction='row' spacing={3} alignItems='center'>
+                        {job?.company?.logo ? (
+                          <Image
+                            alt='logo'
+                            src={job?.company?.logo}
+                            sx={{
+                              width: 80,
+                              height: 80,
+                              border: '1px solid #d9d9d9',
+                              padding: '4px',
+                              borderRadius: '8px',
+                              backgroundColor: '#fff',
+                            }}
+                          />
+                        ) : (
+                          <Avatar
+                            sx={{
+                              width: 80,
+                              height: 80,
+                              border: '1px solid #d9d9d9',
+                              padding: '4px',
+                              borderRadius: '8px',
+                            }}
+                          >
+                            <BusinessIcon />
+                          </Avatar>
+                        )}
+                        <Stack spacing={1}>
+                          <Link
+                            color='#1890ff'
+                            component={RouterLink}
+                            to={`/job/${job?.job_id}`}
+                            sx={{ fontSize: '18px', fontWeight: 600 }}
+                          >
+                            {job?.job?.title}
+                          </Link>
+                          <Link
+                            color='#595959'
+                            component={RouterLink}
+                            to={`/company/${job?.company?.id}`}
+                            sx={{ fontSize: '16px', fontWeight: 600 }}
+                          >
+                            {job?.company?.name}
+                          </Link>
+                          <Stack
+                            alignItems='center'
+                            spacing={1}
+                            direction='row'
+                          >
+                            <LocalAtmRoundedIcon sx={{ color: '#52c41a' }} />
+                            <Typography typography='body1'>
+                              {job?.job?.salary !== 'Negotiate' ? (
+                                <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
+                              ) : (
+                                <>{job?.job?.salary}</>
+                              )}
+                            </Typography>
+                          </Stack>
                         </Stack>
                       </Stack>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Typography fontWeight={600} variant='body2'>
-                      {dayjs(job?.created_at).format('DD/MM/YYYY')}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align='center'>
-                    {!job?.status || job?.status === 'New' ? (
-                      <BadgeStatus status={0}>Inprogress</BadgeStatus>
-                    ) : (
-                      <BadgeStatus
-                        status={convertAppliedJobStatusToNum(job?.status)}
-                      >
-                        {job?.status}
-                      </BadgeStatus>
-                    )}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    </TableCell>
+                    <TableCell align='center'>
+                      <Typography fontWeight={600} variant='body2'>
+                        {dayjs(job?.created_at).format('DD/MM/YYYY')}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align='center'>
+                      {!job?.status || job?.status === 'New' ? (
+                        <BadgeStatus status={0}>Inprogress</BadgeStatus>
+                      ) : (
+                        <BadgeStatus
+                          status={convertAppliedJobStatusToNum(job?.status)}
+                        >
+                          {job?.status}
+                        </BadgeStatus>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component='div'
-          count={10}
-          rowsPerPage={10}
-          page={1}
-          onPageChange={() => {}}
-          onRowsPerPageChange={() => {}}
+          count={appliedJobs.length}
+          rowsPerPage={rowPerPage}
+          page={page}
+          onPageChange={(_, value: any) => setPage(value)}
+          onRowsPerPageChange={(e: any) => {
+            setRowPerPage(e.target.value);
+          }}
         />
       </TableContainer>
     </Card>

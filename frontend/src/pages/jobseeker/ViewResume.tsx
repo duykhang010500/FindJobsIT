@@ -69,6 +69,26 @@ const ViewResume = (props: Props) => {
     });
   }
 
+  if (localStorage.getItem('role') !== '1') {
+    return (
+      <Box sx={{ py: 15, width: '210mm', margin: '0 auto' }}>
+        <Alert severity='error'>
+          <AlertTitle>
+            <Typography gutterBottom variant='h4'>
+              Notification
+            </Typography>
+          </AlertTitle>
+          <Typography gutterBottom>Please login to view CV</Typography>
+          <RouterLink to='/login' style={{ textDecoration: 'none' }}>
+            <Button variant='contained' sx={{ mt: 2 }}>
+              Login now
+            </Button>
+          </RouterLink>
+        </Alert>
+      </Box>
+    );
+  }
+
   if (isLoading) {
     return (
       <Box sx={{ py: 15, width: '210mm', height: '290mm', margin: '0 auto' }}>

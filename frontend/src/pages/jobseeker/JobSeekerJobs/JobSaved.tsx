@@ -37,6 +37,10 @@ const JobSaved = (props: Props) => {
 
   const [open, setOpen] = useState<boolean>(false);
 
+  const [page, setPage] = useState<number>(0);
+
+  const [rowPerPage, setRowPerPage] = useState<number>(5);
+
   const [selectedJob, setSelectedJob] = useState<any>(null);
 
   const { isLoading, list } = useSelector((state: AppState) => state.jobsSaved);
@@ -107,78 +111,84 @@ const JobSaved = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list?.map((job: any, idx: number) => {
-              return (
-                <TableRow key={idx}>
-                  <TableCell sx={{ width: '90%' }}>
-                    <Stack direction='row' spacing={2} alignItems='center'>
-                      <Image
-                        alt='logo'
-                        src={job?.job?.company?.logo}
-                        sx={{
-                          width: 80,
-                          height: 80,
-                          border: '1px solid #d9d9d9',
-                          padding: '4px',
-                          borderRadius: '8px',
-                          backgroundColor: '#fff',
-                        }}
-                      />
-                      <Stack spacing={1}>
-                        <Link
-                          color='#1890ff'
-                          component={RouterLink}
-                          to={`/job/${job?.job_id}`}
-                          sx={{ fontSize: '18px', fontWeight: 600 }}
-                        >
-                          {job?.job?.title}
-                        </Link>
-                        <Link
-                          color='#434343'
-                          component={RouterLink}
-                          to={`/job/${job?.job?.company?.id}`}
-                          sx={{ fontSize: '16px', fontWeight: 600 }}
-                        >
-                          {job?.job?.company?.name}
-                        </Link>
-                        <Stack alignItems='center' spacing={1} direction='row'>
-                          <LocalAtmRoundedIcon sx={{ color: '#52c41a' }} />
-                          <Typography typography='body1'>
-                            {job?.job?.salary !== 'Negotiate' ? (
-                              <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
-                            ) : (
-                              <>{job?.job?.salary}</>
-                            )}
-                          </Typography>
+            {list
+              ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
+              .map((job: any, idx: number) => {
+                return (
+                  <TableRow key={idx}>
+                    <TableCell sx={{ width: '90%' }}>
+                      <Stack direction='row' spacing={2} alignItems='center'>
+                        <Image
+                          alt='logo'
+                          src={job?.job?.company?.logo}
+                          sx={{
+                            width: 80,
+                            height: 80,
+                            border: '1px solid #d9d9d9',
+                            padding: '4px',
+                            borderRadius: '8px',
+                            backgroundColor: '#fff',
+                          }}
+                        />
+                        <Stack spacing={1}>
+                          <Link
+                            color='#1890ff'
+                            component={RouterLink}
+                            to={`/job/${job?.job_id}`}
+                            sx={{ fontSize: '18px', fontWeight: 600 }}
+                          >
+                            {job?.job?.title}
+                          </Link>
+                          <Link
+                            color='#434343'
+                            component={RouterLink}
+                            to={`/job/${job?.job?.company?.id}`}
+                            sx={{ fontSize: '16px', fontWeight: 600 }}
+                          >
+                            {job?.job?.company?.name}
+                          </Link>
+                          <Stack
+                            alignItems='center'
+                            spacing={1}
+                            direction='row'
+                          >
+                            <LocalAtmRoundedIcon sx={{ color: '#52c41a' }} />
+                            <Typography typography='body1'>
+                              {job?.job?.salary !== 'Negotiate' ? (
+                                <>{`${job?.job?.salary_from} - ${job?.job?.salary_to} ${job?.job?.salary}`}</>
+                              ) : (
+                                <>{job?.job?.salary}</>
+                              )}
+                            </Typography>
+                          </Stack>
                         </Stack>
                       </Stack>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Tooltip title='Remove' placement='top'>
-                      <IconButton
-                        onClick={() => {
-                          setSelectedJob(job?.job);
-                          setOpen(true);
-                        }}
-                      >
-                        <DeleteIcon sx={{ color: '#ff4d4f' }} />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    </TableCell>
+                    <TableCell align='center'>
+                      <Tooltip title='Remove' placement='top'>
+                        <IconButton
+                          onClick={() => {
+                            setSelectedJob(job?.job);
+                            setOpen(true);
+                          }}
+                        >
+                          <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component='div'
-          count={10}
-          rowsPerPage={10}
-          page={1}
-          onPageChange={() => {}}
-          onRowsPerPageChange={() => {}}
+          count={list.length}
+          rowsPerPage={rowPerPage}
+          page={page}
+          onPageChange={(_, value: any) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowPerPage(e.target.value)}
         />
       </TableContainer>
       <DeleteDialog

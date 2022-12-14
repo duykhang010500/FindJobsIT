@@ -2,9 +2,9 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 
 import {
   Grid,
@@ -17,15 +17,17 @@ import {
 } from '@mui/material';
 
 import UpdateIcon from '@mui/icons-material/Update';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import { AppState } from '../../store/reducer';
 import ApplyForm from './ApplyForm';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { saveJob } from '../../store/jobsSaved/action';
+import { deleteJobSaved, saveJob } from '../../store/jobsSaved/action';
 
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import { openApplyForm } from '../../store/jobs/actions';
 
 dayjs.extend(relativeTime);
 dayjs.extend(isSameOrBefore);
@@ -50,7 +52,15 @@ const Img = styled('img')({
 const JobDescriptionHeader = (props: Props) => {
   const dispatch = useDispatch();
 
-  const { job } = useSelector((state: AppState) => state.jobs);
+  const { id } = useParams();
+
+  const [saved, setSaved] = useState<boolean>(true);
+
+  const [applied, setApplied] = useState<boolean>(false);
+
+  const { job, appliedJobs } = useSelector((state: AppState) => state.jobs);
+
+  const { list } = useSelector((state: AppState) => state.jobsSaved);
 
   const { currentUser } = useSelector((state: AppState) => state.auth);
 
@@ -59,14 +69,29 @@ const JobDescriptionHeader = (props: Props) => {
   // console.log(dayjs(new Date()).format('DD/MM/YYYY'));
 
   const canApply = dayjs().isSameOrBefore(job?.end_date, 'day');
-  // console.log();
+
+  useEffect(() => {
+    if (list.find((item: any) => item.job_id === Number(id))) {
+      setSaved(false);
+    } else {
+      setSaved(true);
+    }
+  }, [list, id]);
+
+  useEffect(() => {
+    if (appliedJobs.find((item: any) => item.job_id === Number(id))) {
+      setApplied(true);
+    } else {
+      setApplied(false);
+    }
+  }, [appliedJobs]);
 
   const handleOpen = () => {
     if (!currentUser) {
       toast.error('Please login to apply this job!');
       return;
     }
-    setOpen(true);
+    dispatch(openApplyForm());
   };
 
   const handleClose = () => {
@@ -78,7 +103,17 @@ const JobDescriptionHeader = (props: Props) => {
       toast.error('Please login to save this job!');
       return;
     }
+    setSaved(false);
     dispatch(saveJob(job?.id));
+  };
+
+  const handleUnSavedJob = () => {
+    if (!currentUser) {
+      toast.error('Please login to save this job!');
+      return;
+    }
+    setSaved(true);
+    dispatch(deleteJobSaved(Number(id)));
   };
 
   return (
@@ -144,23 +179,46 @@ const JobDescriptionHeader = (props: Props) => {
               },
             }}
           >
-            <Button
-              size='large'
-              variant='contained'
-              onClick={handleOpen}
-              startIcon={<IntegrationInstructionsIcon />}
-              disabled={!canApply}
-            >
-              Apply now
-            </Button>
-            <Button
-              size='large'
-              variant='outlined'
-              startIcon={<FavoriteBorderIcon />}
-              onClick={handleSaveJob}
-            >
-              Save Job
-            </Button>
+            {applied ? (
+              <Button
+                size='large'
+                color='info'
+                variant='contained'
+                startIcon={<IntegrationInstructionsIcon />}
+                sx={{ cursor: 'unset' }}
+              >
+                Applied
+              </Button>
+            ) : (
+              <Button
+                size='large'
+                variant='contained'
+                onClick={handleOpen}
+                startIcon={<IntegrationInstructionsIcon />}
+                disabled={!canApply}
+              >
+                Apply now
+              </Button>
+            )}
+            {saved ? (
+              <Button
+                size='large'
+                variant='outlined'
+                startIcon={<FavoriteBorderIcon />}
+                onClick={handleSaveJob}
+              >
+                Save Job
+              </Button>
+            ) : (
+              <Button
+                size='large'
+                variant='contained'
+                startIcon={<FavoriteRoundedIcon />}
+                onClick={handleUnSavedJob}
+              >
+                Saved
+              </Button>
+            )}
           </Stack>
         </Grid>
       </Grid>

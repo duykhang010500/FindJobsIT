@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import {
   useNavigate,
   useSearchParams,
+  useLocation,
   createSearchParams,
 } from 'react-router-dom';
 
@@ -32,6 +33,8 @@ type Props = {};
 
 const SearchBar: FC<Props> = () => {
   const theme = useTheme();
+
+  const { pathname } = useLocation();
 
   const dispatch = useDispatch();
 
@@ -86,8 +89,11 @@ const SearchBar: FC<Props> = () => {
   useEffect(() => {
     if (searchTemp || industriesTemp || locationsTemp) {
       dispatch(searchJobs(searchTemp, locationsTemp, industriesTemp));
+      console.log('Search temp: ');
     } else {
-      dispatch(searchJobs());
+      if (pathname !== '/') {
+        dispatch(searchJobs());
+      }
     }
   }, [dispatch, searchTemp, industriesTemp, locationsTemp]);
 

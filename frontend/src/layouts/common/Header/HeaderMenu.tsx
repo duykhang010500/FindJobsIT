@@ -56,9 +56,10 @@ const HeaderMenu: FC<Props> = () => {
   const renderJobSeekerMenu = jobSeekerMenu.map((item) => (
     <Link
       key={item.title}
-      // to={`${item.to}`}
-      href={`${item.to}`}
+      to={`${item.to}`}
+      // href={`${item.to}`}
       style={{ textDecoration: 'none' }}
+      component={RouterLink}
     >
       <StyledLink>{item.title}</StyledLink>
     </Link>
