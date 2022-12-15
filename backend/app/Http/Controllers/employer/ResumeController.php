@@ -43,15 +43,10 @@ class ResumeController extends Controller
                 'expire' => NULL,
                 'exclude' => NULL,
                 'status' => NULL,
-                'sort' => NULL,
-                'boost_ids' => NULL,
                 'type_date' => NULL,
                 'from_date' => NULL,
                 'to_date' => NULL,
                 'days' => NULL,
-                'is_hot' => NULL,
-                'unskill_job' => NULL,
-                'is_urgent' => NULL,
             ];
 
             $result = Resume::query();
@@ -222,7 +217,7 @@ class ResumeController extends Controller
     {
         //
         try{
-            $resume = Resume::with('member','industries','locations')->where('id',$id)->first();
+            $resume = Resume::with('locations','industries','member','educations','experiences')->where('id',$id)->first();
             return response()->json([
                 'resume' => $resume
             ]);

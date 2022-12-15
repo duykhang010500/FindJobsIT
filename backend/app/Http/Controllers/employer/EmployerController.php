@@ -108,6 +108,14 @@ class EmployerController extends Controller
                     'message' => 'Password does not match with our record.',
                 ], 401);
 
+            // if (!Auth::guard('web')->attempt($validator->validated())) {
+            //     return response()->json(['error' => 'Unauthorized'], 401);
+            // }
+
+            if(!$Employer->email_verified_at) {
+                return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
+            }
+
             if($Employer->status == 0){
                 return response()->json([
                     'status' => false,
@@ -120,14 +128,6 @@ class EmployerController extends Controller
                     'status' => false,
                     'message' => 'Your company has been block by admin.',
                 ], 401);
-            }
-
-            // if (!Auth::guard('web')->attempt($validator->validated())) {
-            //     return response()->json(['error' => 'Unauthorized'], 401);
-            // }
-
-            if(!$Employer->email_verified_at) {
-                return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
             }
 
             return response()->json([

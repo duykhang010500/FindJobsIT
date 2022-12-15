@@ -89,6 +89,20 @@ class MemberController extends Controller
                 return response()->json(['error' => 'Please verify your email address before logging in.'], 401);
             }
 
+            if($member->status == 0){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Your company information is being verified by admin.',
+                ], 401);
+            }
+
+            if($member->status == 3){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Your company has been block by admin.',
+                ], 401);
+            }
+
             return response()->json([
                 'status' => true,
                 'message' => 'Member Logged In Successfully',
@@ -107,7 +121,7 @@ class MemberController extends Controller
 
     public function info(Request $request) {
         $id = auth()->user()->id;
-        $info = Member::with('resume')->where('id',$id)->get();
+        $info = Member::with(['candidate.job','candidate','resume','resume.experiences','resume.educations'])->where('id',$id)->get();
         return [
             'info' => $info
         ];
