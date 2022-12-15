@@ -62,7 +62,7 @@ function* adminGetCandidatesListSaga(): any {
 
 function* updateStatusSaga({ payload: { id, formData } }: any): any {
   try {
-    console.log(id, formData);
+    console.log('Đang ở đây: ', id, formData);
     yield call(employerServices.updateStatus, id, formData);
     toast.success('Update status successfully!');
 

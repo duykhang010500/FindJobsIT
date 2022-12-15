@@ -23,11 +23,16 @@ import {
   deleteLocation,
   selectLocation,
 } from '../../../../store/location/actions';
+import { useState } from 'react';
 
 type Props = {};
 
 const LocationList = (props: Props) => {
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const { list } = useSelector((state: AppState) => state.location);
 
@@ -51,34 +56,36 @@ const LocationList = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((location: ILocation) => {
-              const { id, name, created_at, updated_at } = location;
-              return (
-                <TableRow key={id}>
-                  <TableCell>{id}</TableCell>
-                  <TableCell>{name}</TableCell>
-                  <TableCell align='center'>
-                    <IconButton onClick={() => handleEdit(id)}>
-                      <SaveAsIcon sx={{ color: '#096dd9' }} />
-                    </IconButton>
-                    <IconButton onClick={() => handleDelete(id)}>
-                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {list
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((location: ILocation) => {
+                const { id, name, created_at, updated_at } = location;
+                return (
+                  <TableRow key={id}>
+                    <TableCell>{id}</TableCell>
+                    <TableCell>{name}</TableCell>
+                    <TableCell align='center'>
+                      <IconButton onClick={() => handleEdit(id)}>
+                        <SaveAsIcon sx={{ color: '#096dd9' }} />
+                      </IconButton>
+                      <IconButton onClick={() => handleDelete(id)}>
+                        <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10]}
+        rowsPerPageOptions={[10, 20, 40]}
         component='div'
-        rowsPerPage={5}
-        page={1}
-        count={10}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        count={list.length}
+        onPageChange={(_, value) => setPage(value)}
+        onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
       />
     </Card>
   );

@@ -19,7 +19,10 @@ const CandidateCard = ({ candidate }: Props) => {
   return (
     <Card sx={{ p: 2, mt: 2 }}>
       <Stack direction='row' spacing={2}>
-        <Avatar sx={{ width: 80, height: 80 }} />
+        <Avatar
+          sx={{ width: 80, height: 80 }}
+          src={candidate?.member?.avatar}
+        />
         <Stack>
           {canViewDetailOnSearch >= 0 ? (
             <Typography

@@ -75,7 +75,7 @@ const EmployerViewProfileCandidate = (props: Props) => {
           }}
         >
           <Link href='/employer/candidates/search'>Find candidates</Link>
-          <Typography>2312</Typography>
+          <Typography>{resume?.member?.fullname}</Typography>
         </Breadcrumbs>
         <Stack
           spacing={2}
@@ -84,9 +84,9 @@ const EmployerViewProfileCandidate = (props: Props) => {
           alignItems='center'
           sx={{ minWidth: '210mm', margin: 'auto' }}
         >
-          <Button variant='outlined' startIcon={<DownloadIcon />}>
+          {/* <Button variant='outlined' startIcon={<DownloadIcon />}>
             Download
-          </Button>
+          </Button> */}
           <Button
             variant='contained'
             startIcon={<SaveIcon />}

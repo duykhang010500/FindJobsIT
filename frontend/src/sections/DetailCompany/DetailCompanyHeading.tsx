@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -19,16 +19,28 @@ import PeopleIcon from '@mui/icons-material/People';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
 import { useDispatch } from 'react-redux';
-import { followCompany } from '../../store/companies/action';
+import { followCompany, unFollowCompany } from '../../store/companies/action';
 
 type Props = {};
 
 const DetailCompanyHeading = (props: Props) => {
   const dispatch = useDispatch();
 
+  const [followed, setFollowed] = useState<boolean>(false);
+
   const { id } = useParams();
 
-  const { company } = useSelector((state: AppState) => state.companies);
+  const { company, followingCompany } = useSelector(
+    (state: AppState) => state.companies
+  );
+
+  useEffect(() => {
+    if (followingCompany.find((item: any) => item.comp_id === Number(id))) {
+      setFollowed(true);
+    } else {
+      setFollowed(false);
+    }
+  }, [followingCompany]);
 
   return (
     <Box sx={{ marginTop: '-100px' }}>
@@ -74,13 +86,23 @@ const DetailCompanyHeading = (props: Props) => {
             </Grid>
           </Grid>
           <Grid item md={2}>
-            <Button
-              variant='contained'
-              startIcon={<BookmarkRoundedIcon />}
-              onClick={() => dispatch(followCompany(Number(id)))}
-            >
-              Follow
-            </Button>
+            {followed ? (
+              <Button
+                variant='contained'
+                startIcon={<BookmarkRoundedIcon />}
+                onClick={() => dispatch(unFollowCompany(Number(id)))}
+              >
+                Following
+              </Button>
+            ) : (
+              <Button
+                variant='contained'
+                startIcon={<BookmarkRoundedIcon />}
+                onClick={() => dispatch(followCompany(Number(id)))}
+              >
+                Follow
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Card>

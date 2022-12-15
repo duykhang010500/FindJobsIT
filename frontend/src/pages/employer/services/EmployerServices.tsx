@@ -17,6 +17,7 @@ import {
   DialogActions,
   DialogContent,
   TableContainer,
+  TablePagination,
 } from '@mui/material';
 
 import { VisibilityRounded } from '@mui/icons-material';
@@ -32,6 +33,10 @@ type Props = {};
 
 const EmployerServices = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPage] = useState<number>(10);
 
   const [selectedOrder, setSelectedOrder] = useState<null | any>(null);
 
@@ -95,6 +100,15 @@ const EmployerServices = (props: Props) => {
             })}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[10, 20, 40]}
+          component='div'
+          count={orderList.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, value) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowsPage(e.target.value)}
+        />
       </TableContainer>
       <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
         <DialogTitle>

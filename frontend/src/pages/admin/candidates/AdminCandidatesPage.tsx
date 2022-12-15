@@ -1,8 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Typography, Breadcrumbs, Link, Card } from '@mui/material';
+import {
+  Typography,
+  Breadcrumbs,
+  Link,
+  Card,
+  TablePagination,
+} from '@mui/material';
 
 import { adminGetCandidatesList } from '../../../store/candidates/action';
 import AdminCandidateList from '../../../sections/admin-dasboard/candidates-management/AdminCandidateList';

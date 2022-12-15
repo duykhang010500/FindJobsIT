@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -30,6 +30,10 @@ import Image from '../../../components/Image';
 type Props = {};
 
 const JobsReject = (props: Props) => {
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -122,13 +126,13 @@ const JobsReject = (props: Props) => {
             </TableBody>
           </Table>
           <TablePagination
-            rowsPerPageOptions={[20, 40, 60]}
+            rowsPerPageOptions={[10, 20, 40]}
             component='div'
-            count={60}
-            rowsPerPage={20}
-            page={0}
-            onPageChange={() => {}}
-            onRowsPerPageChange={() => {}}
+            count={rejectedJobs.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(_, value) => setPage(value)}
+            onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
           />
         </TableContainer>
       </Card>

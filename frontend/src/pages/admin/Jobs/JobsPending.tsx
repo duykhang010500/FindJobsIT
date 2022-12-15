@@ -39,6 +39,10 @@ import { useNavigate } from 'react-router-dom';
 type Props = {};
 
 const JobsPending = (props: Props) => {
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -150,13 +154,13 @@ const JobsPending = (props: Props) => {
             </TableBody>
           </Table>
           <TablePagination
-            rowsPerPageOptions={[20, 40, 60]}
+            rowsPerPageOptions={[10, 20, 40]}
             component='div'
-            count={60}
-            rowsPerPage={20}
-            page={0}
-            onPageChange={() => {}}
-            onRowsPerPageChange={() => {}}
+            count={pendingJobs.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(_, value) => setPage(value)}
+            onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
           />
         </TableContainer>
       </Card>

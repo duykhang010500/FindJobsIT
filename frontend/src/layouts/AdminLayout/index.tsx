@@ -17,6 +17,7 @@ const AdminLayout = (props: Props) => {
           p: 3,
           width: 'calc(100% - 300px)',
           backgroundColor: 'rgb(227, 242, 253)',
+          minHeight: '100vh',
         }}
       >
         <Outlet />

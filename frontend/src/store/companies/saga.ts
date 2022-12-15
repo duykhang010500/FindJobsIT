@@ -119,6 +119,7 @@ export function* followCompanySaga({ payload }: any): any {
   try {
     yield call(jobSeekerServices.followCompany, payload);
     toast.success('Follow company successfully!');
+    yield put(getFollowingCompanies());
   } catch (err: any) {
     toast.error(err?.message);
   }

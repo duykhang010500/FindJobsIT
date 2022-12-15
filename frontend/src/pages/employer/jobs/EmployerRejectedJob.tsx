@@ -225,10 +225,10 @@ const EmployerRejectedJob = (props: Props) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[20, 40, 60]}
+        rowsPerPageOptions={[10, 40, 60]}
         component='div'
-        count={60}
-        rowsPerPage={20}
+        count={filteredJobs.filter((item: any) => item.status === 4).length}
+        rowsPerPage={10}
         page={0}
         onPageChange={() => {}}
         onRowsPerPageChange={() => {}}

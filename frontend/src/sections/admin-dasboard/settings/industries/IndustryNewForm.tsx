@@ -25,6 +25,7 @@ type FormValues = {
 
 const IndustryNewForm = ({ industry }: Props) => {
   const dispatch = useDispatch();
+
   const { selectedIndustryId } = useSelector(
     (state: AppState) => state.industries
   );

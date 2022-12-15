@@ -34,6 +34,10 @@ import { deleteService } from '../../../store/services/actions';
 type Props = {};
 
 const ServicesList = (props: Props) => {
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -72,55 +76,59 @@ const ServicesList = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {list.map((item: any) => (
-                <TableRow key={item.id}>
-                  <TableCell align='left'>
-                    <Typography variant='subtitle1'>{item.name}</Typography>
-                  </TableCell>
-                  <TableCell align='left' sx={{ width: '30%' }}>
-                    {item.note}
-                  </TableCell>
-                  <TableCell align='center'>{item.days}</TableCell>
-                  <TableCell align='right'>
-                    {numberWithCommas(item.price)}
-                  </TableCell>
-                  {/* <TableCell align='center'>{item.discount}%</TableCell> */}
-                  <TableCell align='center'>
-                    {dayjs(item.created_at).format('DD/MM/YYYY')}
-                  </TableCell>
-                  {/* <TableCell>
+              {list
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((item: any) => (
+                  <TableRow key={item.id}>
+                    <TableCell align='left'>
+                      <Typography variant='subtitle1'>{item.name}</Typography>
+                    </TableCell>
+                    <TableCell align='left' sx={{ width: '30%' }}>
+                      {item.note}
+                    </TableCell>
+                    <TableCell align='center'>{item.days}</TableCell>
+                    <TableCell align='right'>
+                      {numberWithCommas(item.price)}
+                    </TableCell>
+                    {/* <TableCell align='center'>{item.discount}%</TableCell> */}
+                    <TableCell align='center'>
+                      {dayjs(item.created_at).format('DD/MM/YYYY')}
+                    </TableCell>
+                    {/* <TableCell>
                     <StatusBadge />
                   </TableCell> */}
-                  <TableCell sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Tooltip title='Edit' placement='top'>
-                      <IconButton
-                        onClick={() =>
-                          navigate(`/admin/services/${item.id}/edit`)
-                        }
-                      >
-                        <SaveAsIcon sx={{ color: '#1890ff' }} />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title='Delete' placement='top'>
-                      <IconButton onClick={() => handleDelete(item)}>
-                        <DeleteIcon sx={{ color: '#ff4d4f' }} />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell
+                      sx={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <Tooltip title='Edit' placement='top'>
+                        <IconButton
+                          onClick={() =>
+                            navigate(`/admin/services/${item.id}/edit`)
+                          }
+                        >
+                          <SaveAsIcon sx={{ color: '#1890ff' }} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title='Delete' placement='top'>
+                        <IconButton onClick={() => handleDelete(item)}>
+                          <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
 
         <TablePagination
-          rowsPerPageOptions={[20, 40, 60]}
+          rowsPerPageOptions={[10, 20, 40]}
           component='div'
-          count={60}
-          rowsPerPage={20}
-          page={0}
-          onPageChange={() => {}}
-          onRowsPerPageChange={() => {}}
+          count={list.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, value) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
         />
       </Card>
       <Dialog open={openDelete}>

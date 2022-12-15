@@ -37,6 +37,7 @@ import { employerGetOrderedServices } from '../../../store/services/actions';
 
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
 import JobNewForm from '../../../sections/employer-dashboard/jobs/JobNewForm';
+import { slice } from 'lodash';
 
 type Props = {};
 
@@ -44,6 +45,10 @@ const EmployerJobsOpen = (props: Props) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowPerPage, setRowPerPage] = useState<number>(10);
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
 
@@ -148,97 +153,99 @@ const EmployerJobsOpen = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredJobs?.map((job: any) => {
-              if (job.status === 1) {
-                return (
-                  <TableRow key={job.id}>
-                    {/* <TableCell padding='checkbox'>
+            {filteredJobs
+              ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
+              .map((job: any) => {
+                if (job.status === 1) {
+                  return (
+                    <TableRow key={job.id}>
+                      {/* <TableCell padding='checkbox'>
                       <Checkbox />
                     </TableCell> */}
-                    <TableCell sx={{ width: '40%' }}>
-                      <Stack spacing={1}>
-                        <Typography variant='h4' sx={{ color: '#faad14' }}>
-                          {job.title}
-                        </Typography>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2' noWrap>
-                            Work location: &nbsp;
+                      <TableCell sx={{ width: '40%' }}>
+                        <Stack spacing={1}>
+                          <Typography variant='h4' sx={{ color: '#faad14' }}>
+                            {job.title}
                           </Typography>
-                          <Typography variant='body2' fontWeight={500} noWrap>
-                            {getStrFromArr(job.locations)}
-                          </Typography>
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2' noWrap>
+                              Work location: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500} noWrap>
+                              {getStrFromArr(job.locations)}
+                            </Typography>
+                          </Stack>
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2' noWrap>
+                              Industries: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500} noWrap>
+                              {getStrFromArr(job.industries)}
+                            </Typography>
+                          </Stack>
+                          <Stack direction='row' alignItems='center'>
+                            <Typography variant='body2'>
+                              Salary: &nbsp;
+                            </Typography>
+                            <Typography variant='body2' fontWeight={500}>
+                              {job?.salary !== 'Negotiate' ? (
+                                <>
+                                  {job?.salary_from} - {job?.salary_to} &nbsp;
+                                  {job?.salary}
+                                </>
+                              ) : (
+                                <>Negotiate</>
+                              )}
+                            </Typography>
+                          </Stack>
                         </Stack>
-                        <Stack direction='row' alignItems='center'>
-                          <Typography variant='body2' noWrap>
-                            Industries: &nbsp;
-                          </Typography>
-                          <Typography variant='body2' fontWeight={500} noWrap>
-                            {getStrFromArr(job.industries)}
-                          </Typography>
-                        </Stack>
-                        <Stack direction='row' alignItems='center'>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Stack>
                           <Typography variant='body2'>
-                            Salary: &nbsp;
-                          </Typography>
-                          <Typography variant='body2' fontWeight={500}>
-                            {job?.salary !== 'Negotiate' ? (
-                              <>
-                                {job?.salary_from} - {job?.salary_to} &nbsp;
-                                {job?.salary}
-                              </>
-                            ) : (
-                              <>Negotiate</>
-                            )}
+                            {dayjs(job.created_at).format('DD/MM/YYYY')}
                           </Typography>
                         </Stack>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <Stack>
-                        <Typography variant='body2'>
-                          {dayjs(job.created_at).format('DD/MM/YYYY')}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <Stack>
-                        <Typography variant='body2'>
-                          {dayjs(job.end_date).format('DD/MM/YYYY')}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align='center'>{job.applied}</TableCell>
-                    <TableCell align='center'>
-                      <BadgeStatus status={job.status}>
-                        {convertJobStatus(job.status)}
-                      </BadgeStatus>
-                    </TableCell>
-                    <TableCell align='center'>
-                      <JobMoreMenu
-                        status={job.status}
-                        onEdit={() => handleEdit(job.id)}
-                        onClose={() => handleClose(job.id, 3)}
-                        onViewApplications={() =>
-                          handleViewApplications(job.id)
-                        }
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              }
-              return <></>;
-            })}
+                      </TableCell>
+                      <TableCell align='center'>
+                        <Stack>
+                          <Typography variant='body2'>
+                            {dayjs(job.end_date).format('DD/MM/YYYY')}
+                          </Typography>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align='center'>{job.applied}</TableCell>
+                      <TableCell align='center'>
+                        <BadgeStatus status={job.status}>
+                          {convertJobStatus(job.status)}
+                        </BadgeStatus>
+                      </TableCell>
+                      <TableCell align='center'>
+                        <JobMoreMenu
+                          status={job.status}
+                          onEdit={() => handleEdit(job.id)}
+                          onClose={() => handleClose(job.id, 3)}
+                          onViewApplications={() =>
+                            handleViewApplications(job.id)
+                          }
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+                return <></>;
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[20, 40, 60]}
+        rowsPerPageOptions={[10, 20, 40]}
         component='div'
-        count={60}
-        rowsPerPage={20}
-        page={0}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
+        count={filteredJobs.filter((job: any) => job.status === 1).length}
+        rowsPerPage={rowPerPage}
+        page={page}
+        onPageChange={(_, value: any) => setPage(value)}
+        onRowsPerPageChange={(e: any) => setRowPerPage(e.target.value)}
       />
     </Box>
   );

@@ -47,6 +47,8 @@ const EmployerPendingJob = (props: Props) => {
 
   const dispatch = useDispatch();
 
+  const [page, setPage] = useState<number>(0);
+
   const [showFilter, setShowFilter] = useState<boolean>(true);
 
   const [searchValue, setSearchValue] = useState<string>('');
@@ -237,10 +239,10 @@ const EmployerPendingJob = (props: Props) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[20, 40, 60]}
+        rowsPerPageOptions={[10, 20, 40]}
         component='div'
-        count={60}
-        rowsPerPage={20}
+        count={filteredJobs.filter((item: any) => item.status === 2).length}
+        rowsPerPage={10}
         page={0}
         onPageChange={() => {}}
         onRowsPerPageChange={() => {}}

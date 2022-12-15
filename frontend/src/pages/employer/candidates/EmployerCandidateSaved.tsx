@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -44,13 +44,15 @@ type Props = {};
 const EmployerCandidateSaved = (props: Props) => {
   const dispatch = useDispatch();
 
-  const [selectedCandidate, setSelectedCandidate] = useState<null | any>(null);
+  const navigate = useNavigate();
 
-  const [getCandidates, setGetCandidates] = useState('all');
+  const [selectedCandidate, setSelectedCandidate] = useState<null | any>(null);
 
   const [openDel, setOpenDel] = useState(false);
 
   const { folders } = useSelector((state: AppState) => state.folders);
+
+  const [getCandidates, setGetCandidates] = useState<any>();
 
   const { savedCandidates } = useSelector(
     (state: AppState) => state.candidates
@@ -61,11 +63,15 @@ const EmployerCandidateSaved = (props: Props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (getCandidates === 'all') {
-      dispatch(getSavedCandidates());
-    } else {
-      dispatch(getSavedCandidatesByFolder(Number(getCandidates)));
-    }
+    setGetCandidates(folders[0]?.id);
+  }, [folders]);
+
+  useEffect(() => {
+    // if (getCandidates === 'all') {
+    //   dispatch(getSavedCandidates());
+    // } else {
+    // }
+    dispatch(getSavedCandidatesByFolder(Number(getCandidates)));
   }, [dispatch, getCandidates]);
 
   return (
@@ -79,11 +85,11 @@ const EmployerCandidateSaved = (props: Props) => {
         <TextField
           select
           label='Folder'
-          defaultValue='all'
+          defaultValue={folders[0]?.id}
           sx={{ minWidth: '260px' }}
           onChange={(e) => setGetCandidates(e.target.value)}
         >
-          <MenuItem value='all'>All</MenuItem>
+          {/* <MenuItem value='all'>All</MenuItem> */}
           {folders.map((folder: Folder) => (
             <MenuItem key={folder.id} value={folder.id}>
               {folder.name}
@@ -102,20 +108,31 @@ const EmployerCandidateSaved = (props: Props) => {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
+              <TableCell>Candidate</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {savedCandidates.map((candidate: any) => (
               <TableRow>
-                <TableCell>{candidate.id}</TableCell>
+                <TableCell>{candidate?.id}</TableCell>
+                <TableCell>
+                  <Typography>{candidate?.member?.fullname}</Typography>
+                  <Typography sx={{ color: '#8c8c8c' }}>
+                    {candidate?.resume?.resume_title}
+                  </Typography>
+                </TableCell>
                 <TableCell>
                   <Tooltip placement='top' title='View'>
-                    <IconButton>
+                    <IconButton
+                      onClick={() =>
+                        navigate(`/employer/candidates/${candidate?.resume_id}`)
+                      }
+                    >
                       <RemoveRedEyeRoundedIcon sx={{ color: '#4096ff' }} />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip placement='top' title='delete'>
+                  <Tooltip placement='top' title='Delete'>
                     <IconButton
                       onClick={() => {
                         setSelectedCandidate(candidate);
@@ -155,7 +172,7 @@ const EmployerCandidateSaved = (props: Props) => {
             <Button
               variant='contained'
               onClick={() => {
-                dispatch(deleteSavedCandidate(selectedCandidate?.id));
+                dispatch(deleteSavedCandidate(selectedCandidate?.resume_id));
                 setOpenDel(false);
               }}
             >

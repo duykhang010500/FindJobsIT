@@ -219,9 +219,9 @@ const EmployerDraftJob = (props: Props) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[20, 40, 60]}
+        rowsPerPageOptions={[10, 20, 40]}
         component='div'
-        count={60}
+        count={filteredJobs.filter((item: any) => item.status === 0).length}
         rowsPerPage={20}
         page={0}
         onPageChange={() => {}}

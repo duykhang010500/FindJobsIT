@@ -47,6 +47,10 @@ const EmployerClosedJob = (props: Props) => {
 
   const dispatch = useDispatch();
 
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
   const [showFilter, setShowFilter] = useState<boolean>(true);
 
   const [searchValue, setSearchValue] = useState<string>('');
@@ -222,13 +226,13 @@ const EmployerClosedJob = (props: Props) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[20, 40, 60]}
+        rowsPerPageOptions={[10, 20, 40]}
         component='div'
-        count={60}
-        rowsPerPage={20}
-        page={0}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
+        count={filteredJobs.filter((job: any) => job.status === 3).length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(_, value: any) => setPage(value)}
+        onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
       />
     </Box>
   );

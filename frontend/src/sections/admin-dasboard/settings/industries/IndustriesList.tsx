@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { useState } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -29,6 +31,9 @@ import {
 type Props = {};
 
 const IndustriesList = (props: Props) => {
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const { industries } = useSelector((state: AppState) => state.industries);
 
   const dispatch = useDispatch();
@@ -51,45 +56,43 @@ const IndustriesList = (props: Props) => {
               <TableCell>Name</TableCell>
               <TableCell align='center'>Created at</TableCell>
               <TableCell align='center'>Updated at</TableCell>
-              {/* <TableCell align='center'>Status</TableCell> */}
               <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {industries.map((industry: IIndustry) => (
-              <TableRow key={industry.id}>
-                <TableCell>{industry.id}</TableCell>
-                <TableCell>{industry.name}</TableCell>
-                <TableCell align='center'>
-                  {dayjs(industry.created_at).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell align='center'>
-                  {dayjs(industry.updated_at).format('DD/MM/YYYY')}
-                </TableCell>
-                {/* <TableCell>
-                  <StatusBadge />
-                </TableCell> */}
-                <TableCell align='center'>
-                  <IconButton onClick={() => handleEdit(industry.id)}>
-                    <SaveAsIcon sx={{ color: '#096dd9' }} />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(industry.id)}>
-                    <DeleteIcon sx={{ color: '#ff4d4f' }} />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {industries
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((industry: IIndustry) => (
+                <TableRow key={industry.id}>
+                  <TableCell>{industry.id}</TableCell>
+                  <TableCell>{industry.name}</TableCell>
+                  <TableCell align='center'>
+                    {dayjs(industry.created_at).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell align='center'>
+                    {dayjs(industry.updated_at).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell align='center'>
+                    <IconButton onClick={() => handleEdit(industry.id)}>
+                      <SaveAsIcon sx={{ color: '#096dd9' }} />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(industry.id)}>
+                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10]}
+        rowsPerPageOptions={[10, 20, 40]}
         component='div'
-        rowsPerPage={10}
-        page={0}
-        count={10}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        count={industries.length}
+        onPageChange={(_, value) => setPage(value)}
+        onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
       />
     </Card>
   );

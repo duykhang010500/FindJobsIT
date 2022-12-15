@@ -22,6 +22,7 @@ import {
   DialogContent,
   DialogActions,
   TableContainer,
+  TablePagination,
 } from '@mui/material';
 
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -38,6 +39,10 @@ type Props = {};
 
 const AdminCandidateList = (props: Props) => {
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -135,6 +140,15 @@ const AdminCandidateList = (props: Props) => {
             })}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component='div'
+          count={list.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, value) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+        />
       </TableContainer>
       <Dialog fullWidth open={open} onClose={handleClose}>
         <DialogTitle>

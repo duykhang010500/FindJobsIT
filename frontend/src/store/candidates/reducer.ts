@@ -161,14 +161,14 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         isLoading: false,
       };
     case UPDATE_STATUS_SUCCESS: {
-      console.log('payload: ', action.payload);
+      console.log('reducer update success payload: ', action.payload);
       return {
         ...state,
-        candidates: state.candidates.map((candidate: any) =>
-          candidate.id === action.payload.id
-            ? { ...candidate, status: action.payload.status }
-            : candidate
-        ),
+        // candidates: state.candidates.map((candidate: any) =>
+        //   candidate.id === action.payload.id
+        //     ? { ...candidate, status: action.payload.status }
+        //     : candidate
+        // ),
       };
     }
     case OPEN_SAVE:

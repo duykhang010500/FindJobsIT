@@ -10,6 +10,7 @@ import {
   TableHead,
   TableBody,
   TableContainer,
+  TablePagination,
 } from '@mui/material';
 import { AppState } from '../../../store/reducer';
 import {
@@ -17,12 +18,16 @@ import {
   clearCart,
   getListServicesEmployer,
 } from '../../../store/services/actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {};
 
 const EmployerActiveServices = (props: Props) => {
   const navigate = useNavigate();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const dispatch = useDispatch();
 
@@ -86,6 +91,19 @@ const EmployerActiveServices = (props: Props) => {
           })}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 40]}
+        component='div'
+        count={
+          activeServices.filter((service: any) =>
+            dayjs().isBefore(dayjs(service.expireDate))
+          ).length
+        }
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(_, value) => setPage(value)}
+        onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+      />
     </TableContainer>
   );
 };

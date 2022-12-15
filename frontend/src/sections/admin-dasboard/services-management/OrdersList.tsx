@@ -38,6 +38,10 @@ type Props = {};
 const OrdersList = (props: Props) => {
   const dispatch = useDispatch();
 
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
   const [open, setOpen] = useState<boolean>(false);
 
   const [selectedOrder, setSelectedOrder] = useState<null | any>(null);
@@ -68,50 +72,52 @@ const OrdersList = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orderList?.map((item: any) => {
-                return (
-                  <TableRow key={item.id}>
-                    <TableCell>{item.code}</TableCell>
-                    <TableCell>
-                      {dayjs(item.created_at).format('DD/MM/YYYY')}
+              {orderList
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((item: any) => {
+                  return (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.code}</TableCell>
+                      <TableCell>
+                        {dayjs(item.created_at).format('DD/MM/YYYY')}
 
-                      {/* {item.created_at} */}
-                    </TableCell>
-                    <TableCell>{item.company.name}</TableCell>
-                    <TableCell align='right'>
-                      {numberWithCommas(item.total)}
-                    </TableCell>
-                    <TableCell align='center'>
-                      <BadgeStatus status={item.status}>
-                        {getStatusOrder(item.status)}
-                      </BadgeStatus>
-                    </TableCell>
-                    <TableCell>
-                      <Tooltip placement='top' title='View detail'>
-                        <IconButton
-                          onClick={() => {
-                            setSelectedOrder(item);
-                            setOpen(true);
-                          }}
-                        >
-                          <Visibility />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                        {/* {item.created_at} */}
+                      </TableCell>
+                      <TableCell>{item.company.name}</TableCell>
+                      <TableCell align='right'>
+                        {numberWithCommas(item.total)}
+                      </TableCell>
+                      <TableCell align='center'>
+                        <BadgeStatus status={item.status}>
+                          {getStatusOrder(item.status)}
+                        </BadgeStatus>
+                      </TableCell>
+                      <TableCell>
+                        <Tooltip placement='top' title='View detail'>
+                          <IconButton
+                            onClick={() => {
+                              setSelectedOrder(item);
+                              setOpen(true);
+                            }}
+                          >
+                            <Visibility />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[20, 40, 60]}
+          rowsPerPageOptions={[10, 20, 40]}
           component='div'
-          count={100}
-          rowsPerPage={20}
-          page={0}
-          onPageChange={() => {}}
-          onRowsPerPageChange={() => {}}
+          count={orderList.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, value) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
         />
       </Card>
 

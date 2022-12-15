@@ -1,26 +1,26 @@
 import dayjs from 'dayjs';
-
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import {
+  Card,
   Table,
+  Avatar,
+  Switch,
+  Tooltip,
   TableRow,
   TableHead,
   TableBody,
   TableCell,
-  TableContainer,
-  Switch,
   IconButton,
-  Tooltip,
-  Avatar,
-  Card,
+  TableContainer,
+  TablePagination,
 } from '@mui/material';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { useState } from 'react';
 import DetailDialog from '../../../sections/admin-dasboard/job-management/DetailDialog';
 import DetailCompanyDialog from './DetailCompanyDialog';
-import { useDispatch } from 'react-redux';
 import { adminUpdateCompanyStatus } from '../../../store/companies/action';
 
 type Props = {
@@ -28,6 +28,10 @@ type Props = {
 };
 
 const CompanyList = ({ companies }: Props) => {
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
   const { pathname } = useLocation();
 
   const dispatch = useDispatch();
@@ -108,6 +112,15 @@ const CompanyList = ({ companies }: Props) => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component='div'
+          count={companies.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, value) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+        />
         <DetailCompanyDialog
           onOpen={openDetail}
           onClose={handleClose}

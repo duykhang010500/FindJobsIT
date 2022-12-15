@@ -22,6 +22,7 @@ import {
   DialogContent,
   DialogActions,
   TableContainer,
+  TablePagination,
 } from '@mui/material';
 
 import Visibility from '@mui/icons-material/Visibility';
@@ -31,6 +32,10 @@ type Props = {};
 
 const EmployerCandidateHistorySentMail = (props: Props) => {
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -87,6 +92,15 @@ const EmployerCandidateHistorySentMail = (props: Props) => {
             })}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component='div'
+          count={mails.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, value) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+        />
       </TableContainer>
 
       <Dialog
@@ -117,13 +131,7 @@ const EmployerCandidateHistorySentMail = (props: Props) => {
               value={selectedMail?.member?.email}
             />
             <TextField label='Title *' value={selectedMail?.title} />
-            {/* <TextField
-              label='Content *'
-              multiline
-              minRows={5}
-              maxRows={10}
-              value={selectedMail?.content}
-            /> */}
+
             <Editor value={selectedMail?.content} isReadOnly />
           </Stack>
         </DialogContent>

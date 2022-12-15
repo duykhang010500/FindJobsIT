@@ -10,6 +10,7 @@ import {
   TableHead,
   TableBody,
   TableContainer,
+  TablePagination,
 } from '@mui/material';
 import { AppState } from '../../../store/reducer';
 import {
@@ -17,7 +18,7 @@ import {
   clearCart,
   getListServicesEmployer,
 } from '../../../store/services/actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {};
 
@@ -25,6 +26,10 @@ const EmployerExpireServices = (props: Props) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const { activeServices, list } = useSelector(
     (state: AppState) => state.services
@@ -69,12 +74,6 @@ const EmployerExpireServices = (props: Props) => {
                   <TableCell align='center'>
                     <Button
                       variant='contained'
-                      // disabled={
-                      //   dayjs(service.expireDate).diff(
-                      //     dayjs(service.createdAt),
-                      //     'day'
-                      //   ) > 2
-                      // }
                       onClick={() => handleRenewService(service.id)}
                     >
                       Renew
@@ -86,6 +85,19 @@ const EmployerExpireServices = (props: Props) => {
           })}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 40]}
+        component='div'
+        count={
+          activeServices.filter((service: any) =>
+            dayjs().isAfter(dayjs(service.expireDate))
+          ).length
+        }
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(_, value) => setPage(value)}
+        onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+      />
     </TableContainer>
   );
 };
