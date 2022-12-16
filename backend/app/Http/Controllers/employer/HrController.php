@@ -177,19 +177,18 @@ class HrController extends Controller
                 $job->save();
             }
         }
-        $job->timestamps = false;
-        if(!$job->isDirty()){
-            $job->update(array_merge($validator->validated(),
-            [   'comp_id' => auth()->user()->company->id,'status' => $request->status,
-                'exp' => $request->exp,
-                'exp_from' => $request->exp_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
-                'salary_from' => $request->salary_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
-                'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'gender' => $request->gender,
-                'age_from' => $request->age_from,'age_to' => $request->age_to,'unskill_job' => $request->unskill_job,
-                'job_benefits' => $request->job_benefits,'end_date' => $request->end_date,'contact_emails' => $request->contact_emails,
-                'status' => $request->status
-            ]));
-        }
+        // if(!$job->isDirty()){
+        $job->update(array_merge($validator->validated(),
+        [   'comp_id' => auth()->user()->company->id,'status' => $request->status,
+            'exp' => $request->exp,
+            'exp_from' => $request->exp_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
+            'salary_from' => $request->salary_from,'exp_to' => $request->exp_to,'salary' => $request->salary,
+            'salary_from' => $request->salary_from,'salary_to' => $request->salary_to,'gender' => $request->gender,
+            'age_from' => $request->age_from,'age_to' => $request->age_to,'unskill_job' => $request->unskill_job,
+            'job_benefits' => $request->job_benefits,'end_date' => $request->end_date,'contact_emails' => $request->contact_emails,
+            'status' => $request->status
+        ]));
+        // }
 
         return response()->json([
             'job' => $job,
@@ -240,17 +239,19 @@ class HrController extends Controller
     }
 
     public function candidateStatus(Request $request,$id){
-        $candidate = Candidate::where('id', $id)->firstOrFail();
-        // $candidate = Candidate::find($id);
-        $candidate->update(['status', $request->status]);
-        // $request->validate([
-        //     'status' => 'required',
-        // ]);
-        $candidate->update($request->all());
-        // $candidate->status = $request->status;
-        // $candidate->timestamps = false;
-        // $candidate->updated_at = now();
-        // $candidate->touch();
+        $candidate = Candidate::find($id);
+
+        $request->validate([
+            'status' => 'required',
+        ]);
+        $candidate->status = $request->status;
+        if(!$candidate->isDirty('status')){
+            return response()->json([
+                'candidate' => $candidate,
+                'message' => 'update candidate status'
+            ]);
+        }
+        $candidate->save();
         return response()->json([
             'candidate' => $candidate,
             'message' => 'update candidate status'
