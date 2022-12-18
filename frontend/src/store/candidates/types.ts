@@ -4,7 +4,9 @@ import {
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
   ADMIN_UPDATE_STATUS_CANDIDATE,
   ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS,
+  CLOSE_MAIL,
   CLOSE_SAVE,
+  CLOSE_STATUS_DIALOG,
   DELETE_SAVED_CANDIDATE,
   DELETE_SAVED_CANDIDATE_FAILURE,
   DELETE_SAVED_CANDIDATE_SUCCESS,
@@ -30,12 +32,15 @@ import {
   GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
   GET_SAVED_CANDIDATES_FAILURE,
   GET_SAVED_CANDIDATES_SUCCESS,
+  OPEN_MAIL,
   OPEN_SAVE,
+  OPEN_STATUS_DIALOG,
   SAVE_CANDIDATE,
   SAVE_CANDIDATE_FAILURE,
   SAVE_CANDIDATE_SUCCESS,
   SEARCH_CANDIDATES,
   SEARCH_CANDIDATES_SUCCESS,
+  SELECT_CANDIDATE,
   UPDATE_STATUS,
   UPDATE_STATUS_FAILURE,
   UPDATE_STATUS_SUCCESS,
@@ -44,14 +49,17 @@ import {
 export interface ICandidatesState {
   isLoading: boolean;
   list: any[];
+  isOpenStatusDialog: boolean;
   candidate: null | any;
   resume: null | any;
-  savedCandidates: null | any;
-  isSendMail: boolean;
   mails: any;
+  selectedCandidate: any;
+  isOpenMail: boolean;
+  isSendMail: boolean;
   candidates: any;
   isLoadingDetail: boolean;
   job: any;
+  savedCandidates: null | any;
   isOpenSaveModal: boolean;
 }
 
@@ -74,6 +82,15 @@ export type AdminGetCandidatesListSuccess = {
 
 export type AdminGetCandidatesListFailure = {
   type: typeof ADMIN_GET_CANDIDATES_LIST_FAILURE;
+};
+
+//status
+export type OpenStatusDialog = {
+  type: typeof OPEN_STATUS_DIALOG;
+};
+
+export type CloseStatusDialog = {
+  type: typeof CLOSE_STATUS_DIALOG;
 };
 
 export type UpdateStatus = {
@@ -176,6 +193,20 @@ export type DeleteSavedCandidateFailure = {
   payload: any;
 };
 
+//mail
+export type OpenMail = {
+  type: typeof OPEN_MAIL;
+};
+
+export type CloseMail = {
+  type: typeof CLOSE_MAIL;
+};
+
+export type SelectCandidate = {
+  type: typeof SELECT_CANDIDATE;
+  payload: any;
+};
+
 export type EmployerSendMail = {
   type: typeof EMPLOYER_SEND_MAIL;
   payload: any;
@@ -204,6 +235,8 @@ export type EmployerGetSentMailListFailure = {
   type: typeof EMPLOYER_GET_SENT_MAIL_LIST_FAILURE;
   payload: any;
 };
+
+// candidates
 
 export type EmployerGetCandidatesByJob = {
   type: typeof EMPLOYER_GET_CANDIDATES_BY_JOB;
@@ -254,6 +287,8 @@ export type CandidatesActions =
   | AdminGetCandidatesList
   | AdminGetCandidatesListSuccess
   | AdminGetCandidatesListFailure
+  | OpenStatusDialog
+  | CloseStatusDialog
   | UpdateStatus
   | UpdateStatusSuccess
   | UpdateStatusFailure
@@ -271,6 +306,9 @@ export type CandidatesActions =
   | DeleteSavedCandidate
   | DeleteSavedCandidateSuccess
   | DeleteSavedCandidateFailure
+  | OpenMail
+  | CloseMail
+  | SelectCandidate
   | EmployerSendMail
   | EmployerSendMailSuccess
   | EmployerSendMailFailure
@@ -282,6 +320,7 @@ export type CandidatesActions =
   | EmployerGetCandidateByJobFailure
   | OpenSave
   | CloseSave
+  | SelectCandidate
   | SaveCandidate
   | SaveCandidateSuccess
   | SaveCandidateFailure

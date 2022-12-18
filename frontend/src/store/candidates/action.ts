@@ -4,7 +4,9 @@ import {
   ADMIN_GET_CANDIDATES_LIST_SUCCESS,
   ADMIN_UPDATE_STATUS_CANDIDATE,
   ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS,
+  CLOSE_MAIL,
   CLOSE_SAVE,
+  CLOSE_STATUS_DIALOG,
   DELETE_SAVED_CANDIDATE,
   EMPLOYER_GET_CANDIDATES_BY_JOB,
   EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
@@ -27,14 +29,22 @@ import {
   GET_SAVED_CANDIDATES_BY_FOLDER,
   GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
   GET_SAVED_CANDIDATES_SUCCESS,
+  OPEN_MAIL,
   OPEN_SAVE,
+  OPEN_STATUS_DIALOG,
   SAVE_CANDIDATE,
   SEARCH_CANDIDATES,
   SEARCH_CANDIDATES_SUCCESS,
+  SELECT_CANDIDATE,
   UPDATE_STATUS,
   UPDATE_STATUS_FAILURE,
   UPDATE_STATUS_SUCCESS,
 } from './actionTypes';
+
+export const selectCandidate = (candidate: any) => ({
+  type: SELECT_CANDIDATE,
+  payload: candidate,
+});
 
 export const getListCandidatesForEmployer = () => ({
   type: GET_LIST_CANDIDATES_FOR_EMPLOYER,
@@ -63,6 +73,16 @@ export const adminGetCandidatesListFailure = () => {
     type: ADMIN_GET_CANDIDATES_LIST_FAILURE,
   };
 };
+
+//emp update status candidate
+
+export const openStatusDialog = () => ({
+  type: OPEN_STATUS_DIALOG,
+});
+
+export const closeStatusDialog = () => ({
+  type: CLOSE_STATUS_DIALOG,
+});
 
 export const updateStatus = (id: any, formData: any) => {
   return {
@@ -147,6 +167,8 @@ export const getDetailResumeCandidateFailure = (err: any) => {
   };
 };
 
+//saved candidates
+
 export const openSaveCandidateModal = () => ({
   type: OPEN_SAVE,
 });
@@ -164,8 +186,6 @@ export const saveCandidate = (resumeID: number, folderID: number) => {
     },
   };
 };
-
-//saved
 
 export const getSavedCandidates = () => {
   return {
@@ -187,6 +207,20 @@ export const deleteSavedCandidate = (id: any) => {
   };
 };
 
+//mails
+export const openMail = () => ({
+  type: OPEN_MAIL,
+});
+
+export const closeMail = () => ({
+  type: CLOSE_MAIL,
+});
+
+// export const selectCandidate = (candidate: any) => ({
+//   type: SELECT_CANDIDATE,
+//   payload: candidate,
+// });
+
 export const employerSendMail = (formData: any) => {
   return {
     type: EMPLOYER_SEND_MAIL,
@@ -194,21 +228,6 @@ export const employerSendMail = (formData: any) => {
   };
 };
 
-export const getSavedCandidatesByFolder = (folderID: number) => {
-  return {
-    type: GET_SAVED_CANDIDATES_BY_FOLDER,
-    payload: folderID,
-  };
-};
-
-export const getSavedCandidateByFolderSuccess = (candidates: any) => {
-  return {
-    type: GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
-    payload: candidates,
-  };
-};
-
-//mails
 export const employerSendMailSuccess = (data: any) => {
   return {
     type: EMPLOYER_SEND_MAIL_SUCCESS,
@@ -236,6 +255,22 @@ export const employerGetSentListMailFailure = (err: any) => ({
   type: EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
   payload: err,
 });
+
+//candidates
+
+export const getSavedCandidatesByFolder = (folderID: number) => {
+  return {
+    type: GET_SAVED_CANDIDATES_BY_FOLDER,
+    payload: folderID,
+  };
+};
+
+export const getSavedCandidateByFolderSuccess = (candidates: any) => {
+  return {
+    type: GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
+    payload: candidates,
+  };
+};
 
 export const employerGetCandidateByJob = (jobID: any) => ({
   type: EMPLOYER_GET_CANDIDATES_BY_JOB,

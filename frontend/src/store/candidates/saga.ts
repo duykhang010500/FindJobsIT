@@ -62,14 +62,12 @@ function* adminGetCandidatesListSaga(): any {
 
 function* updateStatusSaga({ payload: { id, formData } }: any): any {
   try {
-    console.log('Đang ở đây: ', id, formData);
+    console.log('Update status saga: ', id, formData);
     yield call(employerServices.updateStatus, id, formData);
-    toast.success('Update status successfully!');
-
-    //===== handle state at here
+    toast.success('Update candidate status successfully!');
     yield put(updateStatusSuccess(id, formData.status));
   } catch (err) {
-    toast.error('Update status failure!');
+    toast.error('Update candidate status failure!');
   }
 }
 

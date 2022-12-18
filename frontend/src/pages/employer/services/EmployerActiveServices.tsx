@@ -19,6 +19,7 @@ import {
   getListServicesEmployer,
 } from '../../../store/services/actions';
 import { useEffect, useState } from 'react';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
@@ -60,6 +61,13 @@ const EmployerActiveServices = (props: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {activeServices.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={4}>
+                <Nodata />
+              </TableCell>
+            </TableRow>
+          )}
           {activeServices.map((service: any, index: number) => {
             if (dayjs().isBefore(dayjs(service.expireDate))) {
               return (

@@ -18,6 +18,7 @@ import {
   TableContainer,
   DialogTitle,
   Typography,
+  TablePagination,
 } from '@mui/material';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -35,11 +36,16 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store/reducer';
 import { Office } from '../../../../store/offices/types';
 import TableSkeleton from '../../../../components/Skeleton/TableSkeleton';
+import Nodata from '../../../../components/Nodata';
 
 type Props = {};
 
 const EmployerOfficesList = (props: Props) => {
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -72,8 +78,6 @@ const EmployerOfficesList = (props: Props) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Created at</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Phone</TableCell>
@@ -81,38 +85,52 @@ const EmployerOfficesList = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {offices.map((office: Office) => (
+            {offices.length === 0 && (
               <TableRow>
-                <TableCell>{office.id}</TableCell>
-                <TableCell>
-                  {dayjs(office.created_at).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell>{office.name}</TableCell>
-                <TableCell>{office.address}</TableCell>
-                <TableCell>{office.phone}</TableCell>
-                <TableCell>
-                  <Stack direction='row' justifyContent='center'>
-                    <Tooltip placement='top' title='Edit'>
-                      <IconButton onClick={() => handleEdit(office.id)}>
-                        <BorderColorRoundedIcon sx={{ color: '#4096ff' }} />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip placement='top' title='Delete'>
-                      <IconButton
-                        onClick={() => {
-                          setSelectedID(office.id);
-                          setOpen((open) => !open);
-                        }}
-                      >
-                        <DeleteRoundedIcon sx={{ color: '#ff4d4f' }} />
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
+                <TableCell colSpan={6}>
+                  <Nodata />
                 </TableCell>
               </TableRow>
-            ))}
+            )}
+            {offices
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((office: Office) => (
+                <TableRow>
+                  <TableCell>{office.name}</TableCell>
+                  <TableCell>{office.address}</TableCell>
+                  <TableCell>{office.phone}</TableCell>
+                  <TableCell>
+                    <Stack direction='row' justifyContent='center'>
+                      <Tooltip placement='top' title='Edit'>
+                        <IconButton onClick={() => handleEdit(office.id)}>
+                          <BorderColorRoundedIcon sx={{ color: '#4096ff' }} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip placement='top' title='Delete'>
+                        <IconButton
+                          onClick={() => {
+                            setSelectedID(office.id);
+                            setOpen((open) => !open);
+                          }}
+                        >
+                          <DeleteRoundedIcon sx={{ color: '#ff4d4f' }} />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
+        <TablePagination
+          component={'div'}
+          rowsPerPageOptions={[10, 20, 40]}
+          page={page}
+          count={offices.length}
+          rowsPerPage={rowsPerPage}
+          onPageChange={(_, page) => setPage(page)}
+          onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+        />
       </TableContainer>
       <Dialog
         open={open}

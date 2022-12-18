@@ -7,23 +7,35 @@ import html2canvas from 'html2canvas';
 
 import {
   Box,
-  Typography,
-  Breadcrumbs,
   Link,
   Stack,
   styled,
   Button,
+  Tooltip,
+  Skeleton,
+  Typography,
+  IconButton,
+  Breadcrumbs,
 } from '@mui/material';
+
+import EmailTwoToneIcon from '@mui/icons-material/EmailTwoTone';
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 
 import { Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 
-import { getDetailCandidate } from '../../../store/candidates/action';
+import {
+  getDetailCandidate,
+  openMail,
+  openStatusDialog,
+  selectCandidate,
+} from '../../../store/candidates/action';
 import { AppState } from '../../../store/reducer';
 import ViewProfile from '../../../components/ViewProfile';
 
-import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
-import DownloadIcon from '@mui/icons-material/Download';
+import FileDownloadTwoToneIcon from '@mui/icons-material/FileDownloadTwoTone';
+import MailDialog from './MailDialog';
+import StatusDialog from './StatusDialog';
 
 type Props = {};
 
@@ -41,9 +53,6 @@ const DetailCandidate = (props: Props) => {
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
-  const pdfExportComponent = useRef(null);
-  const contentArea = useRef<any>(null);
-
   useEffect(() => {
     dispatch(getDetailCandidate(Number(id)));
   }, [id, dispatch]);
@@ -53,26 +62,19 @@ const DetailCandidate = (props: Props) => {
   );
 
   if (isLoading) {
-    return null;
+    return (
+      <Stack spacing={2}>
+        <Skeleton variant='text' height={50} />
+        <Skeleton variant='text' height={50} />
+        <Skeleton variant='rounded' width={'100%'} height={'80vh'} />
+      </Stack>
+    );
   }
-
-  // console.log(candidate);
 
   const resume = {
     ...candidate?.resume,
     member: { ...candidate?.member },
   };
-
-  // const handleExportWithComponent = (event: any) => {
-  //   pdfExportComponent.current.save();
-  // };
-
-  // const handleExportWithFunction = () => {
-  //   savePDF(contentArea.current, {
-  //     paperSize: 'auto',
-  //     margin: 20,
-  //   });
-  // };
 
   function exportPDF() {
     const elm: any = document.getElementById('content');
@@ -127,18 +129,47 @@ const DetailCandidate = (props: Props) => {
             {candidate?.job?.title}
           </Typography>
         </BoxStyled>
-        <Box sx={{ width: '100%', textAlign: 'right' }}>
-          <Button
-            variant='contained'
-            sx={{ mb: 3 }}
-            onClick={exportPDF}
-            startIcon={<DownloadIcon />}
+        <Stack
+          direction='row'
+          justifyContent='flex-end'
+          alignItems='center'
+          spacing={0.5}
+          sx={{ mb: 3 }}
+        >
+          <Tooltip placement='bottom' title='Edit status'>
+            <IconButton
+              onClick={() => {
+                dispatch(selectCandidate(candidate));
+                dispatch(openStatusDialog());
+              }}
+            >
+              <BorderColorTwoToneIcon sx={{ color: '#40a9ff', fontSize: 19 }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip
+            placement='bottom'
+            title='Send mail'
+            // title={canSendMail < 0 ? 'Please buy this service!' : 'Send mail'}
           >
-            Download
-          </Button>
-        </Box>
-
+            <IconButton
+              // disabled={canSendMail < 0}
+              onClick={() => {
+                dispatch(selectCandidate(candidate));
+                dispatch(openMail());
+              }}
+            >
+              <EmailTwoToneIcon sx={{ color: '#b37feb', fontSize: 19 }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip placement='bottom' title='Download CV'>
+            <IconButton sx={{ mb: 3 }} onClick={exportPDF}>
+              <FileDownloadTwoToneIcon sx={{ color: '#fa8c16' }} />
+            </IconButton>
+          </Tooltip>
+        </Stack>
         <ViewProfile type={resume?.cv_type} resume={resume} />
+        <MailDialog />
+        <StatusDialog />
       </>
     );
   }

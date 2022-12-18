@@ -1,10 +1,20 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+
+import { Link as RouterLink } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Grid, Card, Typography, Skeleton, Stack } from '@mui/material';
+import {
+  Grid,
+  Card,
+  Link,
+  Stack,
+  Skeleton,
+  Typography,
+  Breadcrumbs,
+} from '@mui/material';
 import SearchSidebar from '../../sections/employer-main/search-candidates/SearchSidebar';
 import CandidateCard from '../../components/CandidateCard';
 import SearchTop from '../../sections/employer-main/search-candidates/SearchTop';
@@ -53,15 +63,15 @@ const SearchCandidates = (props: Props) => {
 
   const defaultValues = useMemo(
     () => ({
+      keywords: '',
       locations: [],
       industries: [],
-      degree: '',
-      keywords: '',
-      level: '',
-      language: '',
-      nationality: '',
-      resume_update: '',
-      salary_unit: '',
+      degree: ' ',
+      level: ' ',
+      language: ' ',
+      nationality: ' ',
+      resume_update: ' ',
+      salary_unit: ' ',
       salary_from: 0,
       salary_to: 0,
       exp_from: 0,
@@ -95,15 +105,31 @@ const SearchCandidates = (props: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Card sx={{ p: 3 }}>
-        <SearchTop control={control} />
+    <>
+      <Card
+        sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block', mb: 2 }}
+      >
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/employer`}>
+            Home
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            Candidates
+          </Typography>
+        </Breadcrumbs>
       </Card>
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={3}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card sx={{ p: 3 }}>
+          <SearchTop control={control} />
           <SearchSidebar control={control} reset={reset} />
-        </Grid>
-        <Grid item xs={12} md={9}>
+        </Card>
+      </form>
+      <Grid container spacing={3} sx={{ mt: 2 }}>
+        <Grid item xs={12} md={12} spacing={2}>
           {isLoading ? (
             <Stack spacing={2}>
               <Skeleton variant='rounded' width='100%' height={100} />
@@ -113,18 +139,31 @@ const SearchCandidates = (props: Props) => {
             </Stack>
           ) : (
             <>
-              <Typography variant='body1' gutterBottom>
-                {list?.length} candidates founded
+              <Typography variant='h4' align='center' mb={3}>
+                <Typography
+                  variant='h3'
+                  component='span'
+                  fontWeight={700}
+                  sx={{ color: '#ff4d4f', mr: 1 }}
+                >
+                  {list.length}
+                </Typography>
+                Candidates founded
               </Typography>
-
-              {list?.map((item: any) => {
-                return <CandidateCard key={item.id} candidate={item} />;
-              })}
+              <Grid container spacing={3}>
+                {list?.map((item: any) => {
+                  return (
+                    <Grid item md={6}>
+                      <CandidateCard key={item.id} candidate={item} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
             </>
           )}
         </Grid>
       </Grid>
-    </form>
+    </>
   );
 };
 

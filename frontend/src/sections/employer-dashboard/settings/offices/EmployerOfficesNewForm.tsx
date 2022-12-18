@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   Stack,
@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  TablePagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -102,8 +103,7 @@ const EmployerOfficesNewForm = ({}: Props) => {
                 <TextField
                   {...field}
                   fullWidth
-                  required
-                  label='Office name'
+                  label='Office name *'
                   error={Boolean(error)}
                   helperText={error?.message}
                 />
@@ -116,8 +116,7 @@ const EmployerOfficesNewForm = ({}: Props) => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Address'
-                  required
+                  label='Address *'
                   error={Boolean(error)}
                   helperText={error?.message}
                 />
@@ -130,8 +129,7 @@ const EmployerOfficesNewForm = ({}: Props) => {
                 <TextField
                   {...field}
                   fullWidth
-                  label='Phone'
-                  required
+                  label='Phone *'
                   value={getValues('phone') === 0 ? '' : getValues('phone')}
                   error={Boolean(error)}
                   helperText={error?.message}

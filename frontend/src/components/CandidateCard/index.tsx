@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Card, Stack, Avatar, Typography, Tooltip } from '@mui/material';
+
+import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
+import { HiOutlineLocationMarker } from 'react-icons/hi';
+
 import { AppState } from '../../store/reducer';
 
 type Props = {
@@ -17,22 +21,29 @@ const CandidateCard = ({ candidate }: Props) => {
   );
 
   return (
-    <Card sx={{ p: 2, mt: 2 }}>
-      <Stack direction='row' spacing={2}>
+    <Card
+      sx={{
+        p: 2,
+        mt: 2,
+        '&:hover': {
+          boxShadow: '4px 4px 16px 0px rgba(245, 34, 45,0.2)',
+        },
+      }}
+    >
+      <Stack direction='row' spacing={2} alignItems='center'>
         <Avatar
           sx={{ width: 80, height: 80 }}
           src={candidate?.member?.avatar}
         />
-        <Stack>
+        <Stack spacing={0.5}>
           {canViewDetailOnSearch >= 0 ? (
             <Typography
               variant='h4'
-              gutterBottom
               sx={{
-                color: '#ff4d4f',
+                color: '#000',
                 textDecoration: 'none',
                 '&:hover': {
-                  textDecoration: 'underline',
+                  color: '#faad14',
                 },
               }}
               component={Link}
@@ -47,7 +58,6 @@ const CandidateCard = ({ candidate }: Props) => {
             >
               <Typography
                 variant='h4'
-                gutterBottom
                 sx={{
                   color: '#ff4d4f',
                   textDecoration: 'none',
@@ -58,12 +68,18 @@ const CandidateCard = ({ candidate }: Props) => {
             </Tooltip>
           )}
 
-          <Typography variant='h5' sx={{ color: '#096dd9' }}>
+          <Typography variant='h4' sx={{ color: '#096dd9' }}>
             {candidate?.resume_title}
           </Typography>
-          <div>
-            <Typography variant='caption'>Working at: </Typography>
-            <Typography variant='caption' fontWeight={500}>
+          <Stack direction={'row'} alignItems='center' spacing={1}>
+            <HiOutlineLocationMarker
+              style={{
+                marginRight: '7px',
+                fontSize: '1.2rem',
+                color: '#ff4d4f',
+              }}
+            />
+            <Typography variant='body2'>
               {candidate?.locations?.map((item: any, inx: number) => {
                 if (inx === 0) {
                   return <>{item.name}</>;
@@ -72,10 +88,17 @@ const CandidateCard = ({ candidate }: Props) => {
                 }
               })}
             </Typography>
-          </div>
-          <div>
-            <Typography variant='caption'>Salary: &nbsp;</Typography>
-            <Typography variant='caption' fontWeight={500}>
+          </Stack>
+          <Stack direction={'row'} alignItems='center' spacing={1}>
+            <LocalAtmOutlinedIcon
+              style={{
+                marginRight: '7px',
+                fontSize: '1.2rem',
+                color: '#52c41a',
+                verticalAlign: 'bottom',
+              }}
+            />
+            <Typography variant='body2'>
               {candidate?.salary_unit !== 'Negotiate' ? (
                 <>
                   {candidate?.salary_from} - {candidate?.salary_to}{' '}
@@ -85,7 +108,7 @@ const CandidateCard = ({ candidate }: Props) => {
                 <>Negotiate</>
               )}
             </Typography>
-          </div>
+          </Stack>
         </Stack>
       </Stack>
     </Card>

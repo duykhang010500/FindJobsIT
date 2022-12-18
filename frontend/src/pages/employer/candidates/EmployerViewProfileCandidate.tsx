@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 
 import {
   Typography,
@@ -11,6 +11,7 @@ import {
   Container,
   Button,
   Link,
+  Card,
   Breadcrumbs,
 } from '@mui/material';
 
@@ -66,17 +67,22 @@ const EmployerViewProfileCandidate = (props: Props) => {
   }
 
   return (
-    <Container>
-      <Stack mb={5}>
-        <Breadcrumbs
-          sx={{
-            minWidth: '210mm',
-            margin: 'auto',
-          }}
-        >
-          <Link href='/employer/candidates/search'>Find candidates</Link>
-          <Typography>{resume?.member?.fullname}</Typography>
-        </Breadcrumbs>
+    <Container sx={{ width: '210mm' }}>
+      <Stack mb={5} direction='column' alignItems='flex-start'>
+        <Card sx={{ p: 2, backgroundColor: '#fff' }}>
+          <Breadcrumbs
+            sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+            separator='›'
+            aria-label='breadcrumb'
+          >
+            <Link component={RouterLink} to={`/employer/candidates/search`}>
+              Candidates
+            </Link>
+            <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+              {resume?.member?.fullname}
+            </Typography>
+          </Breadcrumbs>
+        </Card>
         <Stack
           spacing={2}
           direction='row'

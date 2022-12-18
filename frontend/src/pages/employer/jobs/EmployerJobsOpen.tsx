@@ -38,6 +38,7 @@ import { employerGetOrderedServices } from '../../../store/services/actions';
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
 import JobNewForm from '../../../sections/employer-dashboard/jobs/JobNewForm';
 import { slice } from 'lodash';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
@@ -52,6 +53,8 @@ const EmployerJobsOpen = (props: Props) => {
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
 
+  const [jobsOpen, setJobsOpen] = useState<any>([]);
+
   const [searchValue, setSearchValue] = useState<string>('');
 
   const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
@@ -64,6 +67,10 @@ const EmployerJobsOpen = (props: Props) => {
     dispatch(employerGetJobs());
     dispatch(employerGetOrderedServices());
   }, [dispatch]);
+
+  useEffect(() => {
+    setJobsOpen(jobs.filter((job: any) => job.status === 1));
+  }, [jobs]);
 
   const handleEdit = (id?: string) => {
     navigate(`/employer/hr/job/${id}/edit`);
@@ -98,7 +105,9 @@ const EmployerJobsOpen = (props: Props) => {
     );
   }
 
-  const filteredJobs = filterJob(jobs, searchValue);
+  const filteredJobs = filterJob(jobsOpen, searchValue);
+
+  console.log('Active jobs filtered', filteredJobs);
 
   return (
     <Box>
@@ -139,9 +148,6 @@ const EmployerJobsOpen = (props: Props) => {
         <Table>
           <TableHead>
             <TableRow>
-              {/* <TableCell padding='checkbox'>
-                <Checkbox />
-              </TableCell> */}
               <TableCell>Job title</TableCell>
               <TableCell align='center' sx={{ width: '25%' }}>
                 Date create
@@ -153,15 +159,19 @@ const EmployerJobsOpen = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
+            {filteredJobs.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6}>
+                  <Nodata />
+                </TableCell>
+              </TableRow>
+            )}
             {filteredJobs
               ?.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
               .map((job: any) => {
                 if (job.status === 1) {
                   return (
                     <TableRow key={job.id}>
-                      {/* <TableCell padding='checkbox'>
-                      <Checkbox />
-                    </TableCell> */}
                       <TableCell sx={{ width: '40%' }}>
                         <Stack spacing={1}>
                           <Typography variant='h4' sx={{ color: '#faad14' }}>
@@ -233,7 +243,6 @@ const EmployerJobsOpen = (props: Props) => {
                     </TableRow>
                   );
                 }
-                return <></>;
               })}
           </TableBody>
         </Table>

@@ -8,6 +8,7 @@ import { employerGetSentListMail } from '../../../store/candidates/action';
 import {
   Stack,
   Table,
+  Avatar,
   Dialog,
   Button,
   Tooltip,
@@ -24,9 +25,10 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-
-import Visibility from '@mui/icons-material/Visibility';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import Editor from '../../../components/Editor';
+import TableRowSkeleton from '../../../components/Skeleton/TableRowSkeleton';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
@@ -49,47 +51,68 @@ const EmployerCandidateHistorySentMail = (props: Props) => {
     dispatch(employerGetSentListMail());
   }, [dispatch]);
 
-  if (isLoading) {
-    return null;
-  }
-
   return (
     <>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Date sent</TableCell>
-              <TableCell>Candidate</TableCell>
-              <TableCell>Tittle</TableCell>
-              <TableCell>action</TableCell>
+              <TableCell align='left'>Date sent</TableCell>
+              <TableCell align='left'>Candidate</TableCell>
+              <TableCell align='left'>Tittle</TableCell>
+              <TableCell align='center'>action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {mails?.map((item: any) => {
-              return (
-                <TableRow key={item?.id}>
-                  <TableCell>
-                    {dayjs(item?.created_at).format('DD/MM/YYYY h:mm:ss A')}
-                  </TableCell>
-                  <TableCell>{item?.member?.fullname}</TableCell>
-                  <TableCell>{item?.title}</TableCell>
-                  <TableCell>
-                    <Tooltip placement='top' title='View Detail'>
-                      <IconButton
-                        onClick={() => {
-                          setSelectedMail(item);
-                          setOpen(true);
-                          console.log('Selected mail: ', item);
-                        }}
-                      >
-                        <Visibility />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {isLoading && <TableRowSkeleton />}
+            {!isLoading && mails.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={4}>
+                  <Nodata />
+                </TableCell>
+              </TableRow>
+            )}
+            {mails
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ?.map((item: any) => {
+                return (
+                  <TableRow key={item?.id}>
+                    <TableCell align='left'>
+                      <Typography variant='subtitle1'>
+                        {dayjs(item?.created_at).format('DD/MM/YYYY')}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align='left'>
+                      <Stack direction='row' alignItems='center' spacing={1}>
+                        <Avatar src={item?.member?.avatar} />
+                        <Stack>
+                          <Typography variant='h4' sx={{ color: '#030852' }}>
+                            {item?.member?.fullname}
+                          </Typography>
+                          <Typography variant='body1'>
+                            {item?.job?.title}
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </TableCell>
+
+                    <TableCell align='left'>{item?.title}</TableCell>
+                    <TableCell align='center'>
+                      <Tooltip placement='bottom' title='View Detail'>
+                        <IconButton
+                          onClick={() => {
+                            setSelectedMail(item);
+                            setOpen(true);
+                            console.log('Selected mail: ', item);
+                          }}
+                        >
+                          <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
         <TablePagination

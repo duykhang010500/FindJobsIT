@@ -1,4 +1,3 @@
-import { act } from 'react-dom/test-utils';
 import {
   GET_LIST_CANDIDATES_FOR_EMPLOYER,
   GET_LIST_CANDIDATES_FOR_EMPLOYER_SUCCESS,
@@ -27,6 +26,11 @@ import {
   GET_SAVED_CANDIDATES_SUCCESS,
   GET_SAVED_CANDIDATES_BY_FOLDER_SUCCESS,
   ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS,
+  OPEN_MAIL,
+  CLOSE_MAIL,
+  SELECT_CANDIDATE,
+  OPEN_STATUS_DIALOG,
+  CLOSE_STATUS_DIALOG,
 
   // EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
 } from './actionTypes';
@@ -36,10 +40,13 @@ const initialState: ICandidatesState = {
   isLoading: false,
   candidate: null,
   resume: null,
+  isOpenStatusDialog: false,
   list: [],
   savedCandidates: [],
-  isSendMail: false,
   mails: [],
+  selectedCandidate: null,
+  isOpenMail: false,
+  isSendMail: false,
   candidates: null,
   isLoadingDetail: false,
   job: null,
@@ -116,6 +123,23 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         ...state,
         isLoading: false,
       };
+    //mail
+    case SELECT_CANDIDATE:
+      return {
+        ...state,
+        selectedCandidate: action.payload,
+        // isOpenMail: true,
+      };
+    case OPEN_MAIL:
+      return {
+        ...state,
+        isOpenMail: true,
+      };
+    case CLOSE_MAIL:
+      return {
+        ...state,
+        isOpenMail: false,
+      };
     case EMPLOYER_SEND_MAIL:
       return {
         ...state,
@@ -125,12 +149,13 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
       return {
         ...state,
         isSendMail: false,
+        isOpenMail: false,
       };
     case EMPLOYER_SEND_MAIL_FAILURE:
       return {
         ...state,
         isSendMail: false,
-
+        isOpenMail: false,
         error: action.payload,
       };
     case EMPLOYER_GET_SENT_MAIL_LIST:
@@ -160,15 +185,37 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
         ...state,
         isLoading: false,
       };
-    case UPDATE_STATUS_SUCCESS: {
-      console.log('reducer update success payload: ', action.payload);
+
+    //emp update status candidate
+    case OPEN_STATUS_DIALOG:
       return {
         ...state,
-        // candidates: state.candidates.map((candidate: any) =>
-        //   candidate.id === action.payload.id
-        //     ? { ...candidate, status: action.payload.status }
-        //     : candidate
-        // ),
+        isOpenStatusDialog: true,
+      };
+    case CLOSE_STATUS_DIALOG:
+      return {
+        ...state,
+        isOpenStatusDialog: false,
+      };
+    case UPDATE_STATUS_SUCCESS: {
+      console.log('REDUCER UPDATE_STATUS_SUCCESS: ', action.payload);
+      return {
+        ...state,
+        isOpenStatusDialog: false,
+        list: state?.list?.map((candidate: any) =>
+          candidate.id === action.payload.id
+            ? { ...candidate, status: action.payload.status }
+            : candidate
+        ),
+        candidates: state?.candidates?.map((candidate: any) =>
+          candidate.id === action.payload.id
+            ? { ...candidate, status: action.payload.status }
+            : candidate
+        ),
+        candidate: {
+          ...state.candidate,
+          status: action.payload.status,
+        },
       };
     }
     case OPEN_SAVE:

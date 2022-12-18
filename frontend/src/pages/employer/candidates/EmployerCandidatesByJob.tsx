@@ -13,31 +13,26 @@ import {
   Link,
   Table,
   Stack,
-  Dialog,
+  Avatar,
   Button,
   Tooltip,
   Collapse,
-  MenuItem,
   TableRow,
   TableCell,
-  TextField,
   TableBody,
   TableHead,
   IconButton,
   Typography,
   Breadcrumbs,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  FormHelperText,
   TableContainer,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
-import EmailIcon from '@mui/icons-material/Email';
+import EmailTwoToneIcon from '@mui/icons-material/EmailTwoTone';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import UploadRoundedIcon from '@mui/icons-material/UploadRounded';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
@@ -46,6 +41,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   employerGetCandidateByJob,
   employerSendMail,
+  openMail,
+  openStatusDialog,
+  selectCandidate,
   updateStatus,
 } from '../../../store/candidates/action';
 
@@ -53,6 +51,12 @@ import { AppState } from '../../../store/reducer';
 
 import Editor from '../../../components/Editor';
 import FilterBar from '../../../sections/employer-dashboard/candidates/candidates-by-job/FilterBar';
+import Nodata from '../../../components/Nodata';
+import MailDialog from '../../../sections/employer-dashboard/candidates/MailDialog';
+import StatusDialog from '../../../sections/employer-dashboard/candidates/StatusDialog';
+import BadgeStatus from '../../../components/Badge';
+import { convertAppliedJobStatusToNum } from '../../../utils/convert';
+import TableRowSkeleton from '../../../components/Skeleton/TableRowSkeleton';
 
 type Props = {};
 
@@ -162,10 +166,6 @@ const EmployerCandidatesByJob = (props: Props) => {
     dispatch(updateStatus(id, { status }));
   };
 
-  if (isLoading) {
-    return null;
-  }
-
   const handleChangeSearchString = (e: any) => {
     setSearchStr(e.target.value);
   };
@@ -249,160 +249,121 @@ const EmployerCandidatesByJob = (props: Props) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
               <TableCell>Candidate</TableCell>
-              <TableCell>Applied at</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>ACtions</TableCell>
+              <TableCell align='center'>Applied at</TableCell>
+              <TableCell align='center'>Status</TableCell>
+              <TableCell align='center'>ACtions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredCandidates?.map((candidate: any) => (
-              <TableRow key={candidate.id}>
-                <TableCell>{candidate.id}</TableCell>
-                <TableCell>{candidate.member.fullname}</TableCell>
-                <TableCell>
-                  {dayjs(candidate.created_at).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    select
-                    label=''
-                    size='small'
-                    defaultValue={candidate.status ? candidate.status : 'New'}
-                    onChange={(e) =>
-                      handleUpdateStatus(candidate?.id, e.target.value)
-                    }
-                  >
-                    <MenuItem value='New'>New</MenuItem>
-                    <MenuItem value='Short listed'>Short listed</MenuItem>
-                    <MenuItem value='Interview'>Interview</MenuItem>
-                    <MenuItem value='Offered'>Offered</MenuItem>
-                    <MenuItem value='Hire'>Hire</MenuItem>
-                  </TextField>
-                </TableCell>
-                <TableCell>
-                  <Stack direction='row' spacing={0}>
-                    <Tooltip
-                      placement='top'
-                      title={
-                        canSendMail < 0
-                          ? 'Please buy this service!'
-                          : 'Send mail'
-                      }
+            {isLoading ? (
+              <TableRowSkeleton />
+            ) : filteredCandidates?.length > 0 ? (
+              filteredCandidates?.map((candidate: any) => (
+                <TableRow key={candidate.id}>
+                  <TableCell>
+                    <Stack direction='row' spacing={2} alignItems='center'>
+                      <Avatar src={candidate?.member?.avatar} />
+                      <Stack>
+                        <Typography variant='h4' sx={{ color: '#000' }}>
+                          {candidate?.member?.fullname}
+                        </Typography>
+                        <Typography variant='body2' textTransform='uppercase'>
+                          {candidate?.job?.title}
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </TableCell>
+                  <TableCell align='center'>
+                    <Typography variant='subtitle1'>
+                      {dayjs(candidate.created_at).format('DD/MM/YYYY')}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align='center'>
+                    {!candidate?.status || candidate?.status === 'New' ? (
+                      <BadgeStatus status={0}>New</BadgeStatus>
+                    ) : (
+                      <BadgeStatus
+                        status={convertAppliedJobStatusToNum(candidate?.status)}
+                      >
+                        {candidate?.status}
+                      </BadgeStatus>
+                    )}
+                  </TableCell>
+                  <TableCell align='center'>
+                    <Stack
+                      direction='row'
+                      alignItems='center'
+                      justifyContent='center'
                     >
-                      <div>
+                      <Tooltip placement='bottom' title='View detail'>
+                        <IconButton
+                          onClick={() =>
+                            navigate(`/employer/hr/candidates/${candidate.id}`)
+                          }
+                        >
+                          <VisibilityTwoToneIcon
+                            sx={{ color: '#8c8c8c', fontSize: 19 }}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip placement='bottom' title='Edit status'>
+                        <IconButton
+                          onClick={() => {
+                            dispatch(selectCandidate(candidate));
+                            dispatch(openStatusDialog());
+                          }}
+                        >
+                          <BorderColorTwoToneIcon
+                            sx={{ color: '#40a9ff', fontSize: 19 }}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
+                        placement='bottom'
+                        title={
+                          canSendMail < 0
+                            ? 'Please buy this service!'
+                            : 'Send mail'
+                        }
+                      >
                         <IconButton
                           disabled={canSendMail < 0}
                           onClick={() => {
-                            setSelectedCandidate(candidate);
-                            console.log(candidate);
-                            setOpenDialogMail(true);
+                            dispatch(selectCandidate(candidate));
+                            dispatch(openMail());
                           }}
                         >
-                          <EmailIcon />
+                          <EmailTwoToneIcon
+                            sx={{ color: '#b37feb', fontSize: 19 }}
+                          />
                         </IconButton>
-                      </div>
-                    </Tooltip>
-                    <Tooltip placement='top' title='View detail'>
-                      <IconButton
-                        onClick={() =>
-                          navigate(`/employer/hr/candidates/${candidate.id}`)
-                        }
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
+                      </Tooltip>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Nodata />
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
+        {/* <TablePagination
+          rowsPerPageOptions={[10, 20, 40]}
+          component='div'
+          count={filteredCandidates.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(_, value) => setPage(value)}
+          onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+        /> */}
       </TableContainer>
-      <Dialog
-        open={openDialogMail}
-        onClose={() => {
-          setOpenDialogMail(false);
-          reset();
-        }}
-      >
-        <DialogTitle>
-          <Typography variant='h4' component='span'>
-            Send mail
-          </Typography>
-        </DialogTitle>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogContent sx={{ width: '500px', padding: '20px !important' }}>
-            <Stack spacing={3}>
-              <TextField
-                disabled
-                size='small'
-                label='Receiver *'
-                value={selectedCandidate?.member?.fullname}
-              />
-              <TextField
-                disabled
-                size='small'
-                label='Email *'
-                value={selectedCandidate?.member?.email}
-              />
-              <Controller
-                control={control}
-                name='title'
-                render={({ field, fieldState: { error } }) => {
-                  return (
-                    <TextField
-                      {...field}
-                      label='Title *'
-                      error={!!error}
-                      helperText={error?.message}
-                    />
-                  );
-                }}
-              />
-              <div>
-                <FormHelperText sx={{ mb: 1 }}>
-                  <Typography variant='caption'>Content *</Typography>
-                </FormHelperText>
-                <Controller
-                  control={control}
-                  name='content'
-                  render={({ field, fieldState: { error } }) => {
-                    return (
-                      <Editor
-                        id='content'
-                        error={!!error}
-                        value={field.value}
-                        onChange={field.onChange}
-                        helperText={error?.message}
-                      />
-                    );
-                  }}
-                />
-              </div>
-            </Stack>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant='outlined'
-              onClick={() => {
-                setOpenDialogMail(false);
-                reset();
-              }}
-            >
-              Close
-            </Button>
-            <LoadingButton
-              type='submit'
-              variant='contained'
-              loading={isSendMail}
-            >
-              Send
-            </LoadingButton>
-          </DialogActions>
-        </form>
-      </Dialog>
+      <MailDialog />
+      <StatusDialog />
     </div>
   );
 };

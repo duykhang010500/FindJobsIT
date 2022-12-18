@@ -6,6 +6,8 @@ import queryString from 'qs';
 import * as crypto from 'crypto';
 import dateformat from 'dateformat';
 
+import { publicIpv4 } from 'public-ip';
+
 import {
   Link,
   Box,
@@ -66,7 +68,7 @@ const EmployerCheckout = (props: Props) => {
     setTotalPrice(totalPrice);
   }, [cart]);
 
-  const handleOrder = () => {
+  const handleOrder = async () => {
     let newCart: any = [];
     cart.forEach((item: any) => {
       let service_id = item.id;
@@ -84,7 +86,7 @@ const EmployerCheckout = (props: Props) => {
 
       localStorage.setItem('checkout', JSON.stringify(formValues));
 
-      var ipAddr = '192.168.1.1';
+      var ipAddr = await publicIpv4();
       var tmnCode = 'GR77G1LW';
       var secretKey = 'PHXSMBRZMNSGHPLZMFVHXCKANZEKWZXP';
       var vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
@@ -140,15 +142,23 @@ const EmployerCheckout = (props: Props) => {
 
   return (
     <>
-      <Breadcrumbs>
-        <Link component={RouterLink} to='/employer'>
-          Home
-        </Link>
-        <Link component={RouterLink} to='/employer/services'>
-          Cart
-        </Link>
-        <Typography>Checkout</Typography>
-      </Breadcrumbs>
+      <Card sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block' }}>
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/employer`}>
+            Home
+          </Link>
+          <Link component={RouterLink} to={`/employer/services`}>
+            Cart
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            Checkout
+          </Typography>
+        </Breadcrumbs>
+      </Card>
       {/* list */}
       <Card sx={{ p: 3, mt: 3 }}>
         <TableContainer>

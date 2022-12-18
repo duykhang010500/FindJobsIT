@@ -124,7 +124,11 @@ const CompanyProfile = (props: Props) => {
   }, [currentUser, reset, defaultValues]);
 
   useEffect(() => {
-    setBanner([currentUser?.info?.info_company?.banners]);
+    if (currentUser?.info?.info_company?.banners !== null) {
+      setBanner([currentUser?.info?.info_company?.banners]);
+    } else {
+      setBanner([]);
+    }
     setImages(
       currentUser?.info?.info_company?.images
         ? currentUser?.info?.info_company?.images.split(',')
@@ -244,8 +248,7 @@ const CompanyProfile = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                label='Company name'
-                required
+                label='Company name *'
                 error={!!error}
                 helperText={error?.message}
               />
@@ -256,8 +259,7 @@ const CompanyProfile = (props: Props) => {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
-                label='Address'
-                required
+                label='Address *'
                 {...field}
                 error={!!error}
                 helperText={error?.message}
@@ -271,8 +273,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Phone'
-                  required
+                  label='Phone *'
                   type='number'
                   fullWidth
                   {...field}
@@ -286,8 +287,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Fax'
-                  required
+                  label='Fax *'
                   type='number'
                   fullWidth
                   {...field}
@@ -305,8 +305,7 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Company size'
-                  required
+                  label='Company size *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -327,9 +326,8 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Tax'
+                  label='Tax *'
                   type='number'
-                  required
                   fullWidth
                   {...field}
                   error={!!error}
@@ -344,8 +342,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Website'
-                  required
+                  label='Website *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -358,8 +355,7 @@ const CompanyProfile = (props: Props) => {
               control={control}
               render={({ field, fieldState: { error } }) => (
                 <TextField
-                  label='Email'
-                  required
+                  label='Email *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -376,8 +372,7 @@ const CompanyProfile = (props: Props) => {
                 <TextField
                   select
                   fullWidth
-                  label='Location'
-                  required
+                  label='Location *'
                   {...field}
                   error={!!error}
                   helperText={error?.message}
@@ -398,8 +393,7 @@ const CompanyProfile = (props: Props) => {
               render={({ field, fieldState: { error } }) => (
                 <TextField
                   select
-                  label='Industry'
-                  required
+                  label='Industry *'
                   fullWidth
                   {...field}
                   error={!!error}
@@ -421,8 +415,7 @@ const CompanyProfile = (props: Props) => {
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
-                label='Description'
-                required
+                label='Description *'
                 {...field}
                 minRows={5}
                 multiline

@@ -28,6 +28,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { employerGetOrderedServices } from '../../../store/services/actions';
 
 import { numberWithCommas } from '../../../utils/format';
+import TableRowSkeleton from '../../../components/Skeleton/TableRowSkeleton';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
@@ -50,10 +52,6 @@ const EmployerServices = (props: Props) => {
     (state: AppState) => state.services
   );
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <>
       <TableContainer>
@@ -64,40 +62,49 @@ const EmployerServices = (props: Props) => {
               <TableCell align='center'>Created at</TableCell>
               <TableCell align='center'>Price (VND)</TableCell>
               <TableCell align='center'>Status</TableCell>
-              <TableCell align='center'></TableCell>
+              <TableCell align='center'>ACTIONS</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orderList.map((item: any) => {
-              return (
-                <TableRow key={item.id}>
-                  <TableCell align='center'>{item.code}</TableCell>
-                  <TableCell align='center'>
-                    {dayjs(item.created_at).format('DD/MM/YYYY h:mm:ss A')}
-                  </TableCell>
-                  <TableCell align='center'>
-                    {numberWithCommas(item.total)}
-                  </TableCell>
-                  <TableCell align='center'>
-                    {getStatusOrder(item.status)}
-                  </TableCell>
+            {isLoading && <TableRowSkeleton />}
+            {!isLoading && orderList.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Nodata />
+                </TableCell>
+              </TableRow>
+            )}
+            {!isLoading &&
+              orderList.map((item: any) => {
+                return (
+                  <TableRow key={item.id}>
+                    <TableCell align='center'>{item.code}</TableCell>
+                    <TableCell align='center'>
+                      {dayjs(item.created_at).format('DD/MM/YYYY h:mm:ss A')}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {numberWithCommas(item.total)}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {getStatusOrder(item.status)}
+                    </TableCell>
 
-                  <TableCell align='center'>
-                    <Tooltip placement='top' title='View detail'>
-                      <IconButton
-                        onClick={() => {
-                          console.log(item);
-                          setSelectedOrder(item);
-                          setOpen(true);
-                        }}
-                      >
-                        <VisibilityRounded />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    <TableCell align='center'>
+                      <Tooltip placement='top' title='View detail'>
+                        <IconButton
+                          onClick={() => {
+                            console.log(item);
+                            setSelectedOrder(item);
+                            setOpen(true);
+                          }}
+                        >
+                          <VisibilityRounded />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
         <TablePagination

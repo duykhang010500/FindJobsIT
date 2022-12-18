@@ -11,7 +11,7 @@ type Props = {};
 const servicesData = [
   {
     title: 'Post Job',
-    desc: 'Post your open tech positions, manage applicants, and intelligent Recruitment Solutions.of recruitment solutions',
+    desc: 'Post your open tech positions, manage applicants, and intelligent recruitment solutions of recruitment solutions',
     img: JobImg,
   },
   {
@@ -88,7 +88,7 @@ const ServicesCard = ({ title, img, desc }: ServicesCardProps) => {
       <Typography variant='h3' textTransform='uppercase' sx={{ mt: 1 }}>
         {title}
       </Typography>
-      <Typography variant='body2' sx={{ mt: 3 }}>
+      <Typography variant='body2' align='center' sx={{ mt: 3 }}>
         {desc}
       </Typography>
     </Card>

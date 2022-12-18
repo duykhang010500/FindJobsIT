@@ -12,7 +12,7 @@ const EmployerDashboardLayout = (props: Props) => {
   return (
     <Box sx={{ backgroundColor: '#f8f9ff' }}>
       <Header />
-      <Container sx={{ pt: 13 }} disableGutters>
+      <Container disableGutters sx={{ pt: 13 }}>
         <Grid container spacing={2}>
           <Grid item md={3.5}>
             <Sidebar />

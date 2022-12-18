@@ -15,16 +15,14 @@ const SearchTop = (props: Props) => {
 
   const { industries } = useSelector((state: AppState) => state.industries);
 
-  const handleSearch = () => {};
-
   return (
-    <Grid container spacing={2} justifyContent='space-between'>
+    <Grid container spacing={2} justifyContent='space-between' sx={{ mb: 5 }}>
       <Grid item xs={12} md={3}>
         <Controller
           control={props.control}
           name='keywords'
           render={({ field }) => {
-            return <TextField {...field} fullWidth label='Job title' />;
+            return <TextField {...field} fullWidth label='Key word' />;
           }}
         />
       </Grid>
@@ -42,7 +40,7 @@ const SearchTop = (props: Props) => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Location *'
+                  label='Location'
                   error={!!error}
                   helperText={error?.message}
                 />
@@ -69,7 +67,7 @@ const SearchTop = (props: Props) => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Industry *'
+                  label='Industry'
                   error={!!error}
                   helperText={error?.message}
                 />

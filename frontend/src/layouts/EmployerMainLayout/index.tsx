@@ -10,7 +10,7 @@ const EmployerMainLayout = (props: Props) => {
   return (
     <>
       <Header />
-      <Box sx={{ mt: 15 }}>
+      <Box sx={{ py: 13 }}>
         <Container>
           <Outlet />
         </Container>
