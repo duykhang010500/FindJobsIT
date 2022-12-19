@@ -152,7 +152,7 @@ function* employerDeleteJobSaga({ payload: id }: any): any {
 function* getJobsAppliedSaga(): any {
   try {
     const res = yield call(jobSeekerServices.getJobsApplied);
-    yield put(getJobsAppliedSuccess(res.data.history));
+    yield put(getJobsAppliedSuccess(res.data.history.reverse()));
   } catch (err) {
     console.log(err);
   }

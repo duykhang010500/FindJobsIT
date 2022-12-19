@@ -7,9 +7,9 @@ import Image from '../../../components/Image';
 
 type Props = {};
 const HeaderWrapper = styled(AppBar)({
+  // height: 92,
   backgroundColor: '#fff',
   boxShadow: 'none',
-  height: 60,
 });
 
 const Header = (props: Props) => {
@@ -17,10 +17,11 @@ const Header = (props: Props) => {
     <HeaderWrapper>
       <Toolbar
         sx={{
-          minHeight: '100%',
+          minHeight: 92,
           borderBottom: '1px solid rgb(240, 240, 240)',
-          zIndex: 9999,
+
           backgroundColor: '#fff',
+          // borderColor: 'red',
         }}
       >
         <Image src={Logo} alt='logo' sx={{ width: '80px', height: '45px' }} />

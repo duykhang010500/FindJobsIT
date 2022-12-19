@@ -327,17 +327,19 @@ const EmployerCandidatesByJob = (props: Props) => {
                             : 'Send mail'
                         }
                       >
-                        <IconButton
-                          disabled={canSendMail < 0}
-                          onClick={() => {
-                            dispatch(selectCandidate(candidate));
-                            dispatch(openMail());
-                          }}
-                        >
-                          <EmailTwoToneIcon
-                            sx={{ color: '#b37feb', fontSize: 19 }}
-                          />
-                        </IconButton>
+                        <div>
+                          <IconButton
+                            disabled={canSendMail < 0}
+                            onClick={() => {
+                              dispatch(selectCandidate(candidate));
+                              dispatch(openMail());
+                            }}
+                          >
+                            <EmailTwoToneIcon
+                              sx={{ color: '#b37feb', fontSize: 19 }}
+                            />
+                          </IconButton>
+                        </div>
                       </Tooltip>
                     </Stack>
                   </TableCell>

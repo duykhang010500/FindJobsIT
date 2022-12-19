@@ -72,8 +72,8 @@ const IndustriesPage = (props: Props) => {
             <Link component={RouterLink} to={`/admin/dashboard`}>
               Dashboard
             </Link>
-            <Link component={RouterLink} to={`/admin/settings/location`}>
-              Location
+            <Link component={RouterLink} to={`/admin/settings/industries`}>
+              Industries
             </Link>
             <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
               List

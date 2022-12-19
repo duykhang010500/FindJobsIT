@@ -13,7 +13,12 @@ import {
   Avatar,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { adminUpdateCompanyStatus } from '../../../store/companies/action';
+import {
+  adminUpdateCompanyStatus,
+  closeCompanyDialog,
+} from '../../../store/companies/action';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store/reducer';
 
 type Props = {
   company?: any;
@@ -22,6 +27,10 @@ type Props = {
 };
 
 const DetailCompanyDialog = (props: Props) => {
+  const { isOpenCompanyDialog } = useSelector(
+    (state: AppState) => state.companies
+  );
+
   const location = useLocation();
 
   const dispatch = useDispatch();
@@ -33,7 +42,7 @@ const DetailCompanyDialog = (props: Props) => {
   const isRequested = pathname.includes('requested');
 
   return (
-    <Dialog open={props.onOpen}>
+    <Dialog open={isOpenCompanyDialog}>
       {/* <DialogTitle>Detail</DialogTitle> */}
       <DialogContent>
         <Stack sx={{ mb: 2 }} direction='row' justifyContent='center'>
@@ -164,9 +173,10 @@ const DetailCompanyDialog = (props: Props) => {
           <Button
             variant='contained'
             color='error'
-            onClick={() =>
-              dispatch(adminUpdateCompanyStatus(props?.company?.id, 3))
-            }
+            onClick={() => {
+              dispatch(adminUpdateCompanyStatus(props?.company?.id, 3));
+              dispatch(closeCompanyDialog());
+            }}
           >
             Reject
           </Button>
@@ -175,9 +185,10 @@ const DetailCompanyDialog = (props: Props) => {
           <Button
             variant='contained'
             color='success'
-            onClick={() =>
-              dispatch(adminUpdateCompanyStatus(props?.company?.id, 1))
-            }
+            onClick={() => {
+              dispatch(adminUpdateCompanyStatus(props?.company?.id, 1));
+              dispatch(closeCompanyDialog());
+            }}
           >
             Accept
           </Button>
@@ -187,24 +198,29 @@ const DetailCompanyDialog = (props: Props) => {
             <Button
               variant='contained'
               color='error'
-              onClick={() =>
-                dispatch(adminUpdateCompanyStatus(props?.company?.id, 3))
-              }
+              onClick={() => {
+                dispatch(adminUpdateCompanyStatus(props?.company?.id, 3));
+                dispatch(closeCompanyDialog());
+              }}
             >
               Reject
             </Button>
             <Button
               variant='contained'
               color='success'
-              onClick={() =>
-                dispatch(adminUpdateCompanyStatus(props?.company?.id, 1))
-              }
+              onClick={() => {
+                dispatch(adminUpdateCompanyStatus(props?.company?.id, 1));
+                dispatch(closeCompanyDialog());
+              }}
             >
               Accept
             </Button>
           </>
         )}
-        <Button variant='outlined' onClick={props.onClose}>
+        <Button
+          variant='outlined'
+          onClick={() => dispatch(closeCompanyDialog())}
+        >
           Close
         </Button>
       </DialogActions>

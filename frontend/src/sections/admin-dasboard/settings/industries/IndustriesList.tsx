@@ -17,8 +17,8 @@ import {
 
 import { IconButton } from '@mui/material';
 
-import SaveAsIcon from '@mui/icons-material/SaveAs';
-import DeleteIcon from '@mui/icons-material/Delete';
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
 import { AppState } from '../../../../store/reducer';
 import { IIndustry } from '../../../../store/industries/types';
@@ -54,8 +54,8 @@ const IndustriesList = (props: Props) => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell align='center'>Created at</TableCell>
-              <TableCell align='center'>Updated at</TableCell>
+              {/* <TableCell align='center'>Created at</TableCell>
+              <TableCell align='center'>Updated at</TableCell> */}
               <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -66,18 +66,18 @@ const IndustriesList = (props: Props) => {
                 <TableRow key={industry.id}>
                   <TableCell>{industry.id}</TableCell>
                   <TableCell>{industry.name}</TableCell>
-                  <TableCell align='center'>
+                  {/* <TableCell align='center'>
                     {dayjs(industry.created_at).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell align='center'>
                     {dayjs(industry.updated_at).format('DD/MM/YYYY')}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell align='center'>
                     <IconButton onClick={() => handleEdit(industry.id)}>
-                      <SaveAsIcon sx={{ color: '#096dd9' }} />
+                      <BorderColorTwoToneIcon sx={{ color: '#40a9ff' }} />
                     </IconButton>
                     <IconButton onClick={() => handleDelete(industry.id)}>
-                      <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                      <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
                     </IconButton>
                   </TableCell>
                 </TableRow>

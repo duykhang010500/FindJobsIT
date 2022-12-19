@@ -23,12 +23,11 @@ import {
   DialogContentText,
 } from '@mui/material';
 
-import SaveAsIcon from '@mui/icons-material/SaveAs';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
 
 import { AppState } from '../../../store/reducer';
 import { numberWithCommas } from '../../../utils/format';
-import StatusBadge from '../../../components/StatusBadge';
 import { deleteService } from '../../../store/services/actions';
 
 type Props = {};
@@ -69,9 +68,7 @@ const ServicesList = (props: Props) => {
                 <TableCell align='left'>Description</TableCell>
                 <TableCell align='center'>Day(s)</TableCell>
                 <TableCell align='right'>Unit price</TableCell>
-                {/* <TableCell>Discount</TableCell> */}
                 <TableCell align='center'>Created at</TableCell>
-                {/* <TableCell>Status</TableCell> */}
                 <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -90,28 +87,26 @@ const ServicesList = (props: Props) => {
                     <TableCell align='right'>
                       {numberWithCommas(item.price)}
                     </TableCell>
-                    {/* <TableCell align='center'>{item.discount}%</TableCell> */}
+
                     <TableCell align='center'>
                       {dayjs(item.created_at).format('DD/MM/YYYY')}
                     </TableCell>
-                    {/* <TableCell>
-                    <StatusBadge />
-                  </TableCell> */}
+
                     <TableCell
                       sx={{ display: 'flex', justifyContent: 'center' }}
                     >
-                      <Tooltip title='Edit' placement='top'>
+                      <Tooltip title='Edit' placement='bottom'>
                         <IconButton
                           onClick={() =>
                             navigate(`/admin/services/${item.id}/edit`)
                           }
                         >
-                          <SaveAsIcon sx={{ color: '#1890ff' }} />
+                          <BorderColorTwoToneIcon sx={{ color: '#1890ff' }} />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title='Delete' placement='top'>
+                      <Tooltip title='Delete' placement='bottom'>
                         <IconButton onClick={() => handleDelete(item)}>
-                          <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                          <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
                         </IconButton>
                       </Tooltip>
                     </TableCell>

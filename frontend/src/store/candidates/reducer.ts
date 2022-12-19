@@ -31,6 +31,7 @@ import {
   SELECT_CANDIDATE,
   OPEN_STATUS_DIALOG,
   CLOSE_STATUS_DIALOG,
+  DELETE_SAVED_CANDIDATE_SUCCESS,
 
   // EMPLOYER_GET_SENT_MAIL_LIST_FAILURE,
 } from './actionTypes';
@@ -237,6 +238,13 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
       return {
         ...state,
         savedCandidates: action.payload,
+      };
+    case DELETE_SAVED_CANDIDATE_SUCCESS:
+      return {
+        ...state,
+        savedCandidates: state.savedCandidates.filter(
+          (candidate: any) => candidate.resume_id !== action.payload
+        ),
       };
     case ADMIN_UPDATE_STATUS_CANDIDATE_SUCCESS:
       return {

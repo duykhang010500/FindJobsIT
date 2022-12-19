@@ -9,6 +9,7 @@ import {
   ADMIN_GET_COMPANIES_REJECTED_SUCCESS,
   ADMIN_UPDATE_COMPANY_STATUS,
   ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
+  CLOSE_COMPANY_DIALOG,
   EMPLOYER_UPDATE_COMPANY,
   FOLLOW_COMPANY,
   GET_COMPANIES,
@@ -17,6 +18,7 @@ import {
   GET_COMPANY_SUCCESS,
   GET_FOLLOWING_COMPANIES,
   GET_FOLLOWING_COMPANIES_SUCCESS,
+  OPEN_COMPANY_DIALOG,
   UN_FOLLOW_COMPANY,
 } from './actionTypes';
 
@@ -118,4 +120,12 @@ export const getFollowingCompaniesSusses = (companies: any) => ({
 export const unFollowCompany = (id: number) => ({
   type: UN_FOLLOW_COMPANY,
   payload: id,
+});
+
+export const openCompanyDialog = () => ({
+  type: OPEN_COMPANY_DIALOG,
+});
+
+export const closeCompanyDialog = () => ({
+  type: CLOSE_COMPANY_DIALOG,
 });

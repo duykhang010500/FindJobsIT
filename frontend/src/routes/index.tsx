@@ -73,6 +73,7 @@ import EmployerExpireServices from '../pages/employer/services/EmployerExpireSer
 import Offices from '../pages/employer/settings/Offices';
 import EmployerCandidateFolders from '../pages/employer/candidates/EmployerCandidateFolders';
 import JobSeekerSavedCompanies from '../pages/jobseeker/JobSeekerSavedCompanies';
+import AdminViewDetailCandidate from '../pages/admin/candidates/AdminViewDetailCandidate';
 
 type Props = {};
 
@@ -184,7 +185,7 @@ const Router = (props: Props) => {
 
         //candidates
         { path: 'candidates/list', element: <AdminCandidatesPage /> },
-        { path: 'candidates/:id', element: <></> },
+        { path: 'candidates/:id', element: <AdminViewDetailCandidate /> },
 
         //services
         { path: 'services/orders', element: <OrdersPage /> },

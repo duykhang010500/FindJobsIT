@@ -415,7 +415,7 @@ const CV2 = ({ resume }: Props) => {
                   Industry :
                 </Typography>
                 <Typography variant='body1' component='span'>
-                  {resume?.industries.map((location: any, index: number) => {
+                  {resume?.industries?.map((location: any, index: number) => {
                     if (index === 0) {
                       return <span key={location.id}>{location.name}</span>;
                     } else {
@@ -435,7 +435,7 @@ const CV2 = ({ resume }: Props) => {
                   Location :
                 </Typography>
                 <Typography variant='body1' component='span'>
-                  {resume?.locations.map((location: any, index: number) => {
+                  {resume?.locations?.map((location: any, index: number) => {
                     if (index === 0) {
                       return <span key={location.id}>{location.name}</span>;
                     } else {

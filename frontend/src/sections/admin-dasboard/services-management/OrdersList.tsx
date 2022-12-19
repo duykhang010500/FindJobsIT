@@ -100,7 +100,7 @@ const OrdersList = (props: Props) => {
                               setOpen(true);
                             }}
                           >
-                            <Visibility />
+                            <Visibility sx={{ color: '#1890ff' }} />
                           </IconButton>
                         </Tooltip>
                       </TableCell>

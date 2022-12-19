@@ -18,8 +18,12 @@ import {
   IconButton,
   Breadcrumbs,
   TableContainer,
+  InputAdornment,
   TablePagination,
+  TextField,
 } from '@mui/material';
+
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 import { Visibility } from '@mui/icons-material';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
@@ -27,6 +31,7 @@ import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import { AppState } from '../../../store/reducer';
 import { approveJob, GetActiveJobs } from '../../../store/jobs/actions';
 import Image from '../../../components/Image';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
@@ -34,6 +39,8 @@ const JobsPending = (props: Props) => {
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
+  const [keyword, setKeyword] = useState<string>('');
 
   const dispatch = useDispatch();
 
@@ -44,6 +51,8 @@ const JobsPending = (props: Props) => {
   }, [dispatch]);
 
   const { activeJobs } = useSelector((state: AppState) => state.jobs);
+
+  const filteredJobs = filterJobs(activeJobs, keyword);
 
   return (
     <>
@@ -68,6 +77,34 @@ const JobsPending = (props: Props) => {
       </Card>
 
       <Card sx={{ p: 3 }}>
+        <Stack
+          direction='row'
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          mb={3}
+        >
+          <TextField
+            value={keyword}
+            placeholder='Search jobs...'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(e: any) => setKeyword(e.target.value)}
+          />
+          {/* <Button variant='contained'>
+            <CSVLink
+              data={exportData}
+              style={{ textDecoration: 'unset', color: 'inherit' }}
+            >
+              Export
+            </CSVLink>
+          </Button> */}
+        </Stack>
+
         <TableContainer>
           <Table>
             <TableHead>
@@ -81,7 +118,14 @@ const JobsPending = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {activeJobs?.map((job: any) => (
+              {filteredJobs.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Nodata />
+                  </TableCell>
+                </TableRow>
+              )}
+              {filteredJobs?.map((job: any) => (
                 <TableRow key={job.id}>
                   <TableCell>
                     <Image
@@ -129,7 +173,7 @@ const JobsPending = (props: Props) => {
           <TablePagination
             rowsPerPageOptions={[10, 20, 40]}
             component='div'
-            count={activeJobs.length}
+            count={filteredJobs.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(_, value) => setPage(value)}
@@ -139,6 +183,13 @@ const JobsPending = (props: Props) => {
       </Card>
     </>
   );
+};
+
+export const filterJobs = (arr: any, str: string) => {
+  const newArr = arr.filter((item: any) =>
+    item.title.toLowerCase().includes(str.toLowerCase())
+  );
+  return newArr;
 };
 
 export default JobsPending;

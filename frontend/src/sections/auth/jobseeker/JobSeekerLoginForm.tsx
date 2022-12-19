@@ -83,8 +83,7 @@ const JobSeekerLoginForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                required
-                label='Email'
+                label='Email *'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -103,8 +102,7 @@ const JobSeekerLoginForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                required
-                label='Password'
+                label='Password *'
                 type={showPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}

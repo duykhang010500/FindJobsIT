@@ -177,7 +177,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                   />
                 )}
               /> */}
-              <FormControlLabel
+              {/* <FormControlLabel
                 label={`Status`}
                 control={
                   <Controller
@@ -188,7 +188,7 @@ const ServiceNewForm = ({ isEdit, service }: Props) => {
                     )}
                   />
                 }
-              />
+              /> */}
             </Stack>
           </Grid>
         </Grid>

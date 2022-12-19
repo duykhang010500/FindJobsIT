@@ -8,16 +8,21 @@ type Props = {};
 
 const AdminLayout = (props: Props) => {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', minHeight: '100%', overflow: 'hidden' }}>
       <Header />
+
       <Sidebar />
+
       <Box
         sx={{
-          mt: 8,
-          p: 3,
-          width: 'calc(100% - 300px)',
-          backgroundColor: 'rgb(227, 242, 253)',
+          // mt: 8,
+          pt: 10,
+          px: 3,
+          pb: 3,
+          flexGrow: 1,
+          overflow: 'auto',
           minHeight: '100vh',
+          backgroundColor: 'rgb(227, 242, 253)',
         }}
       >
         <Outlet />

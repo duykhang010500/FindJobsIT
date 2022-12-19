@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 
 import { useSelector } from 'react-redux';
 
+import { useNavigate } from 'react-router-dom';
+
 import {
   Card,
   Table,
@@ -23,9 +25,14 @@ import {
   DialogActions,
   TableContainer,
   TablePagination,
+  InputAdornment,
 } from '@mui/material';
 
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { CSVLink, CSVDownload } from 'react-csv';
+
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
@@ -34,15 +41,22 @@ import BadgeStatus from '../../../components/Badge';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { adminUpdateStatusCandidate } from '../../../store/candidates/action';
+import Nodata from '../../../components/Nodata';
 
 type Props = {};
 
 const AdminCandidateList = (props: Props) => {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
+  const [exportData, setExportDate] = useState<any>([]);
+
+  const [keyword, setKeyword] = useState<string>('');
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -70,20 +84,74 @@ const AdminCandidateList = (props: Props) => {
     setStatus(selectedCandidate?.status);
   }, [selectedCandidate]);
 
+  useEffect(() => {
+    setExportDate(formatData(list));
+  }, [list]);
+
+  const formatData = (arr: any) => {
+    let newArr: any = [];
+    arr.forEach((item: any, index: number) => {
+      newArr.push({
+        STT: `${index + 1}`,
+        Fullname: `${item.fullname}`,
+        Email: `${item.email}`,
+        Phone: `${item.phone}`,
+        Jobs_applied: `${item?.candidate.length}`,
+      });
+    });
+    return newArr;
+  };
+
+  const filteredCandidates = filterCandidate(list, keyword);
+
   return (
     <Card sx={{ p: 3 }}>
+      <Stack
+        direction='row'
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        mb={3}
+      >
+        <TextField
+          value={keyword}
+          placeholder='Search candidate...'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <SearchOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          onChange={(e: any) => setKeyword(e.target.value)}
+        />
+        <Button variant='contained'>
+          <CSVLink
+            data={exportData}
+            style={{ textDecoration: 'unset', color: 'inherit' }}
+          >
+            Export
+          </CSVLink>
+        </Button>
+      </Stack>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>Member</TableCell>
-              <TableCell align='center'>Attempt date</TableCell>
+              <TableCell align='center'>Jobs applied</TableCell>
               <TableCell align='center'>Status</TableCell>
               <TableCell align='center'> Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map((member: any) => {
+            {filteredCandidates.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={4}>
+                  <Nodata />
+                </TableCell>
+              </TableRow>
+            )}
+            {filteredCandidates.map((member: any) => {
               return (
                 <TableRow key={member.id}>
                   <TableCell>
@@ -96,7 +164,9 @@ const AdminCandidateList = (props: Props) => {
                       <Stack>
                         <Typography variant='body2'>
                           <Typography variant='h4'>
-                            {`${member.fullname} / ${member?.resume?.resume_title}`}
+                            {`${member.fullname} / ${
+                              member?.resume?.resume_title || ''
+                            }`}
                           </Typography>
                           {member.expected_position &&
                             `/${member.expected_position} `}
@@ -107,7 +177,7 @@ const AdminCandidateList = (props: Props) => {
                   </TableCell>
                   <TableCell align='center'>
                     <Typography variant='body2' fontWeight={600}>
-                      {dayjs(member.created_at).format('DD/MM/YYYY')}
+                      {member?.candidate?.length}
                     </Typography>
                   </TableCell>
                   <TableCell align='center'>
@@ -120,8 +190,12 @@ const AdminCandidateList = (props: Props) => {
                   </TableCell>
                   <TableCell align='center'>
                     <Tooltip placement='top' title='View detail'>
-                      <IconButton>
-                        <RemoveRedEyeIcon sx={{ color: '#1890ff' }} />
+                      <IconButton
+                        onClick={() =>
+                          navigate(`/admin/candidates/${member.id}`)
+                        }
+                      >
+                        <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
                       </IconButton>
                     </Tooltip>
                     <Tooltip placement='top' title='Edit status'>
@@ -143,7 +217,7 @@ const AdminCandidateList = (props: Props) => {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component='div'
-          count={list.length}
+          count={filteredCandidates.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(_, value) => setPage(value)}
@@ -178,6 +252,16 @@ const AdminCandidateList = (props: Props) => {
       </Dialog>
     </Card>
   );
+};
+
+export const filterCandidate = (arr: any, keyword: string) => {
+  const newArr = arr.filter(
+    (item: any) =>
+      item.fullname.toLowerCase().includes(keyword.toLowerCase()) ||
+      item.phone.toLowerCase().includes(keyword.toLowerCase()) ||
+      item.email.toLowerCase().includes(keyword.toLowerCase())
+  );
+  return newArr;
 };
 
 export default AdminCandidateList;

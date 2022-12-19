@@ -14,8 +14,8 @@ import {
 } from '@mui/material';
 import { IconButton } from '@mui/material';
 
-import SaveAsIcon from '@mui/icons-material/SaveAs';
-import DeleteIcon from '@mui/icons-material/Delete';
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 
 import { AppState } from '../../../../store/reducer';
 import { ILocation } from '../../../../store/location/types';
@@ -52,7 +52,7 @@ const LocationList = (props: Props) => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell align='center'>Action</TableCell>
+              <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -66,10 +66,10 @@ const LocationList = (props: Props) => {
                     <TableCell>{name}</TableCell>
                     <TableCell align='center'>
                       <IconButton onClick={() => handleEdit(id)}>
-                        <SaveAsIcon sx={{ color: '#096dd9' }} />
+                        <BorderColorTwoToneIcon sx={{ color: '#40a9ff' }} />
                       </IconButton>
                       <IconButton onClick={() => handleDelete(id)}>
-                        <DeleteIcon sx={{ color: '#ff4d4f' }} />
+                        <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>

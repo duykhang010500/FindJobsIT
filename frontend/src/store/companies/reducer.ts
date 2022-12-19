@@ -5,15 +5,18 @@ import {
   ADMIN_GET_COMPANIES_PENDING_SUCCESS,
   ADMIN_GET_COMPANIES_REJECTED_SUCCESS,
   ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
+  CLOSE_COMPANY_DIALOG,
   GET_COMPANIES,
   GET_COMPANIES_SUCCESS,
   GET_COMPANY_SUCCESS,
   GET_FOLLOWING_COMPANIES,
   GET_FOLLOWING_COMPANIES_SUCCESS,
+  OPEN_COMPANY_DIALOG,
 } from './actionTypes';
 import { ICompaniesState, CompaniesAction } from './types';
 
 const initialState: ICompaniesState = {
+  isOpenCompanyDialog: false,
   isLoading: false,
   list: [],
   company: null,
@@ -68,6 +71,17 @@ const companiesReducer = (state = initialState, action: CompaniesAction) => {
         ...state,
         isLoading: false,
         followingCompany: action.payload,
+      };
+    case OPEN_COMPANY_DIALOG:
+      return {
+        ...state,
+        isOpenCompanyDialog: true,
+      };
+
+    case CLOSE_COMPANY_DIALOG:
+      return {
+        ...state,
+        isOpenCompanyDialog: false,
       };
 
     default:

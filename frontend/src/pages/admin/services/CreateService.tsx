@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Typography, Breadcrumbs, Link } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Card } from '@mui/material';
 import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
 
 import { AppState } from '../../../store/reducer';
@@ -26,18 +26,24 @@ const CreateService = (props: Props) => {
 
   return (
     <>
-      <Typography variant='h3' gutterBottom>
-        {isEditPage ? 'Edit service' : 'CreateService'}
-      </Typography>
-      <Breadcrumbs sx={{ mt: 3 }}>
-        <Link component={RouterLink} to='/'>
-          Dashboard
-        </Link>
-        <Link component={RouterLink} to='/admin/services/list'>
-          Services
-        </Link>
-        <Typography>{isEditPage ? 'Edit' : 'Create'}</Typography>
-      </Breadcrumbs>
+      <Card sx={{ p: 2, backgroundColor: '#fff', display: 'inline-block' }}>
+        <Breadcrumbs
+          sx={{ '&.MuiTypography-root': { fontWeight: 600 } }}
+          separator='›'
+          aria-label='breadcrumb'
+        >
+          <Link component={RouterLink} to={`/admin/dashboard`}>
+            Dashboard
+          </Link>
+          <Link component={RouterLink} to={`/admin/services/list`}>
+            Services
+          </Link>
+          <Typography variant='h5' fontWeight={700} sx={{ color: '#9254de' }}>
+            {isEditPage ? 'Edit' : 'Create'}
+          </Typography>
+        </Breadcrumbs>
+      </Card>
+
       <ServiceNewForm isEdit={isEditPage} service={service} />
     </>
   );

@@ -53,6 +53,8 @@ const DetailCandidate = (props: Props) => {
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
+  const { activeServices } = useSelector((state: AppState) => state.services);
+
   useEffect(() => {
     dispatch(getDetailCandidate(Number(id)));
   }, [id, dispatch]);
@@ -85,6 +87,8 @@ const DetailCandidate = (props: Props) => {
       pdf.save(`CV_${resume?.member?.fullname}.pdf`);
     });
   }
+
+  const canSendMail = activeServices.findIndex((item: any) => item.id === 14);
 
   if (candidate?.resume_online === 0) {
     return (
@@ -148,18 +152,19 @@ const DetailCandidate = (props: Props) => {
           </Tooltip>
           <Tooltip
             placement='bottom'
-            title='Send mail'
-            // title={canSendMail < 0 ? 'Please buy this service!' : 'Send mail'}
+            title={canSendMail < 0 ? 'Please buy this service!' : 'Send mail'}
           >
-            <IconButton
-              // disabled={canSendMail < 0}
-              onClick={() => {
-                dispatch(selectCandidate(candidate));
-                dispatch(openMail());
-              }}
-            >
-              <EmailTwoToneIcon sx={{ color: '#b37feb', fontSize: 19 }} />
-            </IconButton>
+            <div>
+              <IconButton
+                disabled={canSendMail < 0}
+                onClick={() => {
+                  dispatch(selectCandidate(candidate));
+                  dispatch(openMail());
+                }}
+              >
+                <EmailTwoToneIcon sx={{ color: '#b37feb', fontSize: 19 }} />
+              </IconButton>
+            </div>
           </Tooltip>
           <Tooltip placement='bottom' title='Download CV'>
             <IconButton sx={{ mb: 3 }} onClick={exportPDF}>

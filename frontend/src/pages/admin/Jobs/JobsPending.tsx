@@ -17,7 +17,9 @@ import {
   Dialog,
   Typography,
   IconButton,
+  TextField,
   Breadcrumbs,
+  InputAdornment,
   TableContainer,
   TablePagination,
 } from '@mui/material';
@@ -35,6 +37,10 @@ import {
 import Image from '../../../components/Image';
 import DetailDialog from '../../../sections/admin-dasboard/job-management/DetailDialog';
 import { useNavigate } from 'react-router-dom';
+import Nodata from '../../../components/Nodata';
+
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { filterJobs } from './JobsActive';
 
 type Props = {};
 
@@ -42,6 +48,8 @@ const JobsPending = (props: Props) => {
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
+  const [keyword, setKeyWord] = useState<string>('');
 
   const dispatch = useDispatch();
 
@@ -56,9 +64,10 @@ const JobsPending = (props: Props) => {
   const { pendingJobs } = useSelector((state: AppState) => state.jobs);
 
   const handleViewDetail = (jobID: number) => {
-    // dispatch(adminGetDetailJob(jobID));
     navigate(`/admin/job/${jobID}`);
   };
+
+  const filteredPendingJobs = filterJobs(pendingJobs, keyword);
 
   return (
     <>
@@ -83,6 +92,33 @@ const JobsPending = (props: Props) => {
       </Card>
 
       <Card sx={{ p: 3 }}>
+        <Stack
+          direction='row'
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          mb={3}
+        >
+          <TextField
+            value={keyword}
+            placeholder='Search jobs...'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(e: any) => setKeyWord(e.target.value)}
+          />
+          {/* <Button variant='contained'>
+            <CSVLink
+              data={exportData}
+              style={{ textDecoration: 'unset', color: 'inherit' }}
+            >
+              Export
+            </CSVLink>
+          </Button> */}
+        </Stack>
         <TableContainer>
           <Table>
             <TableHead>
@@ -96,7 +132,14 @@ const JobsPending = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {pendingJobs?.map((job: any) => (
+              {filteredPendingJobs?.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Nodata />
+                  </TableCell>
+                </TableRow>
+              )}
+              {filteredPendingJobs?.map((job: any) => (
                 <TableRow key={job.id}>
                   <TableCell>
                     <Image
@@ -156,7 +199,7 @@ const JobsPending = (props: Props) => {
           <TablePagination
             rowsPerPageOptions={[10, 20, 40]}
             component='div'
-            count={pendingJobs.length}
+            count={filteredPendingJobs.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(_, value) => setPage(value)}

@@ -102,8 +102,7 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                required
-                label='Email'
+                label='Email *'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -122,8 +121,7 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                required
-                label='Full name'
+                label='Full name *'
                 error={!!error}
                 helperText={error?.message}
                 InputProps={{
@@ -142,8 +140,7 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                required
-                label='Password'
+                label='Password *'
                 type={showPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}
@@ -176,8 +173,7 @@ const JobSeekerRegisterForm = (props: Props) => {
             render={({ field, fieldState: { error } }) => (
               <TextField
                 {...field}
-                required
-                label='Confirm Password'
+                label='Confirm Password *'
                 type={showConfirmPassword ? 'text' : 'password'}
                 error={!!error}
                 helperText={error?.message}

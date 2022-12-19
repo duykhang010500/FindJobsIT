@@ -8,6 +8,7 @@ import {
   CLOSE_SAVE,
   CLOSE_STATUS_DIALOG,
   DELETE_SAVED_CANDIDATE,
+  DELETE_SAVED_CANDIDATE_SUCCESS,
   EMPLOYER_GET_CANDIDATES_BY_JOB,
   EMPLOYER_GET_CANDIDATES_BY_JOB_FAILURE,
   EMPLOYER_GET_CANDIDATES_BY_JOB_SUCCESS,
@@ -203,6 +204,13 @@ export const getSavedCandidatesSuccess = (list: any) => {
 export const deleteSavedCandidate = (id: any) => {
   return {
     type: DELETE_SAVED_CANDIDATE,
+    payload: id,
+  };
+};
+
+export const deleteSavedCandidateSuccess = (id: any) => {
+  return {
+    type: DELETE_SAVED_CANDIDATE_SUCCESS,
     payload: id,
   };
 };

@@ -3,26 +3,24 @@ import Logo from '../../../components/Logo';
 import SidebarContent from '../../common/SidebarContent/SidebarContent';
 
 import WorkIcon from '@mui/icons-material/Work';
-// eslint-disable-next-line
 import PeopleIcon from '@mui/icons-material/People';
-// eslint-disable-next-line
-import BusinessIcon from '@mui/icons-material/Business';
-
 import SettingsIcon from '@mui/icons-material/Settings';
 import ApartmentIcon from '@mui/icons-material/Apartment';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import DescriptionIcon from '@mui/icons-material/Description';
+
+import { Drawer } from '@mui/material';
 
 type Props = {};
 
 const sidebarData = [
   {
     title: `Dashboard`,
-    icon: <DashboardIcon />,
+    icon: <DashboardTwoToneIcon />,
     path: '/admin/dashboard',
   },
   {
-    title: `Employers management`,
+    title: `Employers`,
     icon: <ApartmentIcon />,
     children: [
       {
@@ -40,23 +38,23 @@ const sidebarData = [
     ],
   },
   {
-    title: `Candidates Management`,
-    icon: <PeopleIcon />,
-    path: '/admin/candidates',
-    children: [{ title: `List of candidates`, path: `/admin/candidates/list` }],
-  },
-  {
-    title: `Jobs Management`,
+    title: `Jobs`,
     icon: <WorkIcon />,
     path: '/admin/jobs',
     children: [
       { title: 'Pending Jobs', path: '/admin/jobs/pending' },
       { title: 'Active Jobs', path: '/admin/jobs/active' },
-      { title: 'Reject Jobs', path: '/admin/jobs/reject' },
+      { title: 'Rejected Jobs', path: '/admin/jobs/reject' },
     ],
   },
   {
-    title: `Services Management`,
+    title: `Candidates`,
+    icon: <PeopleIcon />,
+    path: '/admin/candidates/list',
+    // children: [{ title: `List of candidates`, path: `/admin/candidates/list` }],
+  },
+  {
+    title: `Services`,
     icon: <DescriptionIcon />,
     path: '/admin/services',
     children: [
@@ -76,14 +74,6 @@ const sidebarData = [
         title: `Industries`,
         path: `/admin/settings/industries`,
       },
-      // {
-      //   title: `Degrees`,
-      //   path: `/admin/settings/degree`,
-      // },
-      // {
-      //   title: `Level`,
-      //   path: `/admin/settings/level`,
-      // },
     ],
   },
 ];
@@ -91,19 +81,37 @@ const sidebarData = [
 const Sidebar = (props: Props) => {
   return (
     <Box
+      component={'nav'}
       sx={{
-        width: '280px',
-        padding: '10px',
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        borderRight: '1px dashed rgba(145, 158, 171, 0.24)',
-        maxHeight: '500px',
+        flexShrink: 0,
+        width: 280,
+        border: 'none',
       }}
     >
-      <Logo />
-      {/* <SidebarAccount /> */}
-      <SidebarContent sidebarData={sidebarData} />
+      <Drawer
+        open
+        variant='permanent'
+        PaperProps={{
+          sx: {
+            width: 280,
+            padding: '10px',
+            borderRight: '1px dashed rgba(145, 158, 171, 0.24)',
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+
+            // maxHeight: '500px',
+          }}
+        >
+          <Logo />
+          <SidebarContent sidebarData={sidebarData} />
+        </Box>
+      </Drawer>
     </Box>
   );
 };

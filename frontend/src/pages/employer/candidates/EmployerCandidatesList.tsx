@@ -93,7 +93,7 @@ const EmployerCandidatesList = (props: Props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    setData(formatData(candidates));
+    setData(formatData(list));
   }, [list]);
 
   const formatData = (arr: any) => {
@@ -102,16 +102,16 @@ const EmployerCandidatesList = (props: Props) => {
       newArr.push({
         STT: `${index + 1}`,
         Date_Apply: `${dayjs(item.created_at).format('DD/MM/YYYY')}`,
-        Job_Title: `${item.job.title}`,
-        Full_Name: `${item.member.fullname}`,
-        Email: `${item.member.email}`,
-        Phone: `${item.member.phone}`,
-        Experience: `${
-          item.resume.yearofexperience > 0
-            ? item.resume.yearofexperience + ' ' + 'year'
-            : 'No experience'
-        }`,
-        Degree: `${item.resume.degree}`,
+        Job_Title: `${item?.job?.title}`,
+        Full_Name: `${item?.member?.fullname}`,
+        Email: `${item?.member?.email}`,
+        Phone: `${item?.member?.phone}`,
+        // Experience: `${
+        //   item.resume.yearofexperience > 0
+        //     ? item.resume.yearofexperience + ' ' + 'year'
+        //     : 'No experience'
+        // }`,
+        // Degree: `${item.resume.degree}`,
       });
     });
 
@@ -275,17 +275,19 @@ const EmployerCandidatesList = (props: Props) => {
                             : 'Send mail'
                         }
                       >
-                        <IconButton
-                          disabled={canSendMail < 0}
-                          onClick={() => {
-                            dispatch(selectCandidate(candidate));
-                            dispatch(openMail());
-                          }}
-                        >
-                          <EmailTwoToneIcon
-                            sx={{ color: '#b37feb', fontSize: 19 }}
-                          />
-                        </IconButton>
+                        <div>
+                          <IconButton
+                            disabled={canSendMail < 0}
+                            onClick={() => {
+                              dispatch(selectCandidate(candidate));
+                              dispatch(openMail());
+                            }}
+                          >
+                            <EmailTwoToneIcon
+                              sx={{ color: '#b37feb', fontSize: 19 }}
+                            />
+                          </IconButton>
+                        </div>
                       </Tooltip>
                     </Stack>
                   </TableCell>

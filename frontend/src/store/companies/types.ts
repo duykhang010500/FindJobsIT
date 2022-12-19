@@ -21,9 +21,12 @@ import {
   GET_FOLLOWING_COMPANIES,
   GET_FOLLOWING_COMPANIES_SUCCESS,
   UN_FOLLOW_COMPANY,
+  OPEN_COMPANY_DIALOG,
+  CLOSE_COMPANY_DIALOG,
 } from './actionTypes';
 
 export interface ICompaniesState {
+  isOpenCompanyDialog: boolean;
   isLoading: boolean;
   list: [];
   company: any;
@@ -133,7 +136,17 @@ export type UnFollowCompany = {
   payload: number;
 };
 
+export type OpenCompanyDialog = {
+  type: typeof OPEN_COMPANY_DIALOG;
+};
+
+export type CloseCompanyDialog = {
+  type: typeof CLOSE_COMPANY_DIALOG;
+};
+
 export type CompaniesAction =
+  | OpenCompanyDialog
+  | CloseCompanyDialog
   | AdminGetCompaniesList
   | AdminGetCompaniesListSuccess
   | EmployerUpdateCompany

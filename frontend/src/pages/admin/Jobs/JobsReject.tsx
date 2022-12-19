@@ -18,6 +18,8 @@ import {
   Breadcrumbs,
   TableContainer,
   TablePagination,
+  InputAdornment,
+  TextField,
 } from '@mui/material';
 
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
@@ -26,6 +28,9 @@ import { Visibility } from '@mui/icons-material';
 import { AppState } from '../../../store/reducer';
 import { approveJob, GetRejectedJobs } from '../../../store/jobs/actions';
 import Image from '../../../components/Image';
+import Nodata from '../../../components/Nodata';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { filterJobs } from './JobsActive';
 
 type Props = {};
 
@@ -38,11 +43,15 @@ const JobsReject = (props: Props) => {
 
   const navigate = useNavigate();
 
+  const [keyword, setKeyword] = useState<string>('');
+
   useEffect(() => {
     dispatch(GetRejectedJobs());
   }, [dispatch]);
 
   const { rejectedJobs } = useSelector((state: AppState) => state.jobs);
+
+  const filteredRejectedJobs = filterJobs(rejectedJobs, keyword);
 
   return (
     <>
@@ -67,6 +76,34 @@ const JobsReject = (props: Props) => {
       </Card>
 
       <Card sx={{ p: 3 }}>
+        <Stack
+          direction='row'
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          mb={3}
+        >
+          <TextField
+            value={keyword}
+            placeholder='Search jobs...'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(e: any) => setKeyword(e.target.value)}
+          />
+          {/* <Button variant='contained'>
+            <CSVLink
+              data={exportData}
+              style={{ textDecoration: 'unset', color: 'inherit' }}
+            >
+              Export
+            </CSVLink>
+          </Button> */}
+        </Stack>
+
         <TableContainer>
           <Table>
             <TableHead>
@@ -80,7 +117,14 @@ const JobsReject = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rejectedJobs?.map((job: any) => (
+              {filteredRejectedJobs?.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Nodata />
+                  </TableCell>
+                </TableRow>
+              )}
+              {filteredRejectedJobs?.map((job: any) => (
                 <TableRow key={job.id}>
                   <TableCell>
                     <Image
@@ -128,7 +172,7 @@ const JobsReject = (props: Props) => {
           <TablePagination
             rowsPerPageOptions={[10, 20, 40]}
             component='div'
-            count={rejectedJobs.length}
+            count={filteredRejectedJobs.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(_, value) => setPage(value)}

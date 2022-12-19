@@ -17,6 +17,8 @@ import { logout } from '../../../store/auth/action';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import AdminAvatar from '../../../assets/images/AdminAvt.jpg';
+
 type Props = {};
 
 const HeaderAccount = (props: Props) => {
@@ -40,10 +42,11 @@ const HeaderAccount = (props: Props) => {
         }}
       >
         <Avatar
-          sx={{
-            height: 30,
-            width: 30,
-          }}
+          // sx={{
+          //   height: 30,
+          //   width: 30,
+          // }}
+          src={AdminAvatar}
         />
       </IconButton>
       <Popover
@@ -63,7 +66,7 @@ const HeaderAccount = (props: Props) => {
         <MenuItem>
           <Stack>
             {/* <Typography variant='subtitle1'>{currentUser?.fullname}</Typography> */}
-            <Typography variant='subtitle1'>ADMIN</Typography>
+            <Typography variant='body1'>ADMIN</Typography>
             <Typography variant='caption'>{currentUser?.email}</Typography>
           </Stack>
         </MenuItem>

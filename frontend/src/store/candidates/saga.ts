@@ -8,6 +8,7 @@ import {
   adminGetCandidatesListSuccess,
   adminUpdateStatusCandidateSuccess,
   closeSaveCandidateModal,
+  deleteSavedCandidateSuccess,
   employerGetCandidateByJobSuccess,
   employerGetSentListMailSuccess,
   employerSendMailFailure,
@@ -134,6 +135,7 @@ function* deleteSavedCandidateSaga({ payload }: any): any {
   try {
     const res = yield call(employerServices.deleteSavedCandidate, payload);
     toast.success('Delete successfully!');
+    yield put(deleteSavedCandidateSuccess(payload));
   } catch (err) {
     toast.error('Delete failure!');
   }

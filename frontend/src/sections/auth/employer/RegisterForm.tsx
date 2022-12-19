@@ -95,7 +95,8 @@ const RegisterForm = () => {
     delete data.firstName;
     delete data.lastName;
     let newForm = { ...data, fullname };
-    dispatch(registerEmployer(newForm, navigate));
+    console.log('form submit: ', newForm);
+    // dispatch(registerEmployer(newForm, navigate));
   };
 
   return (

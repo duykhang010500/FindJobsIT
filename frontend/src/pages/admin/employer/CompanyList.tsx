@@ -1,40 +1,54 @@
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { CSVLink, CSVDownload } from 'react-csv';
 
 import {
   Card,
   Table,
   Avatar,
+  Stack,
   Switch,
   Tooltip,
   TableRow,
   TableHead,
   TableBody,
   TableCell,
+  TextField,
+  Button,
   IconButton,
+  InputAdornment,
   TableContainer,
   TablePagination,
 } from '@mui/material';
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DetailDialog from '../../../sections/admin-dasboard/job-management/DetailDialog';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
+import Nodata from '../../../components/Nodata';
 import DetailCompanyDialog from './DetailCompanyDialog';
-import { adminUpdateCompanyStatus } from '../../../store/companies/action';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import {
+  adminUpdateCompanyStatus,
+  openCompanyDialog,
+} from '../../../store/companies/action';
 
 type Props = {
   companies: any;
 };
 
 const CompanyList = ({ companies }: Props) => {
-  const [page, setPage] = useState<number>(0);
-
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const dispatch = useDispatch();
 
   const { pathname } = useLocation();
 
-  const dispatch = useDispatch();
+  const [keyword, setKeyword] = useState<string>('');
+
+  const [exportData, setExportData] = useState<any>([]);
+
+  const [page, setPage] = useState<number>(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
   const [openDetail, setOpenDetail] = useState<boolean>(false);
 
@@ -60,9 +74,57 @@ const CompanyList = ({ companies }: Props) => {
     }
   };
 
+  const filteredCompany = filterCompany(companies, keyword);
+
+  useEffect(() => {
+    setExportData(formatData(companies));
+  }, [companies]);
+
+  const formatData = (arr: any) => {
+    let newArr: any = [];
+    arr?.forEach((item: any, index: number) => {
+      newArr.push({
+        STT: `${index + 1}`,
+        Company_name: `${item?.name}`,
+        Contact_email: `${item?.employer?.email}`,
+        Phone: `${item?.phone}`,
+        Company_size: `${item?.company_size}`,
+        Website: `${item?.website}`,
+        Location: `${item?.location_name}`,
+      });
+    });
+    return newArr;
+  };
+
   return (
     <Card sx={{ p: 3 }}>
-      <TableContainer>
+      <Stack
+        direction='row'
+        justifyContent={'space-between'}
+        alignItems={'center'}
+      >
+        <TextField
+          value={keyword}
+          placeholder='Search company...'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <SearchOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          onChange={(e: any) => setKeyword(e.target.value)}
+        />
+        <Button variant='contained'>
+          <CSVLink
+            data={exportData}
+            style={{ textDecoration: 'unset', color: 'inherit' }}
+          >
+            Export
+          </CSVLink>
+        </Button>
+      </Stack>
+      <TableContainer sx={{ mt: 3 }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -76,7 +138,14 @@ const CompanyList = ({ companies }: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {companies?.map((company: any) => (
+            {filteredCompany.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7}>
+                  <Nodata />
+                </TableCell>
+              </TableRow>
+            )}
+            {filteredCompany?.map((company: any) => (
               <TableRow key={company?.id}>
                 <TableCell>
                   <Avatar variant='rounded' src={company?.logo} />
@@ -97,14 +166,15 @@ const CompanyList = ({ companies }: Props) => {
                   />
                 </TableCell>
                 <TableCell align='center'>
-                  <Tooltip placement='top' title='View detail'>
+                  <Tooltip placement='bottom' title='View detail'>
                     <IconButton
                       onClick={() => {
                         setSelectedCompany(company);
                         setOpenDetail(true);
+                        dispatch(openCompanyDialog());
                       }}
                     >
-                      <VisibilityIcon sx={{ color: '#69b1ff' }} />
+                      <VisibilityTwoToneIcon sx={{ color: '#69b1ff' }} />
                     </IconButton>
                   </Tooltip>
                 </TableCell>
@@ -115,7 +185,7 @@ const CompanyList = ({ companies }: Props) => {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component='div'
-          count={companies.length}
+          count={filteredCompany.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(_, value) => setPage(value)}
@@ -129,6 +199,13 @@ const CompanyList = ({ companies }: Props) => {
       </TableContainer>
     </Card>
   );
+};
+
+const filterCompany = (companies: any, keyword: string) => {
+  const filteredCompanies = companies.filter((company: any) =>
+    company.name.toLowerCase().includes(keyword.toLowerCase())
+  );
+  return filteredCompanies;
 };
 
 export default CompanyList;

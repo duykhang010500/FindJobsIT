@@ -15,6 +15,9 @@ import {
   Breadcrumbs,
 } from '@mui/material';
 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 import DownloadIcon from '@mui/icons-material/Download';
 import SaveIcon from '@mui/icons-material/Save';
 
@@ -43,6 +46,16 @@ const EmployerViewProfileCandidate = (props: Props) => {
     dispatch(getDetailResumeCandidate(Number(id)));
     dispatch(getFolders());
   }, [dispatch, id]);
+
+  function exportPDF() {
+    const elm: any = document.getElementById('content');
+    html2canvas(elm, { logging: true, useCORS: true }).then((canvas) => {
+      const data: any = canvas.toDataURL('image/png', 1.0);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(data, 'JPEG', 0, 0, 210, 297);
+      pdf.save(`CV_${resume?.member?.fullname}.pdf`);
+    });
+  }
 
   if (isLoading) {
     return (
@@ -90,9 +103,13 @@ const EmployerViewProfileCandidate = (props: Props) => {
           alignItems='center'
           sx={{ minWidth: '210mm', margin: 'auto' }}
         >
-          {/* <Button variant='outlined' startIcon={<DownloadIcon />}>
+          <Button
+            variant='outlined'
+            startIcon={<DownloadIcon />}
+            onClick={exportPDF}
+          >
             Download
-          </Button> */}
+          </Button>
           <Button
             variant='contained'
             startIcon={<SaveIcon />}
