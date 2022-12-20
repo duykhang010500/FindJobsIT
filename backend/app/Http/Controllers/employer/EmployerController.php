@@ -33,8 +33,8 @@ class EmployerController extends Controller
 
             $fields_company = Validator::make($request->all(), [
                 'name' => 'required|max:255|unique:companies',
-                'industry_id' => 'required',
-                'location'  => 'required',
+                'industry_name' => 'required',
+                'location_name'  => 'required',
                 'company_size' => 'required',
             ]);
 
