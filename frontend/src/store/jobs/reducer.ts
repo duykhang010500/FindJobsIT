@@ -15,6 +15,8 @@ import {
   EMPLOYER_DELETE_JOB_SUCCESS,
   EMPLOYER_GET_JOBS,
   EMPLOYER_GET_JOBS_SUCCESS,
+  GET_ACTIVE_JOBS,
+  GET_ACTIVE_JOBS_FAILURE,
   GET_ACTIVE_JOBS_SUCCESS,
   GET_JOB,
   GET_JOBS,
@@ -27,6 +29,8 @@ import {
   GET_PENDING_JOBS,
   GET_PENDING_JOBS_FAILURE,
   GET_PENDING_JOBS_SUCCESS,
+  GET_REJECTED_JOBS,
+  GET_REJECTED_JOBS_FAILURE,
   GET_REJECTED_JOBS_SUCCESS,
   OPEN_APPLY_FORM,
   SEARCH_JOB,
@@ -195,31 +199,60 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
         ...state,
         isLoading: false,
       };
+    // pending jobs
     case GET_PENDING_JOBS:
       return {
         ...state,
+        isLoading: true,
       };
 
     case GET_PENDING_JOBS_SUCCESS:
       return {
         ...state,
         pendingJobs: action.payload,
+        isLoading: false,
       };
 
     case GET_PENDING_JOBS_FAILURE:
       return {
         ...state,
+        isLoading: false,
       };
 
+    //active jobs
+    case GET_ACTIVE_JOBS:
+      return {
+        ...state,
+        isLoading: true,
+      };
     case GET_ACTIVE_JOBS_SUCCESS:
       return {
         ...state,
         activeJobs: action.payload,
+        isLoading: false,
+      };
+    case GET_ACTIVE_JOBS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    //rejected jobs
+    case GET_REJECTED_JOBS:
+      return {
+        ...state,
+        isLoading: true,
       };
     case GET_REJECTED_JOBS_SUCCESS:
       return {
         ...state,
         rejectedJobs: action.payload,
+        isLoading: false,
+      };
+    case GET_REJECTED_JOBS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     case ADMIN_GET_DETAIL_JOB:
       return {

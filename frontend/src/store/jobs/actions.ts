@@ -263,9 +263,8 @@ export const GetActiveJobsSuccess = (jobs: any) => ({
   payload: jobs,
 });
 
-export const GetActiveJobsFailure = (err: any) => ({
+export const GetActiveJobsFailure = () => ({
   type: GET_ACTIVE_JOBS_FAILURE,
-  payload: err,
 });
 
 export const GetRejectedJobs = () => ({
@@ -277,9 +276,8 @@ export const GetRejectedJobsSuccess = (jobs: any) => ({
   payload: jobs,
 });
 
-export const GetRejectedJobsFailure = (err: any) => ({
+export const GetRejectedJobsFailure = () => ({
   type: GET_REJECTED_JOBS_FAILURE,
-  payload: err,
 });
 
 export const employerUpdateJobStatus = (jobID: number, status: number) => ({

@@ -4,6 +4,7 @@ import {
   ADMIN_GET_ORDERED_SERVICES_FAILURE,
   ADMIN_GET_ORDERED_SERVICES_SUCCESS,
   ADMIN_GET_SERVICES_LIST,
+  ADMIN_GET_SERVICES_LIST_LIST_FAILURE,
   ADMIN_GET_SERVICES_LIST_SUCCESS,
   ADMIN_UPDATE_STATUS_ORDERED_SERVICES,
   ADMIN_UPDATE_STATUS_ORDERED_SERVICES_FAILURE,
@@ -53,6 +54,10 @@ export const adminGetServicesList = () => ({
 export const adminGetServicesListSuccess = (list: any) => ({
   type: ADMIN_GET_SERVICES_LIST_SUCCESS,
   payload: list,
+});
+
+export const adminGetServicesListFailure = () => ({
+  type: ADMIN_GET_SERVICES_LIST_LIST_FAILURE,
 });
 
 export const getListSevicesEmployerFailure = () => ({

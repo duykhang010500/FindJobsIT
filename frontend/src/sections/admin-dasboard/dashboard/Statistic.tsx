@@ -20,7 +20,7 @@ const Statistic = ({ data }: Props) => {
           icon={<WorkIcon />}
           color='#40a9ff'
           count={data?.totalJobsActive}
-          title='Total Jobs'
+          title='Total Active Jobs'
           key={1}
         />
       </Grid>

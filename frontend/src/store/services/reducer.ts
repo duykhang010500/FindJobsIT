@@ -74,12 +74,14 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
     case ADMIN_GET_SERVICES_LIST:
       return {
         ...state,
+        isLoading: true,
       };
     case ADMIN_GET_SERVICES_LIST_SUCCESS:
       return {
         ...state,
         error: null,
         list: action.payload,
+        isLoading: false,
       };
     case CREATE_SERVICE:
       return {

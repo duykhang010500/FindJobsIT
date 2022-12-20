@@ -32,6 +32,8 @@ import {
   adminGetOrderedServices,
   employerActiveServices,
   clearCart,
+  adminGetOrderedServicesFailure,
+  adminGetServicesListFailure,
 } from './actions';
 import { DeleteService } from './types';
 
@@ -59,7 +61,9 @@ export function* adminGetServicesListSaga(): any {
   try {
     const res = yield call(adminServices.getServicesList);
     yield put(adminGetServicesListSuccess(res.data.services));
-  } catch (err) {}
+  } catch (err) {
+    yield put(adminGetServicesListFailure());
+  }
 }
 
 export function* updateServiceSaga({
@@ -128,6 +132,7 @@ export function* adminGetOrderedServicesSaga(): any {
     yield put(adminGetOrderedServicesSuccess(res.data.orders));
   } catch (err) {
     console.log(err);
+    // yield put(adminGetOrderedServicesFailure());
   }
 }
 

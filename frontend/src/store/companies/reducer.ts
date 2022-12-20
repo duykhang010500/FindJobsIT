@@ -1,8 +1,14 @@
 import {
+  ADMIN_GET_COMPANIES_ACTIVE,
+  ADMIN_GET_COMPANIES_ACTIVE_FAILURE,
   ADMIN_GET_COMPANIES_ACTIVE_SUCCESS,
   ADMIN_GET_COMPANIES_LIST,
   ADMIN_GET_COMPANIES_LIST_SUCCESS,
+  ADMIN_GET_COMPANIES_PENDING,
+  ADMIN_GET_COMPANIES_PENDING_FAILURE,
   ADMIN_GET_COMPANIES_PENDING_SUCCESS,
+  ADMIN_GET_COMPANIES_REJECTED,
+  ADMIN_GET_COMPANIES_REJECTED_FAILURE,
   ADMIN_GET_COMPANIES_REJECTED_SUCCESS,
   ADMIN_UPDATE_COMPANY_STATUS_SUCCESS,
   CLOSE_COMPANY_DIALOG,
@@ -46,16 +52,60 @@ const companiesReducer = (state = initialState, action: CompaniesAction) => {
         ...state,
         company: action.payload,
       };
+
+    //pending companies
+    case ADMIN_GET_COMPANIES_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
     case ADMIN_GET_COMPANIES_PENDING_SUCCESS:
       return {
         ...state,
         list: action.payload,
+        isLoading: false,
+      };
+    case ADMIN_GET_COMPANIES_PENDING_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    //active companies
+    case ADMIN_GET_COMPANIES_ACTIVE:
+      return {
+        ...state,
+        isLoading: true,
       };
     case ADMIN_GET_COMPANIES_ACTIVE_SUCCESS:
       return {
         ...state,
         list: action.payload,
+        isLoading: false,
       };
+    case ADMIN_GET_COMPANIES_ACTIVE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    // rejected company
+    case ADMIN_GET_COMPANIES_REJECTED:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ADMIN_GET_COMPANIES_REJECTED_SUCCESS:
+      return {
+        ...state,
+        list: action.payload,
+        isLoading: false,
+      };
+    case ADMIN_GET_COMPANIES_REJECTED_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    //up date status company
     case ADMIN_UPDATE_COMPANY_STATUS_SUCCESS:
       return {
         ...state,

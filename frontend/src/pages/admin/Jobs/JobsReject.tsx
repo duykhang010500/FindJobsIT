@@ -20,6 +20,7 @@ import {
   TablePagination,
   InputAdornment,
   TextField,
+  Skeleton,
 } from '@mui/material';
 
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
@@ -31,6 +32,7 @@ import Image from '../../../components/Image';
 import Nodata from '../../../components/Nodata';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { filterJobs } from './JobsActive';
+import { TabPanel } from '@mui/lab';
 
 type Props = {};
 
@@ -49,7 +51,9 @@ const JobsReject = (props: Props) => {
     dispatch(GetRejectedJobs());
   }, [dispatch]);
 
-  const { rejectedJobs } = useSelector((state: AppState) => state.jobs);
+  const { isLoading, rejectedJobs } = useSelector(
+    (state: AppState) => state.jobs
+  );
 
   const filteredRejectedJobs = filterJobs(rejectedJobs, keyword);
 
@@ -117,56 +121,87 @@ const JobsReject = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredRejectedJobs?.length === 0 && (
+              {isLoading && (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
+              {!isLoading && filteredRejectedJobs?.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={4}>
                     <Nodata />
                   </TableCell>
                 </TableRow>
               )}
-              {filteredRejectedJobs?.map((job: any) => (
-                <TableRow key={job.id}>
-                  <TableCell>
-                    <Image
-                      alt={'Company logo'}
-                      src={job.company.logo}
-                      sx={{ width: 70, height: 70, borderRadius: 1 }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant='h4' gutterBottom>
-                      {job.title}
-                    </Typography>
-                    <Typography variant='body1'>{job.company.name}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>
-                      {dayjs(job.created_at).format('DD/MM/YYYY')}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Stack direction='row' spacing={1} justifyContent='center'>
-                      <Tooltip placement='top' title='View Detail'>
-                        <IconButton
-                          onClick={() => navigate(`/admin/job/${job.id}`)}
-                        >
-                          <Visibility sx={{ color: '#4096ff' }} />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip placement='top' title='Accept'>
-                        <IconButton
-                          color='success'
-                          onClick={() =>
-                            dispatch(approveJob(Number(job.id), 1))
-                          }
-                        >
-                          <CheckCircleOutlineRoundedIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {!isLoading &&
+                filteredRejectedJobs?.map((job: any) => (
+                  <TableRow key={job.id}>
+                    <TableCell>
+                      <Image
+                        alt={'Company logo'}
+                        src={job.company.logo}
+                        sx={{ width: 70, height: 70, borderRadius: 1 }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant='h4' gutterBottom>
+                        {job.title}
+                      </Typography>
+                      <Typography variant='body1'>
+                        {job.company.name}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {dayjs(job.created_at).format('DD/MM/YYYY')}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align='center'>
+                      <Stack
+                        direction='row'
+                        spacing={1}
+                        justifyContent='center'
+                      >
+                        <Tooltip placement='top' title='View Detail'>
+                          <IconButton
+                            onClick={() => navigate(`/admin/job/${job.id}`)}
+                          >
+                            <Visibility sx={{ color: '#4096ff' }} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip placement='top' title='Accept'>
+                          <IconButton
+                            color='success'
+                            onClick={() =>
+                              dispatch(approveJob(Number(job.id), 1))
+                            }
+                          >
+                            <CheckCircleOutlineRoundedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
           <TablePagination

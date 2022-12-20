@@ -70,15 +70,18 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
     case ADMIN_GET_CANDIDATES_LIST:
       return {
         ...state,
+        isLoading: true,
       };
     case ADMIN_GET_CANDIDATES_LIST_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         list: action.payload,
       };
     case ADMIN_GET_CANDIDATES_LIST_FAILURE:
       return {
         ...state,
+        isLoading: false,
       };
     case GET_DETAIL_CANDIDATE: {
       return {

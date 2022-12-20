@@ -23,6 +23,9 @@ import {
   UN_FOLLOW_COMPANY,
   OPEN_COMPANY_DIALOG,
   CLOSE_COMPANY_DIALOG,
+  ADMIN_GET_COMPANIES_PENDING_FAILURE,
+  ADMIN_GET_COMPANIES_ACTIVE_FAILURE,
+  ADMIN_GET_COMPANIES_REJECTED_FAILURE,
 } from './actionTypes';
 
 export interface ICompaniesState {
@@ -89,6 +92,10 @@ export type AdminGetCompaniesPendingSuccess = {
   payload: any;
 };
 
+export type AdminGetPendingCompaniesFailure = {
+  type: typeof ADMIN_GET_COMPANIES_PENDING_FAILURE;
+};
+
 export type AdminGetCompaniesActive = {
   type: typeof ADMIN_GET_COMPANIES_ACTIVE;
 };
@@ -98,6 +105,10 @@ export type AdminGetCompaniesActiveSuccess = {
   payload: any;
 };
 
+export type AdminGetCompaniesActiveFailure = {
+  type: typeof ADMIN_GET_COMPANIES_ACTIVE_FAILURE;
+};
+
 export type AdminGetCompaniesRejected = {
   type: typeof ADMIN_GET_COMPANIES_REJECTED;
 };
@@ -105,6 +116,10 @@ export type AdminGetCompaniesRejected = {
 export type AdminGetCompaniesRejectedSuccess = {
   type: typeof ADMIN_GET_COMPANIES_REJECTED_SUCCESS;
   payload: any;
+};
+
+export type AdminGetCompaniesRejectedFailure = {
+  type: typeof ADMIN_GET_COMPANIES_REJECTED_FAILURE;
 };
 
 export type AdminUpdateCompanyStatus = {
@@ -159,10 +174,13 @@ export type CompaniesAction =
   | GetCompanyFailure
   | AdminGetCompaniesPending
   | AdminGetCompaniesPendingSuccess
+  | AdminGetPendingCompaniesFailure
   | AdminGetCompaniesActive
   | AdminGetCompaniesActiveSuccess
+  | AdminGetCompaniesActiveFailure
   | AdminGetCompaniesRejected
   | AdminGetCompaniesRejectedSuccess
+  | AdminGetCompaniesRejectedFailure
   | AdminUpdateCompanyStatus
   | AdminUpdateCompanyStatusSuccess
   | FollowCompany

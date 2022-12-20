@@ -11,6 +11,7 @@ import {
   TableCell,
   TableContainer,
   TablePagination,
+  Skeleton,
 } from '@mui/material';
 import { IconButton } from '@mui/material';
 
@@ -24,24 +25,38 @@ import {
   selectLocation,
 } from '../../../../store/location/actions';
 import { useState } from 'react';
+import DeleteDialog from '../../../../components/DeleteDialog';
 
 type Props = {};
 
 const LocationList = (props: Props) => {
   const dispatch = useDispatch();
 
+  const [open, setOpen] = useState<boolean>(false);
+
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
-  const { list } = useSelector((state: AppState) => state.location);
+  const [selectedLocation, setSelectedLocation] = useState<any>(null);
+
+  const { list, isLoading } = useSelector((state: AppState) => state.location);
 
   const handleEdit = (id: number | any) => {
     dispatch(selectLocation(id));
   };
 
-  const handleDelete = (id: number | any) => {
-    dispatch(deleteLocation(id));
+  // const handleDelete = (id: number | any) => {
+  //   dispatch(deleteLocation(id));
+  // };
+
+  const handleDelete = () => {
+    dispatch(deleteLocation(selectedLocation));
+    setOpen(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -56,25 +71,81 @@ const LocationList = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((location: ILocation) => {
-                const { id, name, created_at, updated_at } = location;
-                return (
-                  <TableRow key={id}>
-                    <TableCell>{id}</TableCell>
-                    <TableCell>{name}</TableCell>
-                    <TableCell align='center'>
-                      <IconButton onClick={() => handleEdit(id)}>
-                        <BorderColorTwoToneIcon sx={{ color: '#40a9ff' }} />
-                      </IconButton>
-                      <IconButton onClick={() => handleDelete(id)}>
-                        <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+            {isLoading && (
+              <>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
+            {!isLoading &&
+              list
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((location: ILocation) => {
+                  const { id, name, created_at, updated_at } = location;
+                  return (
+                    <TableRow key={id}>
+                      <TableCell>{id}</TableCell>
+                      <TableCell>{name}</TableCell>
+                      <TableCell align='center'>
+                        <IconButton onClick={() => handleEdit(id)}>
+                          <BorderColorTwoToneIcon sx={{ color: '#40a9ff' }} />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setSelectedLocation(id);
+                            setOpen(true);
+                          }}
+                        >
+                          <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
           </TableBody>
         </Table>
       </TableContainer>
@@ -86,6 +157,13 @@ const LocationList = (props: Props) => {
         count={list.length}
         onPageChange={(_, value) => setPage(value)}
         onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+      />
+      <DeleteDialog
+        title='Delete location'
+        content='Are you sure delete this location'
+        isOpen={open}
+        onCancel={handleClose}
+        onDoAction={handleDelete}
       />
     </Card>
   );

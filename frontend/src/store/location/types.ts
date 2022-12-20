@@ -16,6 +16,7 @@ import {
   DELETE_LOCATION_SUCCESS,
   GET_LOCATIONS,
   GET_LOCATIONS_SUCCESS,
+  GET_LOCATIONS_FAILURE,
 } from './actionTypes';
 
 export interface ILocationState {
@@ -54,6 +55,10 @@ export type GetLocation = {
 export type GetLocationSuccess = {
   type: typeof GET_LOCATIONS_SUCCESS;
   payload: any;
+};
+
+export type GetLocationFailure = {
+  type: typeof GET_LOCATIONS_FAILURE;
 };
 
 export type AdminGetLocation = {
@@ -117,6 +122,7 @@ export type LocationActions =
   | SelectLocation
   | GetLocation
   | GetLocationSuccess
+  | GetLocationFailure
   | AdminGetLocationFailure
   | AdminGetLocation
   | AdminGetLocationSuccess

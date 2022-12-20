@@ -21,6 +21,7 @@ import {
   InputAdornment,
   TablePagination,
   TextField,
+  Skeleton,
 } from '@mui/material';
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -50,7 +51,9 @@ const JobsPending = (props: Props) => {
     dispatch(GetActiveJobs());
   }, [dispatch]);
 
-  const { activeJobs } = useSelector((state: AppState) => state.jobs);
+  const { isLoading, activeJobs } = useSelector(
+    (state: AppState) => state.jobs
+  );
 
   const filteredJobs = filterJobs(activeJobs, keyword);
 
@@ -118,56 +121,87 @@ const JobsPending = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredJobs.length === 0 && (
+              {isLoading && (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
+              {!isLoading && filteredJobs.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={4}>
                     <Nodata />
                   </TableCell>
                 </TableRow>
               )}
-              {filteredJobs?.map((job: any) => (
-                <TableRow key={job.id}>
-                  <TableCell>
-                    <Image
-                      alt={'Company logo'}
-                      src={job.company.logo}
-                      sx={{ width: 70, height: 70, borderRadius: 1 }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant='h4' gutterBottom>
-                      {job.title}
-                    </Typography>
-                    <Typography variant='body1'>{job.company.name}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>
-                      {dayjs(job.created_at).format('DD/MM/YYYY')}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Stack direction='row' spacing={1} justifyContent='center'>
-                      <Tooltip placement='top' title='View Detail'>
-                        <IconButton
-                          onClick={() => navigate(`/admin/job/${job.id}`)}
-                        >
-                          <Visibility sx={{ color: '#4096ff' }} />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip placement='top' title='Reject'>
-                        <IconButton
-                          color='error'
-                          onClick={() =>
-                            dispatch(approveJob(Number(job.id), 4))
-                          }
-                        >
-                          <HighlightOffRoundedIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Stack>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {!isLoading &&
+                filteredJobs?.map((job: any) => (
+                  <TableRow key={job.id}>
+                    <TableCell>
+                      <Image
+                        alt={'Company logo'}
+                        src={job.company.logo}
+                        sx={{ width: 70, height: 70, borderRadius: 1 }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant='h4' gutterBottom>
+                        {job.title}
+                      </Typography>
+                      <Typography variant='body1'>
+                        {job.company.name}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {dayjs(job.created_at).format('DD/MM/YYYY')}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align='center'>
+                      <Stack
+                        direction='row'
+                        spacing={1}
+                        justifyContent='center'
+                      >
+                        <Tooltip placement='top' title='View Detail'>
+                          <IconButton
+                            onClick={() => navigate(`/admin/job/${job.id}`)}
+                          >
+                            <Visibility sx={{ color: '#4096ff' }} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip placement='top' title='Reject'>
+                          <IconButton
+                            color='error'
+                            onClick={() =>
+                              dispatch(approveJob(Number(job.id), 4))
+                            }
+                          >
+                            <HighlightOffRoundedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
           <TablePagination

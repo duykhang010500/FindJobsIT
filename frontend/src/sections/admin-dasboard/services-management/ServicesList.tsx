@@ -12,6 +12,7 @@ import {
   TableRow,
   TableCell,
   TableHead,
+  Skeleton,
   TableBody,
   IconButton,
   Typography,
@@ -45,7 +46,7 @@ const ServicesList = (props: Props) => {
 
   const [selectedService, setSelectedService] = useState<any | null>(null);
 
-  const { list } = useSelector((state: AppState) => state.services);
+  const { list, isLoading } = useSelector((state: AppState) => state.services);
 
   const handleDelete = (service: any) => {
     setSelectedService(service);
@@ -73,45 +74,70 @@ const ServicesList = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {list
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((item: any) => (
-                  <TableRow key={item.id}>
-                    <TableCell align='left'>
-                      <Typography variant='subtitle1'>{item.name}</Typography>
-                    </TableCell>
-                    <TableCell align='left' sx={{ width: '30%' }}>
-                      {item.note}
-                    </TableCell>
-                    <TableCell align='center'>{item.days}</TableCell>
-                    <TableCell align='right'>
-                      {numberWithCommas(item.price)}
-                    </TableCell>
-
-                    <TableCell align='center'>
-                      {dayjs(item.created_at).format('DD/MM/YYYY')}
-                    </TableCell>
-
-                    <TableCell
-                      sx={{ display: 'flex', justifyContent: 'center' }}
-                    >
-                      <Tooltip title='Edit' placement='bottom'>
-                        <IconButton
-                          onClick={() =>
-                            navigate(`/admin/services/${item.id}/edit`)
-                          }
-                        >
-                          <BorderColorTwoToneIcon sx={{ color: '#1890ff' }} />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title='Delete' placement='bottom'>
-                        <IconButton onClick={() => handleDelete(item)}>
-                          <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
-                        </IconButton>
-                      </Tooltip>
+              {isLoading && (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
                     </TableCell>
                   </TableRow>
-                ))}
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
+              {!isLoading &&
+                list
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((item: any) => (
+                    <TableRow key={item.id}>
+                      <TableCell align='left'>
+                        <Typography variant='subtitle1'>{item.name}</Typography>
+                      </TableCell>
+                      <TableCell align='left' sx={{ width: '30%' }}>
+                        {item.note}
+                      </TableCell>
+                      <TableCell align='center'>{item.days}</TableCell>
+                      <TableCell align='right'>
+                        {numberWithCommas(item.price)}
+                      </TableCell>
+
+                      <TableCell align='center'>
+                        {dayjs(item.created_at).format('DD/MM/YYYY')}
+                      </TableCell>
+
+                      <TableCell
+                        sx={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <Tooltip title='Edit' placement='bottom'>
+                          <IconButton
+                            onClick={() =>
+                              navigate(`/admin/services/${item.id}/edit`)
+                            }
+                          >
+                            <BorderColorTwoToneIcon sx={{ color: '#1890ff' }} />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Delete' placement='bottom'>
+                          <IconButton onClick={() => handleDelete(item)}>
+                            <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  ))}
             </TableBody>
           </Table>
         </TableContainer>

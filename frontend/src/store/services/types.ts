@@ -4,6 +4,7 @@ import {
   ADMIN_GET_ORDERED_SERVICES_FAILURE,
   ADMIN_GET_ORDERED_SERVICES_SUCCESS,
   ADMIN_GET_SERVICES_LIST,
+  ADMIN_GET_SERVICES_LIST_LIST_FAILURE,
   ADMIN_GET_SERVICES_LIST_SUCCESS,
   ADMIN_UPDATE_STATUS_ORDERED_SERVICES,
   ADMIN_UPDATE_STATUS_ORDERED_SERVICES_FAILURE,
@@ -69,6 +70,10 @@ export type AdminGetServicesList = {
 export type AdminGetServicesListSuccess = {
   type: typeof ADMIN_GET_SERVICES_LIST_SUCCESS;
   payload: any;
+};
+
+export type AdminGetServicesListFailure = {
+  type: typeof ADMIN_GET_SERVICES_LIST_LIST_FAILURE;
 };
 
 export type CreateService = {
@@ -223,6 +228,7 @@ export type ServicesActions =
   | GetListServicesEmployerFailure
   | AdminGetServicesList
   | AdminGetServicesListSuccess
+  | AdminGetServicesListFailure
   | CreateService
   | CreateServiceSuccess
   | CreateServiceFailure

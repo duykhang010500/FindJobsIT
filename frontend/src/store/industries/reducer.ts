@@ -4,6 +4,7 @@ import {
   SELECT_INDUSTRY,
   ADMIN_GET_INDUSTRIES_LIST_SUCCESS,
   GET_INDUSTRIES_SUCCESS,
+  ADMIN_GET_INDUSTRIES_LIST,
 } from './actionTypes';
 
 import { IIndustriesState, IndustriesActionTypes } from './types';
@@ -42,10 +43,16 @@ const industriesReducer = (
         ...state,
         industries: action.payload,
       };
+    case ADMIN_GET_INDUSTRIES_LIST:
+      return {
+        ...state,
+        isLoading: true,
+      };
     case ADMIN_GET_INDUSTRIES_LIST_SUCCESS:
       return {
         ...state,
         industries: action.payload,
+        isLoading: false,
       };
     default:
       return state;

@@ -35,7 +35,7 @@ import CV3 from '../../assets/images/CV3.png';
 
 import Image from '../../components/Image';
 
-import { updateCVType } from '../../store/cv/actions';
+import { getMyCV, updateCVType } from '../../store/cv/actions';
 
 const CV = [
   { value: 0, url: CV0 },
@@ -54,6 +54,10 @@ const ViewResume = (props: Props) => {
   const [selectedCV, setSelectedCV] = useState<null | number>(null);
 
   const { isLoading, cv } = useSelector((state: AppState) => state.cv);
+
+  useEffect(() => {
+    dispatch(getMyCV());
+  }, [dispatch]);
 
   useEffect(() => {
     setSelectedCV(cv?.cv_type || 0);

@@ -26,6 +26,7 @@ import {
   TableContainer,
   TablePagination,
   InputAdornment,
+  Skeleton,
 } from '@mui/material';
 
 import { CSVLink, CSVDownload } from 'react-csv';
@@ -64,7 +65,9 @@ const AdminCandidateList = (props: Props) => {
 
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
 
-  const { list } = useSelector((state: AppState) => state.candidates);
+  const { isLoading, list } = useSelector(
+    (state: AppState) => state.candidates
+  );
 
   const handleClose = () => {
     setOpen(false);
@@ -144,74 +147,101 @@ const AdminCandidateList = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredCandidates.length === 0 && (
+            {isLoading && (
+              <>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
+            {!isLoading && filteredCandidates.length === 0 && (
               <TableRow>
                 <TableCell colSpan={4}>
                   <Nodata />
                 </TableCell>
               </TableRow>
             )}
-            {filteredCandidates.map((member: any) => {
-              return (
-                <TableRow key={member.id}>
-                  <TableCell>
-                    <Stack direction='row' alignItems='center' spacing={2}>
-                      <Avatar
-                        variant='rounded'
-                        src={member?.avatar}
-                        sx={{ width: 50, height: 50 }}
-                      />
-                      <Stack>
-                        <Typography variant='body2'>
-                          <Typography variant='h4'>
-                            {`${member.fullname} / ${
-                              member?.resume?.resume_title || ''
-                            }`}
+            {!isLoading &&
+              filteredCandidates.map((member: any) => {
+                return (
+                  <TableRow key={member.id}>
+                    <TableCell>
+                      <Stack direction='row' alignItems='center' spacing={2}>
+                        <Avatar
+                          variant='rounded'
+                          src={member?.avatar}
+                          sx={{ width: 50, height: 50 }}
+                        />
+                        <Stack>
+                          <Typography variant='body2'>
+                            <Typography variant='h4'>
+                              {`${member.fullname} / ${
+                                member?.resume?.resume_title || ''
+                              }`}
+                            </Typography>
+                            {member.expected_position &&
+                              `/${member.expected_position} `}
                           </Typography>
-                          {member.expected_position &&
-                            `/${member.expected_position} `}
-                        </Typography>
-                        <Typography variant='body2'>{member.email}</Typography>
+                          <Typography variant='body2'>
+                            {member.email}
+                          </Typography>
+                        </Stack>
                       </Stack>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Typography variant='body2' fontWeight={600}>
-                      {member?.candidate?.length}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align='center'>
-                    {member?.status === 1 && (
-                      <BadgeStatus status={1}>Active</BadgeStatus>
-                    )}
-                    {member?.status === 0 && (
-                      <BadgeStatus status={3}>Inactive</BadgeStatus>
-                    )}
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Tooltip placement='top' title='View detail'>
-                      <IconButton
-                        onClick={() =>
-                          navigate(`/admin/candidates/${member.id}`)
-                        }
-                      >
-                        <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip placement='top' title='Edit status'>
-                      <IconButton
-                        onClick={() => {
-                          setSelectedCandidate(member);
-                          setOpen(true);
-                        }}
-                      >
-                        <EditRoundedIcon sx={{ color: '#b37feb' }} />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                    </TableCell>
+                    <TableCell align='center'>
+                      <Typography variant='body2' fontWeight={600}>
+                        {member?.candidate?.length}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align='center'>
+                      {member?.status === 1 && (
+                        <BadgeStatus status={1}>Active</BadgeStatus>
+                      )}
+                      {member?.status === 0 && (
+                        <BadgeStatus status={3}>Inactive</BadgeStatus>
+                      )}
+                    </TableCell>
+                    <TableCell align='center'>
+                      <Tooltip placement='top' title='View detail'>
+                        <IconButton
+                          onClick={() =>
+                            navigate(`/admin/candidates/${member.id}`)
+                          }
+                        >
+                          <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip placement='top' title='Edit status'>
+                        <IconButton
+                          onClick={() => {
+                            setSelectedCandidate(member);
+                            setOpen(true);
+                          }}
+                        >
+                          <EditRoundedIcon sx={{ color: '#b37feb' }} />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
         <TablePagination

@@ -19,8 +19,12 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import adminServices from '../../services/admin';
 import { getInfoEmployer } from '../auth/action';
 import {
+  adminGetCompaniesActiveFailure,
   adminGetCOmpaniesListSuccess,
   adminGetCompaniesPendingSuccess,
+  adminGetCompaniesRejectedSuccess,
+  adminGetPendingCompaniesFailure,
+  adminGetRejectedCompaniesFailure,
   adminUpdateCompanyStatusSuccess,
   getCompanies,
   getCompaniesSuccess,
@@ -73,9 +77,9 @@ export function* getCompanySaga({ payload }: any): any {
 export function* adminGetCompaniesPendingSaga(): any {
   try {
     const res = yield call(adminServices.getCompaniesList, 'pending');
-    console.log('Companies pending: ', res);
     yield put(adminGetCompaniesPendingSuccess(res.data.companiesPendings));
   } catch (err) {
+    yield put(adminGetPendingCompaniesFailure());
     console.log(err);
   }
 }
@@ -87,16 +91,17 @@ export function* adminGetCompaniesActiveSaga(): any {
     yield put(adminGetCompaniesPendingSuccess(res.data.companiesActive));
   } catch (err) {
     console.log(err);
+    yield put(adminGetCompaniesActiveFailure());
   }
 }
 
 export function* adminGetCompaniesRejectedSaga(): any {
   try {
     const res = yield call(adminServices.getCompaniesList, 'reject');
-    console.log('Companies rejected: ', res);
-    yield put(adminGetCompaniesPendingSuccess(res.data.companiesReject));
+    yield put(adminGetCompaniesRejectedSuccess(res.data.companiesReject));
   } catch (err) {
     console.log(err);
+    yield put(adminGetRejectedCompaniesFailure());
   }
 }
 

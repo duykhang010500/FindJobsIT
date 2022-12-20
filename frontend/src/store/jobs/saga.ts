@@ -45,6 +45,9 @@ import {
   applyJobSuccess,
   applyJobFailure,
   getJobsApplied,
+  getPendingJobsFailure,
+  GetActiveJobsFailure,
+  GetRejectedJobsFailure,
 } from './actions';
 
 import guestServices from '../../services/guest';
@@ -164,6 +167,7 @@ function* getPendingJobsSaga(): any {
     yield put(getPendingJobsSuccess(res.data.JobsPendings.reverse()));
   } catch (err) {
     console.log(err);
+    yield put(getPendingJobsFailure());
   }
 }
 
@@ -184,14 +188,18 @@ function* getActiveJobsSagas(): any {
   try {
     const res = yield call(adminServices.getJobs, 'active');
     yield put(GetActiveJobsSuccess(res.data.JobsPendings));
-  } catch (error) {}
+  } catch (error) {
+    yield put(GetActiveJobsFailure());
+  }
 }
 
 function* getRejectedJobsSaga(): any {
   try {
     const res = yield call(adminServices.getJobs, 'reject');
     yield put(GetRejectedJobsSuccess(res.data.JobsPendings));
-  } catch (error) {}
+  } catch (error) {
+    yield put(GetRejectedJobsFailure());
+  }
 }
 
 function* employerUpdateJobStatusSaga({ payload }: any): any {

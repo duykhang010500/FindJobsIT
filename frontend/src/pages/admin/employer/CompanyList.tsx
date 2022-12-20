@@ -32,6 +32,10 @@ import {
   adminUpdateCompanyStatus,
   openCompanyDialog,
 } from '../../../store/companies/action';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../store/reducer';
+import { TableRestaurant } from '@mui/icons-material';
+import { Skeleton } from '@mui/lab';
 
 type Props = {
   companies: any;
@@ -53,6 +57,8 @@ const CompanyList = ({ companies }: Props) => {
   const [openDetail, setOpenDetail] = useState<boolean>(false);
 
   const [selectedCompany, setSelectedCompany] = useState<any | null>(null);
+
+  const { isLoading } = useSelector((state: AppState) => state.companies);
 
   const handleClose = () => {
     setOpenDetail(false);
@@ -87,9 +93,9 @@ const CompanyList = ({ companies }: Props) => {
         STT: `${index + 1}`,
         Company_name: `${item?.name}`,
         Contact_email: `${item?.employer?.email}`,
-        Phone: `${item?.phone}`,
+        Phone: `${item?.phone || ''}`,
         Company_size: `${item?.company_size}`,
-        Website: `${item?.website}`,
+        Website: `${item?.website || ''}`,
         Location: `${item?.location_name}`,
       });
     });
@@ -138,48 +144,73 @@ const CompanyList = ({ companies }: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredCompany.length === 0 && (
+            {isLoading && (
+              <>
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={7}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
+            {!isLoading && filteredCompany.length === 0 && (
               <TableRow>
                 <TableCell colSpan={7}>
                   <Nodata />
                 </TableCell>
               </TableRow>
             )}
-            {filteredCompany?.map((company: any) => (
-              <TableRow key={company?.id}>
-                <TableCell>
-                  <Avatar variant='rounded' src={company?.logo} />
-                </TableCell>
+            {!isLoading &&
+              filteredCompany?.map((company: any) => (
+                <TableRow key={company?.id}>
+                  <TableCell>
+                    <Avatar variant='rounded' src={company?.logo} />
+                  </TableCell>
 
-                <TableCell>
-                  {dayjs(company?.created_at).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell>{company?.name}</TableCell>
-                <TableCell align='left'>{company?.employer?.email}</TableCell>
-                <TableCell align='left'>
-                  {company?.employer?.fullname}
-                </TableCell>
-                <TableCell align='left'>
-                  <Switch
-                    defaultChecked={company?.status === 1}
-                    onChange={() => handleChangeStatus(company.id)}
-                  />
-                </TableCell>
-                <TableCell align='center'>
-                  <Tooltip placement='bottom' title='View detail'>
-                    <IconButton
-                      onClick={() => {
-                        setSelectedCompany(company);
-                        setOpenDetail(true);
-                        dispatch(openCompanyDialog());
-                      }}
-                    >
-                      <VisibilityTwoToneIcon sx={{ color: '#69b1ff' }} />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell>
+                    {dayjs(company?.created_at).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>{company?.name}</TableCell>
+                  <TableCell align='left'>{company?.employer?.email}</TableCell>
+                  <TableCell align='left'>
+                    {company?.employer?.fullname}
+                  </TableCell>
+                  <TableCell align='left'>
+                    <Switch
+                      defaultChecked={company?.status === 1}
+                      onChange={() => handleChangeStatus(company.id)}
+                    />
+                  </TableCell>
+                  <TableCell align='center'>
+                    <Tooltip placement='bottom' title='View detail'>
+                      <IconButton
+                        onClick={() => {
+                          setSelectedCompany(company);
+                          setOpenDetail(true);
+                          dispatch(openCompanyDialog());
+                        }}
+                      >
+                        <VisibilityTwoToneIcon sx={{ color: '#69b1ff' }} />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <TablePagination

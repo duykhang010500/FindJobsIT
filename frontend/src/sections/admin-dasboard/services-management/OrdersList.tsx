@@ -20,6 +20,7 @@ import {
   DialogTitle,
   DialogActions,
   DialogContent,
+  Skeleton,
 } from '@mui/material';
 
 import {
@@ -46,7 +47,9 @@ const OrdersList = (props: Props) => {
 
   const [selectedOrder, setSelectedOrder] = useState<null | any>(null);
 
-  const { orderList } = useSelector((state: AppState) => state.services);
+  const { orderList, isLoading } = useSelector(
+    (state: AppState) => state.services
+  );
 
   useEffect(() => {
     dispatch(adminGetOrderedServices());
@@ -72,41 +75,66 @@ const OrdersList = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orderList
-                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((item: any) => {
-                  return (
-                    <TableRow key={item.id}>
-                      <TableCell>{item.code}</TableCell>
-                      <TableCell>
-                        {dayjs(item.created_at).format('DD/MM/YYYY')}
+              {isLoading && (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <Skeleton />
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
+              {!isLoading &&
+                orderList
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((item: any) => {
+                    return (
+                      <TableRow key={item.id}>
+                        <TableCell>{item.code}</TableCell>
+                        <TableCell>
+                          {dayjs(item.created_at).format('DD/MM/YYYY')}
 
-                        {/* {item.created_at} */}
-                      </TableCell>
-                      <TableCell>{item.company.name}</TableCell>
-                      <TableCell align='right'>
-                        {numberWithCommas(item.total)}
-                      </TableCell>
-                      <TableCell align='center'>
-                        <BadgeStatus status={item.status}>
-                          {getStatusOrder(item.status)}
-                        </BadgeStatus>
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip placement='top' title='View detail'>
-                          <IconButton
-                            onClick={() => {
-                              setSelectedOrder(item);
-                              setOpen(true);
-                            }}
-                          >
-                            <Visibility sx={{ color: '#1890ff' }} />
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                          {/* {item.created_at} */}
+                        </TableCell>
+                        <TableCell>{item.company.name}</TableCell>
+                        <TableCell align='right'>
+                          {numberWithCommas(item.total)}
+                        </TableCell>
+                        <TableCell align='center'>
+                          <BadgeStatus status={item.status}>
+                            {getStatusOrder(item.status)}
+                          </BadgeStatus>
+                        </TableCell>
+                        <TableCell>
+                          <Tooltip placement='top' title='View detail'>
+                            <IconButton
+                              onClick={() => {
+                                setSelectedOrder(item);
+                                setOpen(true);
+                              }}
+                            >
+                              <Visibility sx={{ color: '#1890ff' }} />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
             </TableBody>
           </Table>
         </TableContainer>

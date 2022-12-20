@@ -8,6 +8,7 @@ import {
   Card,
   Table,
   TableRow,
+  Skeleton,
   TableHead,
   TableBody,
   TableCell,
@@ -27,14 +28,21 @@ import {
   deleteIndustry,
   selectIndustry,
 } from '../../../../store/industries/actions';
+import DeleteDialog from '../../../../components/DeleteDialog';
 
 type Props = {};
 
 const IndustriesList = (props: Props) => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const [selectedIndustry, setSelectedIndustry] = useState<any>(null);
+
   const [page, setPage] = useState<number>(0);
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-  const { industries } = useSelector((state: AppState) => state.industries);
+  const { industries, isLoading } = useSelector(
+    (state: AppState) => state.industries
+  );
 
   const dispatch = useDispatch();
 
@@ -42,8 +50,17 @@ const IndustriesList = (props: Props) => {
     dispatch(selectIndustry(id));
   };
 
-  const handleDelete = (id: number | any) => {
-    dispatch(deleteIndustry(id));
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // const handleDelete = (id: number | any) => {
+  //   dispatch(deleteIndustry(id));
+  // };
+
+  const handleDelete = () => {
+    dispatch(deleteIndustry(selectedIndustry));
+    setOpen(false);
   };
 
   return (
@@ -60,28 +77,68 @@ const IndustriesList = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {industries
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((industry: IIndustry) => (
-                <TableRow key={industry.id}>
-                  <TableCell>{industry.id}</TableCell>
-                  <TableCell>{industry.name}</TableCell>
-                  {/* <TableCell align='center'>
+            {isLoading && (
+              <>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
+            {!isLoading &&
+              industries
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((industry: IIndustry) => (
+                  <TableRow key={industry.id}>
+                    <TableCell>{industry.id}</TableCell>
+                    <TableCell>{industry.name}</TableCell>
+                    {/* <TableCell align='center'>
                     {dayjs(industry.created_at).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell align='center'>
                     {dayjs(industry.updated_at).format('DD/MM/YYYY')}
                   </TableCell> */}
-                  <TableCell align='center'>
-                    <IconButton onClick={() => handleEdit(industry.id)}>
-                      <BorderColorTwoToneIcon sx={{ color: '#40a9ff' }} />
-                    </IconButton>
-                    <IconButton onClick={() => handleDelete(industry.id)}>
-                      <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell align='center'>
+                      <IconButton onClick={() => handleEdit(industry.id)}>
+                        <BorderColorTwoToneIcon sx={{ color: '#40a9ff' }} />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => {
+                          setSelectedIndustry(industry.id);
+                          setOpen(true);
+                        }}
+                      >
+                        <DeleteTwoToneIcon sx={{ color: '#ff4d4f' }} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -93,6 +150,13 @@ const IndustriesList = (props: Props) => {
         count={industries.length}
         onPageChange={(_, value) => setPage(value)}
         onRowsPerPageChange={(e: any) => setRowsPerPage(e.target.value)}
+      />
+      <DeleteDialog
+        isOpen={open}
+        title='Delete industry'
+        content='Are you sure delete this industry'
+        onCancel={handleClose}
+        onDoAction={handleDelete}
       />
     </Card>
   );
