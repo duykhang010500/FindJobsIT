@@ -86,11 +86,12 @@ const EmployerCheckout = (props: Props) => {
 
       localStorage.setItem('checkout', JSON.stringify(formValues));
 
-      var ipAddr = await publicIpv4();
+      // var ipAddr = await publicIpv4();
       var tmnCode = 'GR77G1LW';
       var secretKey = 'PHXSMBRZMNSGHPLZMFVHXCKANZEKWZXP';
       var vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
       var returnUrl = 'http://localhost:3000/employer/vnpay_return';
+
       var date = new Date();
       var createDate = dateformat(date, 'yyyymmddHHmmss');
       var orderId = dateformat(date, 'HHmmss');
@@ -108,7 +109,7 @@ const EmployerCheckout = (props: Props) => {
       vnp_Params['vnp_OrderType'] = 'other';
       vnp_Params['vnp_Amount'] = totalPrice * 100;
       vnp_Params['vnp_ReturnUrl'] = returnUrl;
-      vnp_Params['vnp_IpAddr'] = ipAddr;
+      // vnp_Params['vnp_IpAddr'] = ipAddr;
       vnp_Params['vnp_CreateDate'] = createDate;
       vnp_Params = sortObject(vnp_Params);
 
@@ -120,7 +121,7 @@ const EmployerCheckout = (props: Props) => {
       vnpUrl += '?' + queryString.stringify(vnp_Params, { encode: false });
       window.location.href = vnpUrl;
 
-      // console.log(vnpUrl);
+      console.log(vnpUrl);
     }
   };
 

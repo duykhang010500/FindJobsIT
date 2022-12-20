@@ -111,7 +111,8 @@ function* employerLogin({ payload: { formData, navigate } }: any): any {
     yield put(getInfoEmployer());
     navigate('/employer');
   } catch (err: any) {
-    yield put(loginEmployerFailure(err.message));
+    console.log('Employer login error: ', err);
+    yield put(loginEmployerFailure(err?.error || err?.message));
   }
 }
 

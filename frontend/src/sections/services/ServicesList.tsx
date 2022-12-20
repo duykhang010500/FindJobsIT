@@ -6,6 +6,7 @@ import {
   Box,
   Stack,
   Table,
+  Card,
   Button,
   TableRow,
   TableCell,
@@ -89,8 +90,8 @@ const ServicesList = (props: ServicesListProps) => {
   };
 
   return (
-    <>
-      <TableContainer sx={{ mt: 5 }}>
+    <Card sx={{ p: 3, mt: 3 }}>
+      <TableContainer>
         <Table>
           <TableHead
             sx={{
@@ -105,11 +106,8 @@ const ServicesList = (props: ServicesListProps) => {
             <TableRow>
               <TableCell>Title</TableCell>
               <TableCell align='center'>Day(s)</TableCell>
-              {/* <TableCell>Quantity</TableCell> */}
-
-              {/* <TableCell>Discount</TableCell> */}
-              <TableCell align='left'>Unit price (VND)</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell align='right'>Unit price (VND)</TableCell>
+              <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -126,16 +124,11 @@ const ServicesList = (props: ServicesListProps) => {
                 <TableCell align='center'>
                   <Typography>{item?.days}</Typography>
                 </TableCell>
-                {/* <TableCell>
-                  <QuantityControl
-                    onDecrease={() => handleDecrease(item)}
-                    onIncrease={() => handleIncrease(item)}
-                    count={getQuantity(item.id)}
-                  />
-                </TableCell> */}
-                {/* <TableCell>{item.discount} %</TableCell> */}
-                <TableCell>{numberWithCommas(item.price)}</TableCell>
-                <TableCell sx={{ width: '10%' }}>
+
+                <TableCell align='right'>
+                  {numberWithCommas(item.price)}
+                </TableCell>
+                <TableCell align='center'>
                   {serviceInCart(item.id) ? (
                     <Tooltip title='Delete' placement='top'>
                       <IconButton onClick={() => handleRemove(item)}>
@@ -184,42 +177,8 @@ const ServicesList = (props: ServicesListProps) => {
           Checkout
         </Button>
       </Box>
-    </>
+    </Card>
   );
 };
-
-// type QuantityControlProps = {
-//   onIncrease?: () => void;
-//   onDecrease?: () => void;
-//   count?: any;
-// };
-
-// const QuantityControl = ({
-//   onIncrease,
-//   onDecrease,
-//   count,
-// }: QuantityControlProps) => {
-//   return (
-//     <Box
-//       sx={{
-//         padding: '2px 1px',
-//         border: '1px solid silver',
-//         display: 'flex',
-//         alignItems: 'center',
-//         justifyContent: 'space-between',
-//         borderRadius: '8px',
-//         width: '100px',
-//       }}
-//     >
-//       <IconButton size='small' onClick={onDecrease} disabled={!count}>
-//         <RemoveIcon />
-//       </IconButton>
-//       <Typography>{count ? count : 0}</Typography>
-//       <IconButton size='small' onClick={onIncrease}>
-//         <AddIcon />
-//       </IconButton>
-//     </Box>
-//   );
-// };
 
 export default ServicesList;

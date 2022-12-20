@@ -69,8 +69,8 @@ const RegisterForm = () => {
       .oneOf([yup.ref('password'), null], 'Confirm password does not match')
       .required('Confirm password is required'),
     name: yup.string().required('Company name is required'),
-    industry_id: yup.string().required('Industry is required'),
-    location: yup.string().required('Location is required'),
+    industry_name: yup.string().required('Industry is required'),
+    location_name: yup.string().required('Location is required'),
     company_size: yup.string().required('Company size is required'),
   });
 
@@ -82,8 +82,8 @@ const RegisterForm = () => {
       password: '',
       password_confirmation: '',
       name: '',
-      industry_id: '',
-      location: '',
+      industry_name: '',
+      location_name: '',
       company_size: '',
     },
     resolver: yupResolver(registerSchema),
@@ -96,7 +96,7 @@ const RegisterForm = () => {
     delete data.lastName;
     let newForm = { ...data, fullname };
     console.log('form submit: ', newForm);
-    // dispatch(registerEmployer(newForm, navigate));
+    dispatch(registerEmployer(newForm, navigate));
   };
 
   return (
@@ -235,7 +235,7 @@ const RegisterForm = () => {
             )}
           />
           <Controller
-            name='industry_id'
+            name='industry_name'
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
@@ -248,7 +248,7 @@ const RegisterForm = () => {
               >
                 {industries.map((industry: IIndustry) => {
                   return (
-                    <MenuItem key={industry.id} value={industry.id}>
+                    <MenuItem key={industry.id} value={industry.name}>
                       {industry.name}
                     </MenuItem>
                   );
@@ -258,7 +258,7 @@ const RegisterForm = () => {
           />
 
           <Controller
-            name='location'
+            name='location_name'
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField

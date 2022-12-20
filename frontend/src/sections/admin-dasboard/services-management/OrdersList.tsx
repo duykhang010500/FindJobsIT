@@ -191,7 +191,7 @@ const OrdersList = (props: Props) => {
         <DialogActions>
           <Stack direction='row' spacing={2} sx={{ mr: 'auto' }}>
             <Button
-              variant={selectedOrder?.status === 1 ? 'contained' : 'outlined'}
+              variant={selectedOrder?.status === 0 ? 'contained' : 'outlined'}
               disabled={selectedOrder?.status === 2}
               onClick={() => {
                 setSelectedOrder({ ...selectedOrder, status: 1 });
