@@ -37,7 +37,6 @@ import { employerGetOrderedServices } from '../../../store/services/actions';
 
 import { convertJobStatus, getStrFromArr } from '../../../utils/convert';
 import JobNewForm from '../../../sections/employer-dashboard/jobs/JobNewForm';
-import { slice } from 'lodash';
 import Nodata from '../../../components/Nodata';
 
 type Props = {};
@@ -53,11 +52,13 @@ const EmployerJobsOpen = (props: Props) => {
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
 
-  const [jobsOpen, setJobsOpen] = useState<any>([]);
+  const [jobsOpen, setJobsOpen] = useState<any>();
 
   const [searchValue, setSearchValue] = useState<string>('');
 
-  const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
+  const { isLoading, employerJobs } = useSelector(
+    (state: AppState) => state.jobs
+  );
 
   const { activeServices } = useSelector((state: AppState) => state.services);
 
@@ -69,8 +70,8 @@ const EmployerJobsOpen = (props: Props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    setJobsOpen(jobs.filter((job: any) => job.status === 1));
-  }, [jobs]);
+    setJobsOpen(employerJobs.filter((item: any) => item.status === 1));
+  }, [employerJobs]);
 
   const handleEdit = (id?: string) => {
     navigate(`/employer/hr/job/${id}/edit`);
@@ -260,10 +261,10 @@ const EmployerJobsOpen = (props: Props) => {
   );
 };
 
-export const filterJob = (jobs: any, str: string) => {
+export const filterJob = (jobs: any = [], str: string = '') => {
   if (str) {
-    jobs = jobs.filter((job: any) =>
-      job.title.toLowerCase().includes(str.toLowerCase())
+    jobs = jobs?.filter((job: any) =>
+      job?.title?.toLowerCase().includes(str?.toLowerCase())
     );
   }
   return jobs;

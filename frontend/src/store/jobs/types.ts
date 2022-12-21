@@ -1,3 +1,4 @@
+import { NavigationType } from 'react-router-dom';
 import { NumberSchema } from 'yup';
 import SearchJobs from '../../pages/SearchJobs';
 import {
@@ -53,6 +54,7 @@ export interface IJobsState {
   job: any;
   appliedJobs: any;
   otherJobs: any;
+  employerJobs: any;
   jobs: any;
   jobsSearch: any;
   pendingJobs: any;

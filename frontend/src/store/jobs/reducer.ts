@@ -46,7 +46,13 @@ const initialState: IJobsState = {
   openApplyForm: false,
   isSubmitting: false,
   otherJobs: null,
-  jobs: [],
+  employerJobs: [],
+  jobs: {
+    items: [],
+    totalItems: 0,
+    currentPage: 0,
+    totalPages: 0,
+  },
   appliedJobs: [],
   error: null,
   isLoading: false,
@@ -115,7 +121,13 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
       return {
         ...state,
         isLoading: false,
-        jobs: action.payload,
+        jobs: {
+          ...state.jobs,
+          items: action.payload.jobs,
+          totalItems: action.payload.totalItems,
+          currentPage: action.payload.currentPage,
+          totalPages: action.payload.totalPages,
+        },
       };
     case GET_JOB:
       return {
@@ -143,7 +155,7 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
       return {
         ...state,
         isLoading: false,
-        jobs: action.payload,
+        employerJobs: action.payload,
       };
     case OPEN_APPLY_FORM:
       return {
@@ -199,6 +211,7 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
         ...state,
         isLoading: false,
       };
+
     // pending jobs
     case GET_PENDING_JOBS:
       return {

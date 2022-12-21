@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Card,
+  Avatar,
   Link,
   Table,
   Stack,
@@ -156,9 +157,9 @@ const JobsReject = (props: Props) => {
                 filteredRejectedJobs?.map((job: any) => (
                   <TableRow key={job.id}>
                     <TableCell>
-                      <Image
+                      <Avatar
                         alt={'Company logo'}
-                        src={job.company.logo}
+                        src={job?.company?.logo}
                         sx={{ width: 70, height: 70, borderRadius: 1 }}
                       />
                     </TableCell>

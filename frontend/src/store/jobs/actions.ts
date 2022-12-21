@@ -62,9 +62,19 @@ export const getJobs = () => ({
   type: GET_JOBS,
 });
 
-export const getJobsSuccess = (jobs: any) => ({
+export const getJobsSuccess = (
+  jobs: any,
+  currentPage: any,
+  totalItems: any,
+  totalPages: any
+) => ({
   type: GET_JOBS_SUCCESS,
-  payload: jobs,
+  payload: {
+    jobs,
+    currentPage,
+    totalItems,
+    totalPages,
+  },
 });
 
 //get job

@@ -11,6 +11,7 @@ import {
   Stack,
   Tooltip,
   TableRow,
+  Avatar,
   TableBody,
   TableHead,
   TableCell,
@@ -156,9 +157,9 @@ const JobsPending = (props: Props) => {
                 filteredJobs?.map((job: any) => (
                   <TableRow key={job.id}>
                     <TableCell>
-                      <Image
+                      <Avatar
                         alt={'Company logo'}
-                        src={job.company.logo}
+                        src={job?.company?.logo}
                         sx={{ width: 70, height: 70, borderRadius: 1 }}
                       />
                     </TableCell>

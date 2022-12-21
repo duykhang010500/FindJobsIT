@@ -50,7 +50,9 @@ const EmployerRejectedJob = (props: Props) => {
 
   const [searchValue, setSearchValue] = useState<string>('');
 
-  const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
+  const { employerJobs, isLoading } = useSelector(
+    (state: AppState) => state.jobs
+  );
 
   const { activeServices } = useSelector((state: AppState) => state.services);
 
@@ -82,7 +84,7 @@ const EmployerRejectedJob = (props: Props) => {
     setSearchValue('');
   };
 
-  const filteredJobs = filterJob(jobs, searchValue);
+  const filteredJobs = filterJob(employerJobs, searchValue);
 
   if (isLoading) {
     return (
@@ -143,7 +145,8 @@ const EmployerRejectedJob = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs.filter((job: any) => job.status === 4).length === 0 ? (
+            {employerJobs.filter((job: any) => job.status === 4).length ===
+            0 ? (
               <TableRow>
                 <TableCell colSpan={5}>
                   <Nodata />

@@ -135,6 +135,7 @@ const EmployerCandidatesList = (props: Props) => {
   };
 
   const handleChangeStatus = (e: any) => {
+    console.log('Change status: ', e.target.value);
     setStatus(e.target.value);
   };
 

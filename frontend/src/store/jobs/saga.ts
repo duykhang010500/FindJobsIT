@@ -70,7 +70,15 @@ function* createJob({ payload: { formData, navigate } }: any) {
 function* getJobsSaga(): any {
   try {
     const res = yield call(guestServices.getJobs);
-    yield put(getJobsSuccess(res.data.result.data));
+    console.log('Get jobs paging: ', res);
+    yield put(
+      getJobsSuccess(
+        res.data.result.data,
+        res.data.result.current_page,
+        res.data.result.total,
+        res.data.result.last_page
+      )
+    );
   } catch (err) {}
 }
 

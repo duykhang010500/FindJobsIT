@@ -55,13 +55,16 @@ const EmployerClosedJob = (props: Props) => {
 
   const [searchValue, setSearchValue] = useState<string>('');
 
-  const { jobs, isLoading } = useSelector((state: AppState) => state.jobs);
+  const { employerJobs, isLoading } = useSelector(
+    (state: AppState) => state.jobs
+  );
 
   const { activeServices } = useSelector((state: AppState) => state.services);
 
   const canPostJob = activeServices.findIndex((item: any) => item.id === 12);
 
-  const hasCloseJobs = jobs.filter((job: any) => job.status === 3).length > 0;
+  const hasCloseJobs =
+    employerJobs.filter((job: any) => job.status === 3).length > 0;
 
   useEffect(() => {
     dispatch(employerGetOrderedServices());
@@ -87,7 +90,7 @@ const EmployerClosedJob = (props: Props) => {
     setSearchValue('');
   };
 
-  const filteredJobs = filterJob(jobs, searchValue);
+  const filteredJobs = filterJob(employerJobs, searchValue);
 
   if (isLoading) {
     return (

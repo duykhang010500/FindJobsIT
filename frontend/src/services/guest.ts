@@ -7,8 +7,12 @@ const guestServices = {
   getIndustries: () => {
     return axiosInstance.get('/industries');
   },
-  getJobs: () => {
-    return axiosInstance.get('/jobs');
+  getJobs: (page?: any) => {
+    return axiosInstance.get('/jobs', {
+      params: {
+        page,
+      },
+    });
   },
   getJob: (id: any) => {
     return axiosInstance.get('/job/' + id);
@@ -35,7 +39,6 @@ const guestServices = {
       },
     });
   },
-
   getAllCompany: () => {
     return axiosInstance.get('/companies');
   },

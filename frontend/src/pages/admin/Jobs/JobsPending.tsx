@@ -7,6 +7,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
   Link,
+  Avatar,
   Table,
   Stack,
   Tooltip,
@@ -170,9 +171,9 @@ const JobsPending = (props: Props) => {
                 filteredPendingJobs?.map((job: any) => (
                   <TableRow key={job.id}>
                     <TableCell>
-                      <Image
+                      <Avatar
                         alt={'Company logo'}
-                        src={job.company.logo}
+                        src={job?.company?.logo}
                         sx={{ width: 70, height: 70, borderRadius: 1 }}
                       />
                     </TableCell>

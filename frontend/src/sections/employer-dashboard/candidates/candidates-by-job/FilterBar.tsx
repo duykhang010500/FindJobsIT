@@ -101,7 +101,7 @@ const FilterBar = ({
           <MenuItem value='New'>New</MenuItem>
           <MenuItem value='Short listed'>Short listed</MenuItem>
           <MenuItem value='Interview'>Interview</MenuItem>
-          <MenuItem value='Offered'>Offered</MenuItem>
+          <MenuItem value='Offer'>Offered</MenuItem>
           <MenuItem value='Hire'>Hire</MenuItem>
         </TextField>
       </Stack>

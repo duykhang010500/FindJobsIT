@@ -19,14 +19,14 @@ const EmployerCreateJob = (props: Props) => {
 
   const isEdit = pathname.includes('/edit');
 
-  const { jobs } = useSelector((state: AppState) => state.jobs);
+  const { employerJobs } = useSelector((state: AppState) => state.jobs);
 
   useEffect(() => {
     dispatch(employerGetJobs());
   }, [id, dispatch]);
 
   // eslint-disable-next-line
-  const job = jobs.find((job: any) => job.id == id);
+  const job = employerJobs.find((job: any) => job.id == id);
 
   return (
     <Box>

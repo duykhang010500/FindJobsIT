@@ -122,13 +122,13 @@ const JobSeekerSavedCompanies = (props: Props) => {
                     <Stack direction='row' alignItems='center' spacing={3}>
                       <Avatar
                         variant='rounded'
-                        src={company.company.logo}
+                        src={company?.company?.logo}
                         sx={{
                           width: 80,
                           height: 80,
                           border: '1px solid #d9d9d9',
                           padding: '4px',
-                          backgroundColor: '#fff',
+                          // backgroundColor: '#fff',
                         }}
                       />
                       <Link

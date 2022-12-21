@@ -21,7 +21,7 @@ const JobList = (props: Props) => {
     <JobListWrapper>
       <Container>
         <Grid container spacing={4}>
-          {jobs?.map((job: any, index: any) => {
+          {jobs?.items?.map((job: any, index: any) => {
             return (
               <Grid key={index} item xs={12} sm={6} md={4}>
                 <JobCard job={job} />
@@ -30,7 +30,7 @@ const JobList = (props: Props) => {
           })}
         </Grid>
         <Stack alignItems='center' sx={{ margin: '30px 0px' }}>
-          <Pagination count={1} color='primary' />
+          <Pagination count={jobs?.totalPages} color='primary' />
         </Stack>
       </Container>
     </JobListWrapper>

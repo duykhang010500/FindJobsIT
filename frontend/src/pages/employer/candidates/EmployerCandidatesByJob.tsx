@@ -143,13 +143,14 @@ const EmployerCandidatesByJob = (props: Props) => {
         Job_Title: `${item.job.title}`,
         Full_Name: `${item.member.fullname}`,
         Email: `${item.member.email}`,
-        Phone: `${item.member.phone}`,
-        Experience: `${
-          item.resume.yearofexperience > 0
-            ? item.resume.yearofexperience + ' ' + 'year'
-            : 'No experience'
-        }`,
-        Degree: `${item.resume.degree}`,
+        Phone: `${item.member.phone || 'None'}`,
+        Experience:
+          `${
+            item?.resume?.yearofexperience > 0
+              ? item.resume.yearofexperience + ' ' + 'year'
+              : 'No experience'
+          }` || 'none',
+        Degree: `${item?.resume?.degree || 'None'}`,
       });
     });
     console.log('arr format: ', newArr);

@@ -8,6 +8,7 @@ import {
   Table,
   Stack,
   Tooltip,
+  Avatar,
   Skeleton,
   TableRow,
   TableCell,
@@ -118,16 +119,13 @@ const JobSaved = (props: Props) => {
                   <TableRow key={idx}>
                     <TableCell sx={{ width: '90%' }}>
                       <Stack direction='row' spacing={2} alignItems='center'>
-                        <Image
+                        <Avatar
                           alt='logo'
                           src={job?.job?.company?.logo}
+                          variant='rounded'
                           sx={{
                             width: 80,
                             height: 80,
-                            border: '1px solid #d9d9d9',
-                            padding: '4px',
-                            borderRadius: '8px',
-                            backgroundColor: '#fff',
                           }}
                         />
                         <Stack spacing={1}>
