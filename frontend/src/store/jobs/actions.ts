@@ -37,6 +37,7 @@ import {
   SEARCH_JOB,
   SEARCH_JOB_FAILURE,
   SEARCH_JOB_SUCCESS,
+  SET_IS_LOADING,
   UPDATE_JOB,
   UPDATE_JOB_FAILURE,
   UPDATE_JOB_SUCCESS,
@@ -306,4 +307,8 @@ export const adminGetDetailJob = (jobID: number) => ({
 export const adminGetDetailJobSuccess = (job: any) => ({
   type: ADMIN_GET_DETAIL_JOB_SUCCESS,
   payload: job,
+});
+
+export const setIsLoadingSubmit = () => ({
+  type: SET_IS_LOADING,
 });

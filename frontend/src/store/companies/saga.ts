@@ -41,7 +41,9 @@ export function* adminGetCompaniesListSaga(): any {
   try {
     const res = yield call(adminServices.getCandidatesList);
     yield put(adminGetCOmpaniesListSuccess(res.data.data));
-  } catch (err) {}
+  } catch (err) {
+    toast.error('Server error!');
+  }
 }
 
 export function* employerUpdateCompanySaga({ payload: formData }: any): any {
@@ -50,7 +52,7 @@ export function* employerUpdateCompanySaga({ payload: formData }: any): any {
     yield put(getInfoEmployer());
     toast.success('Updated information successfully!');
   } catch (err) {
-    throw err;
+    toast.error('Server error!');
   }
 }
 
@@ -60,7 +62,7 @@ export function* getCompaniesSaga(): any {
     console.log('List of companies: ', res);
     yield put(getCompaniesSuccess(res.data.companies));
   } catch (err) {
-    throw err;
+    toast.error('Server error!');
   }
 }
 

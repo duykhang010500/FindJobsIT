@@ -51,7 +51,7 @@ const CVDefault = ({ resume }: Props) => {
                 sx={{ width: '100px', height: '100px' }}
                 src={resume?.member?.avatar || 'none'}
               />
-              <Stack spacing={1}>
+              <Stack spacing={1} sx={{ minWidth: '150px' }}>
                 <Typography variant='h4'>{resume?.member?.fullname}</Typography>
                 <Stack direction='row' alignItems={'center'}>
                   <WorkIcon sx={{ mr: 1, color: '#777' }} />
@@ -209,7 +209,7 @@ const CVDefault = ({ resume }: Props) => {
                         <Typography variant='body1' component='div'>
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: resume?.edu_description,
+                              __html: edu?.edu_description,
                             }}
                           />
                         </Typography>
@@ -316,7 +316,7 @@ const CVDefault = ({ resume }: Props) => {
                           <div
                             style={{ fontSize: 'inherit' }}
                             dangerouslySetInnerHTML={{
-                              __html: resume?.rexp_description,
+                              __html: exp?.rexp_description,
                             }}
                           />
                         </Typography>

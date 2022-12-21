@@ -42,6 +42,8 @@ const EmployerViewProfileCandidate = (props: Props) => {
     (state: AppState) => state.candidates
   );
 
+  const { folders } = useSelector((state: AppState) => state.folders);
+
   useEffect(() => {
     dispatch(getDetailResumeCandidate(Number(id)));
     dispatch(getFolders());

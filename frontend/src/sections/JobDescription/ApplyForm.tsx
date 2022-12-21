@@ -28,7 +28,11 @@ import { AppState } from '../../store/reducer';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { uploadSingleFile } from '../../utils/upload';
 import { useDispatch } from 'react-redux';
-import { applyJob, closeApplyForm } from '../../store/jobs/actions';
+import {
+  applyJob,
+  closeApplyForm,
+  setIsLoadingSubmit,
+} from '../../store/jobs/actions';
 import { LoadingButton } from '@mui/lab';
 import { toast } from 'react-toastify';
 
@@ -103,11 +107,15 @@ const ApplyForm = (props: Props) => {
   };
 
   const handleSubmit = async () => {
+    console.log('Apply job!!');
+
     if (applyType == 0) {
       if (!fileUpload) {
         toast.error('Please upload file CV!');
         return;
       }
+      dispatch(setIsLoadingSubmit());
+
       console.log('Apply with file pdf!');
 
       const res = await uploadSingleFile(fileUpload);
@@ -258,6 +266,7 @@ const ApplyForm = (props: Props) => {
             setFileUpload(null);
             setOpenUpload(false);
           }}
+          disabled={isSubmitting}
         >
           Back
         </Button>

@@ -35,6 +35,7 @@ import {
   OPEN_APPLY_FORM,
   SEARCH_JOB,
   SEARCH_JOB_SUCCESS,
+  SET_IS_LOADING,
   UPDATE_JOB_FAILURE,
   UPDATE_JOB_SUCCESS,
 } from './actionTypes';
@@ -166,6 +167,13 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
       return {
         ...state,
         openApplyForm: false,
+      };
+
+    //apply job
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isSubmitting: true,
       };
     case APPLY_JOB:
       return {

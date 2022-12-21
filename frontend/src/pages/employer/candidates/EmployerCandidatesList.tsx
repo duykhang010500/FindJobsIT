@@ -216,7 +216,11 @@ const EmployerCandidatesList = (props: Props) => {
                         <Typography variant='h4' sx={{ color: '#000' }}>
                           {candidate?.member?.fullname}
                         </Typography>
-                        <Typography variant='body2' textTransform='capitalize'>
+                        <Typography
+                          variant='body2'
+                          textTransform='capitalize'
+                          noWrap
+                        >
                           {candidate?.job?.title}
                         </Typography>
                       </Stack>

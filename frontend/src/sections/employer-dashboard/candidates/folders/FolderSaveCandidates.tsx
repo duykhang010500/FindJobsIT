@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 
 import {
+  Alert,
   Stack,
   Dialog,
   Button,
@@ -20,7 +21,7 @@ import { getFolders } from '../../../../store/folders/action';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store/reducer';
 import { Folder } from '../../../../store/folders/types';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { closeModal } from '../../../../store/location/actions';
 import {
   closeSaveCandidateModal,
@@ -31,6 +32,8 @@ type Props = {};
 
 const FolderSaveCandidates = (props: Props) => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const { folders } = useSelector((state: AppState) => state.folders);
 
@@ -65,25 +68,42 @@ const FolderSaveCandidates = (props: Props) => {
       </DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <Controller
-            control={control}
-            name='employer_folder_id'
-            render={({ field }) => (
-              <TextField
-                {...field}
-                select
-                fullWidth
-                label='Folder *'
-                placeholder='Select folder'
+          {folders.length > 0 ? (
+            <Controller
+              control={control}
+              name='employer_folder_id'
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  select
+                  fullWidth
+                  label='Folder *'
+                  placeholder='Select folder'
+                >
+                  {folders.map((folder: Folder) => (
+                    <MenuItem key={folder.id} value={folder.id}>
+                      {folder.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+          ) : (
+            <Stack spacing={2}>
+              <Alert severity='warning'>
+                Create folder to save your candidates
+              </Alert>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  navigate('/employer/hr/folders');
+                  dispatch(closeSaveCandidateModal());
+                }}
               >
-                {folders.map((folder: Folder) => (
-                  <MenuItem key={folder.id} value={folder.id}>
-                    {folder.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            )}
-          />
+                Create now
+              </Button>
+            </Stack>
+          )}
         </DialogContent>
         <DialogActions>
           <Stack direction='row' alignItems='center' spacing={2}>
@@ -97,6 +117,7 @@ const FolderSaveCandidates = (props: Props) => {
               type='submit'
               startIcon={<SaveRoundedIcon />}
               variant='contained'
+              disabled={folders.length === 0}
             >
               Save
             </Button>

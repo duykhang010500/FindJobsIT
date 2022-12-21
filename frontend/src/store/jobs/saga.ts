@@ -117,7 +117,8 @@ function* applyJobSaga({ payload: { id, formData } }: any): any {
     yield put(applyJobSuccess());
     yield put(getJobsApplied());
   } catch (err: any) {
-    toast.error(err.message);
+    // toast.error(err.message);
+    toast.error('Apply failure!');
     yield put(applyJobFailure());
   }
 }
@@ -195,7 +196,7 @@ function* approveJobSaga({ payload }: any): any {
 function* getActiveJobsSagas(): any {
   try {
     const res = yield call(adminServices.getJobs, 'active');
-    yield put(GetActiveJobsSuccess(res.data.JobsPendings));
+    yield put(GetActiveJobsSuccess(res.data.JobsPendings.reverse()));
   } catch (error) {
     yield put(GetActiveJobsFailure());
   }

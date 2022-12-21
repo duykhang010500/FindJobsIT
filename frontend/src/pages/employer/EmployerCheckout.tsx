@@ -106,7 +106,7 @@ const EmployerCheckout = (props: Props) => {
       vnp_Params['vnp_CurrCode'] = currCode;
       vnp_Params['vnp_TxnRef'] = orderId;
       vnp_Params['vnp_OrderInfo'] = 'Thanh toán dịch vụ';
-      vnp_Params['vnp_OrderType'] = 'other';
+      // vnp_Params['vnp_OrderType'] = 'other';
       vnp_Params['vnp_Amount'] = totalPrice * 100;
       vnp_Params['vnp_ReturnUrl'] = returnUrl;
       // vnp_Params['vnp_IpAddr'] = ipAddr;
