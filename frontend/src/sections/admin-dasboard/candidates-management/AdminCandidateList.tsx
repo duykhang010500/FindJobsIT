@@ -235,15 +235,17 @@ const AdminCandidateList = (props: Props) => {
                       )}
                     </TableCell>
                     <TableCell align='center'>
-                      <Tooltip placement='top' title='View detail'>
-                        <IconButton
-                          onClick={() =>
-                            navigate(`/admin/candidates/${member.id}`)
-                          }
-                        >
-                          <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
-                        </IconButton>
-                      </Tooltip>
+                      {member?.resume && (
+                        <Tooltip placement='top' title='View detail'>
+                          <IconButton
+                            onClick={() =>
+                              navigate(`/admin/candidates/${member.id}`)
+                            }
+                          >
+                            <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                       <Tooltip placement='top' title='Edit status'>
                         <IconButton
                           onClick={() => {

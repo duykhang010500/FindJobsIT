@@ -170,7 +170,7 @@ const JobSeekerJobs = (props: Props) => {
                     </TableCell>
                     <TableCell align='center'>
                       <Typography fontWeight={600} variant='body2'>
-                        {dayjs(job?.created_at).format('DD/MM/YYYY')}
+                        {dayjs(job?.date_apply).format('DD/MM/YYYY')}
                       </Typography>
                     </TableCell>
                     <TableCell align='center'>

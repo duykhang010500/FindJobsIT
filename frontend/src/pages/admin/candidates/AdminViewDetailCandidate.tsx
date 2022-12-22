@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Link as RouterLink, useParams } from 'react-router-dom';
 
@@ -16,15 +16,22 @@ const AdminViewDetailCandidate = (props: Props) => {
 
   const dispatch = useDispatch();
 
+  const [currentCandidate, setCurrentCandidate] = useState<any>(null);
+
   useEffect(() => {
     dispatch(adminGetCandidatesList());
   }, []);
 
-  const { list } = useSelector((state: AppState) => state.candidates);
-
-  const currentCandidate = list.find(
-    (candidate: any) => candidate.id === Number(id)
+  const { isLoading, list } = useSelector(
+    (state: AppState) => state.candidates
   );
+
+  useEffect(() => {
+    const currentCandidate = list?.find(
+      (candidate: any) => candidate.id === Number(id)
+    );
+    setCurrentCandidate(currentCandidate);
+  }, [list]);
 
   console.log('Current candidate: ', currentCandidate);
 
@@ -32,6 +39,8 @@ const AdminViewDetailCandidate = (props: Props) => {
     ...currentCandidate?.resume,
     member: { ...currentCandidate },
   };
+
+  console.log('resume: ', resume);
 
   return (
     <div>
@@ -54,9 +63,13 @@ const AdminViewDetailCandidate = (props: Props) => {
           </Typography>
         </Breadcrumbs>
       </Card>
-      <ViewProfile type={0} resume={resume} />
+      {currentCandidate && (
+        <ViewProfile type={resume?.cv_type} resume={resume} />
+      )}
     </div>
   );
+
+  return <></>;
 };
 
 export default AdminViewDetailCandidate;

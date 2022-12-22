@@ -27,6 +27,8 @@ import {
 type Props = {
   control: any;
   reset: any;
+  getValues: any;
+  setValue: any;
 };
 
 const SearchSidebar = (props: Props) => {
@@ -136,7 +138,7 @@ const SearchSidebar = (props: Props) => {
                 fullWidth
                 size='small'
               >
-                <MenuItem value=' '>ALl</MenuItem>
+                <MenuItem value=' '>All</MenuItem>
                 {resumeUpdateStatus.map((item: any) => {
                   return (
                     <MenuItem key={item.id} value={item.value}>
@@ -184,6 +186,17 @@ const SearchSidebar = (props: Props) => {
                 fullWidth
                 label='Salary from'
                 size='small'
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={
+                  props.getValues('salary_from') === 0
+                    ? ''
+                    : props.getValues('salary_from')
+                }
+                onChange={(e: any) =>
+                  props.setValue('salary_from', e.target.value)
+                }
                 error={!!error}
                 helperText={error?.message}
               />
@@ -203,6 +216,17 @@ const SearchSidebar = (props: Props) => {
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={
+                  props.getValues('salary_to') === 0
+                    ? ''
+                    : props.getValues('salary_to')
+                }
+                onChange={(e: any) =>
+                  props.setValue('salary_to', e.target.value)
+                }
               />
             )}
           />
@@ -220,6 +244,17 @@ const SearchSidebar = (props: Props) => {
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={
+                  props.getValues('exp_from') === 0
+                    ? ''
+                    : props.getValues('exp_from')
+                }
+                onChange={(e: any) =>
+                  props.setValue('exp_from', e.target.value)
+                }
               />
             )}
           />
@@ -237,6 +272,15 @@ const SearchSidebar = (props: Props) => {
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={
+                  props.getValues('exp_to') === 0
+                    ? ''
+                    : props.getValues('exp_to')
+                }
+                onChange={(e: any) => props.setValue('exp_to', e.target.value)}
               />
             )}
           />
@@ -254,6 +298,17 @@ const SearchSidebar = (props: Props) => {
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={
+                  props.getValues('age_from') === 0
+                    ? ''
+                    : props.getValues('age_from')
+                }
+                onChange={(e: any) =>
+                  props.setValue('age_from', e.target.value)
+                }
               />
             )}
           />
@@ -271,6 +326,15 @@ const SearchSidebar = (props: Props) => {
                 size='small'
                 error={!!error}
                 helperText={error?.message}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={
+                  props.getValues('age_to') === 0
+                    ? ''
+                    : props.getValues('age_to')
+                }
+                onChange={(e: any) => props.setValue('age_to', e.target.value)}
               />
             )}
           />

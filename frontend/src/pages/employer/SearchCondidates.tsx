@@ -35,30 +35,31 @@ const SearchCandidates = (props: Props) => {
   );
 
   const validateScheme = yup.object({
-    salary_to: yup
-      .number()
-      .min(0, 'Salary to must be equal or greater than 0')
-      .max(9999999999, 'Salary to maximum 9999999999'),
     salary_from: yup
       .number()
-      .min(0, 'Salary to must be equal or greater than 0')
-      .max(9999999999, 'Salary to maximum 9999999999'),
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .nullable(),
+
+    salary_to: yup
+      .number()
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .nullable(),
     age_from: yup
       .number()
-      .min(0, 'Age from allow min 0')
-      .max(60, 'Age to maximum 60'),
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .nullable(),
     age_to: yup
       .number()
-      .min(0, 'Age to allow min 0')
-      .max(60, 'Age to maximum 60'),
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .nullable(),
     exp_to: yup
       .number()
-      .min(0, 'Exp to allow min 0')
-      .max(100, 'Exp to maximum 100'),
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .nullable(),
     exp_from: yup
       .number()
-      .min(0, 'Exp from allow min 0')
-      .max(100, 'Exp from maximum 100'),
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .nullable(),
   });
 
   const defaultValues = useMemo(
@@ -87,7 +88,7 @@ const SearchCandidates = (props: Props) => {
     dispatch(employerGetOrderedServices());
   }, [dispatch, defaultValues]);
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, getValues, setValue } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(validateScheme),
@@ -98,6 +99,12 @@ const SearchCandidates = (props: Props) => {
       ...formValues,
       industries: getIdFromArr(formValues.industries),
       locations: getIdFromArr(formValues.locations),
+      salary_from: formValues.salary_from || 0,
+      salary_to: formValues.salary_to || 0,
+      exp_from: formValues.exp_from || 0,
+      exp_to: formValues.exp_to || 0,
+      age_from: formValues.age_from || 0,
+      age_to: formValues.age_to || 0,
     };
     console.log(newFormValues);
 
@@ -125,7 +132,12 @@ const SearchCandidates = (props: Props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card sx={{ p: 3 }}>
           <SearchTop control={control} />
-          <SearchSidebar control={control} reset={reset} />
+          <SearchSidebar
+            control={control}
+            reset={reset}
+            getValues={getValues}
+            setValue={setValue}
+          />
         </Card>
       </form>
       <Grid container spacing={3} sx={{ mt: 2 }}>
@@ -151,10 +163,10 @@ const SearchCandidates = (props: Props) => {
                 Candidates founded
               </Typography>
               <Grid container spacing={3}>
-                {list?.map((item: any) => {
+                {list?.map((item: any, index: number) => {
                   return (
-                    <Grid item md={6}>
-                      <CandidateCard key={item.id} candidate={item} />
+                    <Grid item md={6} key={index}>
+                      <CandidateCard candidate={item} />
                     </Grid>
                   );
                 })}

@@ -80,11 +80,11 @@ const CandidateCard = ({ candidate }: Props) => {
               }}
             />
             <Typography variant='body2'>
-              {candidate?.locations?.map((item: any, inx: number) => {
-                if (inx === 0) {
-                  return <>{item.name}</>;
+              {candidate?.locations?.map((item: any, idx: number) => {
+                if (idx === 0) {
+                  return <span key={idx}>{item.name}</span>;
                 } else {
-                  return <>, {item.name}</>;
+                  return <span key={idx}>{item.name}</span>;
                 }
               })}
             </Typography>

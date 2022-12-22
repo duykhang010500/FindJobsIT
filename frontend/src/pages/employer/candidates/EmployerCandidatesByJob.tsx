@@ -139,7 +139,7 @@ const EmployerCandidatesByJob = (props: Props) => {
     arr?.forEach((item: any, index: number) => {
       newArr.push({
         STT: `${index + 1}`,
-        Date_Apply: `${dayjs(item.created_at).format('DD/MM/YYYY')}`,
+        Date_Apply: `${dayjs(item.date_apply).format('DD/MM/YYYY')}`,
         Job_Title: `${item.job.title}`,
         Full_Name: `${item.member.fullname}`,
         Email: `${item.member.email}`,
@@ -277,7 +277,7 @@ const EmployerCandidatesByJob = (props: Props) => {
                   </TableCell>
                   <TableCell align='center'>
                     <Typography variant='subtitle1'>
-                      {dayjs(candidate.created_at).format('DD/MM/YYYY')}
+                      {dayjs(candidate.date_apply).format('DD/MM/YYYY')}
                     </Typography>
                   </TableCell>
                   <TableCell align='center'>
@@ -387,13 +387,13 @@ export const filterCandidates = (
   }
   if (dateStart) {
     candidates = candidates.filter((candidate: any) =>
-      dayjs(candidate.created_at).isSameOrAfter(dayjs(dateStart), 'day')
+      dayjs(candidate.date_apply).isSameOrAfter(dayjs(dateStart), 'day')
     );
   }
 
   if (dateEnd) {
     candidates = candidates.filter((candidate: any) =>
-      dayjs(candidate.created_at).isSameOrBefore(dayjs(dateEnd), 'day')
+      dayjs(candidate.date_apply).isSameOrBefore(dayjs(dateEnd), 'day')
     );
   }
 

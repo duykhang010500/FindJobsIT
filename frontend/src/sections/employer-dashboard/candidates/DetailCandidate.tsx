@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -63,6 +63,28 @@ const DetailCandidate = (props: Props) => {
     (state: AppState) => state.candidates
   );
 
+  function exportPDF() {
+    const elm: any = document.getElementById('content');
+    html2canvas(elm, { logging: true, useCORS: true }).then((canvas) => {
+      const data: any = canvas.toDataURL('image/png', 1.0);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(data, 'JPEG', 0, 0, 210, 297);
+      pdf.save(`CV_${resume?.member?.fullname}.pdf`);
+    });
+  }
+
+  const resume = {
+    ...candidate?.resume,
+    member: { ...candidate?.member },
+  };
+
+  // useEffect(() => {
+  //   setResume({
+  //     ...candidate?.resume,
+  //     member: { ...candidate?.member },
+  //   });
+  // }, [candidate]);
+
   if (isLoading) {
     return (
       <Stack spacing={2}>
@@ -73,20 +95,7 @@ const DetailCandidate = (props: Props) => {
     );
   }
 
-  const resume = {
-    ...candidate?.resume,
-    member: { ...candidate?.member },
-  };
-
-  function exportPDF() {
-    const elm: any = document.getElementById('content');
-    html2canvas(elm, { logging: true, useCORS: true }).then((canvas) => {
-      const data: any = canvas.toDataURL('image/png', 1.0);
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      pdf.addImage(data, 'JPEG', 0, 0, 210, 297);
-      pdf.save(`CV_${resume?.member?.fullname}.pdf`);
-    });
-  }
+  // return <p>cc</p>;
 
   const canSendMail = activeServices.findIndex((item: any) => item.id === 14);
 
@@ -120,61 +129,70 @@ const DetailCandidate = (props: Props) => {
       </Box>
     );
   } else {
+    console.log('Chạy vô đây');
     return (
       <>
-        <Breadcrumbs sx={{ mb: 3 }}>
-          <Link component={RouterLink} to='/employer/hr/candidates'>
-            Candidates
-          </Link>
-          <Typography>{candidate?.member?.fullname}</Typography>
-        </Breadcrumbs>
-        <BoxStyled sx={{ mb: 3 }}>
-          <Typography variant='h4' sx={{ color: '#595959' }}>
-            {candidate?.job?.title}
-          </Typography>
-        </BoxStyled>
-        <Stack
-          direction='row'
-          justifyContent='flex-end'
-          alignItems='center'
-          spacing={0.5}
-          sx={{ mb: 3 }}
-        >
-          <Tooltip placement='bottom' title='Edit status'>
-            <IconButton
-              onClick={() => {
-                dispatch(selectCandidate(candidate));
-                dispatch(openStatusDialog());
-              }}
+        {candidate && (
+          <>
+            <Breadcrumbs sx={{ mb: 3 }}>
+              <Link component={RouterLink} to='/employer/hr/candidates'>
+                Candidates
+              </Link>
+              <Typography>{candidate?.member?.fullname}</Typography>
+            </Breadcrumbs>
+            <BoxStyled sx={{ mb: 3 }}>
+              <Typography variant='h4' sx={{ color: '#595959' }}>
+                {candidate?.job?.title}
+              </Typography>
+            </BoxStyled>
+            <Stack
+              direction='row'
+              justifyContent='flex-end'
+              alignItems='center'
+              spacing={0.5}
+              sx={{ mb: 3 }}
             >
-              <BorderColorTwoToneIcon sx={{ color: '#40a9ff', fontSize: 19 }} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip
-            placement='bottom'
-            title={canSendMail < 0 ? 'Please buy this service!' : 'Send mail'}
-          >
-            <div>
-              <IconButton
-                disabled={canSendMail < 0}
-                onClick={() => {
-                  dispatch(selectCandidate(candidate));
-                  dispatch(openMail());
-                }}
+              <Tooltip placement='bottom' title='Edit status'>
+                <IconButton
+                  onClick={() => {
+                    dispatch(selectCandidate(candidate));
+                    dispatch(openStatusDialog());
+                  }}
+                >
+                  <BorderColorTwoToneIcon
+                    sx={{ color: '#40a9ff', fontSize: 19 }}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                placement='bottom'
+                title={
+                  canSendMail < 0 ? 'Please buy this service!' : 'Send mail'
+                }
               >
-                <EmailTwoToneIcon sx={{ color: '#b37feb', fontSize: 19 }} />
-              </IconButton>
-            </div>
-          </Tooltip>
-          <Tooltip placement='bottom' title='Download CV'>
-            <IconButton sx={{ mb: 3 }} onClick={exportPDF}>
-              <FileDownloadTwoToneIcon sx={{ color: '#fa8c16' }} />
-            </IconButton>
-          </Tooltip>
-        </Stack>
-        <ViewProfile type={resume?.cv_type} resume={resume} />
-        <MailDialog />
-        <StatusDialog />
+                <div>
+                  <IconButton
+                    disabled={canSendMail < 0}
+                    onClick={() => {
+                      dispatch(selectCandidate(candidate));
+                      dispatch(openMail());
+                    }}
+                  >
+                    <EmailTwoToneIcon sx={{ color: '#b37feb', fontSize: 19 }} />
+                  </IconButton>
+                </div>
+              </Tooltip>
+              <Tooltip placement='bottom' title='Download CV'>
+                <IconButton sx={{ mb: 3 }} onClick={exportPDF}>
+                  <FileDownloadTwoToneIcon sx={{ color: '#fa8c16' }} />
+                </IconButton>
+              </Tooltip>
+            </Stack>
+            {<ViewProfile type={resume?.cv_type} resume={resume} />}
+            <MailDialog />
+            <StatusDialog />
+          </>
+        )}
       </>
     );
   }

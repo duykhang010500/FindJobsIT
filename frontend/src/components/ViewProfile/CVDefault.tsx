@@ -32,6 +32,7 @@ const HeadingStyle = styled(Box)({
 });
 
 const CVDefault = ({ resume }: Props) => {
+  // return <p>cv</p>;
   return (
     <Box sx={{ p: 1, backgroundColor: '#fff' }}>
       <Stack spacing={6}>
@@ -250,7 +251,8 @@ const CVDefault = ({ resume }: Props) => {
           ))}
         </Box>
 
-        {resume?.experiences[0].rexp_title !== null && (
+        {/* Lỗi ở đây  */}
+        {resume?.experiences[0]?.rexp_title ? (
           <Box>
             <HeadingStyle>
               <WorkHistoryIcon sx={{ color: 'inherit', marginRight: '20px' }} />
@@ -329,6 +331,8 @@ const CVDefault = ({ resume }: Props) => {
               </Grid>
             </Box>
           </Box>
+        ) : (
+          <></>
         )}
 
         <Box>
