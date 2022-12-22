@@ -50,12 +50,14 @@ class JobController extends Controller
 
             $result = Job::query();
 
-            if (!empty($params['keywords'])) {
-                $search_str = $params['keywords'];
-                $result = $result->where('title', 'like', "%{$search_str}%")
-                                 ->orWhere('company_name', 'like', "%{$search_str}%");
-            }
-
+            // if (!empty($params['keywords'])) {
+            //     $search_str = $params['keywords'];
+            //     $result = $result->where('title', 'like', "%{$search_str}%")
+            //                     ->with('company')->orWhereHas('company', function ($q) use ($search_str) {
+            //                         $q->where('name', 'like', "%{$search_str}%");
+            //                     });
+            // }
+            
             if (!empty($params['locations'])) {
 
                 $locs = is_array($params['locations']) ? $params['locations'] : explode(',', $params['locations']);
@@ -94,7 +96,15 @@ class JobController extends Controller
                     $query->where('salary_from', '<',  $maxFilter);
                 });
             }
-            $result = $result->with('company','industries','locations')->orderBy('id','desc')
+            // dd($params);
+            if (!empty($params['keywords'])) {
+                $search_str = $params['keywords'];
+                $result = $result ->whereHas('company',function(\Illuminate\Database\Eloquent\Builder $query) use ($search_str){
+                    return $query->where('name', 'LIKE',"%{$search_str}%");
+                })
+                ->orWhere('title','LIKE',"%{$search_str}%");
+            }
+            $result = $result->with('industries','locations')->orderBy('id','desc')
             ->where('status', 1)->orderBy('end_date','asc')->get();
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
