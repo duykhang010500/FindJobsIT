@@ -219,28 +219,30 @@ const CV2 = ({ resume }: Props) => {
           </Box>
 
           {/* Experience  */}
-          <Box sx={{ mt: 4 }}>
-            <HeadingSection>experience</HeadingSection>
-            {resume?.experiences?.map((exp: any) => (
-              <Stack sx={{ my: 2 }}>
-                <Typography variant='h5' component='div' gutterBottom>
-                  {exp?.rexp_title} |{' '}
-                  {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')} - {''}
-                  {exp?.rexp_date_end
-                    ? dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')
-                    : 'Current'}
-                </Typography>
-                <Typography variant='h4'>{exp?.rexp_company}</Typography>
-                <Typography variant='body1' component='div'>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: exp?.rexp_description,
-                    }}
-                  />
-                </Typography>
-              </Stack>
-            ))}
-          </Box>
+          {resume?.experiences[0]?.rexp_title !== null && (
+            <Box sx={{ mt: 4 }}>
+              <HeadingSection>experience</HeadingSection>
+              {resume?.experiences?.map((exp: any) => (
+                <Stack sx={{ my: 2 }}>
+                  <Typography variant='h5' component='div' gutterBottom>
+                    {exp?.rexp_title} |{' '}
+                    {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')} - {''}
+                    {exp?.rexp_date_end
+                      ? dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')
+                      : 'Current'}
+                  </Typography>
+                  <Typography variant='h4'>{exp?.rexp_company}</Typography>
+                  <Typography variant='body1' component='div'>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: exp?.rexp_description,
+                      }}
+                    />
+                  </Typography>
+                </Stack>
+              ))}
+            </Box>
+          )}
 
           {/* Skills  */}
           <Box>

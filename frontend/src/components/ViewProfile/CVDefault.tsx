@@ -250,84 +250,86 @@ const CVDefault = ({ resume }: Props) => {
           ))}
         </Box>
 
-        <Box>
-          <HeadingStyle>
-            <WorkHistoryIcon sx={{ color: 'inherit', marginRight: '20px' }} />
-            <Typography
-              variant='h3'
-              sx={{ color: 'inherit', textTransform: 'uppercase' }}
-            >
-              experience
-            </Typography>
-          </HeadingStyle>
+        {resume?.experiences[0].rexp_title !== null && (
           <Box>
-            <Grid container spacing={2}>
-              {resume?.experiences?.map((exp: any) => (
-                <>
-                  <Grid item xs={12} md={6} sx={{ mb: 2 }}>
-                    <Stack spacing={1.5}>
-                      <Stack direction='row'>
-                        <Typography gutterBottom sx={{ width: '200px' }}>
-                          Position
-                        </Typography>
-                        <Typography variant='h5'>
-                          {exp?.rexp_title ? <>{exp?.rexp_title}</> : 'None'}
-                        </Typography>
-                      </Stack>
-
-                      <Stack direction='row'>
-                        <Typography gutterBottom sx={{ width: '200px' }}>
-                          Company
-                        </Typography>
-                        <Typography variant='h5'>
-                          {exp?.rexp_company ? exp?.rexp_company : 'None'}
-                        </Typography>
-                      </Stack>
-
-                      <Stack direction='row'>
-                        <Typography gutterBottom sx={{ width: '200px' }}>
-                          Date start
-                        </Typography>
-                        <Typography variant='h5'>
-                          {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')}
-                          {!exp?.rexp_date_end && <> - Current</>}
-                        </Typography>
-                      </Stack>
-
-                      {exp?.rexp_date_end && (
+            <HeadingStyle>
+              <WorkHistoryIcon sx={{ color: 'inherit', marginRight: '20px' }} />
+              <Typography
+                variant='h3'
+                sx={{ color: 'inherit', textTransform: 'uppercase' }}
+              >
+                experience
+              </Typography>
+            </HeadingStyle>
+            <Box>
+              <Grid container spacing={2}>
+                {resume?.experiences?.map((exp: any) => (
+                  <>
+                    <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                      <Stack spacing={1.5}>
                         <Stack direction='row'>
                           <Typography gutterBottom sx={{ width: '200px' }}>
-                            Date end
+                            Position
                           </Typography>
                           <Typography variant='h5'>
-                            {dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')}
+                            {exp?.rexp_title ? <>{exp?.rexp_title}</> : 'None'}
                           </Typography>
                         </Stack>
-                      )}
-                    </Stack>
-                  </Grid>
-                  <Grid item xs={12} md={6} sx={{ mb: 2 }}>
-                    <Stack spacing={1.5}>
-                      <Stack>
-                        <Typography sx={{ width: '200px' }}>
-                          Experience description:
-                        </Typography>
-                        <Typography variant='h5' component={'div'}>
-                          <div
-                            style={{ fontSize: 'inherit' }}
-                            dangerouslySetInnerHTML={{
-                              __html: exp?.rexp_description,
-                            }}
-                          />
-                        </Typography>
+
+                        <Stack direction='row'>
+                          <Typography gutterBottom sx={{ width: '200px' }}>
+                            Company
+                          </Typography>
+                          <Typography variant='h5'>
+                            {exp?.rexp_company ? exp?.rexp_company : 'None'}
+                          </Typography>
+                        </Stack>
+
+                        <Stack direction='row'>
+                          <Typography gutterBottom sx={{ width: '200px' }}>
+                            Date start
+                          </Typography>
+                          <Typography variant='h5'>
+                            {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')}
+                            {!exp?.rexp_date_end && <> - Current</>}
+                          </Typography>
+                        </Stack>
+
+                        {exp?.rexp_date_end && (
+                          <Stack direction='row'>
+                            <Typography gutterBottom sx={{ width: '200px' }}>
+                              Date end
+                            </Typography>
+                            <Typography variant='h5'>
+                              {dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')}
+                            </Typography>
+                          </Stack>
+                        )}
                       </Stack>
-                    </Stack>
-                  </Grid>
-                </>
-              ))}
-            </Grid>
+                    </Grid>
+                    <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                      <Stack spacing={1.5}>
+                        <Stack>
+                          <Typography sx={{ width: '200px' }}>
+                            Experience description:
+                          </Typography>
+                          <Typography variant='h5' component={'div'}>
+                            <div
+                              style={{ fontSize: 'inherit' }}
+                              dangerouslySetInnerHTML={{
+                                __html: exp?.rexp_description,
+                              }}
+                            />
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </Grid>
+                  </>
+                ))}
+              </Grid>
+            </Box>
           </Box>
-        </Box>
+        )}
 
         <Box>
           <HeadingStyle>

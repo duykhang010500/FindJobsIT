@@ -9,6 +9,7 @@ import {
   GET_MY_CV,
   GET_MY_CV_FAILURE,
   GET_MY_CV_SUCCESS,
+  SET_IS_LOADING,
   UPDATE_CV_TYPE,
   UPDATE_CV_TYPE_FAILURE,
   UPDATE_CV_TYPE_SUCCESS,
@@ -58,4 +59,8 @@ export const updateCVTypeSuccess = () => ({
 export const updateCVTypeFailure = (err: any) => ({
   type: UPDATE_CV_TYPE_FAILURE,
   payload: err,
+});
+
+export const setIsLoadingSubmitOnlineProfile = () => ({
+  type: SET_IS_LOADING,
 });

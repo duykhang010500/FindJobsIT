@@ -2,6 +2,7 @@ import {
   GET_MY_CV,
   GET_MY_CV_FAILURE,
   GET_MY_CV_SUCCESS,
+  SET_IS_LOADING,
   UPDATE_CV_TYPE,
   UPDATE_CV_TYPE_FAILURE,
   UPDATE_CV_TYPE_SUCCESS,
@@ -59,6 +60,10 @@ export type UpdateCVTypeFailure = {
   payload: number;
 };
 
+export type SetIsLoading = {
+  type: typeof SET_IS_LOADING;
+};
+
 export type CVActions =
   | GetMyCV
   | GetMyCVSuccess
@@ -68,4 +73,5 @@ export type CVActions =
   | UpdateMyCvFailure
   | UpdateCVType
   | UpdateCVTypeSuccess
-  | UpdateCVTypeFailure;
+  | UpdateCVTypeFailure
+  | SetIsLoading;

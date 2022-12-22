@@ -213,53 +213,56 @@ const CV3 = ({ resume }: Props) => {
             </Box>
 
             {/* Exp  */}
-            <Box sx={{ mt: 3 }}>
-              <Typography
-                variant='h3'
-                color='#ff4d4f'
-                textTransform='uppercase'
-                sx={{
-                  position: 'relative',
-                  '&::before': {
-                    position: 'absolute',
-                    content: '""',
-                    height: '30px',
-                    width: '8px',
-                    backgroundColor: 'currentcolor',
-                    left: '-25px',
-                    top: '-5px',
-                    borderRadius: '8px',
-                  },
-                }}
-              >
-                Experience
-              </Typography>
-              {resume?.experiences?.map((exp: any) => (
-                <Stack sx={{ my: 2 }}>
-                  <Typography
-                    variant='h5'
-                    component='div'
-                    gutterBottom
-                    fontWeight={400}
-                  >
-                    {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')} - {''}
-                    {exp?.rexp_date_end
-                      ? dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')
-                      : 'Current'}
-                  </Typography>
-                  <Typography variant='h4'>
-                    {exp?.rexp_title} | {exp?.rexp_company}
-                  </Typography>
-                  <Typography variant='body1' component='div'>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: exp?.rexp_description,
-                      }}
-                    />
-                  </Typography>
-                </Stack>
-              ))}
-            </Box>
+
+            {resume?.experiences[0]?.rexp_title && (
+              <Box sx={{ mt: 3 }}>
+                <Typography
+                  variant='h3'
+                  color='#ff4d4f'
+                  textTransform='uppercase'
+                  sx={{
+                    position: 'relative',
+                    '&::before': {
+                      position: 'absolute',
+                      content: '""',
+                      height: '30px',
+                      width: '8px',
+                      backgroundColor: 'currentcolor',
+                      left: '-25px',
+                      top: '-5px',
+                      borderRadius: '8px',
+                    },
+                  }}
+                >
+                  Experience
+                </Typography>
+                {resume?.experiences?.map((exp: any) => (
+                  <Stack sx={{ my: 2 }}>
+                    <Typography
+                      variant='h5'
+                      component='div'
+                      gutterBottom
+                      fontWeight={400}
+                    >
+                      {dayjs(exp?.rexp_date_start).format('DD/MM/YYYY')} - {''}
+                      {exp?.rexp_date_end
+                        ? dayjs(exp?.rexp_date_end).format('DD/MM/YYYY')
+                        : 'Current'}
+                    </Typography>
+                    <Typography variant='h4'>
+                      {exp?.rexp_title} | {exp?.rexp_company}
+                    </Typography>
+                    <Typography variant='body1' component='div'>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: exp?.rexp_description,
+                        }}
+                      />
+                    </Typography>
+                  </Stack>
+                ))}
+              </Box>
+            )}
 
             {/* Career information  */}
             <Box sx={{ mt: 3 }}>

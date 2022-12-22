@@ -29,7 +29,12 @@ import { AppState } from '../../../store/reducer';
 import { phoneRegExp } from '../../../utils/validate';
 import { uploadSingleFile } from '../../../utils/upload';
 import { Nationalities, skills } from '../../../utils/defaultValues';
-import { getMyCV, updateMyCv } from '../../../store/cv/actions';
+import {
+  getMyCV,
+  setIsLoadingSubmitOnlineProfile,
+  updateMyCv,
+} from '../../../store/cv/actions';
+import { toast } from 'react-toastify';
 
 type Props = {};
 
@@ -101,23 +106,23 @@ const ProfileForm = (props: Props) => {
     languages: yup.string().required('Language is required'),
     summary: yup.string().required('Summary is required'),
 
-    experiences: yup.array().of(
-      yup.object().shape({
-        rexp_title: yup.string().required('Position title is required'),
-        rexp_company: yup.string().required('Companies is required'),
-        rexp_date_start: yup
-          .date()
-          .max(new Date(), 'Date start is before today')
-          .nullable()
-          .transform((curr, orig) => (orig === '' ? null : curr))
-          .required('Date start is required'),
-        rexp_date_end: yup
-          .date()
-          .min(yup.ref('rexp_date_start'), 'End date must be after start date')
-          .nullable(),
-        rexp_description: yup.string().required('Description is required'),
-      })
-    ),
+    // experiences: yup.array().of(
+    //   yup.object().shape({
+    //     rexp_title: yup.string().required('Position title is required'),
+    //     rexp_company: yup.string().required('Companies is required'),
+    //     rexp_date_start: yup
+    //       .date()
+    //       .max(new Date(), 'Date start is before today')
+    //       .nullable()
+    //       .transform((curr, orig) => (orig === '' ? null : curr))
+    //       .required('Date start is required'),
+    //     rexp_date_end: yup
+    //       .date()
+    //       .min(yup.ref('rexp_date_start'), 'End date must be after start date')
+    //       .nullable(),
+    //     rexp_description: yup.string().required('Description is required'),
+    //   })
+    // ),
 
     educations: yup.array().of(
       yup.object().shape({
@@ -258,6 +263,7 @@ const ProfileForm = (props: Props) => {
 
   const onSubmit = async (formValues: any) => {
     try {
+      dispatch(setIsLoadingSubmitOnlineProfile());
       let avatar = formValues.avatar;
 
       if (formValues.avatar !== cv?.member?.avatar) {
@@ -291,6 +297,7 @@ const ProfileForm = (props: Props) => {
 
       dispatch(updateMyCv(formatValues));
     } catch (err) {
+      toast.error('Update online profile failure!');
       console.log('Update profile failure: ', err);
     }
   };
