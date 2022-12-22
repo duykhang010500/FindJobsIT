@@ -14,6 +14,8 @@ import {
   CLOSE_COMPANY_DIALOG,
   GET_COMPANIES,
   GET_COMPANIES_SUCCESS,
+  GET_COMPANY,
+  GET_COMPANY_FAILURE,
   GET_COMPANY_SUCCESS,
   GET_FOLLOWING_COMPANIES,
   GET_FOLLOWING_COMPANIES_SUCCESS,
@@ -47,10 +49,23 @@ const companiesReducer = (state = initialState, action: CompaniesAction) => {
         ...state,
         list: action.payload,
       };
+
+    //get company
+    case GET_COMPANY:
+      return {
+        ...state,
+        isLoading: true,
+      };
     case GET_COMPANY_SUCCESS:
       return {
         ...state,
         company: action.payload,
+        isLoading: false,
+      };
+    case GET_COMPANY_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
 
     //pending companies
@@ -114,12 +129,12 @@ const companiesReducer = (state = initialState, action: CompaniesAction) => {
     case GET_FOLLOWING_COMPANIES:
       return {
         ...state,
-        isLoading: true,
+        // isLoading: true,
       };
     case GET_FOLLOWING_COMPANIES_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
         followingCompany: action.payload,
       };
     case OPEN_COMPANY_DIALOG:

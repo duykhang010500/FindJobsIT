@@ -68,6 +68,8 @@ const EmployerCheckout = (props: Props) => {
     setTotalPrice(totalPrice);
   }, [cart]);
 
+  console.log('State change!');
+
   const handleOrder = async () => {
     let newCart: any = [];
     cart.forEach((item: any) => {
@@ -83,13 +85,12 @@ const EmployerCheckout = (props: Props) => {
       dispatch(employerOrderServices(formValues, navigate));
     } else {
       const formValues = { note, payment_type: 2, cart: newCart };
-
       localStorage.setItem('checkout', JSON.stringify(formValues));
 
-      // var ipAddr = await publicIpv4();
+      var ipAddr = await publicIpv4();
       var tmnCode = 'GR77G1LW';
       var secretKey = 'PHXSMBRZMNSGHPLZMFVHXCKANZEKWZXP';
-      var vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+      let vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
       var returnUrl = 'http://localhost:3000/employer/vnpay_return';
 
       var date = new Date();
@@ -105,12 +106,13 @@ const EmployerCheckout = (props: Props) => {
       vnp_Params['vnp_Locale'] = locale;
       vnp_Params['vnp_CurrCode'] = currCode;
       vnp_Params['vnp_TxnRef'] = orderId;
-      vnp_Params['vnp_OrderInfo'] = 'Thanh toán dịch vụ';
+      vnp_Params['vnp_OrderInfo'] = 'Pay services';
       // vnp_Params['vnp_OrderType'] = 'other';
       vnp_Params['vnp_Amount'] = totalPrice * 100;
       vnp_Params['vnp_ReturnUrl'] = returnUrl;
-      // vnp_Params['vnp_IpAddr'] = ipAddr;
+      vnp_Params['vnp_IpAddr'] = ipAddr;
       vnp_Params['vnp_CreateDate'] = createDate;
+
       vnp_Params = sortObject(vnp_Params);
 
       var signData = queryString.stringify(vnp_Params, { encode: false });
@@ -124,22 +126,6 @@ const EmployerCheckout = (props: Props) => {
       console.log(vnpUrl);
     }
   };
-
-  function sortObject(obj: any) {
-    var sorted: any = {};
-    var str: any = [];
-    var key: any;
-    for (key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        str.push(encodeURIComponent(key));
-      }
-    }
-    str.sort();
-    for (key = 0; key < str.length; key++) {
-      sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, '+');
-    }
-    return sorted;
-  }
 
   return (
     <>
@@ -270,7 +256,7 @@ const EmployerCheckout = (props: Props) => {
           startIcon={<ShoppingCartCheckoutIcon />}
           loading={isLoading}
           disabled={!paymentMethod}
-          onClick={() => handleOrder()}
+          onClick={handleOrder}
         >
           Order
         </LoadingButton>
@@ -278,5 +264,21 @@ const EmployerCheckout = (props: Props) => {
     </>
   );
 };
+
+function sortObject(obj: any) {
+  var sorted: any = {};
+  var str: any = [];
+  var key: any;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      str.push(encodeURIComponent(key));
+    }
+  }
+  str.sort();
+  for (key = 0; key < str.length; key++) {
+    sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, '+');
+  }
+  return sorted;
+}
 
 export default EmployerCheckout;

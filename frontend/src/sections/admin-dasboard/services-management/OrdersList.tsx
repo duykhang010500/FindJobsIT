@@ -166,7 +166,9 @@ const OrdersList = (props: Props) => {
           </Typography>
           <Typography gutterBottom>
             <span style={{ fontWeight: 500 }}>Payment method: </span>
-            {selectedOrder?.payment_type}
+            {selectedOrder?.payment_type === '1'
+              ? 'Banking'
+              : selectedOrder?.payment_type}
           </Typography>
           <Typography gutterBottom>
             <span style={{ fontWeight: 500 }}>Note: </span>
@@ -185,7 +187,7 @@ const OrdersList = (props: Props) => {
                 <TableRow>
                   <TableCell align='left'>Service name</TableCell>
                   <TableCell></TableCell>
-                  {/* <TableCell align='center'>Quantity</TableCell> */}
+
                   <TableCell align='right'>Price (VND)</TableCell>
                 </TableRow>
               </TableHead>
@@ -196,7 +198,6 @@ const OrdersList = (props: Props) => {
                       <TableCell align='left'>{item.name}</TableCell>
                       <TableCell></TableCell>
 
-                      {/* <TableCell align='center'>{item.qty}</TableCell> */}
                       <TableCell align='right'>
                         {numberWithCommas(Number(item.price))}
                       </TableCell>
@@ -220,7 +221,9 @@ const OrdersList = (props: Props) => {
           <Stack direction='row' spacing={2} sx={{ mr: 'auto' }}>
             <Button
               variant={selectedOrder?.status === 0 ? 'contained' : 'outlined'}
-              disabled={selectedOrder?.status === 2}
+              disabled={
+                selectedOrder?.status === 2 || selectedOrder?.status === 3
+              }
               onClick={() => {
                 setSelectedOrder({ ...selectedOrder, status: 1 });
                 dispatch(
@@ -232,12 +235,14 @@ const OrdersList = (props: Props) => {
             </Button>
             <Button
               variant={selectedOrder?.status === 2 ? 'contained' : 'outlined'}
+              disabled={selectedOrder?.status === 3}
               onClick={() => {
                 setSelectedOrder({ ...selectedOrder, status: 2 });
                 console.log(selectedOrder.id);
                 dispatch(
                   adminUpdateOrderedServicesStatus(selectedOrder?.id, 2)
                 );
+                setOpen(false);
               }}
             >
               Processed
@@ -250,6 +255,7 @@ const OrdersList = (props: Props) => {
                 dispatch(
                   adminUpdateOrderedServicesStatus(selectedOrder?.id, 3)
                 );
+                setOpen(false);
               }}
             >
               Rejected

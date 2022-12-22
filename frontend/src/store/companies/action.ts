@@ -18,6 +18,7 @@ import {
   GET_COMPANIES,
   GET_COMPANIES_SUCCESS,
   GET_COMPANY,
+  GET_COMPANY_FAILURE,
   GET_COMPANY_SUCCESS,
   GET_FOLLOWING_COMPANIES,
   GET_FOLLOWING_COMPANIES_SUCCESS,
@@ -56,6 +57,10 @@ export const getCompany = (id: number) => ({
 export const getCompanySuccess = (company: any) => ({
   type: GET_COMPANY_SUCCESS,
   payload: company,
+});
+
+export const getCompanyFailure = () => ({
+  type: GET_COMPANY_FAILURE,
 });
 
 //pending companies

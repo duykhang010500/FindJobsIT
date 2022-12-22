@@ -175,7 +175,7 @@ const JobSeekerJobs = (props: Props) => {
                     </TableCell>
                     <TableCell align='center'>
                       {!job?.status || job?.status === 'New' ? (
-                        <BadgeStatus status={0}>Inprogress</BadgeStatus>
+                        <BadgeStatus status={0}>Pending</BadgeStatus>
                       ) : (
                         <BadgeStatus
                           status={convertAppliedJobStatusToNum(job?.status)}

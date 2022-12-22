@@ -27,6 +27,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { IIndustry } from '../../../store/industries/types';
 import { companySize } from '../../../utils/defaultValues';
+import { nameRegex } from '../../../utils/validate';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -49,10 +50,10 @@ const RegisterForm = () => {
       .string()
       .required('Fisrt name required')
       .max(30, 'First name allow maximum 30 character')
-      .matches(/^[A-Za-z ]*$/, 'Please enter valid first name'),
+      .matches(nameRegex, 'Please enter valid first name'),
     lastName: yup
       .string()
-      .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
+      .matches(nameRegex, 'Please enter valid last name')
       .max(20, 'Last name allow maximum 20 character')
       .required('Last name required'),
     email: yup
@@ -87,7 +88,7 @@ const RegisterForm = () => {
       company_size: '',
     },
     resolver: yupResolver(registerSchema),
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
   const onSubmit = (data: any) => {

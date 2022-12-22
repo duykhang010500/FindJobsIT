@@ -14,7 +14,7 @@ type Props = {};
 
 const Wrapper = styled(Box)({
   maxWidth: '500px',
-  margin: 'auto',
+  margin: '100px auto',
 });
 
 const PaymentSuccess = (props: Props) => {

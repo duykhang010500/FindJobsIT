@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -24,6 +24,8 @@ const DetailJob = (props: Props) => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(adminGetDetailJob(Number(id)));
@@ -66,14 +68,20 @@ const DetailJob = (props: Props) => {
               <Button
                 variant='contained'
                 color='success'
-                onClick={() => dispatch(approveJob(Number(id), 1))}
+                onClick={() => {
+                  dispatch(approveJob(Number(id), 1));
+                  navigate('/admin/jobs/pending');
+                }}
               >
                 Accept
               </Button>
               <Button
                 variant='contained'
                 color='error'
-                onClick={() => dispatch(approveJob(Number(id), 4))}
+                onClick={() => {
+                  dispatch(approveJob(Number(id), 4));
+                  navigate('/admin/jobs/pending');
+                }}
               >
                 Reject
               </Button>
@@ -83,7 +91,10 @@ const DetailJob = (props: Props) => {
             <Button
               variant='contained'
               color='error'
-              onClick={() => dispatch(approveJob(Number(id), 4))}
+              onClick={() => {
+                dispatch(approveJob(Number(id), 4));
+                navigate('/admin/jobs/active');
+              }}
             >
               Reject
             </Button>
@@ -92,7 +103,10 @@ const DetailJob = (props: Props) => {
             <Button
               variant='contained'
               color='success'
-              onClick={() => dispatch(approveJob(Number(id), 1))}
+              onClick={() => {
+                dispatch(approveJob(Number(id), 1));
+                navigate('/admin/jobs/reject');
+              }}
             >
               Accept
             </Button>

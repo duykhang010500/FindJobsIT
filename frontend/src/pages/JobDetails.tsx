@@ -23,7 +23,12 @@ import CompanyInfo from '../sections/JobDescription/CompanyInformation';
 import JobDescriptionHeader from '../sections/JobDescription/JobDescriptionHeader';
 
 import { AppState } from '../store/reducer';
-import { getJob, getJobsApplied, getOtherJobs } from '../store/jobs/actions';
+import {
+  getJob,
+  getJobs,
+  getJobsApplied,
+  getOtherJobs,
+} from '../store/jobs/actions';
 import DetailJobSkeleton from '../sections/JobDescription/DetailJobSkeleton';
 import { getMyCV } from '../store/cv/actions';
 import { getJobsSaved } from '../store/jobsSaved/action';
@@ -43,6 +48,7 @@ const JobDescription: FC<Props> = () => {
 
   useEffect(() => {
     dispatch(getJob(id));
+    dispatch(getJobs());
     dispatch(getJobsSaved());
     dispatch(getJobsApplied());
     dispatch(getOtherJobs(Number(id)));

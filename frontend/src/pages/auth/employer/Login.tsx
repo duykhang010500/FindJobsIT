@@ -7,7 +7,7 @@ type Props = {};
 
 const Login = (props: Props) => {
   return (
-    <Container sx={{ mt: 1 }}>
+    <Container>
       <Grid container direction='row' spacing={3} alignItems='center'>
         <Grid item md={6} display={{ xs: 'none', md: 'block' }}>
           <Banner />

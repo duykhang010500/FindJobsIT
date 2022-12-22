@@ -117,10 +117,10 @@ const JobMoreMenu = ({
 
           {isRejectedPage && (
             <>
-              <Divider sx={{ my: 1 }} />
+              {/* <Divider sx={{ my: 1 }} />
               <MenuItem onClick={onDelete}>
                 <DeleteIcon sx={{ mr: 2, color: '#ff4d4f' }} /> Delete
-              </MenuItem>
+              </MenuItem> */}
             </>
           )}
         </Box>

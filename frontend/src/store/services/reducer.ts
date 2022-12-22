@@ -257,16 +257,25 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
         ...state,
         isLoading: false,
       };
+
+    // Admin update order status
     case ADMIN_UPDATE_STATUS_ORDERED_SERVICES:
       return {
         ...state,
         // isLoading: true,
       };
-    case ADMIN_UPDATE_STATUS_ORDERED_SERVICES_SUCCESS:
+    case ADMIN_UPDATE_STATUS_ORDERED_SERVICES_SUCCESS: {
+      console.log('reducer: ', action.payload);
       return {
         ...state,
-        // isLoading: false,
+        orderList: state?.orderList?.map((item: any) =>
+          item.id === action.payload.orderID
+            ? { ...item, status: action.payload.status }
+            : item
+        ),
       };
+    }
+
     case ADMIN_UPDATE_STATUS_ORDERED_SERVICES_FAILURE:
       return {
         ...state,

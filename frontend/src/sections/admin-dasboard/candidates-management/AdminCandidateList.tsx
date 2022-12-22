@@ -169,6 +169,21 @@ const AdminCandidateList = (props: Props) => {
                     <Skeleton />
                   </TableCell>
                 </TableRow>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
               </>
             )}
             {!isLoading && filteredCandidates.length === 0 && (
@@ -192,12 +207,13 @@ const AdminCandidateList = (props: Props) => {
                         <Stack>
                           <Typography variant='body2'>
                             <Typography variant='h4'>
-                              {`${member.fullname} / ${
+                              {`${member?.fullname}`}
+                              {/* {`${member.fullname} / ${
                                 member?.resume?.resume_title || ''
-                              }`}
+                              }`} */}
                             </Typography>
-                            {member.expected_position &&
-                              `/${member.expected_position} `}
+                            {/* {member.expected_position &&
+                              `/${member.expected_position} `} */}
                           </Typography>
                           <Typography variant='body2'>
                             {member.email}

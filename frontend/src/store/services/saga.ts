@@ -34,6 +34,7 @@ import {
   clearCart,
   adminGetOrderedServicesFailure,
   adminGetServicesListFailure,
+  adminUpdateOrderedServicesStatusSuccess,
 } from './actions';
 import { DeleteService } from './types';
 
@@ -141,9 +142,12 @@ export function* adminUpdateOrderedServicesStatusSaga({
 }: any): any {
   try {
     const res = yield call(adminServices.changeStatusOrder, orderID, status);
-    yield put(adminGetOrderedServices());
+    // yield put(adminGetOrderedServices());
+    yield put(adminUpdateOrderedServicesStatusSuccess({ orderID, status }));
     toast.success('Update status order successfully!');
-  } catch (err) {}
+  } catch (err) {
+    toast.error('Update failure!');
+  }
 }
 
 export function* servicesSaga() {

@@ -8,7 +8,7 @@ type Props = {};
 
 const Register = (props: Props) => {
   return (
-    <Container sx={{ mt: 15 }}>
+    <Container>
       <Grid container spacing={3} alignItems='flex-start'>
         <Grid item md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
           <Banner />

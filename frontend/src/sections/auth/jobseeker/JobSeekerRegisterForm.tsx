@@ -28,6 +28,7 @@ import { jobSeekerRegister } from '../../../store/auth/action';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
+import { nameRegex } from '../../../utils/validate';
 
 type Props = {};
 
@@ -65,7 +66,7 @@ const JobSeekerRegisterForm = (props: Props) => {
       .required('Email is required'),
     fullname: yup
       .string()
-      .matches(/^[A-Za-z ]*$/, 'Please enter valid full name')
+      .matches(nameRegex, 'Please enter valid full name')
       .max(40, 'Full name alow maximum 40 character')
       .required('Full name is required'),
     password: yup
@@ -82,6 +83,7 @@ const JobSeekerRegisterForm = (props: Props) => {
   const { control, handleSubmit } = useForm<FormValues>({
     defaultValues,
     resolver: yupResolver(schema),
+    mode: 'onBlur',
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
