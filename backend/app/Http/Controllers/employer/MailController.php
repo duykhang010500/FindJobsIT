@@ -32,6 +32,7 @@ class MailController extends Controller
         if ($fields->fails()) {
             return response()->json($fields->errors(), 422);
         }
+        // dd(auth()->user());
         $data = [
             'title' => $request->title,
             'content' => $request->content,
@@ -44,13 +45,23 @@ class MailController extends Controller
 
 
         $candidate = Candidate::with('resume','job','company','member')->where('id',$request->apply_id)->first();
-        $sendmail = SendMail::create(array_merge(
-            $fields->validated(),
-            ['comp_id' => auth()->user()->company->id,'emp_id' => auth()->user()->id,
-             'job_id' => $candidate->job->id, 'resume_id'=> $candidate->resume->id, 'mid' => $candidate->member->id,
+        if($candidate->resume){
+            $sendmail = SendMail::create(array_merge(
+                $fields->validated(),
+                ['comp_id' => auth()->user()->company->id,'emp_id' => auth()->user()->id,
+                 'job_id' => $candidate->job->id, 'resume_id'=> $candidate->resume->id, 'mid' => $candidate->member->id,
 
-            ]
-        ));
+                ]
+            ));
+        }else{
+            $sendmail = SendMail::create(array_merge(
+                $fields->validated(),
+                ['comp_id' => auth()->user()->company->id,'emp_id' => auth()->user()->id,
+                 'job_id' => $candidate->job->id, 'resume_id'=> 0, 'mid' => $candidate->member->id,
+
+                ]
+            ));
+        }
 
         return [
             'mes'=> 'send mail candidate',

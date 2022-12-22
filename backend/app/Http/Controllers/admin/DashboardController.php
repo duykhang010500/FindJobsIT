@@ -25,12 +25,12 @@ class DashboardController extends Controller
         $candidate_apply = Candidate::first();
         if($candidate_apply){
             $candidate_apply_by_month = Candidate::select(DB::raw("COUNT(*) as count"))
-                            ->whereYear('updated_at', date('Y'))
-                            ->groupBy(DB::raw("Month(updated_at)"))
+                            ->whereYear('date_apply', date('Y'))
+                            ->groupBy(DB::raw("Month(date_apply)"))
                             ->pluck('count');
-            $months =  Candidate::select(DB::raw("Month(updated_at) as month"))
-                            ->whereYear('updated_at', date('Y'))
-                            ->groupBy(DB::raw("Month(updated_at)"))
+            $months =  Candidate::select(DB::raw("Month(date_apply) as month"))
+                            ->whereYear('date_apply', date('Y'))
+                            ->groupBy(DB::raw("Month(date_apply)"))
                             ->pluck('month');
             $data = [0,0,0,0,0,0,0,0,0,0,0,0];
             foreach ($months as $index => $month){
@@ -38,7 +38,7 @@ class DashboardController extends Controller
                 $data[$month] = $candidate_apply_by_month[$index];
             }
         }
-        if(!$data) $data = [0,0,0,0,0,0,0,0,0,0,0,0];
+        if(empty($data)) $data = [0,0,0,0,0,0,0,0,0,0,0,0];
         return response()->json([
             'totalJobsActive' => $totalJobsActive,
             'totalJobsPending' => $totalJobsPending,

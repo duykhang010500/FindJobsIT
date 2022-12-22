@@ -19,7 +19,7 @@ class Candidate extends Authenticatable
      */
     protected $fillable = [
         'job_id', 'member_id', 'resume_id', 'resume_file', 'resume_online', 'letter_content',
-        'comp_id', 'ratings', 'rating', 'apply_nonmember','status'
+        'comp_id', 'ratings', 'rating', 'apply_nonmember','status','date_apply'
     ];
     protected $casts  = [ 'resume_file' => 'array'];
 

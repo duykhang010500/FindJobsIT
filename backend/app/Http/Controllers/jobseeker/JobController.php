@@ -50,13 +50,14 @@ class JobController extends Controller
 
             $result = Job::query();
 
-            if (!empty($params['keywords'])) {
-                $search_str = $params['keywords'];
-                $result = $result->where('title', 'like', '%'.$params['keywords'].'%')
-                                ->with('company:name')->orWhereHas('company', function ($q) use ($search_str) {
-                                    $q->where('name', 'LIKE', "%{$search_str}%");
-                                });
-            }
+            // if (!empty($params['keywords'])) {
+            //     $search_str = $params['keywords'];
+            //     $result = $result->where('title', 'like', "%{$search_str}%")
+            //                     ->with('company')->orWhereHas('company', function ($q) use ($search_str) {
+            //                         $q->where('name', 'like', "%{$search_str}%");
+            //                     });
+            // }
+            
             if (!empty($params['locations'])) {
 
                 $locs = is_array($params['locations']) ? $params['locations'] : explode(',', $params['locations']);
@@ -96,7 +97,14 @@ class JobController extends Controller
                 });
             }
             // dd($params);
-            $result = $result->with('company','industries','locations')->orderBy('id','desc')
+            if (!empty($params['keywords'])) {
+                $search_str = $params['keywords'];
+                $result = $result ->whereHas('company',function(\Illuminate\Database\Eloquent\Builder $query) use ($search_str){
+                    return $query->where('name', 'LIKE',"%{$search_str}%");
+                })
+                ->orWhere('title','LIKE',"%{$search_str}%");
+            }
+            $result = $result->with('industries','locations')->orderBy('id','desc')
             ->where('status', 1)->orderBy('end_date','asc')->get();
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -226,9 +234,8 @@ class JobController extends Controller
     public function apply(Request $request,$id)
     {
         //
-        try{
+        // try{
             $member = auth('sanctum')->user();
-
             $job = Job::findOrFail($id);
             $emp = \App\Models\Employer::where('comp_id',$job->comp_id)->first();
             // check member apply
@@ -250,6 +257,7 @@ class JobController extends Controller
                 $candidate -> resume_id = $member -> resume_id;
                 if($request -> post('resume_file')) $candidate -> resume_file = $request -> post('resume_file');
                 if($request -> post('resume_online')) $candidate -> resume_online = $request -> post('resume_online');
+                $candidate -> date_apply = now();
                 $candidate -> save();
             }
             $title_mail = 'CV app for "'. $job->title.'"';
@@ -304,12 +312,12 @@ class JobController extends Controller
                 'message' => 'Apply successfully',
                 'candidate' => $candidate,
             ]);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
-        }
+        // } catch (\Throwable $th) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => $th->getMessage()
+        //     ], 500);
+        // }
     }
 
     public function companies()
