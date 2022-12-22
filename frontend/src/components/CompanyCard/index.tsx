@@ -44,8 +44,9 @@ const CompanyCard: React.FC<Props> = ({ img, title, job, id }) => {
         }`}
         sx={{
           margin: 'auto',
-          width: '80px',
-          height: '80px',
+          width: '100px',
+          height: '100px',
+          objectFit: 'fill',
         }}
       />
       <CardContent>

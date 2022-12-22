@@ -55,6 +55,9 @@ const CompanyCard = (props: Props) => {
               border: '1px solid silver',
               p: 1,
               backgroundColor: '#fff',
+              '& > img': {
+                objectFit: 'unset',
+              },
             }}
             src={props.logo}
           />

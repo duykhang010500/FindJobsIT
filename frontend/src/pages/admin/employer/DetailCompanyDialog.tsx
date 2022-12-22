@@ -47,7 +47,13 @@ const DetailCompanyDialog = (props: Props) => {
       <DialogContent>
         <Stack sx={{ mb: 2 }} direction='row' justifyContent='center'>
           <Avatar
-            sx={{ width: 100, height: 100 }}
+            sx={{
+              width: 100,
+              height: 100,
+              '& > img': {
+                objectFit: 'unset',
+              },
+            }}
             variant='rounded'
             src={props?.company?.logo}
           />

@@ -82,7 +82,7 @@ const ViewResume = (props: Props) => {
               Notification
             </Typography>
           </AlertTitle>
-          <Typography gutterBottom>Please login to view CV</Typography>
+          <Typography gutterBottom>Please login to create your CV</Typography>
           <RouterLink to='/login' style={{ textDecoration: 'none' }}>
             <Button variant='contained' sx={{ mt: 2 }}>
               Login now

@@ -160,7 +160,14 @@ const JobsReject = (props: Props) => {
                       <Avatar
                         alt={'Company logo'}
                         src={job?.company?.logo}
-                        sx={{ width: 70, height: 70, borderRadius: 1 }}
+                        sx={{
+                          width: 70,
+                          height: 70,
+                          borderRadius: 1,
+                          '& > img': {
+                            objectFit: 'unset',
+                          },
+                        }}
                       />
                     </TableCell>
                     <TableCell>

@@ -179,7 +179,22 @@ const CompanyList = ({ companies }: Props) => {
               filteredCompany?.map((company: any) => (
                 <TableRow key={company?.id}>
                   <TableCell>
-                    <Avatar variant='rounded' src={company?.logo} />
+                    <Avatar
+                      variant='rounded'
+                      src={company?.logo}
+                      sx={{
+                        width: 75,
+                        height: 75,
+                        '& > img': {
+                          objectFit: 'unset',
+                        },
+                      }}
+                    />
+                    {/* <img
+                      src={company?.logo}
+                      alt=''
+                      style={{ width: '50px', height: '50px' }}
+                    /> */}
                   </TableCell>
 
                   <TableCell>
