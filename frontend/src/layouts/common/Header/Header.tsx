@@ -38,6 +38,7 @@ import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
 
 import { AppState } from '../../../store/reducer';
 import { logout, logoutEmployer } from '../../../store/auth/action';
+import { clearCart } from '../../../store/services/actions';
 
 type Props = {};
 
@@ -79,6 +80,7 @@ const Header: FC<Props> = () => {
       isJobSeeker
         ? (window.location.href = '/login')
         : (window.location.href = '/employer/login/');
+      dispatch(clearCart());
     } catch (err) {
       throw err;
     }

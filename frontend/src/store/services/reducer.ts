@@ -41,12 +41,21 @@ import {
 } from './actionTypes';
 import { array } from 'yup';
 
+const getCart = () => {
+  const cart = localStorage.getItem('cart');
+  if (cart) {
+    return JSON.parse(localStorage.getItem('cart') || '');
+  } else {
+    return [];
+  }
+};
+
 const initialState: ServicesState = {
   isLoading: false,
   error: null,
   list: [],
   service: null,
-  cart: [],
+  cart: getCart(),
   order: null,
   orderSuccess: null,
   orderList: [],
@@ -132,6 +141,8 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
       };
     //cart
     case ADD_TO_CART: {
+      let newCart = [...state.cart, { ...action.payload, qty: 1 }];
+      localStorage.setItem('cart', JSON.stringify(newCart));
       return {
         ...state,
         cart: [...state.cart, { ...action.payload, qty: 1 }],
@@ -179,12 +190,15 @@ const servicesReducer = (state = initialState, action: ServicesActions) => {
     case DELETE_ITEM: {
       const id = action.payload.id;
       const updateCart = state.cart.filter((item: any) => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(updateCart));
       return {
         ...state,
         cart: updateCart,
       };
     }
     case CLEAR_CART: {
+      localStorage.setItem('cart', JSON.stringify([]));
+
       return {
         ...state,
         cart: [],

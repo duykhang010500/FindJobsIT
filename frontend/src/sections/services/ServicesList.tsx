@@ -25,6 +25,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { addToCart, removeItem } from '../../store/services/actions';
 import { useEffect, useState } from 'react';
 import { numberWithCommas } from '../../utils/format';
+import { toast } from 'react-toastify';
 
 type ServicesListProps = {};
 
@@ -172,7 +173,13 @@ const ServicesList = (props: ServicesListProps) => {
           startIcon={<ShoppingBasketIcon />}
           sx={{ ml: 17 }}
           disabled={cart.length === 0}
-          onClick={() => navigate('/employer/services/checkout')}
+          onClick={() => {
+            if (localStorage.getItem('role') !== '2') {
+              toast.error('Please login!');
+            } else {
+              navigate('/employer/services/checkout');
+            }
+          }}
         >
           Checkout
         </Button>
