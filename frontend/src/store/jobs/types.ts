@@ -78,6 +78,7 @@ export type CreateJobFailure = {
 
 export type GetJobs = {
   type: typeof GET_JOBS;
+  payload: any;
 };
 
 export type GetJobsSuccess = {

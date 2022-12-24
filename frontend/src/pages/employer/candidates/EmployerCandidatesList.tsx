@@ -69,6 +69,8 @@ const EmployerCandidatesList = (props: Props) => {
 
   const [data, setData] = useState<any>([]);
 
+  const [filteredCandidates, setFilteredCandidates] = useState<any>([]);
+
   const [searchStr, setSearchStr] = useState<string>('');
 
   const [dateStart, setDateStart] = useState<Dayjs | null>(null);
@@ -93,8 +95,22 @@ const EmployerCandidatesList = (props: Props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    setData(formatData(list));
-  }, [list]);
+    setData(formatData(filteredCandidates));
+  }, [filteredCandidates]);
+
+  // const filteredCandidates = filterCandidates(
+  //   list,
+  //   searchStr,
+  //   dateStart,
+  //   dateEnd,
+  //   status
+  // );
+
+  useEffect(() => {
+    setFilteredCandidates(
+      filterCandidates(list, searchStr, dateStart, dateEnd, status)
+    );
+  }, [list, searchStr, dateStart, dateEnd, status]);
 
   const formatData = (arr: any) => {
     let newArr: any = [];
@@ -145,14 +161,6 @@ const EmployerCandidatesList = (props: Props) => {
     setDateEnd(null);
     setStatus('All');
   };
-
-  const filteredCandidates = filterCandidates(
-    list,
-    searchStr,
-    dateStart,
-    dateEnd,
-    status
-  );
 
   return (
     <>

@@ -35,7 +35,8 @@ import {
   OPEN_APPLY_FORM,
   SEARCH_JOB,
   SEARCH_JOB_SUCCESS,
-  SET_IS_LOADING,
+  // SET_IS_LOADING,
+  SET_IS_SUBMIT_FORM,
   UPDATE_JOB_FAILURE,
   UPDATE_JOB_SUCCESS,
 } from './actionTypes';
@@ -57,7 +58,13 @@ const initialState: IJobsState = {
   appliedJobs: [],
   error: null,
   isLoading: false,
-  jobsSearch: [],
+  // jobsSearch: [],
+  jobsSearch: {
+    items: [],
+    totalItems: 0,
+    currentPage: 0,
+    totalPages: 0,
+  },
   pendingJobs: [],
   activeJobs: [],
   rejectedJobs: [],
@@ -170,7 +177,7 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
       };
 
     //apply job
-    case SET_IS_LOADING:
+    case SET_IS_SUBMIT_FORM:
       return {
         ...state,
         isSubmitting: true,
@@ -198,10 +205,24 @@ const JobsReducer = (state = initialState, action: JobsAction) => {
         isLoading: true,
       };
     case SEARCH_JOB_SUCCESS:
+      // return {
+      //   ...state,
+      //   jobsSearch: action.payload,
+      //   isLoading: false,
+      // };
       return {
         ...state,
-        jobsSearch: action.payload,
         isLoading: false,
+        jobsSearch: {
+          ...state.jobsSearch,
+          items:
+            action.payload.currentPage === 1
+              ? action.payload.jobs
+              : [...state.jobsSearch.items, ...action.payload.jobs],
+          totalItems: action.payload.totalItems,
+          currentPage: action.payload.currentPage,
+          totalPages: action.payload.totalPages,
+        },
       };
     case GET_JOBS_APPLIED:
       return {

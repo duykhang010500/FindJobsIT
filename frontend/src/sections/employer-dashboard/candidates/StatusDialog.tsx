@@ -76,6 +76,7 @@ const StatusDialog = (props: Props) => {
           <MenuItem value='Interview'>Interview</MenuItem>
           <MenuItem value='Offer'>Offered</MenuItem>
           <MenuItem value='Hire'>Hire</MenuItem>
+          <MenuItem value='Drop'>Drop</MenuItem>
         </TextField>
       </DialogContent>
       <DialogActions>

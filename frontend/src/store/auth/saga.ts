@@ -38,6 +38,7 @@ import {
   employerResetPasswordSuccess,
   jobSeekerForgotPasswordSuccess,
   jobSeekerResetPasswordSuccess,
+  loginAdminFailure,
 } from './action';
 
 import adminServices from '../../services/admin';
@@ -151,6 +152,8 @@ function* adminLogin({ payload: { formData, navigate } }: any): any {
     if (err) {
       console.log('Error: ', err);
     }
+    yield put(loginAdminFailure());
+    toast.error('Unauthenticated!');
   }
 }
 

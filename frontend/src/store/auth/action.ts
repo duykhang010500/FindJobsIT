@@ -40,6 +40,7 @@ import {
   JOBSEEKER_RESET_PASSWORD,
   JOBSEEKER_RESET_PASSWORD_SUCCESS,
   JOBSEEKER_RESET_PASSWORD_FAILURE,
+  LOGIN_ADMIN_FAILURE,
 } from './actionTypes';
 import { IUserLogin } from './types';
 
@@ -172,6 +173,10 @@ export const loginAdmin = (formData: IUserLogin, navigate: any) => ({
 
 export const loginAdminSuccess = () => ({
   type: LOGIN_ADMIN_SUCCESS,
+});
+
+export const loginAdminFailure = () => ({
+  type: LOGIN_ADMIN_FAILURE,
 });
 
 export const getInfoAdmin = () => ({

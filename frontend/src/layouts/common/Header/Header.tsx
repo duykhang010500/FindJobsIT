@@ -279,9 +279,9 @@ const Header: FC<Props> = () => {
                 )}
                 <Button
                   variant='contained'
-                  component={RouterLink}
+                  // component={RouterLink}
                   color='success'
-                  to={pathname.includes('/employer') ? `/` : '/employer'}
+                  href={pathname.includes('/employer') ? `/` : '/employer'}
                   onClick={() => dispatch(logout())}
                   startIcon={
                     pathname.includes('/employer') ? (

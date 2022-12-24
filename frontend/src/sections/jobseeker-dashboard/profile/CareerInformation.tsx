@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
@@ -29,9 +29,10 @@ import { GiAchievement } from 'react-icons/gi';
 type Props = {
   control: any;
   setValue: any;
+  getValues: any;
 };
 
-const CareerInformation = ({ control, setValue }: Props) => {
+const CareerInformation = ({ control, setValue, getValues }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
 
   const [showSalary, setShowSalary] = useState<boolean>(true);
@@ -45,11 +46,24 @@ const CareerInformation = ({ control, setValue }: Props) => {
     if (e.target.value === 'VND' || e.target.value === 'USD') {
       setShowSalary(false);
     } else {
+      // console.log('Vo day!');
       setShowSalary(true);
       setValue('salary_from', 0);
       setValue('salary_to', 0);
     }
   };
+
+  useEffect(() => {
+    console.log('Get values: ', getValues('salary_unit'));
+    if (getValues('salary_unit') == 'Negotiate') {
+      setShowSalary(true);
+      console.log('Chạy vô đây');
+    } else {
+      setShowSalary(false);
+      // setValue('salary_from', 0);
+      // setValue('salary_to', 0);
+    }
+  }, [getValues('salary_unit')]);
 
   return (
     <Card sx={{ p: 3 }}>
@@ -340,20 +354,62 @@ const CareerInformation = ({ control, setValue }: Props) => {
               name='languages'
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <TextField
+                // <TextField
+                //   {...field}
+                //   label='Language'
+                //   select
+                //   fullWidth
+                //   error={!!error}
+                //   helperText={error?.message}
+                // >
+                //   {languages.map((item: any) => (
+                //     <MenuItem key={item.id} value={item.value}>
+                //       {item.value}
+                //     </MenuItem>
+                //   ))}
+                // </TextField>
+
+                // <Autocomplete
+                //   {...field}
+                //   id='location'
+                //   multiple
+                //   fullWidth
+                //   options={locations}
+                //   getOptionLabel={(option) => option.name.trim() || ''}
+                //   // onChange={(_, options) => setValue('locations', options)}
+                //   renderInput={(params) => (
+                //     <TextField
+                //       {...params}
+                //       label='Locations *'
+                //       error={!!error}
+                //       helperText={error?.message}
+                //     />
+                //   )}
+                //   isOptionEqualToValue={(option, value) =>
+                //     option.name === value.name
+                //   }
+                //   onChange={(_, data) => {
+                //     field.onChange(data);
+                //     return data;
+                //   }}
+                // />
+                <Autocomplete
                   {...field}
-                  label='Language'
-                  select
+                  multiple
                   fullWidth
-                  error={!!error}
-                  helperText={error?.message}
-                >
-                  {languages.map((item: any) => (
-                    <MenuItem key={item.id} value={item.value}>
-                      {item.value}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  freeSolo
+                  options={languages}
+                  // getOptionLabel={(option) => option.value || ''}
+                  onChange={(_, values) => field.onChange(values)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label='Languages *'
+                      error={!!error}
+                      helperText={error?.message}
+                    />
+                  )}
+                />
               )}
             />
           </Stack>

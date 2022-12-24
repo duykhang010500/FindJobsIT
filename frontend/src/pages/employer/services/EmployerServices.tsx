@@ -30,6 +30,7 @@ import { employerGetOrderedServices } from '../../../store/services/actions';
 import { numberWithCommas } from '../../../utils/format';
 import TableRowSkeleton from '../../../components/Skeleton/TableRowSkeleton';
 import Nodata from '../../../components/Nodata';
+import BadgeStatus from '../../../components/Badge';
 
 type Props = {};
 
@@ -86,7 +87,15 @@ const EmployerServices = (props: Props) => {
                       {numberWithCommas(item.total)}
                     </TableCell>
                     <TableCell align='center'>
-                      {getStatusOrder(item.status)}
+                      {getStatusOrder(item.status) === 'Pending' && (
+                        <BadgeStatus status={0}>Pending</BadgeStatus>
+                      )}
+                      {getStatusOrder(item.status) === 'Precessed' && (
+                        <BadgeStatus status={2}>Precessed</BadgeStatus>
+                      )}
+                      {getStatusOrder(item.status) === 'Rejected' && (
+                        <BadgeStatus status={3}>Rejected</BadgeStatus>
+                      )}
                     </TableCell>
 
                     <TableCell align='center'>

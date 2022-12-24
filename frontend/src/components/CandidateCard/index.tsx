@@ -84,7 +84,7 @@ const CandidateCard = ({ candidate }: Props) => {
                 if (idx === 0) {
                   return <span key={idx}>{item.name}</span>;
                 } else {
-                  return <span key={idx}>{item.name}</span>;
+                  return <span key={idx}>{`, ${item.name}`}</span>;
                 }
               })}
             </Typography>

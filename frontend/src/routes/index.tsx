@@ -74,6 +74,10 @@ import Offices from '../pages/employer/settings/Offices';
 import EmployerCandidateFolders from '../pages/employer/candidates/EmployerCandidateFolders';
 import JobSeekerSavedCompanies from '../pages/jobseeker/JobSeekerSavedCompanies';
 import AdminViewDetailCandidate from '../pages/admin/candidates/AdminViewDetailCandidate';
+import GuestGuard from '../guards/GuestGuard';
+import AdminGuard from '../guards/AdminGuard';
+import CreateJobGuard from '../guards/CreateJobGuard';
+import ViewCandidateGuard from '../guards/ViewCandidateGuard';
 
 type Props = {};
 
@@ -128,7 +132,14 @@ const Router = (props: Props) => {
         { path: 'vnpay_return', element: <PaymentSuccess /> },
         { path: 'services/checkout', element: <EmployerCheckout /> },
         { path: 'candidates/search', element: <SearchCandidates /> },
-        { path: 'candidates/:id', element: <EmployerViewProfileCandidate /> },
+        {
+          path: 'candidates/:id',
+          element: (
+            <ViewCandidateGuard>
+              <EmployerViewProfileCandidate />
+            </ViewCandidateGuard>
+          ),
+        },
       ],
     },
     {
@@ -142,8 +153,18 @@ const Router = (props: Props) => {
         { path: 'offices', element: <Offices /> },
 
         //jobs
-        { path: 'job/create', element: <EmployerCreateJob /> },
-        { path: 'job/:id/edit', element: <EmployerCreateJob /> },
+        {
+          path: 'job/create',
+          element: (
+            <CreateJobGuard>
+              <EmployerCreateJob />
+            </CreateJobGuard>
+          ),
+        },
+        {
+          path: 'job/:id/edit',
+          element: <EmployerCreateJob />,
+        },
         { path: 'jobs/active', element: <EmployerJobsOpen /> },
         { path: 'jobs/closed', element: <EmployerClosedJobs /> },
         { path: 'jobs/draft', element: <EmployerDraftJobs /> },
@@ -169,7 +190,11 @@ const Router = (props: Props) => {
     },
     {
       path: 'admin',
-      element: <AdminLayout />,
+      element: (
+        <AdminGuard>
+          <AdminLayout />
+        </AdminGuard>
+      ),
       children: [
         { path: 'dashboard', element: <DashboardAdmin /> },
 

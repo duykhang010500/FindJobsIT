@@ -20,6 +20,7 @@ import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store/reducer';
+import { numberWithCommas } from '../../utils/format';
 
 interface Iprops {
   job: any;
@@ -181,7 +182,14 @@ const JobCard = ({ job, isSmall = false }: Iprops) => {
                   verticalAlign: 'bottom',
                 }}
               />
-              {job?.salary}
+              {job?.salary === 'Negotiate' ? (
+                'Negotiate'
+              ) : (
+                <>
+                  {numberWithCommas(job?.salary_from)} -{' '}
+                  {numberWithCommas(job?.salary_to)} {job?.salary}
+                </>
+              )}
             </Typography>
             <Typography fontWeight={500} mt={1} variant='body2'>
               <HiOutlineLocationMarker

@@ -1,6 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
+import {
+  Link as RouterLink,
+  useLocation,
+  useParams,
+  Navigate,
+} from 'react-router-dom';
 import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
 
 import JobNewForm from '../../../sections/employer-dashboard/jobs/JobNewForm';

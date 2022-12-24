@@ -110,7 +110,7 @@ const CV1 = ({ resume }: Props) => {
             {/* Career information */}
             <HeadingStyled>Career information</HeadingStyled>
             <Stack spacing={1} sx={{ my: 2 }} alignItems='flex-end'>
-              {resume?.yearofexpericence && (
+              {resume?.yearofexpericence !== 0 && (
                 <Stack direction='row' spacing={4}>
                   <Typography
                     variant='body1'
@@ -122,9 +122,9 @@ const CV1 = ({ resume }: Props) => {
                   <Typography
                     variant='body1'
                     component='span'
-                    sx={{ minWidth: '60px', textAlign: 'right' }}
+                    sx={{ minWidth: '140px', textAlign: 'right' }}
                   >
-                    {resume?.yearofexperience}
+                    {resume?.yearofexperience} year
                   </Typography>
                 </Stack>
               )}
@@ -141,7 +141,7 @@ const CV1 = ({ resume }: Props) => {
                   <Typography
                     variant='body1'
                     component='span'
-                    sx={{ minWidth: '60px', textAlign: 'right' }}
+                    sx={{ minWidth: '140px', textAlign: 'right' }}
                   >
                     {resume?.current_position}
                   </Typography>
@@ -160,7 +160,7 @@ const CV1 = ({ resume }: Props) => {
                   <Typography
                     variant='body1'
                     component='span'
-                    sx={{ minWidth: '60px', textAlign: 'right' }}
+                    sx={{ minWidth: '140px', textAlign: 'right' }}
                   >
                     {resume?.current_company ? resume?.current_company : 'None'}
                   </Typography>
@@ -177,7 +177,7 @@ const CV1 = ({ resume }: Props) => {
                 <Typography
                   variant='body1'
                   component='span'
-                  sx={{ minWidth: '60px', textAlign: 'right' }}
+                  sx={{ minWidth: '140px', textAlign: 'right' }}
                 >
                   {resume?.current_level}
                 </Typography>
@@ -193,7 +193,7 @@ const CV1 = ({ resume }: Props) => {
                 <Typography
                   variant='body1'
                   component='span'
-                  sx={{ minWidth: '60px', textAlign: 'right' }}
+                  sx={{ minWidth: '140px', textAlign: 'right' }}
                 >
                   {resume?.degree}
                 </Typography>

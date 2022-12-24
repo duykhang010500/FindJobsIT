@@ -1,10 +1,19 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import SearchBar from '../../components/SearchBar';
+// import SearchBar from '../../components/SearchBar';
+
+import { useSearchBar } from '../../components/SearchBar/useSearchBar';
 
 type Props = {};
 
 const Hero = (props: Props) => {
+  const data = useSearchBar();
+
+  // const search = data.Search;
+  console.log('Data: ', data);
+
+  const search = data.search;
+
   return (
     <Box
       sx={{
@@ -43,9 +52,7 @@ const Hero = (props: Props) => {
         }}
         flexDirection='column'
       >
-        <Box sx={{ zIndex: 2, position: 'relative' }}>
-          <SearchBar />
-        </Box>
+        <Box sx={{ zIndex: 2, position: 'relative' }}>{search()}</Box>
       </Box>
     </Box>
   );

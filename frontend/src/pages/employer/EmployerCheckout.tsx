@@ -70,7 +70,7 @@ const EmployerCheckout = (props: Props) => {
 
   console.log('State change!');
 
-  const handleOrder = async () => {
+  const handleOrder = () => {
     let newCart: any = [];
     cart.forEach((item: any) => {
       let service_id = item.id;
@@ -87,7 +87,7 @@ const EmployerCheckout = (props: Props) => {
       const formValues = { note, payment_type: 2, cart: newCart };
       localStorage.setItem('checkout', JSON.stringify(formValues));
 
-      var ipAddr = await publicIpv4();
+      var ipAddr = '::1';
       var tmnCode = 'GR77G1LW';
       var secretKey = 'PHXSMBRZMNSGHPLZMFVHXCKANZEKWZXP';
       let vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';

@@ -126,6 +126,9 @@ const JobSaved = (props: Props) => {
                           sx={{
                             width: 80,
                             height: 80,
+                            '& > img': {
+                              objectFit: 'unset',
+                            },
                           }}
                         />
                         <Stack spacing={1}>

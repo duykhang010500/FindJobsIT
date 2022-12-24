@@ -22,7 +22,7 @@ const Home: React.FC = (props: Props) => {
 
   useEffect(() => {
     if (!pathname.includes('/employer')) {
-      dispatch(getJobs());
+      // dispatch(getJobs(1));
       dispatch(getCompanies());
     }
   }, [dispatch]);
@@ -32,7 +32,8 @@ const Home: React.FC = (props: Props) => {
       <Hero />
       <TopCompany />
       <TopCategories />
-      {isLoading ? <></> : <NewJobs />}
+      {/* {isLoading ? <></> : <NewJobs />} */}
+      <NewJobs />
     </>
   );
 };

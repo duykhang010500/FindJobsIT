@@ -50,10 +50,14 @@ class JobController extends Controller
 
             $result = Job::query();
 
+            // if (!empty($params['keywords'])) {
+            //     $search_str = $params['keywords'];
+            //     $result = $result->where('title', 'like', "%{$search_str}%")
+            //                      ->orWhere('company_name', 'like', "%{$search_str}%");
+            // }
             if (!empty($params['keywords'])) {
                 $search_str = $params['keywords'];
-                $result = $result->where('title', 'like', "%{$search_str}%")
-                                 ->orWhere('company_name', 'like', "%{$search_str}%");
+                $result = $result->where('title', 'like', "%{$search_str}%");
             }
 
             if (!empty($params['locations'])) {
@@ -94,8 +98,16 @@ class JobController extends Controller
                     $query->where('salary_from', '<',  $maxFilter);
                 });
             }
-            $result = $result->with('company','industries','locations')->orderBy('id','desc')
-            ->where('status', 1)->orderBy('end_date','asc')->get();
+
+             if (!empty($params['keywords'])) {
+                $result = $result->with('company','industries','locations')->orderBy('id','desc')
+                ->where('status', 1)->orWhere('company_name', 'like', '%'.$params['keywords'].'%')->orderBy('end_date','asc')->get();
+            }else{
+                $result = $result->with('company','industries','locations')->orderBy('id','desc')
+                ->where('status', 1)->orderBy('end_date','asc')->get();
+            }
+            // $result = $result->with('company','industries','locations')->orderBy('id','desc')
+            // ->where('status', 1)->orderBy('end_date','asc')->get();
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             // Create a new Laravel collection from the array data

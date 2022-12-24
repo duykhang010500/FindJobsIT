@@ -67,9 +67,9 @@ function* createJob({ payload: { formData, navigate } }: any) {
   }
 }
 
-function* getJobsSaga(): any {
+function* getJobsSaga({ payload }: any): any {
   try {
-    const res = yield call(guestServices.getJobs);
+    const res = yield call(guestServices.getJobs, payload);
     console.log('Get jobs paging: ', res);
     yield put(
       getJobsSuccess(
@@ -123,18 +123,42 @@ function* applyJobSaga({ payload: { id, formData } }: any): any {
   }
 }
 
+// function* getJobsSaga({ payload }: any): any {
+//   try {
+//     const res = yield call(guestServices.getJobs, payload);
+//     console.log('Get jobs paging: ', res);
+//     yield put(
+//       getJobsSuccess(
+//         res.data.result.data,
+//         res.data.result.current_page,
+//         res.data.result.total,
+//         res.data.result.last_page
+//       )
+//     );
+//   } catch (err) {}
+// }
+
 function* searchJobs({
-  payload: { keywords, locations, industries },
+  payload: { page, keywords, locations, industries },
 }: any): any {
   try {
     const res = yield call(
       guestServices.searchJob,
+      page,
       keywords,
       locations,
       industries
     );
 
-    yield put(searchJobsSuccess(res.data.result.data));
+    console.log('Search job: ', res);
+    yield put(
+      searchJobsSuccess(
+        res.data.result.data,
+        res.data.result.current_page,
+        res.data.result.total,
+        res.data.result.last_page
+      )
+    );
   } catch (err) {
     throw err;
   }
@@ -234,6 +258,8 @@ function* adminGetDetailJobSaga({ payload }: any): any {
 
 function* jobsSaga() {
   yield takeEvery(CREATE_JOB, createJob);
+
+  //dang xu ly o day
   yield takeEvery(GET_JOBS, getJobsSaga);
   yield takeEvery(GET_JOB, getJob);
   yield takeEvery(EMPLOYER_GET_JOBS, employerGetJobsSaga);

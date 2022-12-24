@@ -137,8 +137,11 @@ const CompanyProfile = (props: Props) => {
   }, [currentUser?.info?.info_company]);
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
-    if (!info_company?.logo) {
+    console.log(info_company?.logo);
+    if (info_company?.logo === null) {
       if (!avt) {
+        console.log('ko co logo');
+        setErrLogo('Please upload logo');
         return;
       }
     }
@@ -163,11 +166,11 @@ const CompanyProfile = (props: Props) => {
 
     const urlNewImages = await uploadMultipleFile(newImages);
     const imagesUrlAfterUpload = oldImages.concat(urlNewImages);
-    console.log('Img after upload: ', imagesUrlAfterUpload);
+    // console.log('Img after upload: ', imagesUrlAfterUpload);
 
     let str = imagesUrlAfterUpload.join(',');
 
-    console.log('str: ', str);
+    // console.log('str: ', str);
 
     setValue('images', str);
 
@@ -180,7 +183,7 @@ const CompanyProfile = (props: Props) => {
 
     await dispatch(employerUpdateCompany(values));
 
-    console.log('Images: ', images);
+    // console.log('Images: ', images);
 
     setLoading(false);
   };
@@ -478,11 +481,11 @@ const CompanyProfile = (props: Props) => {
               variant='contained'
               startIcon={<SaveAsIcon />}
               loading={loading}
-              onClick={() => {
-                if (!info_company?.logo) {
-                  setErrLogo('Please upload logo');
-                }
-              }}
+              // onClick={() => {
+              //   if (!info_company?.logo) {
+              //     setErrLogo('Please upload logo');
+              //   }
+              // }}
             >
               Save Changes
             </LoadingButton>

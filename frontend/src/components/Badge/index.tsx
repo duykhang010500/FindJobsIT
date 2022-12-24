@@ -40,6 +40,10 @@ const BadgeStatus = ({ children, status }: Props) => {
           color: '#595959',
           borderColor: '#595959',
         }),
+        ...(status === 5 && {
+          color: '#fa8c16',
+          borderColor: '#fa8c16',
+        }),
       }}
     >
       {children}

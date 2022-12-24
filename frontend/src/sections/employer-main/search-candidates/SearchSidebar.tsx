@@ -92,8 +92,8 @@ const SearchSidebar = (props: Props) => {
                 <MenuItem value=' '>All</MenuItem>
                 {languages.map((item: any) => {
                   return (
-                    <MenuItem key={item.id} value={item.value}>
-                      {item.value}
+                    <MenuItem key={item} value={item}>
+                      {item}
                     </MenuItem>
                   );
                 })}

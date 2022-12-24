@@ -103,6 +103,7 @@ const FilterBar = ({
           <MenuItem value='Interview'>Interview</MenuItem>
           <MenuItem value='Offer'>Offered</MenuItem>
           <MenuItem value='Hire'>Hire</MenuItem>
+          <MenuItem value='Drop'>Drop</MenuItem>
         </TextField>
       </Stack>
       <Button

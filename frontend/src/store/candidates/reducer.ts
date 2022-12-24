@@ -216,10 +216,10 @@ const candidatesReducer = (state = initialState, action: CandidatesActions) => {
             ? { ...candidate, status: action.payload.status }
             : candidate
         ),
-        candidate: {
-          ...state.candidate,
-          status: action.payload.status,
-        },
+        // candidate: {
+        //   ...state?.candidate,
+        //   status: action.payload.status,
+        // },
       };
     }
     case OPEN_SAVE:

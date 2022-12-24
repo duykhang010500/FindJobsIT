@@ -7,6 +7,8 @@ import WorkIcon from '@mui/icons-material/Work';
 import GroupIcon from '@mui/icons-material/Group';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
+import ArticleIcon from '@mui/icons-material/Article';
 
 type Props = {
   data: any;
@@ -29,25 +31,25 @@ const Statistic = ({ data }: Props) => {
           icon={<GroupIcon />}
           color='#ff4d4f'
           count={data?.totalMembers}
-          title='Total Members'
+          title='Total Candidates'
           key={1}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={3}>
         <StatisticCard
-          icon={<ApartmentIcon />}
+          icon={<ArticleIcon />}
           color='#faad14'
           count={data?.totalResumes}
-          title='Total Resumes'
+          title='Total Online Resumes'
           key={1}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={3}>
         <StatisticCard
-          icon={<VisibilityIcon />}
+          icon={<SwitchAccountIcon />}
           color='#73d13d'
           count={data?.totalCandidates}
-          title='Total Candidates'
+          title='Total Job Applications'
           key={1}
         />
       </Grid>

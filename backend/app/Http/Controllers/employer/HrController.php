@@ -31,10 +31,12 @@ class HrController extends Controller
         if($candidate_apply){
             $candidate_apply_by_month = Candidate::select(DB::raw("COUNT(*) as count"))
                             ->whereYear('date_apply', date('Y'))
+                            ->where('comp_id',auth()->user()->company->id)
                             ->groupBy(DB::raw("Month(date_apply)"))
                             ->pluck('count');
             $months =  Candidate::select(DB::raw("Month(date_apply) as month"))
                             ->whereYear('date_apply', date('Y'))
+                             ->where('comp_id',auth()->user()->company->id)
                             ->groupBy(DB::raw("Month(date_apply)"))
                             ->pluck('month');
             $data = [0,0,0,0,0,0,0,0,0,0,0,0];

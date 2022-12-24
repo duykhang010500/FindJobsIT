@@ -305,9 +305,8 @@ const AdminCandidateList = (props: Props) => {
 export const filterCandidate = (arr: any, keyword: string) => {
   const newArr = arr.filter(
     (item: any) =>
-      item.fullname.toLowerCase().includes(keyword.toLowerCase()) ||
-      item.phone.toLowerCase().includes(keyword.toLowerCase()) ||
-      item.email.toLowerCase().includes(keyword.toLowerCase())
+      item?.fullname.toLowerCase().includes(keyword.toLowerCase()) ||
+      item?.email.toLowerCase().includes(keyword.toLowerCase())
   );
   return newArr;
 };

@@ -220,7 +220,12 @@ const EmployerJobsOpen = (props: Props) => {
                       </TableCell>
                       <TableCell align='center'>
                         <Stack>
-                          <Typography variant='body2'>
+                          <Typography
+                            variant='body2'
+                            sx={{
+                              color: isExpire(job.end_date) ? 'red' : 'black',
+                            }}
+                          >
                             {dayjs(job.end_date).format('DD/MM/YYYY')}
                           </Typography>
                         </Stack>
@@ -268,6 +273,14 @@ export const filterJob = (jobs: any = [], str: string = '') => {
     );
   }
   return jobs;
+};
+
+export const isExpire = (endDate: any) => {
+  if (dayjs().isAfter(dayjs(endDate))) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export default EmployerJobsOpen;

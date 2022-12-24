@@ -48,7 +48,7 @@ const JobDescription: FC<Props> = () => {
 
   useEffect(() => {
     dispatch(getJob(id));
-    dispatch(getJobs());
+    dispatch(getJobs(1));
     dispatch(getJobsSaved());
     dispatch(getJobsApplied());
     dispatch(getOtherJobs(Number(id)));

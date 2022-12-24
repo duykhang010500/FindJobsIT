@@ -33,6 +33,7 @@ import {
   JOBSEEKER_FORGOT_PASSWORD_FAILURE,
   JOBSEEKER_FORGOT_PASSWORD_SUCCESS,
   JOBSEEKER_FORGOT_PASSWORD,
+  LOGIN_ADMIN_FAILURE,
 } from './actionTypes';
 import { AuthActions, IAuthState } from './types';
 
@@ -165,6 +166,11 @@ const authReducer = (state = initialState, action: AuthActions) => {
         isLoading: true,
       };
     case LOGIN_ADMIN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case LOGIN_ADMIN_FAILURE:
       return {
         ...state,
         isLoading: false,

@@ -15,7 +15,7 @@ class MemberaController extends Controller
     public function index()
     {
         //
-        $members = Member::with(['candidate.job.industries','candidate.job.locations','candidate.job','candidate','resume','resume.experiences','resume.educations'])->orderBy('id','desc')->get();
+        $members = Member::with(['candidate.job.industries','candidate.job.locations','candidate.job','candidate','resume','resume.experiences','resume.educations', 'resume.industries', 'resume.locations'])->orderBy('id','desc')->get();
         return response()->json([
             'data' => $members,
         ]);

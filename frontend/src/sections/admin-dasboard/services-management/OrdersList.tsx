@@ -21,7 +21,10 @@ import {
   DialogActions,
   DialogContent,
   Skeleton,
+  TextField,
 } from '@mui/material';
+
+import { CSVLink } from 'react-csv';
 
 import {
   adminGetOrderedServices,
@@ -34,12 +37,20 @@ import { Visibility } from '@mui/icons-material';
 import { numberWithCommas } from '../../../utils/format';
 import BadgeStatus from '../../../components/Badge';
 
+import UploadRoundedIcon from '@mui/icons-material/UploadRounded';
+
 type Props = {};
 
 const OrdersList = (props: Props) => {
   const dispatch = useDispatch();
 
+  const [keyword, setKeyword] = useState<any>('');
+
+  const [filteredOrder, setFilteredOrder] = useState<any>([]);
+
   const [page, setPage] = useState<number>(0);
+
+  const [exportData, setExportData] = useState<any>([]);
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
@@ -55,13 +66,73 @@ const OrdersList = (props: Props) => {
     dispatch(adminGetOrderedServices());
   }, [dispatch]);
 
-  // if (isLoading) {
-  //   return null;
-  // }
+  const filterOrders = (ordersList: any, keyword: string) => {
+    const filteredOrders = ordersList.filter(
+      (item: any) =>
+        item.code.toLowerCase().includes(keyword.toLowerCase()) ||
+        item.company.name.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    return filteredOrders;
+  };
+
+  // const filteredOrder = filterOrders(orderList, keyword);
+  useEffect(() => {
+    setFilteredOrder(filterOrders(orderList, keyword));
+  }, [keyword, orderList]);
+
+  console.log('filteredOrder: ', filteredOrder);
+
+  // console.log(exportData);
+
+  useEffect(() => {
+    setExportData(formatData(filteredOrder));
+  }, [filteredOrder]);
+
+  const formatData = (arr: any) => {
+    let newArr: any = [];
+    arr?.forEach((item: any, index: number) => {
+      newArr.push({
+        STT: `${index + 1}`,
+        Created_at: `${dayjs(item.created_at).format('DD/MM/YYYY')}`,
+        Order_ID: `${item.code}`,
+        Company_name: `${item?.company?.name}`,
+        Phone: `${item?.company?.phone}` || 'none',
+        Email: `${item?.company?.email}` || 'none',
+        Total_price: `${item?.total}`,
+      });
+    });
+
+    return newArr;
+  };
 
   return (
     <>
       <Card sx={{ p: 3 }}>
+        <Stack
+          justifyContent='space-between'
+          direction={'row'}
+          alignItems='center'
+        >
+          <TextField
+            placeholder='Search...'
+            sx={{ mb: 3 }}
+            value={keyword}
+            onChange={(e: any) => setKeyword(e.target.value)}
+          />
+          <Button
+            variant='contained'
+            startIcon={<UploadRoundedIcon />}
+            disabled={filteredOrder.length === 0}
+          >
+            <CSVLink
+              data={exportData}
+              style={{ color: 'inherit', textDecoration: 'none' }}
+            >
+              Export
+            </CSVLink>
+          </Button>
+        </Stack>
         <TableContainer>
           <Table>
             <TableHead>
@@ -100,7 +171,7 @@ const OrdersList = (props: Props) => {
                 </>
               )}
               {!isLoading &&
-                orderList
+                filteredOrder
                   ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item: any) => {
                     return (
@@ -141,7 +212,7 @@ const OrdersList = (props: Props) => {
         <TablePagination
           rowsPerPageOptions={[10, 20, 40]}
           component='div'
-          count={orderList.length}
+          count={filteredOrder.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(_, value) => setPage(value)}

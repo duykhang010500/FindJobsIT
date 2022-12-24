@@ -103,24 +103,49 @@ const ProfileForm = (props: Props) => {
     degree: yup.string().required('Degree is required'),
     // current_degree: yup.string().required('Current degree is required'),
     working_type: yup.string().required('Working type is required'),
-    languages: yup.string().required('Language is required'),
+    // languages: yup.string().required('Language is required'),
+    languages: yup.array().min(1, 'Choose at least 1 language'),
+
     summary: yup.string().required('Summary is required'),
 
+    experiences: yup.array().of(
+      yup.object().shape({
+        rexp_title: yup.string().nullable(true),
+        rexp_company: yup.string().nullable(true),
+        rexp_date_start: yup
+          .date()
+          .max(new Date(), 'Date start is before today')
+          .nullable()
+          .transform((curr, orig) => (orig === '' ? null : curr)),
+        rexp_date_end: yup
+          .date()
+          .min(yup.ref('rexp_date_start'), 'End date must be after start date')
+          .nullable(),
+        rexp_description: yup.string().nullable(true),
+      })
+    ),
     // experiences: yup.array().of(
     //   yup.object().shape({
-    //     rexp_title: yup.string().required('Position title is required'),
-    //     rexp_company: yup.string().required('Companies is required'),
+    //     rexp_title: yup
+    //       .string()
+    //       // .required('Title is required')
+    //       .nullable(true),
+    //     rexp_company: yup
+    //       .string()
+    //       // .required('Company is required')
+    //       .nullable(true),
     //     rexp_date_start: yup
     //       .date()
     //       .max(new Date(), 'Date start is before today')
-    //       .nullable()
+    //       // .nullable()
+    //       // .required('Date start is required')
     //       .transform((curr, orig) => (orig === '' ? null : curr))
-    //       .required('Date start is required'),
+    //       .nullable(true),
     //     rexp_date_end: yup
     //       .date()
     //       .min(yup.ref('rexp_date_start'), 'End date must be after start date')
     //       .nullable(),
-    //     rexp_description: yup.string().required('Description is required'),
+    //     rexp_description: yup.string().nullable(true),
     //   })
     // ),
 
@@ -184,7 +209,9 @@ const ProfileForm = (props: Props) => {
       current_degree: cv?.current_degree || '',
       degree: cv?.degree || '',
       working_type: cv?.working_type || '',
-      languages: cv?.languages || '',
+      // languages: cv?.languages || '',
+      languages: cv?.languages?.split(',') || [],
+
       summary: cv?.summary || '',
 
       experiences: cv?.experiences || [
@@ -264,6 +291,7 @@ const ProfileForm = (props: Props) => {
   const onSubmit = async (formValues: any) => {
     try {
       dispatch(setIsLoadingSubmitOnlineProfile());
+
       let avatar = formValues.avatar;
 
       if (formValues.avatar !== cv?.member?.avatar) {
@@ -289,10 +317,10 @@ const ProfileForm = (props: Props) => {
           edu_date_end: convertDate(edu.edu_date_end),
         })),
         skills: convertSkills(formValues.skills),
+        languages: convertLanguages(formValues.languages),
         skills_level: convertSkillLevel(formValues.skills),
         resume_status: formValues.resume_status ? 1 : 0,
       };
-
       console.log('Profile form values: ', formatValues);
 
       dispatch(updateMyCv(formatValues));
@@ -330,6 +358,20 @@ const ProfileForm = (props: Props) => {
     return str;
   };
 
+  const convertLanguages = (arr: any) => {
+    let str: string = '';
+
+    arr.forEach((lang: any, index: number) => {
+      if (index === 0) {
+        str += `${lang}`;
+      } else {
+        str += `, ${lang}`;
+      }
+    });
+
+    return str;
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} onKeyDown={(e) => checkKeyDown(e)}>
       <Stack spacing={4}>
@@ -338,7 +380,11 @@ const ProfileForm = (props: Props) => {
           setValue={setValue}
           getValues={getValues}
         />
-        <CareerInformation control={control} setValue={setValue} />
+        <CareerInformation
+          control={control}
+          setValue={setValue}
+          getValues={getValues}
+        />
         <ExperienceInformation
           control={control}
           fields={ExpField}

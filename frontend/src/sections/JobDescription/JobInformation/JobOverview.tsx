@@ -23,6 +23,7 @@ import EmojiPeopleOutlinedIcon from '@mui/icons-material/EmojiPeopleOutlined';
 
 import { getJobType, getStrFromArr } from '../../../utils/convert';
 import { jobTypes } from '../../../utils/defaultValues';
+import { numberWithCommas } from '../../../utils/format';
 
 type Props = {};
 
@@ -49,12 +50,18 @@ const JobOverview = (props: Props) => {
               {job?.salary === 'Negotiate' && 'Negotiate'}
               {job?.salary === 'VND' && (
                 <span>
-                  {job?.salary_from + ' - ' + job?.salary_to + ' VND'}
+                  {numberWithCommas(job?.salary_from) +
+                    ' - ' +
+                    numberWithCommas(job?.salary_to) +
+                    ' VND'}
                 </span>
               )}
               {job?.salary === 'USD' && (
                 <span>
-                  {job?.salary_from + ' - ' + job?.salary_to + ' USD'}
+                  {numberWithCommas(job?.salary_from) +
+                    ' - ' +
+                    numberWithCommas(job?.salary_to) +
+                    ' USD'}
                 </span>
               )}
             </Typography>

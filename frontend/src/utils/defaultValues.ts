@@ -51,10 +51,21 @@ export const salaryUnits = [
   { id: 2, value: 'USD' },
 ];
 
+// export const languages = [
+//   { id: 1, value: 'English' },
+//   { id: 2, value: 'Vietnamese' },
+//   { id: 3, value: 'Thailand' },
+//   { id: 4, value: 'Chinese' },
+//   { id: 5, value: 'French' },
+//   { id: 6, value: 'Korean' },
+// ];
+
 export const languages = [
-  { id: 1, value: 'English' },
-  { id: 2, value: 'Vietnamese' },
-  { id: 3, value: 'Thailand' },
+  'English',
+  'Vietnamese',
+  'Korean',
+  'Japan',
+  'Chinese',
 ];
 
 export const skills = [
@@ -68,6 +79,9 @@ export const skills = [
   'UI/UX',
   'SQL',
   'Mongo',
+  'AWS',
+  'GPC',
+  'Linux',
 ];
 
 export const Nationalities = [

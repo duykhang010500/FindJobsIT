@@ -81,6 +81,8 @@ const EmployerCandidatesByJob = (props: Props) => {
 
   const [status, setStatus] = useState<string>('All');
 
+  const [filteredCandidates, setFilteredCandidates] = useState<any>([]);
+
   const [showFilterBar, setShowFilterBar] = useState<boolean>(true);
 
   const [openDialogMail, setOpenDialogMail] = useState<boolean>(false);
@@ -131,8 +133,22 @@ const EmployerCandidatesByJob = (props: Props) => {
   };
 
   useEffect(() => {
-    setData(formatData(candidates));
-  }, [candidates]);
+    setData(formatData(filteredCandidates));
+  }, [filteredCandidates]);
+
+  // const filteredCandidates = filterCandidates(
+  //   candidates,
+  //   searchStr,
+  //   dateStart,
+  //   dateEnd,
+  //   status
+  // );
+
+  useEffect(() => {
+    setFilteredCandidates(
+      filterCandidates(candidates, searchStr, dateStart, dateEnd, status)
+    );
+  }, [candidates, searchStr, dateStart, dateEnd, status]);
 
   const formatData = (arr: any) => {
     let newArr: any = [];
@@ -189,14 +205,6 @@ const EmployerCandidatesByJob = (props: Props) => {
     setDateEnd(null);
     setStatus('All');
   };
-
-  const filteredCandidates = filterCandidates(
-    candidates,
-    searchStr,
-    dateStart,
-    dateEnd,
-    status
-  );
 
   return (
     <div>

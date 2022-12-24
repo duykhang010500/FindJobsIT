@@ -31,7 +31,7 @@ import { searchJobs } from '../../store/jobs/actions';
 
 type Props = {};
 
-const SearchBar: FC<Props> = () => {
+export const useSearchBar: any = () => {
   const theme = useTheme();
 
   const { pathname } = useLocation();
@@ -45,6 +45,8 @@ const SearchBar: FC<Props> = () => {
   const { locations } = useSelector((state: AppState) => state.location);
 
   const { industries } = useSelector((state: AppState) => state.industries);
+
+  const { jobsSearch } = useSelector((state: AppState) => state.jobs);
 
   // eslint-disable-next-line
   const [searchParams, setSearchParams] = useSearchParams();
@@ -88,11 +90,11 @@ const SearchBar: FC<Props> = () => {
 
   useEffect(() => {
     if (searchTemp || industriesTemp || locationsTemp) {
-      dispatch(searchJobs(searchTemp, locationsTemp, industriesTemp));
+      dispatch(searchJobs(1, searchTemp, locationsTemp, industriesTemp));
       console.log('Search temp: ');
     } else {
       if (pathname !== '/') {
-        dispatch(searchJobs());
+        dispatch(searchJobs(1));
       }
     }
   }, [dispatch, searchTemp, industriesTemp, locationsTemp]);
@@ -110,7 +112,7 @@ const SearchBar: FC<Props> = () => {
   }, [searchTemp, industries, industriesTemp, locations, locationsTemp]);
 
   const handleSearch = () => {
-    dispatch(searchJobs(keywords, locationIds, industryIds));
+    dispatch(searchJobs(1, keywords, locationIds, industryIds));
     navigate({
       pathname: '/search',
       search: createSearchParams({
@@ -121,70 +123,100 @@ const SearchBar: FC<Props> = () => {
     });
   };
 
-  return (
-    <Grid container spacing={2} justifyContent='space-between'>
-      <Grid item xs={12} md={3}>
-        <TextField
-          fullWidth
-          label='Keyword'
-          size={smOnly ? 'small' : 'medium'}
-          onChange={handleChangeKeyword}
-          value={keywords}
-        />
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <Autocomplete
-          id='location'
-          multiple
-          disableListWrap
-          popupIcon={false}
-          options={locations}
-          getOptionLabel={(option: any) => option.name}
-          value={locationsDefault || []}
-          onChange={handleChangeLocation}
-          renderInput={(params) => (
+  const handleLoadMore = () => {
+    dispatch(
+      searchJobs(
+        jobsSearch?.currentPage + 1,
+        keywords,
+        locationIds,
+        industryIds
+      )
+    );
+  };
+
+  const search = () => {
+    return (
+      <>
+        <Grid container spacing={2} justifyContent='space-between'>
+          <Grid item xs={12} md={3}>
             <TextField
-              {...params}
-              label='City'
-              size={smOnly ? 'small' : 'medium'}
-            />
-          )}
-        />
-      </Grid>
-      <Grid item xs={12} md={3}>
-        <Autocomplete
-          id='industry'
-          multiple
-          disableListWrap
-          popupIcon={false}
-          options={industries}
-          getOptionLabel={(option: any) => option.name}
-          value={industriesDefault || []}
-          onChange={handleChangeIndustries}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label='Industry'
-              size={smOnly ? 'small' : 'medium'}
               fullWidth
+              label='Keyword'
+              size={smOnly ? 'small' : 'medium'}
+              onChange={handleChangeKeyword}
+              value={keywords}
             />
-          )}
-        />
-      </Grid>
-      <Grid item xs={12} md={2}>
-        <Button
-          fullWidth
-          size='large'
-          variant='contained'
-          startIcon={<Search />}
-          onClick={handleSearch}
-          sx={{ height: '53px' }}
-        >
-          Search
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Autocomplete
+              id='location'
+              multiple
+              disableListWrap
+              popupIcon={false}
+              options={locations}
+              getOptionLabel={(option: any) => option.name}
+              value={locationsDefault || []}
+              onChange={handleChangeLocation}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label='City'
+                  size={smOnly ? 'small' : 'medium'}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Autocomplete
+              id='industry'
+              multiple
+              disableListWrap
+              popupIcon={false}
+              options={industries}
+              getOptionLabel={(option: any) => option.name}
+              value={industriesDefault || []}
+              onChange={handleChangeIndustries}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label='Industry'
+                  size={smOnly ? 'small' : 'medium'}
+                  fullWidth
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Button
+              fullWidth
+              size='large'
+              variant='contained'
+              startIcon={<Search />}
+              onClick={handleSearch}
+              sx={{ height: '53px' }}
+            >
+              Search
+            </Button>
+          </Grid>
+        </Grid>
+      </>
+    );
+  };
+
+  const renderButtonLoadMore = () => {
+    return (
+      jobsSearch.currentPage < jobsSearch.totalPages && (
+        <Button variant='contained' onClick={handleLoadMore}>
+          Load more
         </Button>
-      </Grid>
-    </Grid>
-  );
+      )
+    );
+  };
+
+  return {
+    renderButtonLoadMore,
+    search,
+  };
 };
 
-export default SearchBar;
+// export default SearchBar;

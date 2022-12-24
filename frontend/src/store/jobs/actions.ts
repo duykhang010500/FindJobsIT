@@ -37,7 +37,8 @@ import {
   SEARCH_JOB,
   SEARCH_JOB_FAILURE,
   SEARCH_JOB_SUCCESS,
-  SET_IS_LOADING,
+  // SET_IS_LOADING,
+  SET_IS_SUBMIT_FORM,
   UPDATE_JOB,
   UPDATE_JOB_FAILURE,
   UPDATE_JOB_SUCCESS,
@@ -59,8 +60,9 @@ export const createJobFailure = (err: any) => ({
 });
 
 //get jobs
-export const getJobs = () => ({
+export const getJobs = (page: any) => ({
   type: GET_JOBS,
+  payload: page,
 });
 
 export const getJobsSuccess = (
@@ -208,6 +210,7 @@ export const getJobsAppliedFailure = (err: any) => ({
 
 // jk search jobs
 export const searchJobs = (
+  page?: any,
   keywords?: any,
   locations?: any,
   industries?: any
@@ -215,6 +218,7 @@ export const searchJobs = (
   return {
     type: SEARCH_JOB,
     payload: {
+      page,
       keywords,
       locations,
       industries,
@@ -222,10 +226,35 @@ export const searchJobs = (
   };
 };
 
-export const searchJobsSuccess = (jobs: any) => {
+// export const getJobsSuccess = (
+// jobs: any,
+// currentPage: any,
+// totalItems: any,
+// totalPages: any
+// ) => ({
+//   type: GET_JOBS_SUCCESS,
+//   payload: {
+//     jobs,
+//     currentPage,
+//     totalItems,
+//     totalPages,
+//   },
+// });
+
+export const searchJobsSuccess = (
+  jobs: any,
+  currentPage: any,
+  totalItems: any,
+  totalPages: any
+) => {
   return {
     type: SEARCH_JOB_SUCCESS,
-    payload: jobs,
+    payload: {
+      jobs,
+      currentPage,
+      totalItems,
+      totalPages,
+    },
   };
 };
 
@@ -310,5 +339,5 @@ export const adminGetDetailJobSuccess = (job: any) => ({
 });
 
 export const setIsLoadingSubmit = () => ({
-  type: SET_IS_LOADING,
+  type: SET_IS_SUBMIT_FORM,
 });

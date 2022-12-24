@@ -11,17 +11,28 @@ import {
 } from '@mui/material';
 
 import JobCard from '../components/JobCard';
-import SearchBar from '../components/SearchBar';
+// import SearchBar from '../components/SearchBar';
 import JobCardSkeleton from '../components/Skeleton/JobCardSkeleton';
 
 import { AppState } from '../store/reducer';
 
+import { useSearchBar } from '../components/SearchBar/useSearchBar';
+
 type Props = {};
 
 const SearchJobs = (props: Props) => {
+  // const { jobsSearch, isLoading } = useSelector(
+  //   (state: AppState) => state.jobs
+  // );
+
+  const { search, renderButtonLoadMore } = useSearchBar();
+
   const { jobsSearch, isLoading } = useSelector(
     (state: AppState) => state.jobs
   );
+
+  // return <p>Search</p>;
+  // return <SearchBar />;
 
   return (
     <Container sx={{ p: 15 }}>
@@ -41,12 +52,10 @@ const SearchJobs = (props: Props) => {
           </Typography>
         </Breadcrumbs>
       </Card>
-      <Card sx={{ p: 5 }}>
-        <SearchBar />
-      </Card>
+      <Card sx={{ p: 5 }}>{search()}</Card>
       {isLoading ? (
         <Grid container spacing={3} sx={{ mt: 3 }}>
-          {[...Array(3)].map((_, idx: number) => (
+          {[...Array(9)].map((_, idx: number) => (
             <Grid item md={4} key={idx}>
               <JobCardSkeleton />
             </Grid>
@@ -72,14 +81,14 @@ const SearchJobs = (props: Props) => {
                   fontWeight={700}
                   sx={{ color: '#ff4d4f', mr: 1 }}
                 >
-                  {jobsSearch.length}
+                  {jobsSearch?.totalItems}
                 </Typography>
                 Jobs founded
               </Typography>
             </Card>
           </Stack>
           <Grid container spacing={3}>
-            {jobsSearch.map((job: any) => {
+            {jobsSearch?.items?.map((job: any) => {
               return (
                 <Grid key={job.id} item xs={12} md={4}>
                   <JobCard job={job} />
@@ -87,6 +96,10 @@ const SearchJobs = (props: Props) => {
               );
             })}
           </Grid>
+          {/* <p>siuu</p> */}
+          <Stack justifyContent={'center'} direction='row' mt={2}>
+            {renderButtonLoadMore()}
+          </Stack>
         </>
       )}
     </Container>

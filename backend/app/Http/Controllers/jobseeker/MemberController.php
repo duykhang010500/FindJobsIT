@@ -92,7 +92,7 @@ class MemberController extends Controller
             if($member->status == 0){
                 return response()->json([
                     'status' => false,
-                    'message' => 'Your company information is being verified by admin.',
+                    'message' => 'Your account has been blocked!',
                 ], 401);
             }
 

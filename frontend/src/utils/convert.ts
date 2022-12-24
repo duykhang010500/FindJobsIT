@@ -49,6 +49,7 @@ export const getStatusOrder = (status: number) => {
   switch (status) {
     case 0:
       return 'Pending';
+
     case 2:
       return 'Precessed';
     case 3:
@@ -115,10 +116,12 @@ export const convertAppliedJobStatusToNum = (status: string) => {
       return 1;
     case 'Interview':
       return 2;
-    case 'Offered':
-      return 3;
+    case 'Offer':
+      return 5;
     case 'Hire':
       return 4;
+    case 'Drop':
+      return 3;
     default:
       return 4;
   }
