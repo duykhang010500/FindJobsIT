@@ -39,15 +39,16 @@ import { AppState } from '../../store/reducer';
 import { employerOrderServices } from '../../store/services/actions';
 
 import { numberWithCommas } from '../../utils/format';
+import { createPaymentURL } from '../../utils/vnpay';
 
 type Props = {};
 
 const EmployerCheckout = (props: Props) => {
   const dispatch = useDispatch();
 
-  const [paymentMethod, setPaymentMethod] = useState<null | string>(null);
-
   const navigate = useNavigate();
+
+  const [paymentMethod, setPaymentMethod] = useState<null | string>(null);
 
   const { cart, isLoading } = useSelector((state: AppState) => state.services);
 
@@ -68,10 +69,9 @@ const EmployerCheckout = (props: Props) => {
     setTotalPrice(totalPrice);
   }, [cart]);
 
-  console.log('State change!');
-
   const handleOrder = () => {
     let newCart: any = [];
+
     cart.forEach((item: any) => {
       let service_id = item.id;
       let price = +item.price;
@@ -81,49 +81,14 @@ const EmployerCheckout = (props: Props) => {
 
     if (paymentMethod === 'bankTransfer') {
       const formValues = { note, payment_type: 1, cart: newCart };
-
       dispatch(employerOrderServices(formValues, navigate));
     } else {
       const formValues = { note, payment_type: 2, cart: newCart };
       localStorage.setItem('checkout', JSON.stringify(formValues));
 
-      var ipAddr = '::1';
-      var tmnCode = 'GR77G1LW';
-      var secretKey = 'PHXSMBRZMNSGHPLZMFVHXCKANZEKWZXP';
-      let vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
-      var returnUrl = 'http://localhost:3000/employer/vnpay_return';
-
-      var date = new Date();
-      var createDate = dateformat(date, 'yyyymmddHHmmss');
-      var orderId = dateformat(date, 'HHmmss');
-      var locale = 'vn';
-      var currCode = 'VND';
-      var vnp_Params: any = {};
-
-      vnp_Params['vnp_Version'] = '2.1.0';
-      vnp_Params['vnp_Command'] = 'pay';
-      vnp_Params['vnp_TmnCode'] = tmnCode;
-      vnp_Params['vnp_Locale'] = locale;
-      vnp_Params['vnp_CurrCode'] = currCode;
-      vnp_Params['vnp_TxnRef'] = orderId;
-      vnp_Params['vnp_OrderInfo'] = 'Pay services';
-      // vnp_Params['vnp_OrderType'] = 'other';
-      vnp_Params['vnp_Amount'] = totalPrice * 100;
-      vnp_Params['vnp_ReturnUrl'] = returnUrl;
-      vnp_Params['vnp_IpAddr'] = ipAddr;
-      vnp_Params['vnp_CreateDate'] = createDate;
-
-      vnp_Params = sortObject(vnp_Params);
-
-      var signData = queryString.stringify(vnp_Params, { encode: false });
-      var hmac = crypto.createHmac('sha512', secretKey);
-      var signed = hmac.update(new Buffer(signData, 'utf-8')).digest('hex');
-      vnp_Params['vnp_SecureHash'] = signed;
-
-      vnpUrl += '?' + queryString.stringify(vnp_Params, { encode: false });
-      window.location.href = vnpUrl;
-
-      console.log(vnpUrl);
+      const url = createPaymentURL(totalPrice);
+      console.log(url);
+      window.location.href = url;
     }
   };
 
@@ -264,21 +229,5 @@ const EmployerCheckout = (props: Props) => {
     </>
   );
 };
-
-function sortObject(obj: any) {
-  var sorted: any = {};
-  var str: any = [];
-  var key: any;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      str.push(encodeURIComponent(key));
-    }
-  }
-  str.sort();
-  for (key = 0; key < str.length; key++) {
-    sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, '+');
-  }
-  return sorted;
-}
 
 export default EmployerCheckout;

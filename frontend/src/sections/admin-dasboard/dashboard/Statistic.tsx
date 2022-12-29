@@ -31,7 +31,7 @@ const Statistic = ({ data }: Props) => {
           icon={<GroupIcon />}
           color='#ff4d4f'
           count={data?.totalMembers}
-          title='Total Candidates'
+          title='Total Job Seeker'
           key={1}
         />
       </Grid>

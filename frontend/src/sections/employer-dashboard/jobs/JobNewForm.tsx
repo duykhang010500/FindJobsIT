@@ -210,7 +210,7 @@ const JobNewForm = ({ isEdit = false, job, readonly }: Props) => {
     [job, currentUser]
   );
 
-  const { control, handleSubmit, setValue, reset } = useForm({
+  const { control, handleSubmit, setValue, reset, getValues } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(newJobSchema),
@@ -250,7 +250,7 @@ const JobNewForm = ({ isEdit = false, job, readonly }: Props) => {
         end_date: dayjs(data.end_date).format('YYYY/MM/DD'),
         unskill_job: convertArrStringToString(data.unskill_job),
         // status: isOpen && 1,
-        status: 2,
+        status: getValues('status') === 0 ? 0 : 2,
       };
 
       if (isEdit) {

@@ -135,7 +135,7 @@ const CompanyList = ({ companies }: Props) => {
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell>Created at</TableCell>
+              {/* <TableCell>Created at</TableCell> */}
               <TableCell>Company name</TableCell>
               <TableCell align='left'>contact Email</TableCell>
               <TableCell align='left'>contact name</TableCell>
@@ -151,11 +151,11 @@ const CompanyList = ({ companies }: Props) => {
                     <Skeleton />
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                {/* <TableRow>
                   <TableCell colSpan={7}>
                     <Skeleton />
                   </TableCell>
-                </TableRow>
+                </TableRow> */}
                 <TableRow>
                   <TableCell colSpan={7}>
                     <Skeleton />
@@ -197,9 +197,9 @@ const CompanyList = ({ companies }: Props) => {
                     /> */}
                   </TableCell>
 
-                  <TableCell>
+                  {/* <TableCell>
                     {dayjs(company?.created_at).format('DD/MM/YYYY')}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>{company?.name}</TableCell>
                   <TableCell align='left'>{company?.employer?.email}</TableCell>
                   <TableCell align='left'>

@@ -131,7 +131,7 @@ const JobsPending = (props: Props) => {
                   Logo
                 </TableCell>
                 <TableCell sx={{ width: '40%' }}>Job title</TableCell>
-                <TableCell>Created at</TableCell>
+                {/* <TableCell>Created at</TableCell> */}
                 <TableCell align='center'>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -143,11 +143,11 @@ const JobsPending = (props: Props) => {
                       <Skeleton />
                     </TableCell>
                   </TableRow>
-                  <TableRow>
+                  {/* <TableRow>
                     <TableCell colSpan={4}>
                       <Skeleton />
                     </TableCell>
-                  </TableRow>
+                  </TableRow> */}
                   <TableRow>
                     <TableCell colSpan={4}>
                       <Skeleton />
@@ -192,11 +192,11 @@ const JobsPending = (props: Props) => {
                         {job.company.name}
                       </Typography>
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <Typography>
                         {dayjs(job.created_at).format('DD/MM/YYYY')}
                       </Typography>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Stack
                         direction='row'

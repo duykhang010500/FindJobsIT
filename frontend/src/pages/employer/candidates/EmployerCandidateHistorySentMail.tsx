@@ -72,47 +72,48 @@ const EmployerCandidateHistorySentMail = (props: Props) => {
                 </TableCell>
               </TableRow>
             )}
-            {mails
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              ?.map((item: any) => {
-                return (
-                  <TableRow key={item?.id}>
-                    <TableCell align='left'>
-                      <Typography variant='subtitle1'>
-                        {dayjs(item?.created_at).format('DD/MM/YYYY')}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align='left'>
-                      <Stack direction='row' alignItems='center' spacing={1}>
-                        <Avatar src={item?.member?.avatar} />
-                        <Stack>
-                          <Typography variant='h4' sx={{ color: '#030852' }}>
-                            {item?.member?.fullname}
-                          </Typography>
-                          <Typography variant='body1'>
-                            {item?.job?.title}
-                          </Typography>
+            {!isLoading &&
+              mails
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ?.map((item: any) => {
+                  return (
+                    <TableRow key={item?.id}>
+                      <TableCell align='left'>
+                        <Typography variant='subtitle1'>
+                          {dayjs(item?.created_at).format('DD/MM/YYYY')}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <Stack direction='row' alignItems='center' spacing={1}>
+                          <Avatar src={item?.member?.avatar} />
+                          <Stack>
+                            <Typography variant='h4' sx={{ color: '#030852' }}>
+                              {item?.member?.fullname}
+                            </Typography>
+                            <Typography variant='body1'>
+                              {item?.job?.title}
+                            </Typography>
+                          </Stack>
                         </Stack>
-                      </Stack>
-                    </TableCell>
+                      </TableCell>
 
-                    <TableCell align='left'>{item?.title}</TableCell>
-                    <TableCell align='center'>
-                      <Tooltip placement='bottom' title='View Detail'>
-                        <IconButton
-                          onClick={() => {
-                            setSelectedMail(item);
-                            setOpen(true);
-                            console.log('Selected mail: ', item);
-                          }}
-                        >
-                          <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
-                        </IconButton>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      <TableCell align='left'>{item?.title}</TableCell>
+                      <TableCell align='center'>
+                        <Tooltip placement='bottom' title='View Detail'>
+                          <IconButton
+                            onClick={() => {
+                              setSelectedMail(item);
+                              setOpen(true);
+                              console.log('Selected mail: ', item);
+                            }}
+                          >
+                            <VisibilityTwoToneIcon sx={{ color: '#1890ff' }} />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
           </TableBody>
         </Table>
         <TablePagination
